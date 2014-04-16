@@ -2132,7 +2132,6 @@ public class EXISchemaFactoryTest extends TestCase {
    * The schema imports another in the same directory.
    * It is testing whether the imported schema is resolved successfully.
    */
-  /*
   public void testWindowsRelativePath() throws Exception {
     EXISchemaFactory schemaCompiler = new EXISchemaFactory();
     schemaCompiler.setCompilerErrorHandler(m_compilerErrorHandler);
@@ -2158,7 +2157,6 @@ public class EXISchemaFactoryTest extends TestCase {
       System.setProperty("user.dir", origCurDir);
     }
   }
-  */
 
   /**
    * Element declaration needs a name.
