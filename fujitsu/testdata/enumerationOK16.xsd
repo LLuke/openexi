@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:simpleType name="fooBase64Binary">
+  <xsd:restriction base="xsd:base64Binary">
+    <xsd:length value="5"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="base64BinaryDerived">
+  <xsd:restriction base="foo:fooBase64Binary">
+    <xsd:enumeration value="YWFhYWE="/><!-- aaaaa -->
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

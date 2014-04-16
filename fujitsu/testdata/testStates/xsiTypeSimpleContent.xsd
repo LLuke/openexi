@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="decimalElem" type="foo:complexDecimal"/>
+
+<xsd:complexType name="complexDecimal">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:decimal"/>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<xsd:complexType name="decimalBoolean">
+  <xsd:simpleContent>
+    <xsd:restriction base="foo:complexDecimal">
+      <xsd:enumeration value="0"/>
+      <xsd:enumeration value="1"/>
+    </xsd:restriction>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+</xsd:schema>

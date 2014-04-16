@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+<xsd:simpleType name="decimalDerived">
+  <xsd:restriction base="xsd:decimal">
+    <xsd:maxExclusive value="100"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="integerDerived">
+  <xsd:restriction base="xsd:integer">
+    <xsd:maxExclusive value="1000"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="integerDerived2">
+  <xsd:restriction base="xsd:integer">
+    <xsd:maxExclusive value="2147483648"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="integerDerived3">
+  <xsd:restriction base="xsd:integer">
+    <xsd:maxExclusive value="2147483649"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="integerDerived4">
+  <xsd:restriction base="xsd:integer">
+    <xsd:maxExclusive value="12678967543233"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="integerDerived5">
+  <xsd:restriction base="xsd:integer">
+    <xsd:maxExclusive value="9223372036854775808"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="integerDerived6">
+  <xsd:restriction base="xsd:integer">
+    <xsd:maxExclusive value="9223372036854775809"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="floatDerived">
+  <xsd:restriction base="xsd:float">
+    <xsd:maxExclusive value="101"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="doubleDerived">
+  <xsd:restriction base="xsd:double">
+    <xsd:maxExclusive value="102"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="intDerived">
+  <xsd:restriction base="xsd:int">
+    <xsd:maxExclusive value="103"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="longDerived">
+  <xsd:restriction base="xsd:long">
+    <xsd:maxExclusive value="104"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="longDerived2">
+  <xsd:restriction base="xsd:long">
+    <xsd:maxExclusive value="12678967543233"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="longDerived3">
+  <xsd:restriction base="xsd:long">
+    <xsd:maxExclusive value="9223372036854775807"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="dateTimeDerived">
+  <xsd:restriction base="xsd:dateTime">
+    <xsd:maxExclusive value="2003-03-19T13:20:00-05:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="dateDerived">
+  <xsd:restriction base="xsd:date">
+    <xsd:maxExclusive value="2003-03-19-05:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="timeDerived">
+  <xsd:restriction base="xsd:time">
+    <xsd:maxExclusive value="13:20:00-05:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="gYearMonthDerived">
+  <xsd:restriction base="xsd:gYearMonth">
+    <xsd:maxExclusive value="2003-04-05:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="gMonthDayDerived">
+  <xsd:restriction base="xsd:gMonthDay">
+    <xsd:maxExclusive value="--09-16+09:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="gYearDerived">
+  <xsd:restriction base="xsd:gYear">
+    <xsd:maxExclusive value="1969+09:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="gMonthDerived">
+  <xsd:restriction base="xsd:gMonth">
+    <xsd:maxExclusive value="--09--+09:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="gDayDerived">
+  <xsd:restriction base="xsd:gDay">
+    <xsd:maxExclusive value="---16+09:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="durationDerived">
+  <xsd:restriction base="xsd:duration">
+    <xsd:maxExclusive value="P1Y2M3DT10H30M"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:element name="A" type="xsd:anySimpleType"/>
+
+</xsd:schema>

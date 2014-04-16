@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+<xsd:simpleType name="totalDigits6">
+  <xsd:restriction base="xsd:decimal">
+    <xsd:totalDigits value="6"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="fractionDigits5">
+  <xsd:restriction base="xsd:decimal">
+    <xsd:fractionDigits value="5"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:element name="A" type="xsd:anySimpleType"/>
+
+</xsd:schema>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" >
+
+<xsd:element name="Long" type="xsd:long"/>
+
+<xsd:element name="NBitLong_A">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:long">
+      <!-- value should be represented as 12 bits unsigned integer. -->
+      <xsd:minInclusive value="12678967543233"/>
+      <xsd:maxInclusive value="12678967547233"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="NBitLong_B">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:long">
+      <!-- value should be represented as 12 bits unsigned integer. -->
+      <xsd:minInclusive value="-12678967547233"/>
+      <xsd:maxInclusive value="-12678967543233"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="NBitLong_C">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:long">
+      <!-- value should be represented as 12 bits unsigned integer. -->
+      <xsd:minInclusive value="2147480000"/>
+      <xsd:maxInclusive value="2147484000"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+</xsd:schema>

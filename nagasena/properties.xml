@@ -1,0 +1,17 @@
+
+<property name="apache_xml" value="lib/apache"/>
+
+<property name="junit.jar" value="lib/junit/3.8.1/junit.jar"/>
+
+<property name="regexi.classes" value="lib/regexi/2012-06-08/classes"/>
+
+<!-- Xerces XML Parser -->
+<property name="xercesImpl.jar" value="${apache_xml}/xerces/2.11.0/xercesImpl.jar"/>
+<property name="xml-apis.jar" value="${apache_xml}/xerces/2.11.0/xml-apis.jar"/>
+
+<!-- Batch Schema Compilation Class -->
+<property name="CompileSchemasClass" value="org.openexi.scomp.CompileSchemas"/>
+
+<!-- Batch Encoder Class for Grammar Fragments -->
+<property name="EncodeGrammarFragments" value="org.openexi.scomp.EncodeGrammarFragments"/>
+

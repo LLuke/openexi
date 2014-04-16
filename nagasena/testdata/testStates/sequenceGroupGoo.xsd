@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:goo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+<xsd:import namespace="urn:foo" schemaLocation="sequenceGroup.xsd"/>
+
+<xsd:element name="gooI" substitutionGroup="foo:A">
+  <xsd:complexType>
+    <xsd:complexContent>
+      <xsd:extension base="foo:ATYPE">
+        <xsd:sequence>
+          <xsd:element name="D"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

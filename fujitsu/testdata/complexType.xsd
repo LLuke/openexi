@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:attribute name="date" type="xsd:date" fixed="1999-05-31"/>
+
+<xsd:simpleType name="string10">
+  <xsd:restriction base="xsd:string">
+    <xsd:maxLength value="10"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:attribute name="name10" type="foo:string10" default="pikachu"/>
+
+<xsd:complexType name="datedString">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute name="date" type="xsd:date"/>
+      <xsd:anyAttribute namespace="##other" processContents="lax"/>
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<xsd:complexType name="datedStringLength10">
+  <xsd:simpleContent>
+    <xsd:restriction base="foo:datedString">
+      <xsd:length value="10"/>
+    </xsd:restriction>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<xsd:complexType name="datedString2">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute ref="foo:date"/>
+      <xsd:attribute name="obsolete" fixed="yes"/>
+      <xsd:attribute name="type" default="one"/>
+      <xsd:attribute name="author" use="required"/>
+      <xsd:attribute name="qname" type="xsd:QName" default="xsd:xyz"/>
+      <xsd:attribute name="expired" type="xsd:boolean" default="true"/>
+      <xsd:attribute name="published" type="xsd:boolean" default="false"/>
+      <xsd:anyAttribute namespace="##other" processContents="lax"/>
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<xsd:complexType name="datedString3">
+  <xsd:complexContent><!-- complexContent is intentional -->
+    <xsd:extension base="foo:datedString">
+      <xsd:attribute name="place" use="required"/>
+    </xsd:extension>
+  </xsd:complexContent>
+</xsd:complexType>
+
+<xsd:complexType name="dateTimedString">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute name="date" type="xsd:date"/>
+      <xsd:attribute name="time" type="xsd:time"/>
+      <xsd:anyAttribute namespace="##other" processContents="lax"/>
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<xsd:element name="String" type="xsd:string"/>
+
+<xsd:group name="singleString">
+  <xsd:sequence>
+    <xsd:element ref="foo:String" />
+  </xsd:sequence>
+</xsd:group>
+
+<xsd:complexType name="namedString">
+  <xsd:group ref="foo:singleString"/>
+</xsd:complexType>
+
+<xsd:complexType name="namedString2">
+  <xsd:group ref="foo:singleString" maxOccurs="2"/>
+</xsd:complexType>
+
+<xsd:complexType name="datedEmpty">
+  <xsd:attribute name="date" type="xsd:date"/>
+</xsd:complexType>
+
+<xsd:complexType name="datedAddress">
+  <xsd:sequence>
+    <xsd:element name="Street" type="xsd:string"/>
+    <xsd:element name="City" type="xsd:string"/>
+    <xsd:element name="Zip" type="xsd:string"/>
+  </xsd:sequence>
+  <xsd:attribute name="date" type="xsd:date"/>
+</xsd:complexType>
+
+<xsd:complexType name="datedAddress2">
+  <xsd:all>
+    <xsd:element name="Street2" type="xsd:string"/>
+    <xsd:element name="City2" type="xsd:string"/>
+    <xsd:element name="Zip2" type="xsd:string"/>
+  </xsd:all>
+  <xsd:attribute name="date" type="xsd:date"/>
+</xsd:complexType>
+
+<xsd:complexType name="datedAddress3">
+  <xsd:choice>
+    <xsd:element name="Street3" type="xsd:string"/>
+    <xsd:element name="City3" type="xsd:string"/>
+    <xsd:element name="Zip3" type="xsd:string"/>
+  </xsd:choice>
+  <xsd:attribute name="date" type="xsd:date"/>
+</xsd:complexType>
+
+<xsd:complexType name="datedAddress4">
+  <xsd:sequence minOccurs="0" maxOccurs="5">
+    <xsd:choice maxOccurs="7">
+      <xsd:sequence>
+        <xsd:element name="Street4a" maxOccurs="2" type="xsd:string"/>
+        <xsd:element name="City4a" type="xsd:string"/>
+      </xsd:sequence>
+      <xsd:sequence>
+        <xsd:element name="Street4b" maxOccurs="unbounded" type="xsd:string"/>
+        <xsd:element name="City4b" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:choice>
+    <xsd:element name="Zip3" type="xsd:string" maxOccurs="unbounded"/>
+  </xsd:sequence>
+  <xsd:attribute name="date" type="xsd:date"/>
+</xsd:complexType>
+
+<xsd:element name="Street5" type="xsd:string"/>
+<xsd:element name="Street5a" type="xsd:string" substitutionGroup="foo:Street5" />
+<xsd:element name="Street5b" type="xsd:string" substitutionGroup="foo:Street5"/>
+<xsd:element name="Street5c" type="xsd:string" substitutionGroup="foo:Street5a"/>
+<xsd:complexType name="datedAddress5">
+  <xsd:sequence minOccurs="0" maxOccurs="5">
+    <xsd:choice maxOccurs="7">
+      <xsd:element ref="foo:Street5"/>
+      <xsd:element name="City5a" type="xsd:string"/>
+    </xsd:choice>
+    <xsd:element name="Zip5" type="xsd:string" maxOccurs="unbounded"/>
+  </xsd:sequence>
+  <xsd:attribute name="date" type="xsd:date"/>
+</xsd:complexType>
+
+<xsd:complexType name="datedAddressMixed" mixed="true">
+  <xsd:sequence>
+    <xsd:element name="Street" type="xsd:string"/>
+    <xsd:element name="City" type="xsd:string"/>
+    <xsd:element name="Zip" type="xsd:string"/>
+  </xsd:sequence>
+  <xsd:attribute name="date" type="xsd:date"/>
+</xsd:complexType>
+
+<xsd:complexType name="datedNames_1_1">
+  <xsd:sequence>
+    <xsd:element name="Name" type="xsd:string"/>
+  </xsd:sequence>
+  <xsd:attribute name="date" type="xsd:date"/>
+</xsd:complexType>
+
+<xsd:complexType name="datedNames_0_1">
+  <xsd:sequence minOccurs="0">
+    <xsd:element name="Name" type="xsd:string"/>
+  </xsd:sequence>
+  <xsd:attribute name="date" type="xsd:date"/>
+</xsd:complexType>
+
+<xsd:complexType name="datedNames_1_2">
+  <xsd:sequence maxOccurs="2">
+    <xsd:element name="Name" type="xsd:string"/>
+  </xsd:sequence>
+  <xsd:attribute name="date" type="xsd:date"/>
+</xsd:complexType>
+
+<xsd:complexType name="datedNames_1_unbounded">
+  <xsd:sequence maxOccurs="unbounded">
+    <xsd:element name="Name" type="xsd:string"/>
+  </xsd:sequence>
+  <xsd:attribute name="date" type="xsd:date"/>
+</xsd:complexType>
+
+<xsd:complexType name="choiceOccursZero">
+  <xsd:choice minOccurs="0" maxOccurs="0"/>
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- Element Declarations                                                -->
+<!-- =================================================================== -->
+
+<xsd:element name="A" type="xsd:anySimpleType"/>
+
+<xsd:element name="DatedAddress" type="foo:datedAddress"/>
+
+</xsd:schema>

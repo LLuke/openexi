@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- UOB Data Extract Created at Thu Jan 30 13:13:29 2003-->
+<UOB>
+  <Units>
+   <Unit UIC = "XN0000" DataSource = "LOCAL">
+     <Name>Afghanistan Coaltion Forces</Name>
+     <TypeCode> </TypeCode>
+     <UnitTypeCodeName> </UnitTypeCodeName>
+     <LevelCode> </LevelCode>
+     <UnitLevelCodeName> </UnitLevelCodeName>
+   </Unit>
+   <Unit UIC = "---USMARINE" DataSource = "CONTROL">
+     <Name>Generic US Marines</Name>
+     <TypeCode> </TypeCode>
+     <UnitTypeCodeName> </UnitTypeCodeName>
+     <LevelCode> </LevelCode>
+     <UnitLevelCodeName> </UnitLevelCodeName>
+   </Unit>
+   
+ </Units>
+</UOB>

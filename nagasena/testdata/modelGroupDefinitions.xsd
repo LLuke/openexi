@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:foo="urn:foo">
+
+<xsd:complexType name="typeB">
+  <xsd:complexContent>
+    <xsd:extension base="foo:typeA">
+      <xsd:sequence>
+        <xsd:element name="B" type="xsd:string" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:extension>
+  </xsd:complexContent>
+</xsd:complexType>
+
+<xsd:complexType name="typeA">
+    <xsd:sequence>
+      <xsd:group ref="foo:modelGroupA" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:group name="modelGroupA">
+  <xsd:sequence>
+    <xsd:element name="A" type="xsd:string"/>
+  </xsd:sequence>
+</xsd:group>
+
+</xsd:schema>

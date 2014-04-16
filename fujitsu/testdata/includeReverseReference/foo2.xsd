@@ -1,0 +1,12 @@
+<schema targetNamespace="urn:foo" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:foo="urn:foo" >
+
+  <!-- include schemaLocation="foo.xsd" / -->
+
+  <complexType name="MyTupleType">
+    <sequence>
+      <element ref="foo:MyItem" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+</schema>

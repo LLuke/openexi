@@ -1,0 +1,45 @@
+package org.openexi.proc.grammars;
+
+abstract class ContentGrammar extends SchemaInformedGrammar {
+
+  ///////////////////////////////////////////////////////////////////////////
+  /// constructors, initializers
+  ///////////////////////////////////////////////////////////////////////////
+
+  protected ContentGrammar(int tp, byte grammarType, GrammarCache cache) {
+    super(tp, grammarType, cache);
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  /// Implementation of abstract methods declared in CommonState
+  ///////////////////////////////////////////////////////////////////////////
+
+  @Override
+  final void done(GrammarState kid, GrammarState stateVariables) {
+  }
+
+  @Override
+  final void end(String uri, String name, GrammarState stateVariables) {
+    end(stateVariables);
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  /// Abstract methods
+  ///////////////////////////////////////////////////////////////////////////
+
+  abstract protected void end(GrammarState stateVariables);
+
+  abstract int[] getInitials();
+  
+  abstract String getContentRegime();
+  
+  ///////////////////////////////////////////////////////////////////////////
+  /// Implementation of abstract methods declared in CommonState
+  ///////////////////////////////////////////////////////////////////////////
+
+  @Override
+  public final void miscContent(GrammarState stateVariables) {
+    // nothing to do.
+  }
+  
+}

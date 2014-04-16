@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:simpleType name="fooDouble">
+  <xsd:restriction base="xsd:double">
+    <xsd:maxExclusive value="100.01"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="doubleDerived">
+  <xsd:restriction base="foo:fooDouble">
+    <xsd:enumeration value="100.00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

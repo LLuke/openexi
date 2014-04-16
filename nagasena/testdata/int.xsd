@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="A" type="xsd:int" />
+
+<xsd:element name="B">
+  <xsd:complexType>
+    <xsd:attribute ref="foo:aA" />
+    <xsd:anyAttribute namespace="##targetNamespace" />
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:attribute name="aA" type="xsd:int" />
+<xsd:attribute name="aB" type="xsd:int" />
+
+<xsd:simpleType name="adultAge">
+  <xsd:restriction base="xsd:int">
+    <xsd:minInclusive value="20"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:element name="C" type="foo:adultAge" />
+
+<xsd:simpleType name="workingAge">
+  <xsd:restriction base="xsd:int">
+    <xsd:minInclusive value="15"/>
+    <xsd:maxInclusive value="65"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:element name="D" type="foo:workingAge" />
+
+<xsd:simpleType name="listOfWorkingAges">
+  <xsd:list>
+    <xsd:simpleType>
+      <xsd:restriction base="foo:workingAge"/>
+    </xsd:simpleType>
+  </xsd:list>
+</xsd:simpleType>
+
+<xsd:element name="WorkingAges" type="foo:listOfWorkingAges" />
+
+<xsd:element name="WorkingAgesRepeated">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="foo:WorkingAges" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Short" type="xsd:short" />
+
+<xsd:element name="Byte" type="xsd:byte" />
+
+</xsd:schema>

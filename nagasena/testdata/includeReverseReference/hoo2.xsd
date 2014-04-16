@@ -1,0 +1,15 @@
+<schema targetNamespace="urn:hoo" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:hoo="urn:hoo" xmlns:ioo="urn:ioo" >
+
+  <!-- include schemaLocation="hoo.xsd" / -->
+
+  <import namespace="urn:ioo" schemaLocation="ioo.xsd"/>
+
+  <complexType name="MyTupleType">
+    <sequence>
+      <element name="HooItem" type="hoo:MyItemType" />
+      <element name="IooTuple" type="ioo:MyTupleType" />
+    </sequence>
+  </complexType>
+
+</schema>

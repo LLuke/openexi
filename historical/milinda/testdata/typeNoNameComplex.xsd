@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:foo="urn:foo" >
+
+<xsd:complexType name="A">
+  <xsd:complexContent>
+    <xsd:restriction base="xsd:anyType" />
+  </xsd:complexContent>
+</xsd:complexType>
+
+<xsd:complexType>
+  <xsd:complexContent>
+    <xsd:restriction base="xsd:anyType" />
+  </xsd:complexContent>
+</xsd:complexType>
+
+</xsd:schema>

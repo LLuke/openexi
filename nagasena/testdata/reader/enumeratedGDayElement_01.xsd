@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="A">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:gDay">
+      <xsd:enumeration value="---16+09:00"/>
+      <xsd:enumeration value="---18+09:00"/>
+      <xsd:enumeration value="---20+09:00"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+</xsd:schema>

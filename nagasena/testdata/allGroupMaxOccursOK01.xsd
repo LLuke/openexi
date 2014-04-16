@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="A">
+  <xsd:complexType>
+    <xsd:all maxOccurs="1">
+      <xsd:element name="B"/>
+    </xsd:all>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

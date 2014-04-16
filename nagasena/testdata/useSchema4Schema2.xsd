@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:import namespace="http://www.w3.org/2001/XMLSchema" schemaLocation="XMLSchema2001.xsd"/>
+
+<xsd:element name="A" type="foo:tA" />
+
+<xsd:complexType name="tA">
+  <xsd:sequence>
+    <xsd:element ref="xsd:element"/>
+    <xsd:element ref="xsd:attribute"/>
+    <xsd:element ref="xsd:simpleType"/>
+    <xsd:element ref="xsd:complexType"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+
+<xsd:simpleType name="decimalDerived">
+  <xsd:restriction base="xsd:decimal">
+    <xsd:minExclusive value="100"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="floatDerived">
+  <xsd:restriction base="xsd:float">
+    <xsd:minExclusive value="101"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="doubleDerived">
+  <xsd:restriction base="xsd:double">
+    <xsd:minExclusive value="102"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="intDerived">
+  <xsd:restriction base="xsd:int">
+    <xsd:minExclusive value="103"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="longDerived">
+  <xsd:restriction base="xsd:long">
+    <xsd:minExclusive value="104"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="longDerived2">
+  <xsd:restriction base="xsd:long">
+    <xsd:minExclusive value="-12678967543233"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="dateTimeDerived">
+  <xsd:restriction base="xsd:dateTime">
+    <xsd:minExclusive value="2003-03-19T13:20:00-05:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="dateDerived">
+  <xsd:restriction base="xsd:date">
+    <xsd:minExclusive value="2003-03-19-05:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="timeDerived">
+  <xsd:restriction base="xsd:time">
+    <xsd:minExclusive value="13:20:00-05:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="gYearMonthDerived">
+  <xsd:restriction base="xsd:gYearMonth">
+    <xsd:minExclusive value="2003-04-05:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="gMonthDayDerived">
+  <xsd:restriction base="xsd:gMonthDay">
+    <xsd:minExclusive value="--09-16+09:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="gYearDerived">
+  <xsd:restriction base="xsd:gYear">
+    <xsd:minExclusive value="1969+09:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="gMonthDerived">
+  <xsd:restriction base="xsd:gMonth">
+    <xsd:minExclusive value="--09--+09:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="gDayDerived">
+  <xsd:restriction base="xsd:gDay">
+    <xsd:minExclusive value="---16+09:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="durationDerived">
+  <xsd:restriction base="xsd:duration">
+    <xsd:minExclusive value="P1Y2M3DT10H30M"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:element name="A" type="xsd:anySimpleType"/>
+
+</xsd:schema>

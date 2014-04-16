@@ -1,0 +1,13 @@
+<schema targetNamespace="urn:hoo" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:hoo="urn:hoo">
+
+  <include schemaLocation="hoo2.xsd"/>
+
+  <simpleType name="MyItemType">
+    <restriction base="float"/>
+  </simpleType>
+
+  <element name="MyTuple" type="hoo:MyTupleType" />
+
+</schema>
+

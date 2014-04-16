@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:publicid:nagasena" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:exig="urn:publicid:nagasena"
+  elementFormDefault="qualified">
+
+<xsd:element name="EXIGrammar">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element name="StringTable">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="NoNamespace" minOccurs="0" type="exig:Names"/>
+            <xsd:element name="XmlNamespace" minOccurs="0" type="exig:Names"/>
+            <xsd:element name="XsiNamespace" minOccurs="0" type="exig:Names"/>
+            <xsd:element name="XsdNamespace" minOccurs="0" type="exig:Names"/>
+            <xsd:element name="Namespace" minOccurs="0" maxOccurs="unbounded">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="Uri" type="xsd:string"/>
+                  <xsd:group ref="exig:Names"/>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Types">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:choice minOccurs="0">
+              <xsd:sequence>
+                <xsd:element name="AnyType" type="exig:UrType" />
+                <xsd:element name="AnySimpleType" type="exig:UrType" />
+              </xsd:sequence>
+              <xsd:element name="MakeTypable" type="xsd:unsignedByte" minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:choice>
+            <xsd:group ref="exig:ArcheTypes" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="ComplexType" minOccurs="0" maxOccurs="unbounded">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:group ref="exig:TypeCommon"/>
+                  <xsd:element name="ContentDatatype" type="xsd:unsignedInt" minOccurs="0"/>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Elements">
+        <xsd:complexType>
+          <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="Uri" type="xsd:string"/>
+            <xsd:element name="Name" type="xsd:NCName"/>
+            <xsd:choice>
+              <xsd:element name="GlobalElement" type="exig:Element" />
+              <xsd:element name="LocalElement" type="exig:Element" />
+            </xsd:choice>
+            <xsd:element name="LocalElement" type="exig:Element" minOccurs="0" maxOccurs="unbounded" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Attributes">
+        <xsd:complexType>
+          <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="Uri" type="xsd:string"/>
+            <xsd:element name="Name" type="xsd:NCName"/>
+            <xsd:choice>
+              <xsd:element name="GlobalAttribute" type="exig:Attribute" />
+              <xsd:element name="LocalAttribute" type="exig:Attribute" />
+            </xsd:choice>
+            <xsd:element name="LocalAttribute" type="exig:Attribute" minOccurs="0" maxOccurs="unbounded" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Grammars">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:sequence minOccurs="0">
+              <xsd:element name="Fixture" type="exig:Grammar" minOccurs="6" maxOccurs="6"/>
+            </xsd:sequence>
+            <xsd:element name="Grammar" type="exig:Grammar" minOccurs="0" maxOccurs="unbounded" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<!-- =================================================================== -->
+
+<xsd:complexType name="Names">
+  <xsd:group ref="exig:Names"/>
+</xsd:complexType>
+
+<xsd:group name="Names">
+  <xsd:sequence>
+    <xsd:element name="Name" type="xsd:NCName" minOccurs="0" maxOccurs="unbounded"/>
+  </xsd:sequence>
+</xsd:group>
+
+<!-- =================================================================== -->
+
+<xsd:group name="TypeCommon">
+  <xsd:sequence>
+    <xsd:sequence minOccurs="0">
+      <xsd:element name="Uri" type="xsd:string"/>
+      <xsd:element name="Name" type="xsd:NCName"/>
+      <xsd:element name="Typable" minOccurs="0">
+        <xsd:complexType/>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:element name="Grammar" type="xsd:unsignedInt"/>
+  </xsd:sequence>
+</xsd:group>
+
+<xsd:group name="SimpleTypeCommon">
+  <xsd:sequence>
+    <xsd:group ref="exig:TypeCommon"/>
+    <xsd:element name="BaseType" type="xsd:unsignedInt"/>
+  </xsd:sequence>
+</xsd:group>
+
+<!-- =================================================================== -->
+
+<xsd:complexType name="UrType">
+  <xsd:sequence>
+    <xsd:element name="Typable">
+      <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="Grammar" type="xsd:unsignedInt"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:group name="ArcheTypes">
+  <xsd:choice>
+    <xsd:element name="StringType" type="exig:StringType" />
+    <xsd:element name="BooleanType" type="exig:BooleanType" />
+    <xsd:element name="DecimalType" type="exig:DecimalType" />
+    <xsd:element name="FloatType" type="exig:FloatType" />
+    <xsd:element name="DurationType" type="exig:DurationType" />
+    <xsd:element name="DateTimeType" type="exig:DateTimeType" />
+    <xsd:element name="TimeType" type="exig:TimeType" />
+    <xsd:element name="DateType" type="exig:DateType" />
+    <xsd:element name="GYearMonthType" type="exig:GYearMonthType" />
+    <xsd:element name="GYearType" type="exig:GYearType" />
+    <xsd:element name="GMonthDayType" type="exig:GMonthDayType" />
+    <xsd:element name="GDayType" type="exig:GDayType" />
+    <xsd:element name="GMonthType" type="exig:GMonthType" />
+    <xsd:element name="HexBinaryType" type="exig:HexBinaryType" />
+    <xsd:element name="Base64BinaryType" type="exig:Base64BinaryType" />
+    <xsd:element name="AnyURIType" type="exig:AnyURIType" />
+    <xsd:element name="QNameType" type="exig:QNameType" />
+    <xsd:element name="IntegerType" type="exig:IntegerType" />
+    <xsd:element name="ListType" type="exig:ListType" />
+    <xsd:element name="UnionType" type="exig:UnionType" />
+  </xsd:choice>
+</xsd:group>
+
+<xsd:complexType name="StringType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:choice minOccurs="0">
+      <xsd:element name="Replace">
+        <xsd:complexType/>
+      </xsd:element>
+      <xsd:element name="Collapse">
+        <xsd:complexType/>
+      </xsd:element>
+    </xsd:choice>
+    <xsd:element name="RestrictedCharset" type="exig:RestrictedCharset" minOccurs="0" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="String" type="xsd:string" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="RestrictedCharset">
+  <xsd:choice maxOccurs="unbounded">
+    <xsd:sequence>
+      <xsd:element name="StartChar" type="xsd:unsignedInt"/>
+      <xsd:element name="EndChar" type="xsd:unsignedInt"/>
+    </xsd:sequence>
+    <xsd:element name="Char" type="xsd:unsignedInt"/>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="BooleanType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="Patterned" minOccurs="0">
+      <xsd:complexType/>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="DecimalType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="Decimal" type="xsd:decimal" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="IntegerType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:group ref="exig:IntegerTrichotomy" minOccurs="0" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="Integer" type="xsd:integer" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:group name="IntegerTrichotomy">
+  <xsd:choice>
+    <xsd:element name="NonNegative">
+      <xsd:complexType/>
+    </xsd:element>
+    <xsd:sequence>
+      <xsd:element name="NBit" type="xsd:unsignedByte"/>
+      <xsd:element name="MinInteger" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:choice>
+</xsd:group>
+
+<xsd:complexType name="FloatType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="Float" type="xsd:double" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="DurationType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="Duration" type="xsd:duration" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="DateTimeType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="DateTime" type="xsd:dateTime" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="TimeType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="Time" type="xsd:time" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="DateType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="Date" type="xsd:date" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="GYearMonthType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="GYearMonth" type="xsd:gYearMonth" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="GYearType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="GYear" type="xsd:gYear" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="GMonthDayType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="GMonthDay" type="xsd:gMonthDay" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="GDayType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="GDay" type="xsd:gDay" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="GMonthType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="GMonth" type="xsd:gMonth" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="HexBinaryType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="HexBinary" type="xsd:hexBinary" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="Base64BinaryType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="Base64Binary" type="xsd:base64Binary" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="AnyURIType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="Enumeration" minOccurs="0">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="String" type="xsd:string" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="QNameType">
+  <xsd:group ref="exig:SimpleTypeCommon" />
+</xsd:complexType>
+
+<xsd:complexType name="ListType">
+  <xsd:sequence>
+    <xsd:group ref="exig:SimpleTypeCommon" />
+    <xsd:element name="ItemType" type="xsd:unsignedInt"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="UnionType">
+  <xsd:sequence>
+    <xsd:sequence minOccurs="0">
+      <xsd:element name="Uri" type="xsd:string"/>
+      <xsd:element name="Name" type="xsd:NCName"/>
+    </xsd:sequence>
+    <!-- Typable is a fixture in union datatype. -->
+    <xsd:element name="Typable">
+      <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="Grammar" type="xsd:unsignedInt"/>
+    <xsd:element name="BaseType" type="xsd:unsignedInt"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="Attribute">
+  <xsd:sequence>
+    <xsd:element name="Type" type="xsd:unsignedInt"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="Element" abstract="true">
+  <xsd:sequence>
+    <xsd:element name="Type" type="xsd:unsignedInt"/>
+    <xsd:element name="Nillable" minOccurs="0">
+      <xsd:complexType/>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="Grammar">
+  <xsd:sequence>
+    <xsd:element name="Productions" type="exig:Productions"/>
+    <xsd:sequence minOccurs="0">
+      <xsd:element name="ContentGrammar" type="xsd:unsignedInt"/>
+      <xsd:element name="EmptyGrammar" type="xsd:unsignedInt" minOccurs="0" />
+    </xsd:sequence>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="Productions">
+  <xsd:sequence>
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+      <xsd:choice>
+        <xsd:element name="Attribute" type="xsd:unsignedInt" />
+        <xsd:element name="AttributeWildcard">
+          <xsd:complexType/>
+        </xsd:element>
+        <xsd:element name="AttributeWildcardNS" type="xsd:string" />
+        <xsd:element name="Element" type="xsd:unsignedInt" />
+        <xsd:element name="ElementWildcard">
+          <xsd:complexType/>
+        </xsd:element>
+        <xsd:element name="ElementWildcardNS" type="xsd:string" />
+        <xsd:element name="CharactersTyped">
+          <xsd:complexType/>
+        </xsd:element>
+      </xsd:choice>
+      <xsd:element name="Grammar" type="xsd:unsignedInt" />
+    </xsd:sequence>
+    <xsd:element name="EndElement" minOccurs="0">
+      <xsd:complexType/>
+    </xsd:element>
+    <xsd:sequence minOccurs="0">
+      <xsd:element name="CharactersMixed">
+        <xsd:complexType/>
+      </xsd:element>
+      <xsd:element name="Grammar" type="xsd:unsignedInt" />
+    </xsd:sequence>
+  </xsd:sequence>
+</xsd:complexType>
+
+</xsd:schema>

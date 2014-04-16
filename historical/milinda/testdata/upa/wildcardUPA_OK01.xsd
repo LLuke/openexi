@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="AlGore">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:any namespace="##any" processContents="lax"/>
+      <xsd:any namespace="##any" processContents="skip"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:simpleType name="fooDateTime">
+  <xsd:restriction base="xsd:dateTime">
+    <xsd:maxExclusive value="2003-03-19T13:20:00-05:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="dateTimeDerived">
+  <xsd:restriction base="foo:fooDateTime">
+    <xsd:enumeration value="2003-03-19T13:20:00-04:59"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

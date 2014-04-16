@@ -1,0 +1,3799 @@
+2012-03-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0202.0
+
+- Removed compilation warnings.
+
+M       test/org/openexi/fujitsu/sax/BooleanValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/ValuePartitionCapacityTest.java
+M       test/org/openexi/fujitsu/sax/Base64BinaryValueEncodingTest.java
+
+2012-02-14 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0202.0
+
+- Updated EXIReaderTest's testXMLSerialization_01 test case to additionally
+  use comments.
+
+M       test/org/openexi/fujitsu/sax/EXIReaderTest.java
+
+2011-11-18 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0202.0
+
+- RootGrammar is now derived directly from Grammar.
+
+M       test/org/openexi/fujitsu/sax/GrammarBuiltinTest.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/FragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/Grammar.java
+M       src/org/openexi/fujitsu/proc/grammars/RootGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+A       testdata/perversion
+A       testdata/perversion/duplicateLocalNames_01.byteAligned
+A       testdata/perversion/duplicateURIsLocalNames_01.byteAligned
+A       testdata/perversion/duplicateLocalNames_01.xml
+A       testdata/perversion/duplicateURIsLocalNames_01.xml
+M       build.xml
+
+2011-11-17 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0201.0
+
+- Fixed a bug in how EXIReader communicates prefixes to SAX ContentHandler.
+
+M       test/org/openexi/fujitsu/sax/FragmentTest.java
+M       test/org/openexi/fujitsu/sax/EXIReaderTest.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+M       build.xml
+
+2011-10-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0200.0
+
+- ElementFragmentGrammar's undeclaredElement method needs to cause state
+  transitions.
+
+M       test/org/openexi/fujitsu/sax/FragmentTest.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+A       testdata/interop/schemaInformedGrammar/declaredProductions/elementFragment-02b.byteAligned
+A       testdata/interop/schemaInformedGrammar/declaredProductions/elementFragment-02b.xml
+M       build.xml
+
+2011-10-10 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0199.0
+
+- Added a marker in EXISchema that indicates whether UPA-gotcha checking has
+  been done or not during schema-compilation time.
+
+M       fixture/org/openexi/fujitsu/schema/EXISchemaUtil.java
+M       src/org/openexi/fujitsu/schema/EXISchemaLayout.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaStruct.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       src/org/openexi/fujitsu/proc/io/StringTable.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarCache.java
+M       src/org/openexi/fujitsu/proc/grammars/OptionsGrammarCache.java
+M       build.xml
+
+2011-10-06 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0198.0
+
+- Added test cases exercising whitespace retention policies in built-in 
+  grammars.
+
+M       test/org/openexi/fujitsu/sax/GrammarBuiltinTest.java
+
+0000.0000.0198.0
+
+- Added support for blockSize in EXIReader.
+
+M       test/org/openexi/fujitsu/sax/EXIReaderTest.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+A       testdata/interop/datatypes/string/indexed-10.xml
+M       build.xml
+
+0000.0000.0197.0
+
+- Implemented whitespace retention policy.
+  (http://lists.w3.org/Archives/Member/member-exi-wg/2006Sep/att-0090/2006-09-07_WhiteSpacePolicy.jpg)
+
+M       src/org/openexi/fujitsu/proc/grammars/Grammar.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+M       build.xml
+
+2011-09-29 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0196.0
+
+- Added setEXISchemaResolver method in EXIReader.
+
+M       test/org/openexi/fujitsu/sax/OptionsDocumentTest.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+M       build.xml
+
+0000.0000.0195.0
+
+- Added a test case that exercises EXISchemaResolver.
+
+M       test/org/openexi/fujitsu/sax/OptionsDocumentTest.java
+
+0000.0000.0195.0
+
+- Simplified EXIDecoder.
+
+A       src/org/openexi/fujitsu/proc/EXISchemaResolver.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       build.xml
+
+2011-09-27 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0194.0
+
+- Added support for disabling the output of schemaId in header options.
+
+M       test/org/openexi/fujitsu/sax/CompressionTest.java
+M       test/org/openexi/fujitsu/sax/FragmentTest.java
+M       test/org/openexi/fujitsu/sax/DTRMTest.java
+M       test/org/openexi/fujitsu/sax/BooleanValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/ValueMaxLengthTest.java
+M       test/org/openexi/fujitsu/sax/ValuePartitionCapacityTest.java
+M       test/org/openexi/fujitsu/sax/OptionsDocumentTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+A       src/org/openexi/fujitsu/proc/HeaderOptionsOutputType.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+M       build.xml
+
+0000.0000.0193.0
+
+- Supported nilled schemaId in header options.
+
+M       test/org/openexi/fujitsu/sax/OptionsDocumentTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScriber.java
+M       src/org/openexi/fujitsu/proc/HeaderOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       build.xml
+
+2011-09-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0192.0
+
+- Fixed a bug that caused list of enumerated values to return wrong RCS.
+
+M       test/org/openexi/fujitsu/sax/ListValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+M       testdata/list.xsd
+M       build.xml
+
+2011-09-20 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0191.0
+
+- Fixed a bug that caused comments in DTD to show up as non-DTD comments
+  in the encoded files.
+
+M       test/org/openexi/fujitsu/sax/GrammarBuiltinTest.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+A       testdata/dtdComments.dtd
+A       testdata/dtdComments.xml
+M       build.xml
+
+2011-09-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0190.0
+
+- Updated the way codecs are resolved for types with enumerated values.
+
+M       test/org/openexi/fujitsu/sax/DTRMTest.java
+M       src/org/openexi/fujitsu/proc/io/Apparatus.java
+M       build.xml
+
+2011-08-31 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0189.0
+
+- Fixed a bug in representing list of token values.
+
+M       test/org/openexi/fujitsu/sax/ListValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+A       testdata/token.xsd
+M       build.xml
+
+0000.0000.0188.0
+
+- Fixed a bug in representing list of base64Binary values.
+
+M       test/org/openexi/fujitsu/sax/ListValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/GMonthDayValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/TimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/GYearValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scribble.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/HexBinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/GMonthValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/GYearMonthValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/GDayValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriberBase.java
+M       testdata/base64Binary.xsd
+M       build.xml
+
+2011-08-30 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0187.0
+
+- Added a test case verifying the support for enumerated values of 
+  xsd:anyURI.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+
+0000.0000.0187.0
+
+- Added support for enumerated values of xsd:base64Binary and xsd:hexBinary.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       build.xml
+
+2011-08-29 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0186.0
+
+- Added a test case verifying the support for enumerated values of 
+  xsd:long, xsd:int and xsd:byte.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       testdata/enumeration.xsd
+
+0000.0000.0186.0
+
+- Added a test case verifying the support for enumerated values of 
+  xsd:decimal.
+
+M       test/org/openexi/fujitsu/scomp/EnumerationValidatorTest.java
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       testdata/enumeration.xsd
+
+0000.0000.0186.0
+
+- Added a test case verifying the support for enumerated values of 
+  xsd:Notation.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+
+0000.0000.0186.0
+
+- Added support for enumerated values of xsd:double.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       testdata/enumeration.xsd
+M       build.xml
+
+2011-08-26 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0185.0
+
+- Added support for enumerated values of xsd:duration.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       build.xml
+
+0000.0000.0184.0
+
+- Recfactored date-time handling in EnumerationValueScriber.
+
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       build.xml
+
+0000.0000.0183.0
+
+- Added support for enumerated values of xsd:gDay.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       build.xml
+
+0000.0000.0182.0
+
+- Added support for enumerated values of xsd:gMonth.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       build.xml
+
+0000.0000.0181.0
+
+- Added support for enumerated values of xsd:gYear.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       build.xml
+
+0000.0000.0180.0
+
+- Added support for enumerated values of xsd:gYearMonth.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       build.xml
+
+0000.0000.0179.0
+
+- Added support for enumerated values of xsd:time.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       src/org/openexi/fujitsu/schema/XSDateTime.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       build.xml
+
+0000.0000.0178.0
+
+- Added support for enumerated values of xsd:date.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       build.xml
+
+0000.0000.0177.0
+
+- Added support for enumerated values of xsd:dateTime.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       build.xml
+
+2011-08-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0176.0
+
+- Added a test case to encode/decode enumerated union values.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+
+0000.0000.0176.0
+
+- Added support for enumerated values of xsd:QName.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       src/org/openexi/fujitsu/proc/io/Apparatus.java
+M       build.xml
+
+0000.0000.0175.0
+
+- RCS of enumeration is subject to DTRM when the DTRM applies to one of 
+  enumeration's ancestor types.
+
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueApparatus.java
+M       build.xml
+
+0000.0000.0174.0
+
+- Added support for enumerated values of xsd:float.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/ValueApparatus.java
+M       build.xml
+
+0000.0000.0173.0
+
+- Added support for enumerated values of xsd:integer.
+
+M       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueApparatus.java
+M       testdata/enumeration.xsd
+M       build.xml
+
+0000.0000.0172.0
+
+- Added support for enumerated values of xsd:gMonthDay.
+
+A       test/org/openexi/fujitsu/sax/EnumerationTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueApparatus.java
+M       build.xml
+
+0000.0000.0171.0
+
+- Fixed a bug that caused some characters in RCS to fallback on
+  escaped representations.
+
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       build.xml
+
+2011-08-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0170.0
+
+- Fixed a bug in Date-Time "Year" component encodings.
+
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriberBase.java
+M       build.xml
+
+2011-08-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0169.0
+
+- Fixed a bug in negative integer encoding.
+
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       build.xml
+
+0000.0000.0168.0
+
+- Simplified IntegerValueScriber.
+
+M       test/org/openexi/fujitsu/sax/IntValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       build.xml
+
+0000.0000.0167.0
+
+- Simplified IntegerValueScriber.
+
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       build.xml
+
+0000.0000.0166.0
+
+- Fixed a bug in handling invalid long values.
+
+M       test/org/openexi/fujitsu/sax/LongEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       build.xml
+
+0000.0000.0165.0
+
+- Added support for xsd:gYearMonth.
+
+M       test/org/openexi/fujitsu/sax/DateTimeValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+A       src/org/openexi/fujitsu/proc/io/GYearMonthValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       build.xml
+
+0000.0000.0164.0
+
+- Added support for xsd:gYear.
+
+M       test/org/openexi/fujitsu/sax/DateTimeValueEncodingTest.java
+A       src/org/openexi/fujitsu/proc/io/GYearValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       build.xml
+
+2011-08-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0163.0
+
+- Added support for xsd:gMonthDay.
+
+M       test/org/openexi/fujitsu/sax/DateTimeValueEncodingTest.java
+A       src/org/openexi/fujitsu/proc/io/GMonthDayValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/GMonthValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       build.xml
+
+0000.0000.0162.0
+
+- Added support for xsd:gMonth.
+
+M       test/org/openexi/fujitsu/sax/DateTimeValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+A       src/org/openexi/fujitsu/proc/io/GMonthValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/GDayValueScriber.java
+M       testdata/dateTime.xsd
+M       build.xml
+
+0000.0000.0161.0
+
+- Added support for xsd:gDay.
+
+M       test/org/openexi/fujitsu/sax/DateTimeValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/TimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+A       src/org/openexi/fujitsu/proc/io/GDayValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriberBase.java
+M       testdata/dateTime.xsd
+M       build.xml
+
+2011-08-12 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0160.0
+
+- Fixed a bug in decoding a string value that contains non-BMP characters
+  starting with a BMP character.
+
+M       test/org/openexi/fujitsu/sax/StringValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       build.xml
+
+0000.0000.0159.0
+
+- Added support for string values containing non-BMP characters.
+
+A       test/org/openexi/fujitsu/sax/StringValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/Characters.java
+M       src/org/openexi/fujitsu/proc/io/CharacterBuffer.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/common/CharacterSequence.java
+M       build.xml
+
+2011-08-08 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0158.0
+
+- Added support for valueMaxLength and valuePartitionCapacity options in
+  EXIReader.
+
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+M       build.xml
+
+2011-08-02 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0157.0
+
+- CH [untyped value] should not incur state transition in SimpleContentGrammar.
+
+M       test/org/openexi/fujitsu/sax/FragmentTest.java
+M       test/org/openexi/fujitsu/sax/BooleanValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/GrammarAttributeWildcardTest.java
+M       test/org/openexi/fujitsu/sax/GrammarSchemaInformedTest.java
+M       test/org/openexi/fujitsu/sax/IntValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/grammars/EmptyContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ComplexContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeCharacters.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/GroupGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammarState.java
+M       src/org/openexi/fujitsu/proc/grammars/SimpleContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementTagGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeCharactersSecond.java
+M       src/org/openexi/fujitsu/proc/grammars/Grammar.java
+M       src/org/openexi/fujitsu/proc/grammars/RootGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+M       build.xml
+
+0000.0000.0156.0
+
+- Fixed a bug in FloatValueScanner that prevented -9223372036854775808 from
+  being decoded correctly.
+
+M       test/org/openexi/fujitsu/sax/FloatValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScriber.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedCommons.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+M       build.xml
+
+2011-08-01 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0155.0
+
+- Corrected FloatValueScriber to write negative Integers accurately.
+
+M       test/org/openexi/fujitsu/sax/FloatValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       build.xml
+
+0000.0000.0154.1
+
+- Corrected FloatValueScanner to read negative Integers accurately.
+
+M       test/org/openexi/fujitsu/sax/FloatValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       build.xml
+
+0000.0000.0154.0
+
+- Consolidated some methods that were duplicatively available in both
+  SimpleScanner and ChannellingScanner.
+
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       build.xml
+
+2011-07-28 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0153.0
+
+- Fixed a bug that has caused NPE upon xsi:type in schema-less EXI streams.
+
+M       test/org/openexi/fujitsu/sax/GrammarBuiltinTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+M       build.xml
+
+0000.0000.0152.0
+
+- Fixed a bug related to the string table introduced in the previous update.
+
+M       test/org/openexi/fujitsu/sax/GrammarStrictTest.java
+A       test/org/openexi/fujitsu/sax/GrammarAttributeWildcardTest.java
+M       src/org/openexi/fujitsu/proc/io/StringTable.java
+A       testdata/interop/schemaInformedGrammar/declaredProductions/complexType-05.byteAligned
+A       testdata/interop/schemaInformedGrammar/declaredProductions/complexType-05.xml
+M       build.xml
+
+0000.0000.0151.0
+
+- URIs in EXISchema now never hold null values.
+
+M       test/org/openexi/fujitsu/scomp/AttributeValidatorTest.java
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       test/org/openexi/fujitsu/sax/GrammarStrictTest.java
+M       fixture/org/openexi/fujitsu/schema/EXISchemaUtil.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaStruct.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/PrefixUriBindings.java
+M       src/org/openexi/fujitsu/proc/io/StringTable.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltInGrammarCache.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammarState.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+A       testdata/interop/schemaInformedGrammar/undeclaredProductions/xsiTypeStrict-07.xml
+M       build.xml
+
+2011-07-27 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0150.0
+
+- Element grammar needs to have xsi:type production in strict grammar mode
+  when the element's type is union simple type.
+
+M       test/org/openexi/fujitsu/sax/GrammarStrictTest.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+A       testdata/interop/schemaInformedGrammar/undeclaredProductions
+A       testdata/interop/schemaInformedGrammar/undeclaredProductions/union.xsd
+A       testdata/interop/schemaInformedGrammar/undeclaredProductions/xsiTypeStrict-03.xml
+M       build.xml
+
+2011-07-26 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0149.0
+
+- Fixed a bug in Base64.decode method.
+
+M       test/org/openexi/fujitsu/sax/Base64BinaryValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/util/Base64.java
+A       testdata/DataStore/instance/1000BinaryStore.xml
+M       build.xml
+
+0000.0000.0148.0
+
+- EventCode is now a class, instead of an interface.
+
+M       test/org/openexi/fujitsu/proc/XsiTypeTest.java
+M       test/org/openexi/fujitsu/sax/DateTimeValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/IntegerValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/DecimalValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/FragmentTest.java
+M       test/org/openexi/fujitsu/sax/LongEncodingTest.java
+M       test/org/openexi/fujitsu/sax/JTLMTest.java
+M       test/org/openexi/fujitsu/sax/SAXTransmogrifierTest.java
+M       test/org/openexi/fujitsu/sax/GrammarStrictAllTest.java
+M       test/org/openexi/fujitsu/sax/FloatValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/GrammarBuiltinTest.java
+M       test/org/openexi/fujitsu/sax/ListValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/GrammarStrictTest.java
+M       test/org/openexi/fujitsu/sax/BooleanValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/OptionsDocumentTest.java
+M       test/org/openexi/fujitsu/sax/GrammarSchemaInformedTest.java
+M       test/org/openexi/fujitsu/sax/Base64BinaryValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/HexBinaryValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/IntValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaMixedCharacters.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventAttributeByRef.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventAttributeByValue.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventEntityReference.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaCharacters.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaType.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventComment.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventAttribute.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaNil.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventUndeclaredCharacters.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventDTD.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventProcessingInstruction.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaMixedCharactersByValue.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaMixedCharactersByRef.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventNS.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventUndeclaredElement.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventWildcardStartElement.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/common/EventType.java
+M       src/org/openexi/fujitsu/proc/common/EventCode.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaAttributeInvalid.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEntityReference.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaCharacters.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaType.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeNamespaceDeclaration.java
+M       src/org/openexi/fujitsu/proc/grammars/AbstractEventType.java
+M       src/org/openexi/fujitsu/proc/grammars/ArrayEventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeNonSchema.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeDTD.java
+M       src/org/openexi/fujitsu/proc/grammars/ReversedEventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEndElementSecond.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeProcessingInstruction.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeCharacters.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEndElementReversed.java
+M       src/org/openexi/fujitsu/proc/grammars/ArrayEventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/grammars/EventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaElementWildcardNS.java
+M       src/org/openexi/fujitsu/proc/grammars/SequenceChoiceGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/AllGroupGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeStartDocument.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaAttributeWildcardNS.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeAttribute.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaAttributeWildcardAny.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeCharactersReversed.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ArrayEventCodeTupleReversed.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaParticle.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaMixedCharacters.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeAttributeWildcardAnyUntyped.java
+M       src/org/openexi/fujitsu/proc/grammars/AbstractEventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeAttributeReversed.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeElementWildcard.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEndDocument.java
+M       src/org/openexi/fujitsu/proc/grammars/ReverseEventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaElementWildcard.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementTagGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeElement.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaElementWildcardAny.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaAttributeWildcard.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchema.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaEndElement.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeComment.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaNil.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeElementWildcardReversed.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEndDocumentReversed.java
+M       src/org/openexi/fujitsu/proc/grammars/FragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaElement.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeCharactersSecond.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSelfContained.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEndElement.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaAttribute.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeElementReversed.java
+M       src/org/openexi/fujitsu/proc/HeaderOptionsDecoder.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+M       build.xml
+
+0000.0000.0147.0
+
+- Abandoned AbstractEventCode class.
+
+M       src/org/openexi/fujitsu/proc/common/EventType.java
+M       src/org/openexi/fujitsu/proc/common/EventCode.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaAttributeInvalid.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaCharacters.java
+M       src/org/openexi/fujitsu/proc/grammars/AbstractEventType.java
+M       src/org/openexi/fujitsu/proc/grammars/ArrayEventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/ArrayEventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/grammars/EventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaElementWildcardNS.java
+M       src/org/openexi/fujitsu/proc/grammars/SequenceChoiceGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeStartDocument.java
+D       src/org/openexi/fujitsu/proc/grammars/AbstractEventCode.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeAttribute.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaMixedCharacters.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEndDocument.java
+M       src/org/openexi/fujitsu/proc/grammars/ReverseEventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammarState.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementTagGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaElementWildcardAny.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaEndElement.java
+M       src/org/openexi/fujitsu/proc/grammars/FragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaElement.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaAttribute.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+M       build.xml
+
+0000.0000.0146.0
+
+- Made BitPackedScriber's constructor non-public.
+
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScriber.java
+M       src/org/openexi/fujitsu/proc/io/ScriberFactory.java
+M       build.xml
+
+0000.0000.0145.0
+
+- Shared methods between Base64BinaryValueScriber and HexBinaryValueScriber.
+
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/HexBinaryValueScriber.java
+A       src/org/openexi/fujitsu/proc/io/BinaryValueScriber.java
+M       build.xml
+
+2011-07-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0144.0
+
+- Added support for hexBinary.
+
+A       test/org/openexi/fujitsu/sax/HexBinaryValueEncodingTest.java
+M       CHANGES.txt
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+A       src/org/openexi/fujitsu/proc/io/HexBinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/BuiltinRCS.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/util/Base64.java
+A       src/org/openexi/fujitsu/proc/util/HexBin.java
+M       build.xml
+
+2011-07-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0143.0
+
+- Fixed a bug in Base64.decode method.
+
+M       test/org/openexi/fujitsu/sax/Base64BinaryValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/util/Base64.java
+M       build.xml
+
+2011-07-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0142.0
+
+- Conditionally instantiating scriber codecs depending on whether it is for
+  EXI header options or for EXI body.
+
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScriber.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/ScriberFactory.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       build.xml
+
+0000.0000.0141.0
+
+- Improved Base64Binary decoder implementation.
+- Conditionally instantiating scanner codecs depending on whether it is for
+  EXI header options or for EXI body.
+
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScanner.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedScanner.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/util/Base64.java
+A       testdata/hexBinary.xsd
+M       build.xml
+
+0000.0000.0140.0
+
+- Fixed a bug that was introduced in version 0000.0000.0134.0 which has caused
+  to keep attribute names defined in schemas from being prepopulated in 
+  the string table.
+
+M       test/org/openexi/fujitsu/sax/FragmentTest.java
+M       src/org/openexi/fujitsu/proc/io/StringTable.java
+A       testdata/interop/schemaInformedGrammar/declaredProductions/elementFragment-04.byteAligned
+A       testdata/interop/schemaInformedGrammar/declaredProductions/elementFragment-04.xml
+M       build.xml
+
+0000.0000.0139.0
+
+- ElementFragmentTypeEmpty is no longer furnished with xsi:type and xsi:nil in
+  strict schema mode.
+
+M       test/org/openexi/fujitsu/sax/FragmentTest.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+A       testdata/interop/schemaInformedGrammar/declaredProductions/elementFragment_imported_goo.xsd
+A       testdata/interop/schemaInformedGrammar/declaredProductions/elementFragment-03.bitPacked
+A       testdata/interop/schemaInformedGrammar/declaredProductions/elementFragment-03.xml
+A       testdata/interop/schemaInformedGrammar/declaredProductions/elementFragment.xsd
+A       testdata/interop/schemaInformedGrammar/declaredProductions/elementFragment_imported_aoo.xsd
+M       build.xml
+
+2011-07-21 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0138.0
+
+- Added getAttributeWildcardAnyUntyped() method in EventTypeList interface.
+- Attribute wildcard used in element fragment grammar is now 
+  EventTypeSchemaAttributeWildcardAny instead of EventTypeAttributeWildcardAny.
+
+M       test/org/openexi/fujitsu/sax/FragmentTest.java
+M       test/org/openexi/fujitsu/sax/SAXTransmogrifierTest.java
+M       test/org/openexi/fujitsu/sax/GrammarBuiltinTest.java
+M       test/org/openexi/fujitsu/sax/GrammarStrictTest.java
+M       test/org/openexi/fujitsu/sax/BooleanValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/GrammarSchemaInformedTest.java
+M       test/org/openexi/fujitsu/sax/IntValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaType.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/common/EventTypeList.java
+M       src/org/openexi/fujitsu/proc/common/EventCode.java
+M       src/org/openexi/fujitsu/proc/grammars/ArrayEventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/ReversedEventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaAttributeWildcardAny.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+A  +    src/org/openexi/fujitsu/proc/grammars/EventTypeAttributeWildcardAnyUntyped.java
+M       src/org/openexi/fujitsu/proc/grammars/AbstractEventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+D       src/org/openexi/fujitsu/proc/grammars/EventTypeAttributeWildcardAny.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+M       build.xml
+
+0000.0000.0137.0
+
+- Added a test case for Element Fragment Grammar to make no transition when it
+  is in ELEMENT_FRAGMENT_STATE_CONTENT upon char().
+
+M       test/org/openexi/fujitsu/sax/FragmentTest.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+M       build.xml
+
+2011-07-20 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0136.0
+
+- Added getSchemaAttributeWildcardAny() and getSchemaAttributeWildcardNS(String uri)
+  methods in EventTypeList.
+
+M       src/org/openexi/fujitsu/proc/common/EventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/ArrayEventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/ReversedEventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/AbstractEventTypeList.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+
+0000.0000.0135.0
+
+- Added fragment support in EXIReader.
+
+M       test/org/openexi/fujitsu/sax/FragmentTest.java
+M       test/org/openexi/fujitsu/sax/GrammarBuiltinTest.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+M       build.xml
+
+0000.0000.0134.0
+
+- "schemaLocation" and "noNamespaceSchemaLocation" are no longer prepopulated
+  in the "http://www.w3.org/2001/XMLSchema-instance" local name partition.
+
+M       test/org/openexi/fujitsu/sax/GrammarBuiltinTest.java
+M       src/org/openexi/fujitsu/proc/io/StringTable.java
+A       testdata/interop/schemaInformedGrammar/declaredProductions/document-01.byteAligned
+A       testdata/interop/schemaInformedGrammar/declaredProductions/document_imported_default.xsd
+A       testdata/interop/schemaInformedGrammar/declaredProductions/document_imported_goo.xsd
+A       testdata/interop/schemaInformedGrammar/declaredProductions/document-01.xml
+A       testdata/interop/schemaInformedGrammar/declaredProductions/document.xsd
+
+2011-07-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0133.0
+
+- publicId and systemId need to be reported as null when the representation 
+  was an empty string.
+
+M       test/org/openexi/fujitsu/sax/GrammarBuiltinTest.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       build.xml
+
+0000.0000.0132.0
+
+- Added support for DTD and ER in EXIReader.
+
+M       test/org/openexi/fujitsu/sax/EXIReaderTest.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+M       build.xml
+
+0000.0000.0131.0
+
+- Added support for CM and PI in EXIReader.
+
+M       test/org/openexi/fujitsu/sax/EXIReaderTest.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+M       build.xml
+
+0000.0000.0130.0
+
+- Fixed an interoperability issue found in the handling of "all" group.
+
+A       test/org/openexi/fujitsu/sax/GrammarStrictAllTest.java
+M       test/org/openexi/fujitsu/sax/GrammarStrictTest.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedCommons.java
+M       src/org/openexi/fujitsu/proc/grammars/ComplexContentGrammar.java
+A       testdata/interop/schemaInformedGrammar/declaredProductions/all-03.xml
+A       testdata/interop/schemaInformedGrammar/declaredProductions/all-03.bitPacked
+M       build.xml
+
+2011-07-18 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0129.0
+
+- Separated implementation of BitInputStream for header options.
+
+D       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/io/ScannerFactory.java
+A       src/org/openexi/fujitsu/proc/io/HeaderOptionsInputStream.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScanner.java
+M       src/org/openexi/fujitsu/proc/io/BitInputStream.java
+A  +    src/org/openexi/fujitsu/proc/io/BodyBitInputStream.java
+A  +    src/org/openexi/fujitsu/proc/HeaderOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+
+2011-07-17 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0128.0
+
+- Abandon the use of ArrayList in ReverseEventCodeTuple.
+
+M       test/org/openexi/fujitsu/sax/GrammarBuiltinTest.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/BitInputStream.java
+M       src/org/openexi/fujitsu/proc/grammars/ReverseEventCodeTuple.java
+A       testdata/Ant
+A       testdata/Ant/build-build.bitPacked
+A       testdata/Ant/build-build.xml
+M       build.xml
+
+2011-07-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0127.0
+
+- Added whitespace removal option in Transmogrifier.
+
+M       test/org/openexi/fujitsu/sax/CompressionTest.java
+M       test/org/openexi/fujitsu/sax/GrammarStrictTest.java
+M       test/org/openexi/fujitsu/sax/GrammarSchemaInformedTest.java
+M       src/org/openexi/fujitsu/proc/common/EventTypeList.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+
+2011-07-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0126.0
+
+- Some grammar classes were cleaned up.
+
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/grammars/EmptyContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ComplexContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SequenceChoiceGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/AllGroupGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/GroupGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarState.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarCache.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammarState.java
+M       src/org/openexi/fujitsu/proc/grammars/SimpleContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementTagGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/FragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaElement.java
+M       src/org/openexi/fujitsu/proc/grammars/Grammar.java
+M       src/org/openexi/fujitsu/proc/grammars/RootGrammar.java
+M       build.xml
+
+2011-07-14 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0125.0
+
+- Abandoned the use of ArrayList in Apparatus.
+
+M       test/org/openexi/fujitsu/sax/BooleanValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/Apparatus.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammarState.java
+A       testdata/DataStore
+A       testdata/DataStore/DataStore.xsd
+A       testdata/DataStore/instance
+A       testdata/DataStore/instance/4BooleanStore.xml
+A       testdata/DataStore/instance/1000BooleanStore.bitPacked
+A       testdata/DataStore/instance/1000BooleanStore.xml
+M       build.xml
+
+2011-07-13 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0124.0
+
+- Improved prefix generation in EXIReader.
+
+M       test/org/openexi/fujitsu/sax/EXIReaderTest.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+M       build.xml
+
+2011-07-11 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0123.0
+
+- Refactored EXIEventSchemaType.
+
+M       test/org/openexi/fujitsu/proc/XsiTypeTest.java
+M       test/org/openexi/fujitsu/sax/GrammarSchemaInformedTest.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaType.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/Characters.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/common/CharacterSequence.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+M       build.xml
+
+0000.0000.0122.0
+
+- Added support for xsi:nil in EXIReader.
+
+M       test/org/openexi/fujitsu/proc/XsiTypeTest.java
+M       test/org/openexi/fujitsu/sax/EXIReaderTest.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaType.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaNil.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+M       build.xml
+
+2011-07-08 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0121.0
+
+- Optimized EXISchema's getElemOfSchema(String namespaceName, String name)
+  method.
+
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       build.xml
+
+0000.0000.0120.0
+
+- org.openexi.fujitsu.sax.EXIReader has been made public for early-access.
+
+M       test/org/openexi/fujitsu/sax/EXIReaderTest.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+M       build.xml
+
+0000.0000.0119.0
+
+- Supported endPrefixMapping event in EXIReader.
+
+M       test/org/openexi/fujitsu/sax/EXIReaderTest.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+M       build.xml
+
+0000.0000.0118.0
+
+- Implemented xsi:type handling in EXIReader.
+
+M       test/org/openexi/fujitsu/proc/XsiTypeTest.java
+M       test/org/openexi/fujitsu/sax/EXIReaderTest.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaType.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+
+2011-07-07 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0117.0
+
+- Implementing EXIReader.
+
+M       test/org/openexi/fujitsu/proc/XsiTypeTest.java
+A       test/org/openexi/fujitsu/sax/EXIReaderTest.java
+M       test/org/openexi/fujitsu/sax/GrammarBuiltinTest.java
+M       test/org/openexi/fujitsu/sax/OptionsDocumentTest.java
+M       test/org/openexi/fujitsu/sax/GrammarSchemaInformedTest.java
+A       fixture/org/w3c
+A       fixture/org/w3c/exi
+A       fixture/org/w3c/exi/ttf
+A       fixture/org/w3c/exi/ttf/Event.java
+A       fixture/org/w3c/exi/ttf/sax
+A       fixture/org/w3c/exi/ttf/sax/SAXRecorder.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventNS.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+A  +    src/org/openexi/fujitsu/proc/io/XMLLocusItem.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+D       src/org/openexi/fujitsu/proc/io/XMLLocusTrinity.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+
+0000.0000.0116.0
+
+- GrammarOptions is now of type short.
+
+M       test/org/openexi/fujitsu/sax/SAXTransmogrifierTest.java
+M       test/org/openexi/fujitsu/sax/GrammarBuiltinTest.java
+M       test/org/openexi/fujitsu/sax/GrammarSchemaInformedTest.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptions.java
+M       src/org/openexi/fujitsu/proc/common/GrammarOptions.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarCache.java
+M       src/org/openexi/fujitsu/proc/grammars/FragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+
+0000.0000.0115.0
+
+- CharacterSequence is now an interface.
+
+M       test/org/openexi/fujitsu/proc/io/ValuePartitionTest.java
+M       test/org/openexi/fujitsu/sax/FragmentTest.java
+M       test/org/openexi/fujitsu/sax/OptionsDocumentTest.java
+M       test/org/openexi/fujitsu/sax/GrammarSchemaInformedTest.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaType.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaNil.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+A       src/org/openexi/fujitsu/proc/io/Characters.java
+M       src/org/openexi/fujitsu/proc/io/CharacterBuffer.java
+M       src/org/openexi/fujitsu/proc/common/CharacterSequence.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+M       build.xml
+
+2011-07-05 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0114.0
+
+- Abolished the use of java.util.Stack in Scanner.
+
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+A       src/org/openexi/fujitsu/proc/io/XMLLocusTrinity.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+M       build.xml
+
+2011-06-30 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0113.0
+
+- Avoid using generic "process" method in EXIOptionsEncoder.
+
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       build.xml
+
+2011-06-28 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0112.0
+
+- Preparing for SAX-based decoding.
+
+M       test/org/openexi/fujitsu/proc/XsiTypeTest.java
+M       test/org/openexi/fujitsu/proc/DecodeStrictTest.java
+M       test/org/openexi/fujitsu/sax/DateTimeValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/IntegerValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/CompressionTest.java
+M       test/org/openexi/fujitsu/sax/DecimalValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/FragmentTest.java
+M       test/org/openexi/fujitsu/sax/JTLMTest.java
+M       test/org/openexi/fujitsu/sax/DTRMTest.java
+M       test/org/openexi/fujitsu/sax/LongEncodingTest.java
+M       test/org/openexi/fujitsu/sax/SAXTransmogrifierTest.java
+M       test/org/openexi/fujitsu/sax/FloatValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/GrammarBuiltinTest.java
+M       test/org/openexi/fujitsu/sax/GrammarStrictTest.java
+M       test/org/openexi/fujitsu/sax/ListValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/BooleanValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/ValueMaxLengthTest.java
+M       test/org/openexi/fujitsu/sax/ValuePartitionCapacityTest.java
+M       test/org/openexi/fujitsu/sax/RCSTest.java
+M       test/org/openexi/fujitsu/sax/OptionsDocumentTest.java
+M       test/org/openexi/fujitsu/sax/GrammarSchemaInformedTest.java
+M       test/org/openexi/fujitsu/sax/Base64BinaryValueEncodingTest.java
+M       test/org/openexi/fujitsu/sax/IntValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaMixedCharacters.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaCharactersByRef.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaCharactersByValue.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventElement.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventAttributeByRef.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventAttributeByValue.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventEntityReference.java
+M       src/org/openexi/fujitsu/proc/events/EXITextProvider.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventUndeclaredCharactersByValue.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventUndeclaredCharactersByRef.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaCharacters.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaType.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventComment.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventAttribute.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaNil.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventWildcardAttributeByRef.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventWildcardAttributeByValue.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventUndeclaredCharacters.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventDTD.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventProcessingInstruction.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaMixedCharactersByValue.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaMixedCharactersByRef.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventNS.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventUndeclaredElement.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventWildcardStartElement.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ScannerValueHolder.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/common/CharacterSequence.java
+M       src/org/openexi/fujitsu/proc/common/EXIEvent.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeStartDocument.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEndDocument.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeElement.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaEndElement.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaElement.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEndElement.java
+M       src/org/openexi/fujitsu/sax/EXIReader.java
+M       build.xml
+
+0000.0000.0111.0
+
+- Preparing for SAX-based decoding.
+
+M       src/org/openexi/fujitsu/proc/io/Apparatus.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       build.xml
+
+0000.0000.0110.0
+
+- Preparing for SAX-based decoding.
+
+M       test/org/openexi/fujitsu/proc/io/ValuePartitionTest.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/StringTable.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/CharacterBuffer.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriberLexical.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/common/CharacterSequence.java
+M       build.xml
+
+0000.0000.0109.0
+
+- Preparing for SAX-based decoding.
+
+M       test/org/openexi/fujitsu/proc/io/ValuePartitionTest.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaCharactersByRef.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventAttributeByRef.java
+M       src/org/openexi/fujitsu/proc/events/EXITextProvider.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventUndeclaredCharactersByRef.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventWildcardAttributeByRef.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaMixedCharactersByRef.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+D       src/org/openexi/fujitsu/proc/io/CharacterSequence.java
+M       src/org/openexi/fujitsu/proc/io/ValueScanner.java
+M       src/org/openexi/fujitsu/proc/io/ValueScannerLexical.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/StringTable.java
+M       src/org/openexi/fujitsu/proc/io/compression/ScannerValueHolder.java
+M       src/org/openexi/fujitsu/proc/io/CharacterBuffer.java
+A  +    src/org/openexi/fujitsu/proc/common/CharacterSequence.java
+M       build.xml
+
+2011-06-27 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0108.0
+
+- Preparing for SAX-based decoding.
+
+M       test/org/openexi/fujitsu/proc/io/ValuePartitionTest.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaMixedCharacters.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventElement.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventEntityReference.java
+M       src/org/openexi/fujitsu/proc/events/EXITextProvider.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaCharacters.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaType.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventComment.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventAttribute.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaNil.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventUndeclaredCharacters.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventDTD.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventProcessingInstruction.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventNS.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventUndeclaredElement.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventWildcardStartElement.java
+A       src/org/openexi/fujitsu/proc/io/CharacterSequence.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/StringTable.java
+A       src/org/openexi/fujitsu/proc/io/CharacterBuffer.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptionsException.java
+M       src/org/openexi/fujitsu/proc/common/EXIEvent.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeStartDocument.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEndDocument.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeElement.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaEndElement.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaElement.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEndElement.java
+M       src/org/openexi/fujitsu/sax/LocatorOnSAXParseException.java
+A       src/org/openexi/fujitsu/sax/EXIReader.java
+M       build.xml
+
+2011-06-24 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0107.0
+
+- Added support for SAX-based encoding.
+
+A       test/org/openexi/fujitsu/sax/SAXTransmogrifierTest.java
+A       src/org/openexi/fujitsu/sax/SAXTransmogrifier.java
+M       src/org/openexi/fujitsu/sax/TransmogrifierExceptionXMsg.xml
+M       src/org/openexi/fujitsu/sax/TransmogrifierException.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+M       build.xml
+
+0000.0000.0106.0
+
+- Abolished the use of java.util.Stack in Transmogrifier.
+
+M       src/org/openexi/fujitsu/proc/io/PrefixUriBindings.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+M       build.xml
+
+0000.0000.0105.0
+
+- Added setResolveExternalGeneralEntities method in Transmogrifier.
+
+M       test/org/openexi/fujitsu/sax/GrammarBuiltinTest.java
+M       test/org/openexi/fujitsu/sax/OptionsDocumentTest.java
+M       src/org/openexi/fujitsu/sax/TransmogrifierException.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+M       build.xml
+
+2011-06-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0104.0
+
+- Defined more error codes in TransmogrifierException.
+
+M       test/org/openexi/fujitsu/sax/GrammarStrictTest.java
+M       src/org/openexi/fujitsu/proc/common/EventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/ArrayEventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/ReversedEventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/AbstractEventTypeList.java
+A       src/org/openexi/fujitsu/sax/LocatorOnSAXParseException.java
+M       src/org/openexi/fujitsu/sax/TransmogrifierExceptionXMsg.xml
+M       src/org/openexi/fujitsu/sax/TransmogrifierException.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+M       build.xml
+
+0000.0000.0103.0
+
+- Moved ScriberFactory and ScannerFactory to io package.
+
+M       test/org/openexi/fujitsu/proc/XsiTypeTest.java
+M       test/org/openexi/fujitsu/sax/FragmentTest.java
+D       src/org/openexi/fujitsu/proc/ScriberFactory.java
+D       src/org/openexi/fujitsu/proc/ScannerFactory.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+A  +    src/org/openexi/fujitsu/proc/io/ScannerFactory.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScanner.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedScanner.java
+A  +    src/org/openexi/fujitsu/proc/io/ScriberFactory.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/sax/Transmogrifier.java
+M       build.xml
+
+2011-06-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0102.0
+
+- Introduced sax package.
+
+- EXIEncoder was renamed as Transmogrifier, and moved into sax package.
+
+D       test/org/openexi/fujitsu/proc/DateTimeValueEncodingTest.java
+D       test/org/openexi/fujitsu/proc/IntegerValueEncodingTest.java
+D       test/org/openexi/fujitsu/proc/CompressionTest.java
+D       test/org/openexi/fujitsu/proc/DecimalValueEncodingTest.java
+D       test/org/openexi/fujitsu/proc/FragmentTest.java
+D       test/org/openexi/fujitsu/proc/DTRMTest.java
+D       test/org/openexi/fujitsu/proc/JTLMTest.java
+D       test/org/openexi/fujitsu/proc/LongEncodingTest.java
+D       test/org/openexi/fujitsu/proc/FloatValueEncodingTest.java
+D       test/org/openexi/fujitsu/proc/CookieTest.java
+D       test/org/openexi/fujitsu/proc/GrammarBuiltinTest.java
+D       test/org/openexi/fujitsu/proc/GrammarStrictTest.java
+D       test/org/openexi/fujitsu/proc/ListValueEncodingTest.java
+D       test/org/openexi/fujitsu/proc/BooleanValueEncodingTest.java
+D       test/org/openexi/fujitsu/proc/ValueMaxLengthTest.java
+D       test/org/openexi/fujitsu/proc/ValuePartitionCapacityTest.java
+D       test/org/openexi/fujitsu/proc/RCSTest.java
+D       test/org/openexi/fujitsu/proc/OptionsDocumentTest.java
+D       test/org/openexi/fujitsu/proc/GrammarSchemaInformedTest.java
+D       test/org/openexi/fujitsu/proc/Base64BinaryValueEncodingTest.java
+D       test/org/openexi/fujitsu/proc/IntValueEncodingTest.java
+A       test/org/openexi/fujitsu/sax
+A  +    test/org/openexi/fujitsu/sax/DateTimeValueEncodingTest.java
+A  +    test/org/openexi/fujitsu/sax/IntegerValueEncodingTest.java
+A  +    test/org/openexi/fujitsu/sax/CompressionTest.java
+A  +    test/org/openexi/fujitsu/sax/DecimalValueEncodingTest.java
+A  +    test/org/openexi/fujitsu/sax/FragmentTest.java
+A  +    test/org/openexi/fujitsu/sax/JTLMTest.java
+A  +    test/org/openexi/fujitsu/sax/DTRMTest.java
+A  +    test/org/openexi/fujitsu/sax/LongEncodingTest.java
+A  +    test/org/openexi/fujitsu/sax/FloatValueEncodingTest.java
+A  +    test/org/openexi/fujitsu/sax/CookieTest.java
+A  +    test/org/openexi/fujitsu/sax/GrammarBuiltinTest.java
+A  +    test/org/openexi/fujitsu/sax/GrammarStrictTest.java
+A  +    test/org/openexi/fujitsu/sax/ListValueEncodingTest.java
+A  +    test/org/openexi/fujitsu/sax/BooleanValueEncodingTest.java
+A  +    test/org/openexi/fujitsu/sax/ValueMaxLengthTest.java
+A  +    test/org/openexi/fujitsu/sax/ValuePartitionCapacityTest.java
+A  +    test/org/openexi/fujitsu/sax/RCSTest.java
+A  +    test/org/openexi/fujitsu/sax/OptionsDocumentTest.java
+A  +    test/org/openexi/fujitsu/sax/GrammarSchemaInformedTest.java
+A  +    test/org/openexi/fujitsu/sax/Base64BinaryValueEncodingTest.java
+A  +    test/org/openexi/fujitsu/sax/IntValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+D       src/org/openexi/fujitsu/proc/EXIEncoderExceptionXMsg.java
+D       src/org/openexi/fujitsu/proc/EXIEncoderException.java
+M       src/org/openexi/fujitsu/proc/common/QName.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/proc/ScriberFactory.java
+D       src/org/openexi/fujitsu/proc/EXIEncoderExceptionXMsg.xml
+D       src/org/openexi/fujitsu/proc/EXIProcessor.java
+D       src/org/openexi/fujitsu/proc/EXIEncoder.java
+A       src/org/openexi/fujitsu/sax
+A  +    src/org/openexi/fujitsu/sax/TransmogrifierExceptionXMsg.xml
+A  +    src/org/openexi/fujitsu/sax/TransmogrifierExceptionXMsg.java
+A  +    src/org/openexi/fujitsu/sax/TransmogrifierException.java
+A  +    src/org/openexi/fujitsu/sax/Transmogrifier.java
+M       build.xml
+
+2011-06-21 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0101.0
+
+- Added support for Datatype representation map.
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       test/org/openexi/fujitsu/proc/XsiTypeTest.java
+M       test/org/openexi/fujitsu/proc/DTRMTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptions.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/proc/EXIProcessor.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/io/Apparatus.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       build.xml
+
+2011-06-20 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0100.0
+
+- Complete implementation of Built-in Fragment Grammar.
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       src/org/openexi/fujitsu/proc/io/Apparatus.java
+
+2011-06-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0099.0
+
+- Moved EventCodeTuple to grammar package.
+
+D       src/org/openexi/fujitsu/proc/common/EventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/common/EventCode.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/grammars/EmptyContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ComplexContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ArrayEventCodeTuple.java
+A  +    src/org/openexi/fujitsu/proc/grammars/EventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SequenceChoiceGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/AllGroupGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/AbstractEventCode.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ReverseEventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammarState.java
+M       src/org/openexi/fujitsu/proc/grammars/SimpleContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementTagGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/FragmentGrammar.java
+D       src/org/openexi/fujitsu/proc/grammars/AbstractEventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/grammars/Grammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+
+0000.0000.0098.0
+
+- Preliminary implementation of Built-in Fragment Grammar.
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       test/org/openexi/fujitsu/proc/XsiTypeTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/proc/ScannerFactory.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScanner.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinGrammar.java
+A       src/org/openexi/fujitsu/proc/grammars/EventTypeEndElementReversed.java
+M       src/org/openexi/fujitsu/proc/grammars/ArrayEventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinElementGrammar.java
+A       src/org/openexi/fujitsu/proc/grammars/EventTypeCharactersReversed.java
+A       src/org/openexi/fujitsu/proc/grammars/ArrayEventCodeTupleReversed.java
+M       src/org/openexi/fujitsu/proc/grammars/AbstractEventTypeList.java
+A       src/org/openexi/fujitsu/proc/grammars/EventTypeAttributeReversed.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarCache.java
+M       src/org/openexi/fujitsu/proc/grammars/ReverseEventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammarState.java
+A       src/org/openexi/fujitsu/proc/grammars/EventTypeElementWildcardReversed.java
+A       src/org/openexi/fujitsu/proc/grammars/EventTypeEndDocumentReversed.java
+M       src/org/openexi/fujitsu/proc/grammars/FragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/AbstractEventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/grammars/Grammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+A       src/org/openexi/fujitsu/proc/grammars/EventTypeElementReversed.java
+M       build.xml
+
+2011-06-10 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0097.0
+
+- Preparing support for Built-in Fragment Grammar.
+
+M       src/org/openexi/fujitsu/proc/common/EventCode.java
+A       src/org/openexi/fujitsu/proc/grammars/BuiltinFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/AbstractEventCode.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeElementWildcard.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEndDocument.java
+M       src/org/openexi/fujitsu/proc/grammars/ReverseEventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/grammars/Grammar.java
+
+2011-05-31 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0096.0
+
+- Consolidated IntValueScriber and LongValueScriber into IntegerValueScriber.
+
+M       src/org/openexi/fujitsu/proc/io/BitPackedScriber.java
+D       src/org/openexi/fujitsu/proc/io/IntValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+D       src/org/openexi/fujitsu/proc/io/LongValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriberBase.java
+M       build.xml
+
+2011-05-27 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0095.0
+
+- Added some DTRM cases involving type derivation as well ones involving 
+  enumerated types.
+
+M       test/org/openexi/fujitsu/proc/DTRMTest.java
+
+0000.0000.0095.0
+
+- Refactored the DTRM mechanics.
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       test/org/openexi/fujitsu/proc/XsiTypeTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/Apparatus.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+
+0000.0000.0094.0
+
+- Factored out the code setting DatatypeRepresentationMap into Apparatus.
+
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/proc/io/Apparatus.java
+M       src/org/openexi/fujitsu/proc/io/ValueScanner.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+A       src/org/openexi/fujitsu/proc/io/ValueApparatus.java
+M       build.xml
+
+0000.0000.0093.0
+
+- Factored out the code updating codecTable into Apparatus.
+
+M       src/org/openexi/fujitsu/proc/io/Apparatus.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+
+2011-05-26 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0092.0
+
+- Implemented Table 7-1 in Scriber.
+
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+A       src/org/openexi/fujitsu/proc/io/Apparatus.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/TimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scribble.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+
+2011-05-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0091.0
+
+- Making sure Preserve.lexicalValues option and DTRM do not show up together
+  in the header options document.
+
+M       test/org/openexi/fujitsu/proc/DTRMTest.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptionsException.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptions.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIProcessor.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+
+2011-05-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0090.0
+
+- Preserve.lexicalValues option and DTRM cannot be used together.
+
+M       test/org/openexi/fujitsu/proc/DTRMTest.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptionsException.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptions.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+
+2011-05-20 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0089.0
+
+- Preliminary support for DTRM.
+
+M       test/org/openexi/fujitsu/proc/DTRMTest.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+A       src/org/openexi/fujitsu/proc/EXIProcessor.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScanner.java
+A       src/org/openexi/fujitsu/proc/io/ValueScannerBase.java
+M       src/org/openexi/fujitsu/proc/io/ValueScanner.java
+M       src/org/openexi/fujitsu/proc/io/ValueScannerLexical.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       build.xml
+
+2011-05-13 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0088.0
+
+- Configure internal decoder settings up front for improved performance.
+
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       build.xml
+
+0000.0000.0087.0
+
+- Rudimentary implementation of DTRM in encoder.
+
+A       test/org/openexi/fujitsu/proc/DTRMTest.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/TimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingValueScriberProxy.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriberLexical.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+
+2011-05-12 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0086.0
+
+- Configure internal encoder settings up front for improved performance.
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingValueScriberProxy.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptions.java
+M       build.xml
+
+0000.0000.0085.0
+
+- Moved QName to proc.common package.
+
+M       test/org/openexi/fujitsu/proc/XsiTypeTest.java
+M       test/org/openexi/fujitsu/proc/io/QNameTest.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+D       src/org/openexi/fujitsu/proc/io/QName.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/TimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingValueScriberProxy.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriberLexical.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptions.java
+A  +    src/org/openexi/fujitsu/proc/common/QName.java
+M       build.xml
+
+2011-05-11 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0084.0
+
+- Separated DateTimeValueScriber into individual classes each representing
+  exi:dateTime, exi:date or exi:time.
+
+M       test/org/openexi/fujitsu/proc/DateTimeValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+A       src/org/openexi/fujitsu/proc/io/TimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScanner.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingValueScriberProxy.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+A       src/org/openexi/fujitsu/proc/io/DateValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriberLexical.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+A       src/org/openexi/fujitsu/proc/io/DateTimeValueScriberBase.java
+
+2011-05-06 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0083.0
+
+- Implemented fast codec look-up table in scanner.
+
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+
+0000.0000.0082.0
+
+- Implemented fast codec look-up table in scriber.
+
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+
+0000.0000.0081.0
+
+- Reverted the change made in previous checkin.
+
+M       src/org/openexi/fujitsu/schema/EXISchemaConst.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       build.xml
+
+0000.0000.0080.0
+
+- anyType is now positioned immediately after other built-in types in
+  EXISchema, instead of vice versa.
+
+M       test/org/openexi/fujitsu/scomp/BuiltinTypeTest.java
+M       src/org/openexi/fujitsu/schema/EXISchemaConst.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       build.xml
+
+2011-05-05 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0079.0
+
+- Type serial numbers are assigned to simple types first followed by complex
+  types. There is an exception (i.e. "anyType") which always get the number 0.
+
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/fujitsu/schema/EXISchemaLayout.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaStruct.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       build.xml
+
+0000.0000.0078.0
+
+- Added a facility in EXISchema to traverse through all simple types quickly.
+
+M       test/org/openexi/fujitsu/scomp/BuiltinTypeTest.java
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       fixture/org/openexi/fujitsu/schema/EXISchemaUtil.java
+M       src/org/openexi/fujitsu/schema/EXISchemaLayout.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+
+0000.0000.0077.0
+
+- Refactoring EXISchemaFactory.
+
+M       test/org/openexi/fujitsu/scomp/BuiltinTypeTest.java
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+A       fixture/org/openexi/fujitsu/schema/EXISchemaUtil.java
+M       src/org/openexi/fujitsu/schema/EXISchemaLayout.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+M       build.xml
+
+0000.0000.0076.0
+
+- Refactoring EXISchemaFactory.
+
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/schema/EXISchemaConst.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       build.xml
+
+2011-05-04 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0075.0
+
+- Added support for lexical value preservation option.
+
+M       test/org/openexi/fujitsu/proc/BooleanValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptions.java
+M       build.xml
+
+0000.0000.0074.0
+
+- Added support for lexical preservation of list values.
+
+M       test/org/openexi/fujitsu/proc/ListValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/ValueScannerLexical.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingValueScriberProxy.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriberLexical.java
+
+2011-05-02 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0073.0
+
+- Use string table for representing xsi:type and xsi:nil values when
+  lexical value preservation option is on.
+
+M       test/org/openexi/fujitsu/proc/GrammarSchemaInformedTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       build.xml
+
+0000.0000.0072.0
+
+- Preliminary support for lexical value preservation option.
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+A       test/org/openexi/fujitsu/proc/XsiTypeTest.java
+M       test/org/openexi/fujitsu/proc/BooleanValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/GrammarSchemaInformedTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/events/EXIEventSchemaType.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/QName.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScanner.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedScanner.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/common/EventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/ArrayEventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/ReversedEventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/AbstractEventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/FragmentGrammar.java
+
+2011-04-29 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0071.0
+
+- Supported lexical value preservation for dateTime, decimal, double and
+  integer.
+
+M       test/org/openexi/fujitsu/proc/DateTimeValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/IntegerValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/DecimalValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/LongEncodingTest.java
+M       test/org/openexi/fujitsu/proc/FloatValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/IntValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/BuiltinRCS.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+
+0000.0000.0070.0
+
+- Proper handling of boolean values when the type has an associated pattern.
+
+- Supported lexical value preservation for boolean.
+
+M       test/org/openexi/fujitsu/proc/BooleanValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/Base64BinaryValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       testdata/boolean.xsd
+
+0000.0000.0069.0
+
+- Fixed a bug found in RCS-escaped character encoding.
+
+A       test/org/openexi/fujitsu/proc/RCSTest.java
+M       lib/regexi/regexi.jar
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/BuiltinRCS.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+A       testdata/patterns.xsd
+
+2011-04-28 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0068.0
+
+- Supported lexical value preservation for base64Binary.
+
+M       test/org/openexi/fujitsu/proc/DateTimeValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/Base64BinaryValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScanner.java
+A       src/org/openexi/fujitsu/proc/io/ValueScannerLexical.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/BuiltinRCS.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingValueScriberProxy.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriberLexical.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+
+2011-04-27 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0067.0
+
+- Paving way for lexical value preservation.
+
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+A       src/org/openexi/fujitsu/proc/io/BuiltinRCS.java
+A       src/org/openexi/fujitsu/proc/io/ValueScriberLexical.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptions.java
+
+2011-04-26 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0066.0
+
+- Consolidated some of the ValueScriber classes with their respective base 
+  class. Those base classes were essentially not necessary.
+
+M       src/org/openexi/fujitsu/schema/EXISchemaConst.java
+D       src/org/openexi/fujitsu/proc/io/IntegerValueScriberBase.java
+D       src/org/openexi/fujitsu/proc/io/LongValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriber.java
+D       src/org/openexi/fujitsu/proc/io/FloatValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+D       src/org/openexi/fujitsu/proc/io/EnumerationValueScriberBase.java
+D       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+D       src/org/openexi/fujitsu/proc/io/DecimalValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+D       src/org/openexi/fujitsu/proc/io/ListValueScriberBase.java
+D       src/org/openexi/fujitsu/proc/io/BooleanValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriber.java
+D       src/org/openexi/fujitsu/proc/io/IntValueScriberBase.java
+D       src/org/openexi/fujitsu/proc/io/DateTimeValueScriberBase.java
+M       build.xml
+
+0000.0000.0065.0
+
+-  Refactored ValueScriber#scribe implementations.
+
+M       src/org/openexi/fujitsu/proc/io/IntValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       build.xml
+
+0000.0000.0064.0
+
+- ValueScriber#scribe method no longer needs to return a value.
+
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingValueScriberProxy.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+
+0000.0000.0063.0
+
+- A list of ValueScriber is maintained in Scriber. This is in order to 
+  facilitate Scriber to set schema and string table to all registered value 
+  scribers at once.
+
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       build.xml
+
+0000.0000.0062.0
+
+- Removed "ostream" parameter from ValueScriber#scribe method.
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriberBase.java
+A  +    src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingValueScriberProxy.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+D       src/org/openexi/fujitsu/proc/io/StringValueScriber1.java
+M       build.xml
+
+2011-04-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0061.0
+
+- After all, there is only one value scriber implementation for each codec.
+
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriberBase.java
+D       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/compression/ScriberValueHolder.java
+D       src/org/openexi/fujitsu/proc/io/compression/ChannellingValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingValueScriberProxy.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber1.java
+M       build.xml
+
+2011-04-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0060.0
+
+- Use m_totalValueCount in ChannelKeeper#getChannel() instead of depending on
+  a foreign counter.
+
+M       src/org/openexi/fujitsu/proc/io/IntValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannelKeeper.java
+D       src/org/openexi/fujitsu/proc/io/compression/ChannellingValueScriberBase.java
+A  +    src/org/openexi/fujitsu/proc/io/compression/ChannellingValueScriberProxy.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber1.java
+M       build.xml
+
+0000.0000.0059.0
+
+- Abolished ChannellingBooleanValueScriber in ChannellingScriber.
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       test/org/openexi/fujitsu/proc/ListValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriberBase.java
+A       src/org/openexi/fujitsu/proc/io/compression/ChannellingValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber1.java
+M       testdata/boolean.xsd
+M       build.xml
+
+0000.0000.0058.0
+
+- Estranged value scribers from SimpleScriber class.
+
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriberBase.java
+A       src/org/openexi/fujitsu/proc/io/IntValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriberBase.java
+A       src/org/openexi/fujitsu/proc/io/DateTimeValueScriber.java
+A       src/org/openexi/fujitsu/proc/io/IntegerValueScriber.java
+A       src/org/openexi/fujitsu/proc/io/LongValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriberBase.java
+A       src/org/openexi/fujitsu/proc/io/FloatValueScriber.java
+A       src/org/openexi/fujitsu/proc/io/EnumerationValueScriberBase.java
+A       src/org/openexi/fujitsu/proc/io/EnumerationValueScriber.java
+A       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+A       src/org/openexi/fujitsu/proc/io/DecimalValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+A       src/org/openexi/fujitsu/proc/io/ListValueScriber.java
+A       src/org/openexi/fujitsu/proc/io/BooleanValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriberBase.java
+A       src/org/openexi/fujitsu/proc/io/StringValueScriber1.java
+
+2011-04-21 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0057.0
+
+- Added support for valueMaxLength option.
+
+- Clear built-in grammars in subsequent runs.
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+A       test/org/openexi/fujitsu/proc/ValueMaxLengthTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+A       src/org/openexi/fujitsu/proc/io/StringValueScanner.java
+A       src/org/openexi/fujitsu/proc/io/StringValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScanner.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptions.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltInGrammarCache.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammarState.java
+M       src/org/openexi/fujitsu/proc/grammars/RootGrammar.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+
+2011-04-20 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0056.0
+
+- Completed support for fragments.
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+
+0000.0000.0055.0
+
+- Verified support for multiple root elements in fragment mode.
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+
+2011-04-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0054.0
+
+- Added support for element fragments in default schema mode.
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEndElementSecond.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeCharactersSecond.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+M       build.xml
+
+0000.0000.0053.0
+
+- Values of non-specific attributes in element fragments need to be encoded as
+  Strings.
+
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarCache.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaAttribute.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+M       testdata/fragment_01_Imported.xsd
+M       build.xml
+
+2011-04-18 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0052.0
+
+- Element fragment grammar needs AT(*).
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+M       build.xml
+
+0000.0000.0051.0
+
+- Testing element fragment grammar in strict mode.
+
+M       test/org/openexi/fujitsu/proc/DateTimeValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/IntegerValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/CompressionTest.java
+M       test/org/openexi/fujitsu/proc/DecimalValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       test/org/openexi/fujitsu/proc/LongEncodingTest.java
+M       test/org/openexi/fujitsu/proc/FloatValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/DecodeStrictTest.java
+M       test/org/openexi/fujitsu/proc/ListValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/Base64BinaryValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/IntValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/common/EventCode.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEntityReference.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaAttributeInvalid.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaCharacters.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeNamespaceDeclaration.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaType.java
+M       src/org/openexi/fujitsu/proc/grammars/AbstractEventType.java
+M       src/org/openexi/fujitsu/proc/grammars/ComplexContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeNonSchema.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeDTD.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeProcessingInstruction.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeCharacters.java
+M       src/org/openexi/fujitsu/proc/grammars/ArrayEventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaElementWildcardNS.java
+M       src/org/openexi/fujitsu/proc/grammars/SequenceChoiceGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/AllGroupGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeStartDocument.java
+M       src/org/openexi/fujitsu/proc/grammars/AbstractEventCode.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaAttributeWildcardNS.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeAttribute.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaAttributeWildcardAny.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaMixedCharacters.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeElementWildcard.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEndDocument.java
+M       src/org/openexi/fujitsu/proc/grammars/ReverseEventCodeTuple.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SimpleContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementTagGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeElement.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaElementWildcardAny.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchema.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaEndElement.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeComment.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaNil.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaElement.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSelfContained.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEndElement.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaAttribute.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeAttributeWildcardAny.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+M       build.xml
+
+2011-04-11 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0050.0
+
+- Refactoring GrammarState.
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       src/org/openexi/fujitsu/proc/grammars/EmptyContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ComplexContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SequenceChoiceGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/AllGroupGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarState.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammarState.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementTagGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/FragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/Grammar.java
+M       src/org/openexi/fujitsu/proc/grammars/RootGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+M       build.xml
+
+0000.0000.0049.0
+
+- Facilitating fragment tests.
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       test/org/openexi/fujitsu/proc/CookieTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarState.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarCache.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammarState.java
+M       src/org/openexi/fujitsu/proc/grammars/FragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/Grammar.java
+M       src/org/openexi/fujitsu/proc/grammars/RootGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+M       build.xml
+
+2011-04-08 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0048.0
+
+- Preliminary support for element fragment grammar.
+
+M       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/grammars/EmptyContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ComplexContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ArrayEventTypeList.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeEndElementSecond.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SequenceChoiceGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/AllGroupGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarCache.java
+A       src/org/openexi/fujitsu/proc/grammars/ElementFragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SimpleContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementTagGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/EventTypeCharactersSecond.java
+M       src/org/openexi/fujitsu/proc/grammars/Grammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+M       build.xml
+
+2011-04-07 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0047.0
+
+- Preliminary support for fragments.
+
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+A       test/org/openexi/fujitsu/proc/FragmentTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptions.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarCache.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammarState.java
+M       src/org/openexi/fujitsu/proc/grammars/FragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/Grammar.java
+A       src/org/openexi/fujitsu/proc/grammars/RootGrammar.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       testdata/fragment_01.xsd
+M       testdata/fragment_01_Imported.xsd
+
+0000.0000.0046.0
+
+- Preparing for fragment support.
+
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/schema/EXISchemaConst.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptions.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarCache.java
+A       src/org/openexi/fujitsu/proc/grammars/FragmentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ContentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/Grammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+M       build.xml
+
+2011-04-06 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0045.0
+
+- Preparing for fragment support.
+
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaStruct.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       testdata/fragment_01.xsd
+M       testdata/fragment_01_Imported.xsd
+
+2011-04-05 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0044.0
+
+- Added test cases that test INODE_ISSPECIFIC_IN_FRAGMENT_MASK flag of 
+  elements.
+
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/fujitsu/schema/EXISchemaLayout.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+A       testdata/fragment_01.xsd
+A       testdata/fragment_01_Imported.xsd
+
+2011-04-04 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0044.0
+
+- Preparing for fragment support.
+
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       test/org/openexi/fujitsu/proc/JTLMTest.java
+M       src/org/openexi/fujitsu/schema/EXISchemaLayout.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaStruct.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+
+2011-03-31 hmoribe@us.fujitsu.com (Hideyuki Moribe)
+
+0000.0000.0043.0
+
+- Greatly improved decompression performance.
+
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       build.xml
+
+2011-03-31 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0042.0
+
+- Supported configurable zlib compression settings in EXIEncoder.
+
+M       test/org/openexi/fujitsu/proc/CompressionTest.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       build.xml
+
+2011-03-30 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0041.0
+
+- Added support for valuePartitionCapacity option.
+
+A       test/org/openexi/fujitsu/proc/ValuePartitionCapacityTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptions.java
+A       testdata/interop/datatypes
+A       testdata/interop/datatypes/string
+A       testdata/interop/datatypes/string/indexed-05.xml
+M       build.xml
+
+2011-03-28 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0040.0
+
+- Added preliminary support for valuePartitionCapacity option.
+
+M       test/org/openexi/fujitsu/proc/io/ValuePartitionTest.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/StringTable.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptions.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+
+2011-03-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0039.0
+
+- Added a decode-only testcase that uses an empty final block.
+
+M       test/org/openexi/fujitsu/proc/DecodeStrictTest.java
+A       testdata/compression/emptyBlock_01.compress
+
+0000.0000.0039.0
+
+- Improved the mechanism to suppress empty final block.
+
+M       test/org/openexi/fujitsu/proc/CompressionTest.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannelKeeper.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+A       testdata/compression/emptyBlock_01.xsd
+A       testdata/compression/emptyBlock_01.xml
+M       build.xml
+
+2011-03-24 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0038.0
+
+- Completed support for blockSize option.
+
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+
+0000.0000.0037.0
+
+- Added preliminary support for blockSize element in header options document.
+
+M       test/org/openexi/fujitsu/proc/CompressionTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       build.xml
+
+2011-03-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0036.0
+
+- Fixed a bug that has caused compress encoding to generate incorrect
+  stream when certain blockSize values are given.
+
+M       test/org/openexi/fujitsu/proc/CompressionTest.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       build.xml
+
+2011-03-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0035.0
+
+- Fixed a bug that has caused preCompress encoding to generate incorrect
+  stream when certain blockSize values are given.
+
+M       test/org/openexi/fujitsu/proc/CompressionTest.java
+M       test/org/openexi/fujitsu/proc/JTLMTest.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       build.xml
+
+0000.0000.0034.0
+
+- Added preliminary support for blockSize.
+
+M       test/org/openexi/fujitsu/proc/CompressionTest.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannelKeeper.java
+M       src/org/openexi/fujitsu/proc/io/compression/Channel.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/common/EXIOptions.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       build.xml
+
+2011-03-21 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0033.0
+
+- Improved integral number handling.
+
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       test/org/openexi/fujitsu/proc/IntegerValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/LongEncodingTest.java
+M       test/org/openexi/fujitsu/proc/IntValueEncodingTest.java
+M       fixture/org/openexi/fujitsu/schema/SimpleTypeValidator.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaStruct.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriberBase.java
+M       testdata/integer.xsd
+M       testdata/long.xsd
+M       testdata/maxExclusive.xsd
+M       testdata/maxInclusive.xsd
+M       build.xml
+
+2011-03-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0032.0
+
+- Store schema min/max long values as ints istead of longs when the values 
+  are in int range.
+
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       testdata/minExclusive.xsd
+M       testdata/minInclusive.xsd
+M       testdata/maxExclusive.xsd
+M       testdata/maxInclusive.xsd
+M       build.xml
+
+2011-03-18 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0031.0
+
+- Fixed a bug in the handling of n-bit unsigned integer for xsd:long.
+
+M       test/org/openexi/fujitsu/proc/LongEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       testdata/long.xsd
+
+0000.0000.0030.0
+
+- Added support for xsd:base64Binary encoding.
+
+A       test/org/openexi/fujitsu/proc/Base64BinaryValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+A       src/org/openexi/fujitsu/proc/io/Base64BinaryValueScriberBase.java
+A       src/org/openexi/fujitsu/proc/util/Base64.java
+A       testdata/base64Binary.xsd
+
+0000.0000.0029.0
+
+- Proper handling of simple type value whitespaces.
+
+M       test/org/openexi/fujitsu/proc/DateTimeValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/DecimalValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/ListValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/BooleanValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/IntegerValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/LongValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/FloatValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriberBase.java
+A       src/org/openexi/fujitsu/proc/io/ValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriberBase.java
+
+2011-03-17 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0028.0
+
+- Added support for xsd:integer encoding.
+
+A       test/org/openexi/fujitsu/proc/IntegerValueEncodingTest.java
+A       src/org/openexi/fujitsu/proc/io/IntegerValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+A       testdata/integer.xsd
+
+0000.0000.0027.0
+
+- Added support for xsd:byte encoding.
+
+M       test/org/openexi/fujitsu/proc/IntValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       testdata/int.xsd
+M       build.xml
+
+0000.0000.0026.0
+
+- Fixed interoperability issue found in publish911.xml use case.
+
+M       test/org/openexi/fujitsu/proc/CompressionTest.java
+M       test/org/openexi/fujitsu/proc/JTLMTest.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+A       testdata/JTLM/publish911
+A       testdata/JTLM/publish911/publish911.preCompress
+A       testdata/JTLM/publish911/publish911.bitPacked
+A       testdata/JTLM/publish911/publish911.byteAligned
+A       testdata/JTLM/publish911/publish911.compress
+M       testdata/JTLM/publish100/publish100.compress
+M       testdata/JTLM/publish100/publish100.preCompress
+M       testdata/JTLM/publish100/publish100.bitPacked
+M       testdata/JTLM/publish100/publish100.byteAligned
+
+2011-03-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0025.0
+
+- Fixed interoperability issue found in publish100.xml use case.
+
+M       test/org/openexi/fujitsu/proc/JTLMTest.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       build.xml
+
+2011-03-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0024.0
+
+- Added support for RCS.
+
+M       test/org/openexi/fujitsu/proc/JTLMTest.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       build.xml
+
+0000.0000.0023.0
+
+- Prepare for RCS support.
+
+M       test/org/openexi/fujitsu/scomp/BuiltinTypeTest.java
+M       test/org/openexi/fujitsu/scomp/BooleanValidatorTest.java
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       tools/eclipseCompileSchemas.xml
+M       fixture/org/openexi/fujitsu/schema/SimpleTypeValidator.java
+M       fixture/org/openexi/fujitsu/scomp/CompileSchemas.java
+A       lib/regexi
+A       lib/regexi/regexi.jar
+M       src/org/openexi/fujitsu/schema/EXISchemaLayout.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       testdata/simpleType.xsd
+M       properties.xml
+M       build.xml
+
+2011-03-14 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0022.0
+
+- Added support for xsd:long encoding.
+
+A       test/org/openexi/fujitsu/proc/LongEncodingTest.java
+A       test/org/openexi/fujitsu/proc/JTLMTest.java
+M       test/org/openexi/fujitsu/proc/IntValueEncodingTest.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScriber.java
+A       src/org/openexi/fujitsu/proc/io/LongValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedCommons.java
+M       src/org/openexi/fujitsu/proc/io/Scribble.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriberBase.java
+A       testdata/long.xsd
+A       testdata/JTLM
+A       testdata/JTLM/publish911Response.xml
+A       testdata/JTLM/publish911.xml
+A       testdata/JTLM/subscriberNotificationRequest.xml
+A       testdata/JTLM/schemas
+A       testdata/JTLM/schemas/soap_1_1.xsd
+A       testdata/JTLM/schemas/subscriber
+A       testdata/JTLM/schemas/subscriber/TLMSubscriberServiceOperations.xsd
+A       testdata/JTLM/schemas/Target.xsd
+A       testdata/JTLM/schemas/Common.xsd
+A       testdata/JTLM/schemas/TLM.xsd
+A       testdata/JTLM/schemas/TLMComposite.tok
+A       testdata/JTLM/schemas/TLMComposite.xsd
+A       testdata/JTLM/schemas/Event.xsd
+A       testdata/JTLM/schemas/TLMServiceOperations.xsd
+A       testdata/JTLM/publish100.xml
+A       testdata/JTLM/publish100
+A       testdata/JTLM/publish100/publish100.compress
+A       testdata/JTLM/publish100/publish100.preCompress
+A       testdata/JTLM/publish100/publish100.bitPacked
+A       testdata/JTLM/publish100/publish100.byteAligned
+A       testdata/JTLM/subscriberNotificationResponse.xml
+A       testdata/JTLM/publish430.xml
+M       build.xml
+
+2011-03-11 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0021.0
+
+- Added support for xsd:float and xsd:double encoding.
+
+A       test/org/openexi/fujitsu/proc/FloatValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+A       src/org/openexi/fujitsu/proc/io/FloatValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scribble.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriberBase.java
+A       testdata/float.xsd
+
+2011-03-07 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0020.0
+
+- Added support for xsd:time representation.
+
+M       test/org/openexi/fujitsu/proc/DateTimeValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriberBase.java
+M       testdata/dateTime.xsd
+M       build.xml
+
+0000.0000.0019.0
+
+- Added support for xsd:date representation.
+
+M       test/org/openexi/fujitsu/proc/DateTimeValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/DateTimeValueScriberBase.java
+M       testdata/dateTime.xsd
+M       build.xml
+
+0000.0000.0018.0
+
+- Fixed a bug found in the handling of list of dateTimes.
+
+M       test/org/openexi/fujitsu/proc/ListValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/DateTimeValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/Scribble.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+
+2011-03-06 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0017.0
+
+- Added support for xsd:dateTime representation.
+
+A       test/org/openexi/fujitsu/proc/DateTimeValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scribble.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+A       src/org/openexi/fujitsu/proc/io/DateTimeValueScriberBase.java
+A       testdata/dateTime.xsd
+
+0000.0000.0016.0
+
+- Fixed a bug found in the handling of list of decimals.
+
+M       test/org/openexi/fujitsu/proc/ListValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/ListValueScriberBase.java
+M       testdata/decimal.xsd
+M       build.xml
+
+2011-03-05 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0015.0
+
+- Full support for decimal encoding.
+
+M       test/org/openexi/fujitsu/proc/DecimalValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/DecimalValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScriber.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedCommons.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+
+2011-03-04 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0014.0
+
+- Rudimentary support for decimal encoding.
+
+A       test/org/openexi/fujitsu/proc/DecimalValueEncodingTest.java
+A       src/org/openexi/fujitsu/proc/io/DecimalValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scribble.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+A       testdata/decimal.xsd
+
+2011-03-02 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0013.0
+
+- Fixed a bug in List type encoding that caused repeating lists from
+  to be encoded with wrong list of values.
+
+M       test/org/openexi/fujitsu/proc/ListValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scribble.java
+M       testdata/int.xsd
+
+0000.0000.0012.0
+
+- Added support for List type encoding.
+
+A       test/org/openexi/fujitsu/proc/ListValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/IntValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+A       src/org/openexi/fujitsu/proc/io/ListValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scribble.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       testdata/int.xsd
+
+2011-02-28 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0011.0
+
+- Separated data from ValueScribers, in preparation for list encoding
+  support.
+
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriberBase.java
+A       src/org/openexi/fujitsu/proc/io/Scribble.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriberBase.java
+
+0000.0000.0010.0
+
+- Supported n-bit style int representation.
+
+M       test/org/openexi/fujitsu/proc/IntValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriberBase.java
+M       testdata/int.xsd
+
+2011-02-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0009.0
+
+- Supported non-negative int representation.
+
+M       test/org/openexi/fujitsu/proc/IntValueEncodingTest.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/BooleanValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriberBase.java
+M       testdata/int.xsd
+
+0000.0000.0008.0
+
+- Refactored int encoding functions.
+
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriberBase.java
+M       build.xml
+
+0000.0000.0007.0
+
+- Refactored int encoding functions.
+
+M       src/org/openexi/fujitsu/proc/io/BitPackedScriber.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+!       src/org/openexi/fujitsu/proc/io/compression/IntValue.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriberBase.java
+
+0000.0000.0006.0
+
+- Refactored int encoding functions.
+
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+A       src/org/openexi/fujitsu/proc/io/compression/IntValue.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/IntValueScriberBase.java
+M       build.xml
+
+0000.0000.0005.0
+
+- Added some more testcases for changes in version 0000.0000.0005.0.
+
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       testdata/decimalRange.xsd
+
+2011-02-24 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0005.0
+
+- Added a field in EXISchema that indicates the representation variety of
+  integers.
+
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/fujitsu/schema/EXISchemaLayout.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       testdata/decimalRange.xsd
+
+2011-02-21 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0004.0
+
+- Added rudimentary support for int encoding.
+
+M       test/org/openexi/fujitsu/proc/BooleanValueEncodingTest.java
+A       test/org/openexi/fujitsu/proc/IntValueEncodingTest.java
+M       src/org/openexi/fujitsu/schema/EXISchemaLayout.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+A       src/org/openexi/fujitsu/proc/io/BooleanValueScriberBase.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+A       src/org/openexi/fujitsu/proc/io/IntValueScriberBase.java
+A       testdata/int.xsd
+
+0000.0000.0003.0
+
+- Simple type field mask SIMPLE_TYPE_ISNUMERIC_MASK has been replaced by
+  SIMPLE_TYPE_ISINTEGRAL_MASK.
+
+M       test/org/openexi/fujitsu/scomp/BuiltinTypeTest.java
+M       src/org/openexi/fujitsu/schema/EXISchemaLayout.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       build.xml
+
+2011-02-20 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0002.0
+
+- Use MAXINCLUSIVE and MININCLUSIVE for int and long types instead of
+  MAXEXCLUSIVE and MINEXCLUSIVE facets.
+
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       build.xml
+
+0000.0000.0001.0
+
+- XSDateTime is used for schema serialization, instead of XMLGregorianCalendar,
+  in order to separate schema processing from EXI stream processing.
+
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryEnumerationTest.java
+M       test/org/openexi/fujitsu/scomp/EXISchemaFactoryTest.java
+M       fixture/org/openexi/fujitsu/schema/SimpleTypeValidator.java
+M       src/org/openexi/fujitsu/schema/EXISchema.java
+M       src/org/openexi/fujitsu/schema/XSDateTime.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaStruct.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+
+2011-02-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Header options is now accessible though scanners.
+
+M       test/org/openexi/fujitsu/proc/GrammarStrictTest.java
+M       test/org/openexi/fujitsu/proc/CompressionTest.java
+M       test/org/openexi/fujitsu/proc/BooleanValueEncodingTest.java
+M       test/org/openexi/fujitsu/proc/io/LocalNamePartitionTest.java
+M       test/org/openexi/fujitsu/proc/io/URIPartitionTest.java
+M       test/org/openexi/fujitsu/proc/CookieTest.java
+M       test/org/openexi/fujitsu/proc/OptionsDocumentTest.java
+M       test/org/openexi/fujitsu/proc/GrammarSchemaInformedTest.java
+M       test/org/openexi/fujitsu/proc/DecodeStrictTest.java
+M       test/org/openexi/fujitsu/proc/GrammarBuiltinTest.java
+M       src/org/openexi/fujitsu/scomp/EXISchemaFactory.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+D       src/org/openexi/fujitsu/proc/EXIOptions.java
+A  +    src/org/openexi/fujitsu/proc/common/AlignmentType.java
+A  +    src/org/openexi/fujitsu/proc/common/EXIOptionsException.java
+A  +    src/org/openexi/fujitsu/proc/common/EXIOptions.java
+A  +    src/org/openexi/fujitsu/proc/common/GrammarOptions.java
+A  +    src/org/openexi/fujitsu/proc/common/SchemaId.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+D       src/org/openexi/fujitsu/proc/SchemaId.java
+D       src/org/openexi/fujitsu/proc/EXIOptionsException.java
+M       src/org/openexi/fujitsu/proc/ScriberFactory.java
+M       src/org/openexi/fujitsu/proc/ScannerFactory.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScriber.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScanner.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedScriber.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedScanner.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+D       src/org/openexi/fujitsu/proc/io/AlignmentType.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/grammars/BuiltinElementGrammar.java
+D       src/org/openexi/fujitsu/proc/grammars/GrammarOptions.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/OptionsGrammarCache.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementTagGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+M       build.xml
+
+- Added support for built-in document grammar.
+
+M       test/org/openexi/fujitsu/proc/GrammarSchemaInformedTest.java
+M       test/org/openexi/fujitsu/proc/GrammarBuiltinTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/common/EventCode.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+A  +    src/org/openexi/fujitsu/proc/grammars/EventTypeStartDocument.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+A  +    src/org/openexi/fujitsu/proc/grammars/EventTypeEndDocument.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarCache.java
+D       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaEndDocument.java
+D       src/org/openexi/fujitsu/proc/grammars/EventTypeSchemaStartDocument.java
+M       src/org/openexi/fujitsu/proc/grammars/Grammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedGrammar.java
+
+2011-02-14 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added support for encoding "schemaId" in header options.
+
+M       test/org/openexi/fujitsu/proc/OptionsDocumentTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIOptions.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+A       src/org/openexi/fujitsu/proc/SchemaId.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+
+- Empty schema is now embedded in the jar file.
+
+A       test/org/openexi/fujitsu/schema/EmptySchemaTest.java
+M       fixture/org/openexi/fujitsu/scomp/CompileSchemas.java
+A       src/org/openexi/fujitsu/schema/CommonSchema.java
+A       src/org/openexi/fujitsu/schema/EmptySchema.java
+M       src/org/openexi/fujitsu/schema/HeaderOptionsSchema.java
+
+- Added support for encoding "prefixes" in header options.
+
+M       test/org/openexi/fujitsu/proc/OptionsDocumentTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+
+2011-02-13 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added support for encoding "dtd" in header options.
+
+M       test/org/openexi/fujitsu/proc/OptionsDocumentTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+
+2011-02-11 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added support for encoding "pis" in header options.
+
+M       test/org/openexi/fujitsu/proc/OptionsDocumentTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+
+- Added support for encoding "comments" in header options.
+
+M       test/org/openexi/fujitsu/proc/OptionsDocumentTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+
+- Added support for encoding "strict" in header options.
+
+M       test/org/openexi/fujitsu/proc/OptionsDocumentTest.java
+M       test/org/openexi/fujitsu/proc/DecodeStrictTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+
+2011-02-10 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added support for encoding "compression" in header options.
+
+M       test/org/openexi/fujitsu/proc/OptionsDocumentTest.java
+M       test/org/openexi/fujitsu/proc/DecodeStrictTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIOptions.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+A       testdata/encoding/headerOptions-01.compress
+
+- Added support for padding bits in the header.
+
+M       test/org/openexi/fujitsu/proc/DecodeStrictTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScanner.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScriber.java
+M       src/org/openexi/fujitsu/proc/io/BitInputStream.java
+M       src/org/openexi/fujitsu/proc/io/BitOutputStream.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+A       testdata/encoding
+A       testdata/encoding/headerOptions-01.preCompress
+A       testdata/encoding/headerOptions-01.bitPacked
+A       testdata/encoding/headerOptions-01.byteAligned
+
+- Added support for encoding "pre-compress" in header options.
+
+M       test/org/openexi/fujitsu/proc/OptionsDocumentTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+
+2011-02-09 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Very preliminary support for embedded header options.
+
+M       test/org/openexi/fujitsu/proc/OptionsDocumentTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+A       src/org/openexi/fujitsu/proc/EXIOptionsDecoder.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+
+- Preparing for the support of reading header options document.
+
+M       test/org/openexi/fujitsu/proc/OptionsDocumentTest.java
+M       src/org/openexi/fujitsu/proc/EXIOptions.java
+M       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+
+2011-02-08 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Preparing for the support of writing header options document.
+
+M       src/org/openexi/fujitsu/proc/EXIOptions.java
+A       src/org/openexi/fujitsu/proc/EXIOptionsEncoder.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+
+2011-02-07 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added OptionsGrammarCache class that holds grammars for processing
+  EXI Options Document.
+
+A       test/org/openexi/fujitsu/proc/grammars
+A       test/org/openexi/fujitsu/proc/grammars/OptionsGrammarCacheTest.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarCache.java
+A       src/org/openexi/fujitsu/proc/grammars/OptionsGrammarCache.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementTagGrammar.java
+M       build.xml
+
+- Added HeaderOptionsSchema class that holds a schema that represents
+  the schema for EXI Options Document.
+
+A       test/org/openexi/fujitsu/schema/HeaderOptionsSchemaTest.java
+A       tools
+A       tools/eclipseCompileSchemas.xml
+A       fixture/org/openexi/fujitsu/scomp/HeaderOptions.xsd
+A       fixture/org/openexi/fujitsu/scomp/CompileSchemas.java
+A       src/org/openexi/fujitsu/schema/HeaderOptionsSchema.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/grammars/GroupGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/SchemaInformedElementGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarCache.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementTagGrammar.java
+M       src/org/openexi/fujitsu/proc/grammars/ContentGrammar.java
+M       properties.xml
+M       build.xml
+
+2011-02-04 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Preparing for embedded EXI Options support.
+
+M       test/org/openexi/fujitsu/proc/GrammarSchemaInformedTest.java
+A       src/org/openexi/fujitsu/proc/EXIOptionsException.java
+M       src/org/openexi/fujitsu/proc/EXIOptions.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/grammars/GrammarCache.java
+
+2011-02-03 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added support for EXI cookie.
+
+A       test/org/openexi/fujitsu/proc/CookieTest.java
+M       src/org/openexi/fujitsu/proc/ScannerFactory.java
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScanner.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedScanner.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+
+2011-02-02 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Refactored EnumerationValueScriber.
+
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+
+- Added support for variable inflator buffer sizes.
+
+M       test/org/openexi/fujitsu/proc/CompressionTest.java
+M       src/org/openexi/fujitsu/proc/ScannerFactory.java
+M       src/org/openexi/fujitsu/proc/io/compression/EXIInflaterInputStream.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+
+- Support for compression for streams that have less than 100 values.
+
+M       test/org/openexi/fujitsu/proc/CompressionTest.java
+M       test/org/openexi/fujitsu/proc/DecodeStrictTest.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannelKeeper.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+A       testdata/interop
+A       testdata/interop/schemaInformedGrammar
+A       testdata/interop/schemaInformedGrammar/acceptance.xsd
+A       testdata/interop/schemaInformedGrammar/acceptance_imported_default.xsd
+A       testdata/interop/schemaInformedGrammar/acceptance_imported_goo.xsd
+A       testdata/interop/schemaInformedGrammar/acceptance_imported_hoo.xsd
+A       testdata/interop/schemaInformedGrammar/acceptance_imported_ioo.xsd
+A       testdata/interop/schemaInformedGrammar/declaredProductions
+A       testdata/interop/schemaInformedGrammar/declaredProductions/sequence-01.compress
+A       testdata/interop/schemaInformedGrammar/declaredProductions/sequence-01.xml
+A       testdata/interop/schemaInformedGrammar/declaredProductions/sequence-01.preCompress
+A       testdata/interop/schemaInformedGrammar/declaredProductions/sequence-01.bitPacked
+A       testdata/interop/schemaInformedGrammar/declaredProductions/sequence-01.byteAligned
+
+2011-02-01 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- NLM use case is now interoperable.
+
+M       test/org/openexi/fujitsu/proc/CompressionTest.java
+A       test/org/openexi/fujitsu/proc/DecodeStrictTest.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedCommons.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/grammars/ElementTagGrammar.java
+A       testdata/NLM/catplussamp2006.preCompress
+A       testdata/NLM/catplussamp2006.bitPacked
+A       testdata/NLM/catplussamp2006.byteAligned
+A       testdata/NLM/catplussamp2006.compress
+
+2011-01-31 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Avoid compressing header preambles in compression mode.
+
+M       src/org/openexi/fujitsu/proc/EXIEncoder.java
+M       src/org/openexi/fujitsu/proc/io/BitPackedScriber.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScanner.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+M       src/org/openexi/fujitsu/proc/EXIDecoder.java
+
+2011-01-30 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- General refactoring of compression package.
+
+M       src/org/openexi/fujitsu/proc/io/BitPackedScriber.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedScriber.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/ByteAlignedCommons.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+
+2011-01-28 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Reset compression and decompression for each large value channel.
+
+M       src/org/openexi/fujitsu/proc/io/compression/EXIInflaterInputStream.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+
+2011-01-26 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added support for structure channel compression.
+
+M       src/org/openexi/fujitsu/proc/io/compression/EXIInflaterInputStream.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+
+2011-01-24 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Preliminary implementation of enumeration codec.
+
+M       test/org/openexi/fujitsu/proc/CompressionTest.java
+M       src/org/openexi/fujitsu/proc/io/SimpleScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ScriberValueHolder.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingValueScriber.java
+M       src/org/openexi/fujitsu/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/fujitsu/proc/io/Scriber.java
+M       src/org/openexi/fujitsu/proc/io/Scanner.java
+
+2011-01-20 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- The project is now ready for build using ant.
+
+D       system.xml
+M       CHANGES.txt
+M       properties.xml
+M       build.xml
+
+- Added external libraries. (xerces and junit)
+
+A       lib
+A       lib/apache
+A       lib/apache/xerces
+A       lib/apache/xerces/2.11.0
+A       lib/apache/xerces/2.11.0/xml-apis.jar
+A       lib/apache/xerces/2.11.0_exi
+A       lib/apache/xerces/2.11.0_exi/xercesImpl.jar
+A       lib/junit
+A       lib/junit/3.8.1
+A       lib/junit/3.8.1/junit.jar
+M       properties.xml
+

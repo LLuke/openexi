@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ordnancesurvey.co.uk/xml/namespaces/osgb" xmlns:osgb="http://www.ordnancesurvey.co.uk/xml/namespaces/osgb" xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1">
+  <annotation>
+    <appinfo source="urn:x-ordnancesurvey:dnf:schema-xsd:simple-types:v1.1">OSSimpleTypes.xsd 1.1 2001/11</appinfo>
+    <documentation xml:lang="en">Ordnance Survey, (c) Crown Copyright. All Rights Reserved November 2001.</documentation>
+    <documentation xml:lang="en">See http://www.ordnancesurvey.co.uk/xml/schema for guidelines and related information</documentation>
+    <documentation xml:lang="en">This schema defines the simple types used as properties on features.</documentation>
+  </annotation>
+  <!-- ================================================================
+	Simple Type Definitions 
+	================================================================ -->
+  <simpleType name="accuracyOfPositionType">
+    <restriction base="string">
+      <enumeration value="1.0m"/>
+      <enumeration value="2.5m"/>
+      <enumeration value="6.0m"/>
+      <enumeration value="8.0m"/>
+      <enumeration value="Unknown"/>
+    </restriction>
+  </simpleType>
+  <simpleType name="descriptiveGroupType">
+    <restriction base="string">
+      <enumeration value="Building"/>
+      <enumeration value="Buildings Or Structure"/>
+      <enumeration value="Built Environment"/>
+      <enumeration value="General Feature"/>
+      <enumeration value="General Surface"/>
+      <enumeration value="Glasshouse"/>
+      <enumeration value="Height Control"/>
+      <enumeration value="Historic Interest"/>
+      <enumeration value="Inland Water"/>
+      <enumeration value="Landform"/>
+      <enumeration value="Natural Environment"/>
+      <enumeration value="Network Or Polygon Closing Geometry"/>
+      <enumeration value="Path"/>
+      <enumeration value="Political Or Administrative"/>
+      <enumeration value="Rail"/>
+      <enumeration value="Road Or Track"/>
+      <enumeration value="Roadside"/>
+      <enumeration value="Structure"/>
+      <enumeration value="Terrain And Height"/>
+      <enumeration value="Tidal Water"/>
+      <enumeration value="Unclassified"/>
+    </restriction>
+  </simpleType>
+  <simpleType name="makeType">
+    <restriction base="string">
+      <enumeration value="Manmade"/>
+      <enumeration value="Multiple"/>
+      <enumeration value="Natural"/>
+      <enumeration value="Unclassified"/>
+      <enumeration value="Unknown"/>
+    </restriction>
+  </simpleType>
+  <simpleType name="orientationType">
+    <restriction base="unsignedShort">
+      <minInclusive value="0"/>
+      <maxInclusive value="3599"/>
+    </restriction>
+  </simpleType>
+  <simpleType name="physicalLevelType">
+    <restriction base="short">
+      <minInclusive value="-1"/>
+      <maxInclusive value="51"/>
+    </restriction>
+  </simpleType>
+  <simpleType name="physicalPresenceType">
+    <restriction base="string">
+      <enumeration value="Boundary"/>
+      <enumeration value="Closing"/>
+      <enumeration value="Edge / Limit"/>
+      <enumeration value="Extent"/>
+      <enumeration value="Indicator"/>
+      <enumeration value="Minor Detail"/>
+      <enumeration value="Moveable"/>
+      <enumeration value="Network"/>
+      <enumeration value="Obstructing"/>
+      <enumeration value="Overhead"/>
+    </restriction>
+  </simpleType>
+  <simpleType name="reasonForChangeType">
+    <restriction base="string">
+      <enumeration value="New"/>
+      <enumeration value="Position"/>
+      <enumeration value="Modified"/>
+      <enumeration value="Software"/>
+      <enumeration value="Reclassified"/>
+      <enumeration value="TextChange"/>
+      <enumeration value="Restructured"/>
+      <enumeration value="Attributes"/>
+      <enumeration value="Incomplete"/>
+    </restriction>
+  </simpleType>
+  <simpleType name="themeType">
+    <restriction base="string">
+      <enumeration value="Administrative Boundaries"/>
+      <enumeration value="Buildings"/>
+      <enumeration value="Heritage And Antiquities"/>
+      <enumeration value="Land"/>
+      <enumeration value="Rail"/>
+      <enumeration value="Roads Tracks And Paths"/>
+      <enumeration value="Structures"/>
+      <enumeration value="Terrain And Height"/>
+      <enumeration value="Water"/>
+    </restriction>
+  </simpleType>
+</schema>

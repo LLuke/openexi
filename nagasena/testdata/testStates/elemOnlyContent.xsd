@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="A">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element name="B"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="C">
+  <xsd:complexType>
+    <xsd:sequence minOccurs="3" maxOccurs="unbounded">
+      <xsd:element name="D" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

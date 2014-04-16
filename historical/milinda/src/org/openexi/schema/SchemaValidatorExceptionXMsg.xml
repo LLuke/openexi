@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<Root>
+  <msg id="1">Invalid length {0}, where length {1} was expected.</msg>
+  <msg id="2">Invalid length {0}, where minimum length expected was {1}.</msg>
+  <msg id="3">Invalid length {0}, where maximum length expected was {1}.</msg>
+  <msg id="4">"{0}" does not parse as a decimal value.</msg>
+  <!-- msg id="5">Zero length decimal "{0}" is not allowed.</msg --><!-- merged into INVALID_DECIMAL -->
+  <!-- msg id="6">{0} digits found in "{1}" where maximum total digits {2} was expected.</msg -->
+  <msg id="6">The number of digits found in "{0}" exceeds the expected maximum total digits {1}.</msg>
+  <msg id="7">{0} fraction digits found in "{1}" where maximum fraction digits {2} was expected.</msg>
+  <msg id="8">Value ''{0}'' is smaller than ''{1}''.</msg>
+  <msg id="9">Value ''{0}'' is larger than ''{1}''.</msg>
+  <msg id="10">Value ''{0}'' is equal to or smaller than ''{1}''.</msg>
+  <msg id="11">Value ''{0}'' is equal to or larger than ''{1}''.</msg>
+  <msg id="12">Order of ''{0}'' relative to ''{1}'' is equivocal.</msg>
+  <msg id="13">"{0}" does not parse as a float value.</msg>
+  <msg id="14">"{0}" does not parse as a double value.</msg>
+  <msg id="15">"{0}" does not parse as a boolean value.</msg>
+  <!-- msg id="15">"{0}" does not parse as a normalizedString value.</msg -->
+  <!-- msg id="16">"{0}" does not parse as a token value.</msg -->
+  <msg id="17">"{0}" does not parse as a Name value.</msg>
+  <msg id="18">"{0}" does not parse as a NCName value.</msg>
+  <msg id="19">"{0}" does not parse as a NMTOKEN value.</msg>
+  <msg id="20">"{0}" does not parse as a QName value.</msg>
+  <msg id="21">"{0}" does not parse as a dateTime value.</msg>
+  <msg id="22">"{0}" does not parse as a date value.</msg>
+  <msg id="23">"{0}" does not parse as a time value.</msg>
+  <msg id="24">"{0}" does not parse as a gYearMonth value.</msg>
+  <msg id="25">"{0}" does not parse as a gMonthDay value.</msg>
+  <msg id="26">"{0}" does not parse as a gYear value.</msg>
+  <msg id="27">"{0}" does not parse as a gMonth value.</msg>
+  <msg id="28">"{0}" does not parse as a gDay value.</msg>
+  <msg id="29">"{0}" does not parse as a duration value.</msg>
+  <msg id="30">"{0}" does not parse as a base64Binary value.</msg>
+  <msg id="31">"{0}" does not parse as a hexBinary value.</msg>
+  <msg id="32">"{0}" does not parse as an instance of the union type {1}.</msg>
+  <msg id="33">"{0}" does not match the pattern "{1}".</msg>
+  <msg id="34">"{0}" does not match any of the enumerated values in '{' {1} '}'.</msg>
+  <msg id="35">No attempt was made to match "{0}" against the pattern "{1}".</msg>
+  <msg id="36">The pattern "{0}" is not a valid regular expression.</msg>
+  <msg id="37">"{0}" does not parse as a language value.</msg>
+  <msg id="38">Primary tag "{0}" of the language is not valid.</msg>
+  <msg id="39">Subsequent tag "{0}" of the language is not valid.</msg>
+  <msg id="40">Complex type "{0}" of namespace "{1}" does not have a simple content.</msg>
+  <msg id="41">Primitive type NOTATION cannot be used directly for validation.</msg>
+  <msg id="42">Invalid UTF-16 surrogate pair was found in "{0}".</msg>
+  <msg id="43">"{0}" does not parse as an integer value.</msg>
+  <msg id="44">Invalid text length 0, where length greater than 0 is expected.</msg>
+  <msg id="101">{0} has to occur at least {1} times in {2}.</msg>
+  <msg id="102">{0} is not allowed to occur more than {1} times in {2}.</msg>
+  <!-- ROOT_ELEM_NAMESPCE_NOT_MATCHED(103), ROOT_ELEM_NAME_NOT_MATCHED(104) have been
+       unified into UNEXPECTED_ELEM(111) -->
+  <msg id="105">Character sequence "{0}" was found at document level.</msg>
+  <msg id="106">Character sequence "{0}" was found in an element of element-only content model.</msg>
+  <msg id="107">Character sequence "{0}" was found in an element of empty content model.</msg>
+  <!-- ELEMS_IN_EMPTY_MODEL(109), ELEMS_IN_SIMPLE_CONTENT(110) have been
+       unified into UNEXPECTED_ELEM(111) -->
+  <msg id="111">Element "{0}" of namespace "{1}" is not expected.</msg>
+  <msg id="112">Element "{0}" of namespace "{1}" is not defined.</msg>
+  <msg id="113">Attribute "{0}" is required for element "{1}" of namespace "{2}".</msg>
+  <msg id="114">Attribute "{0}" in namespace "{1}" is not permitted for element "{2}" of namespace "{3}".</msg>
+  <msg id="115">"{0}" is not a valid value for attribute "{1}" in namespace "{2}" per its datatype.</msg>
+  <msg id="116">"{0}" does not match fixed value "{1}" of attribute "{2}" in namespace "{3}".</msg>
+  <msg id="117">Attribute "{0}" of namespace "{1}" is not defined.</msg>
+  <msg id="118">xsi:nil attribute value cannot be "true" for element "{0}" of namespace "{1}.</msg>
+  <!-- msg id="119">The element "{0}" of namespace "{1}" must be empty when xsi:nil is "true".</msg -->
+  <msg id="120">The expected root element "{0}" in namespce "{1}" was not present.</msg>
+  <msg id="121">"{0}" does not match fixed value "{1}" of element "{2}" in namespace "{3}".</msg>
+  <msg id="122">Abstract element "{0}" of namespace "{1}" cannot occur in the document.</msg>
+  <!-- Errors of code > 1000 are fatal. -->
+  <!-- msg id="1001">Node at position {0} has an unexpected node type {1}.</msg -->
+  <msg id="1101">Unbalanced end-of-element event ("{0}" in namespace "{1}") was encountered.</msg>
+</Root>

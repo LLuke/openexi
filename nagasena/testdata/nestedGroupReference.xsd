@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="item" />
+
+<xsd:element name="tuple">
+  <xsd:complexType>
+    <xsd:group ref="foo:group"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:group name="hoge">
+  <xsd:choice>
+    <xsd:element ref="foo:item"/>
+  </xsd:choice>
+</xsd:group>
+
+<xsd:group name="group">
+  <xsd:choice>
+    <xsd:group ref="foo:hoge"/>
+  </xsd:choice>
+</xsd:group>
+
+</xsd:schema>

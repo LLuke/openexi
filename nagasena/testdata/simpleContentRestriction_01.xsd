@@ -1,0 +1,17 @@
+<schema targetNamespace="urn:foo" 
+  xmlns:foo="urn:foo" xmlns="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <complexType name="stringItemType" final="extension">
+    <simpleContent>
+      <extension base="string"/>
+    </simpleContent>
+  </complexType>
+
+  <complexType name="explicitDomainType" abstract="true">
+    <simpleContent>
+      <restriction base="foo:stringItemType"/>
+    </simpleContent>
+  </complexType>
+
+</schema>

@@ -1,0 +1,7 @@
+<!--
+  The validator is aware of "urn:goo" namespace, but not "goo:none"
+  attribute. This situation used to be regarded as an error in our
+  validator that operates on a compiled schema, which no longer
+  is the case.
+ -->
+<CH xmlns="urn:foo" xmlns:goo="urn:goo" goo:none="123"/>

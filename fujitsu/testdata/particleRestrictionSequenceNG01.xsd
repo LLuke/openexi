@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:complexType name="A">
+  <xsd:sequence>
+    <xsd:element ref="foo:W"/>
+    <xsd:element ref="foo:X"/>
+    <xsd:element ref="foo:Y"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="B">
+  <xsd:complexContent>
+    <xsd:restriction base="foo:A">
+      <xsd:sequence>
+        <xsd:element ref="foo:W"/>
+        <xsd:element ref="foo:X"/>
+        <xsd:element ref="foo:Y"/>
+        <xsd:element ref="foo:Z"/>
+      </xsd:sequence>
+    </xsd:restriction>
+  </xsd:complexContent>
+</xsd:complexType>
+
+
+<!-- =================================================================== -->
+<!-- Element Declarations                                                -->
+<!-- =================================================================== -->
+
+<xsd:element name="W"/>
+<xsd:element name="X"/>
+<xsd:element name="Y"/>
+<xsd:element name="Z"/>
+
+</xsd:schema>

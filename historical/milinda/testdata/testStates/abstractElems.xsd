@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+
+<xsd:schema targetNamespace="urn:foo" xmlns:foo="urn:foo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:element name="A">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="foo:B" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="B" type="xsd:anyType" abstract="true" />
+
+<xsd:element name="B2" substitutionGroup="foo:B">
+  <xsd:complexType/>
+</xsd:element>
+
+<xsd:element name="C">
+  <xsd:complexType>
+    <xsd:choice>
+      <xsd:element name="D" type="xsd:anyType" abstract="true" />
+      <xsd:element name="E" type="xsd:anyType" />
+    </xsd:choice>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

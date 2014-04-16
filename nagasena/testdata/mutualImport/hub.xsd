@@ -1,0 +1,6 @@
+<schema targetNamespace="urn:hub" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:zoo="urn:zoo" xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+  <import namespace="urn:zoo" schemaLocation="zoo.xsd"/>
+  <import namespace="urn:foo" schemaLocation="foo.xsd"/>
+  <import namespace="urn:goo" schemaLocation="goo.xsd"/>
+</schema>

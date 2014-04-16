@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:foo="urn:foo" >
+
+<xsd:simpleType name="dateUnion">
+  <xsd:union memberTypes="xsd:date xsd:dateTime" />
+</xsd:simpleType>
+
+<xsd:simpleType name="dateTime2">
+  <xsd:restriction base="foo:dateUnion">
+    <xsd:maxInclusive value="2002-10-10T17:00:00Z"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

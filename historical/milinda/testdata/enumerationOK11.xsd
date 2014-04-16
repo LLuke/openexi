@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:simpleType name="fooDecimal">
+  <xsd:restriction base="xsd:decimal">
+    <xsd:maxExclusive value="100"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="decimalDerived">
+  <xsd:restriction base="foo:fooDecimal">
+    <xsd:enumeration value="99"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

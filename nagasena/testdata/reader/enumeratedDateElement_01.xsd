@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="A">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:date">
+      <xsd:enumeration value="2003-03-19-05:00"/>
+      <xsd:enumeration value="2003-03-21-05:00"/>
+      <xsd:enumeration value="2003-03-23-05:00"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+</xsd:schema>

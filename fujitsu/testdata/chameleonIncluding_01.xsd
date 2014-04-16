@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:include schemaLocation="chameleonIncluded_01.xsd"/>
+
+<xsd:simpleType name="string6">
+  <xsd:restriction base="foo:string8">
+    <xsd:maxLength value="6"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

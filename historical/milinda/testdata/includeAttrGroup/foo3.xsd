@@ -1,0 +1,18 @@
+<schema targetNamespace="urn:foo" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:foo="urn:foo">
+
+  <attributeGroup name="SharedAttributes">
+    <attribute name="date" type="date"/>
+  </attributeGroup>
+
+  <element name="D" type="string" />
+
+  <complexType name="C">
+    <sequence>
+      <element ref="foo:D"/>
+    </sequence>
+    <attributeGroup ref="foo:SharedAttributes"/>
+  </complexType>
+
+</schema>
+

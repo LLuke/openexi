@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:simpleType name="stringMax1">
+  <xsd:restriction base="xsd:string">
+    <xsd:maxLength value="1"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="stringMax1Derived">
+  <xsd:restriction base="foo:stringMax1">
+    <xsd:enumeration value="X"/>
+    <xsd:enumeration value="XY"/>
+    <xsd:enumeration value="Y"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

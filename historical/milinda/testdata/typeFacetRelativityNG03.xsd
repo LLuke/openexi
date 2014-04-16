@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:foo="urn:foo" >
+
+<xsd:simpleType name="date2">
+  <xsd:restriction base="xsd:date">
+    <xsd:minExclusive value="2003-11-15"/>
+    <xsd:maxExclusive value="2003-11-14"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

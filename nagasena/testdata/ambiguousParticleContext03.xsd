@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:element name="E">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:sequence minOccurs="2" maxOccurs="2"><!-- (minOccurs,maxOccurs)=(2,2) -->
+        <xsd:element name="A" minOccurs="0" maxOccurs="2">
+          <xsd:complexType/>
+        </xsd:element>
+        <xsd:sequence maxOccurs="2">
+          <xsd:element name="B">
+            <xsd:complexType/>
+          </xsd:element>
+          <xsd:element name="C" minOccurs="0">
+            <xsd:complexType/>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:sequence>
+      <xsd:element name="D" minOccurs="0">
+        <xsd:complexType/>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

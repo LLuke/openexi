@@ -1,0 +1,537 @@
+<?xml version="1.0" ?>
+<!-- (c) XBRL International.  See www.xbrl.org/legal -->
+<schema targetNamespace="http://www.xbrl.org/2003/instance"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:xbrli="http://www.xbrl.org/2003/instance"
+        elementFormDefault="qualified">
+
+	<!-- ******************* attributes **************************           -->
+	<!-- _____________instantaneous attribute           -->
+	<attribute name="instantaneous" type="boolean"/>
+	<!-- _____________balance attribute           -->
+	<attribute name="balance">
+		<simpleType>
+			<restriction base="token">
+				<enumeration value="debit"/>
+				<enumeration value="credit"/>
+			</restriction>
+		</simpleType>
+	</attribute>
+	<!-- ******************* simple types **************************           -->
+	<!-- _____________monetary            -->
+	<simpleType name="monetary">
+		<annotation>
+			<documentation>
+		This datatype serves as the datatype for those financial concepts in a taxonomy which denote units in a currency.
+		Instance items with this type must have a unit of measure from the ISO 4217 namespace of currencies.
+	</documentation>
+		</annotation>
+		<restriction base="decimal"/>
+	</simpleType>
+	<!-- shares            -->
+	<simpleType name="shares">
+		<annotation>
+			<documentation>This datatype serves as the datatype for share based financial concepts.</documentation>
+		</annotation>
+		<restriction base="decimal"/>
+	</simpleType>
+	<simpleType name="pure">
+		<annotation>
+			<documentation>This datatype serves as the type for dimensionless numbers such as percentage change, growth rates, and other ratios where the numerator and denominator have the same units.</documentation>
+		</annotation>
+		<restriction base="decimal"/>
+	</simpleType>
+	<!-- nonZeroNonInfiniteFloat   -->
+	<simpleType name="nonZeroNonInfiniteFloat">
+		<annotation>
+			<documentation>
+As the name implies this is a float value that can not take the value ±0 or ±INF - it is used as the type for the denominator of a fractionItemType
+		</documentation>
+		</annotation>
+		<union>
+			<simpleType>
+				<restriction base="float">
+					<minExclusive value="0"/>
+					<maxExclusive value="INF"/>
+				</restriction>
+			</simpleType>
+			<simpleType>
+				<restriction base="float">
+					<minExclusive value="-INF"/>
+					<maxExclusive value="-0"/>
+				</restriction>
+			</simpleType>
+		</union>
+	</simpleType>
+	<!-- _____________durationType            -->
+	<simpleType name="durationType">
+		<annotation>
+			<documentation>
+A durationType element shall not contain a zero length duration, such as P0Y, P0M, P0D, etc.
+It is an error for the duration to contain a negative amount. Applications may recover by using the absolute value (positive amount).
+	</documentation>
+		</annotation>
+		<restriction base="duration">
+			<minExclusive value="P0D"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="precisionType">
+		<annotation>
+			<documentation>
+This type is used to specify the value of the (deprecated) precision attribute on numericContext and the precision attribute on numeric items.
+It consists of the union of nonNegativeInteger and "INF" (used to signify infinite precision or "exact value")
+    </documentation>
+		</annotation>
+		<union memberTypes="nonNegativeInteger">
+			<simpleType>
+				<restriction base="float">
+					<enumeration value="INF"/>
+				</restriction>
+			</simpleType>
+		</union>
+	</simpleType>
+	<simpleType name="decimalsType">
+		<annotation>
+			<documentation>
+This type is used to specify the value of the decimals attribute on numeric items.
+It consists of the union of integer and "INF" (used to signify that a number is expressed to an infinite number of decimal places or "exact value")
+		</documentation>
+		</annotation>
+		<union memberTypes="integer">
+			<simpleType>
+				<restriction base="float">
+					<enumeration value="INF"/>
+				</restriction>
+			</simpleType>
+		</union>
+	</simpleType>
+	<attributeGroup name="numericItemAttrs">
+		<attribute name="numericContext" type="IDREF" use="required"/>
+		<attribute name="precision" type="xbrli:precisionType" use="optional"/>
+		<attribute name="decimals" type="xbrli:decimalsType" use="optional"/>
+		<anyAttribute namespace="##other" processContents="lax"/>
+	</attributeGroup>
+	<attributeGroup name="nonNumericItemAttrs">
+		<attribute name="nonNumericContext" type="IDREF" use="required"/>
+		<anyAttribute namespace="##other" processContents="lax"/>
+	</attributeGroup>
+	<!-- ******************* item types **************************           -->
+	<!-- _____________numeric Item Types       -->
+	<!-- The following 3 numeric types are all based on the primitive built-in data types of XML Schema -->
+	<!-- _____________decimalItemType            -->
+	<complexType name="decimalItemType" final="extension">
+		<simpleContent>
+			<extension base="decimal">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________floatItemType            -->
+	<complexType name="floatItemType" final="extension">
+		<simpleContent>
+			<extension base="float">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________doubleItemType            -->
+	<complexType name="doubleItemType" final="extension">
+		<simpleContent>
+			<extension base="double">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- The following 3 numeric types are all types that have been identified as having particular relevance to the domain space addressed by XBRL and are hence included in addition to the built-in types from XML Schema -->
+	<!-- _____________monetaryItemType            -->
+	<complexType name="monetaryItemType" final="extension">
+		<simpleContent>
+			<extension base="xbrli:monetary">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________sharesItemType            -->
+	<complexType name="sharesItemType" final="extension">
+		<simpleContent>
+			<extension base="xbrli:shares">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- pureItemType            -->
+	<complexType name="pureItemType" final="extension">
+		<simpleContent>
+			<extension base="xbrli:pure">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!--                 fractionItemType        -->
+	<complexType name="fractionItemType" final="extension">
+		<sequence>
+			<element name="numerator" type="float"/>
+			<element name="denominator" type="xbrli:nonZeroNonInfiniteFloat"/>
+		</sequence>
+		<attribute name="numericContext" type="IDREF" use="required"/>
+		<anyAttribute namespace="##other" processContents="lax"/>
+	</complexType>
+	<!-- The following 13 numeric types are all based on the XML Schema built-in types that are derived by restriction from decimal -->
+	<!-- _____________integerItemType            -->
+	<complexType name="integerItemType" final="extension">
+		<simpleContent>
+			<extension base="integer">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________nonPositiveIntegerItemType     -->
+	<complexType name="nonPositiveIntegerItemType" final="extension">
+		<simpleContent>
+			<extension base="nonPositiveInteger">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________negativeIntegerItemType   -->
+	<complexType name="negativeIntegerItemType" final="extension">
+		<simpleContent>
+			<extension base="negativeInteger">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________longItemType            -->
+	<complexType name="longItemType" final="extension">
+		<simpleContent>
+			<extension base="long">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________intItemType    -->
+	<complexType name="intItemType" final="extension">
+		<simpleContent>
+			<extension base="int">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________shortItemType   -->
+	<complexType name="shortItemType" final="extension">
+		<simpleContent>
+			<extension base="short">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________byteItemType   -->
+	<complexType name="byteItemType" final="extension">
+		<simpleContent>
+			<extension base="byte">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________nonNegativeIntegerItemType   -->
+	<complexType name="nonNegativeIntegerItemType" final="extension">
+		<simpleContent>
+			<extension base="nonNegativeInteger">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________unsignedLongItemType   -->
+	<complexType name="unsignedLongItemType" final="extension">
+		<simpleContent>
+			<extension base="unsignedLong">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________unsignedIntItemType    -->
+	<complexType name="unsignedIntItemType" final="extension">
+		<simpleContent>
+			<extension base="unsignedInt">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________unsignedShortItemType    -->
+	<complexType name="unsignedShortItemType" final="extension">
+		<simpleContent>
+			<extension base="unsignedShort">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________unsignedByteItemType    -->
+	<complexType name="unsignedByteItemType" final="extension">
+		<simpleContent>
+			<extension base="unsignedByte">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________positiveIntegerItemType    -->
+	<complexType name="positiveIntegerItemType" final="extension">
+		<simpleContent>
+			<extension base="positiveInteger">
+				<attributeGroup ref="xbrli:numericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________non-numeric Item Types       -->
+	<!-- The following 17 non-numeric types are all based on the primitive built-in data types of XML Schema -->
+	<!-- _____________stringItemType            -->
+	<complexType name="stringItemType" final="extension">
+		<simpleContent>
+			<extension base="string">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________booleanItemType            -->
+	<complexType name="booleanItemType" final="extension">
+		<simpleContent>
+			<extension base="boolean">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________hexBinaryItemType            -->
+	<complexType name="hexBinaryItemType" final="extension">
+		<simpleContent>
+			<extension base="hexBinary">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________base64BinaryItemType            -->
+	<complexType name="base64BinaryItemType" final="extension">
+		<simpleContent>
+			<extension base="base64Binary">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________anyURIItemType            -->
+	<complexType name="anyURIItemType" final="extension">
+		<simpleContent>
+			<extension base="anyURI">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________uriItemType            -->
+	<complexType name="uriItemType" final="extension">
+		<simpleContent>
+			<extension base="anyURI">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________QNameItemType            -->
+	<complexType name="QNameItemType" final="extension">
+		<simpleContent>
+			<extension base="QName">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________NOTATIONItemType            -->
+	<complexType name="NOTATIONItemType" final="extension">
+		<simpleContent>
+			<extension base="NOTATION">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________durationItemType           -->
+	<complexType name="durationItemType" final="extension">
+		<simpleContent>
+			<extension base="duration">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________dateTimeItemType            -->
+	<complexType name="dateTimeItemType" final="extension">
+		<simpleContent>
+			<extension base="xbrli:dateUnion">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________timeItemType            -->
+	<complexType name="timeItemType" final="extension">
+		<simpleContent>
+			<extension base="time">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________dateItemType            -->
+	<complexType name="dateItemType" final="extension">
+		<simpleContent>
+			<extension base="date">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________gYearMonthItemType            -->
+	<complexType name="gYearMonthItemType" final="extension">
+		<simpleContent>
+			<extension base="gYearMonth">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________gYearItemType            -->
+	<complexType name="gYearItemType" final="extension">
+		<simpleContent>
+			<extension base="gYear">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________gMonthDayItemType            -->
+	<complexType name="gMonthDayItemType" final="extension">
+		<simpleContent>
+			<extension base="gMonthDay">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________gDayItemType            -->
+	<complexType name="gDayItemType" final="extension">
+		<simpleContent>
+			<extension base="gDay">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________gMonthItemType            -->
+	<complexType name="gMonthItemType" final="extension">
+		<simpleContent>
+			<extension base="gMonth">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- The following 12 non-numeric types are all based on the XML Schema built-in types that are derived by restriction and/or list from stringl -->
+	<!-- _____________normalizedStringItemType    -->
+	<complexType name="normalizedStringItemType" final="extension">
+		<simpleContent>
+			<extension base="normalizedString">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________tokenItemType    -->
+	<complexType name="tokenItemType" final="extension">
+		<simpleContent>
+			<extension base="token">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________languageItemType    -->
+	<complexType name="languageItemType" final="extension">
+		<simpleContent>
+			<extension base="language">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________NMTOKENItemType    -->
+	<complexType name="NMTOKENItemType" final="extension">
+		<simpleContent>
+			<extension base="NMTOKEN">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________NMTOKENSItemType    -->
+	<complexType name="NMTOKENSItemType" final="extension">
+		<simpleContent>
+			<extension base="NMTOKENS">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________NameItemType    -->
+	<complexType name="NameItemType" final="extension">
+		<simpleContent>
+			<extension base="Name">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________NCNameItemType    -->
+	<complexType name="NCNameItemType" final="extension">
+		<simpleContent>
+			<extension base="NCName">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________IDItemType    -->
+	<complexType name="IDItemType" final="extension">
+		<simpleContent>
+			<extension base="ID">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________IDREFItemType    -->
+	<complexType name="IDREFItemType" final="extension">
+		<simpleContent>
+			<extension base="IDREF">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________IDREFSItemType    -->
+	<complexType name="IDREFSItemType" final="extension">
+		<simpleContent>
+			<extension base="IDREFS">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________ENTITYItemType    -->
+	<complexType name="ENTITYItemType" final="extension">
+		<simpleContent>
+			<extension base="ENTITY">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- _____________ENTITIESItemType    -->
+	<complexType name="ENTITIESItemType" final="extension">
+		<simpleContent>
+			<extension base="ENTITIES">
+				<attributeGroup ref="xbrli:nonNumericItemAttrs"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- ******************* context: period sub elements **************************           -->
+	<simpleType name="dateUnion">
+		<union memberTypes="date dateTime"/>
+	</simpleType>
+	<!-- ******************* xbrl elements **************************           -->
+	<!-- _____________item           -->
+	<element name="item" abstract="true"/><!-- current Fujitsu parser does not seem to like it. -->
+	<!-- element name="item" abstract="true" type="anySimpleType"/ -->
+	<!-- _____________tupleType           -->
+	<complexType name="tupleType" final="extension">
+		<choice minOccurs="0" maxOccurs="unbounded">
+			<element ref="xbrli:item" minOccurs="0" maxOccurs="unbounded"/>
+			<element ref="xbrli:tuple" minOccurs="0" maxOccurs="unbounded"/>
+		</choice>
+		<anyAttribute namespace="##other" processContents="lax"/>
+	</complexType>
+	<!-- _____________tuple           -->
+	<element name="tuple" type="xbrli:tupleType" abstract="true"/>
+</schema>

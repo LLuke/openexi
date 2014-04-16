@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<!-- Obsolete gMonth values are simply ignored. --> 
+<xsd:simpleType name="gMonthDerived">
+  <xsd:restriction base="xsd:gMonth">
+    <xsd:enumeration value="--07--+09:00"/>
+    <xsd:enumeration value="--09--+09:00"/>
+    <xsd:enumeration value="--11--+09:00"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

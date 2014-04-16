@@ -1,0 +1,245 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+<!-- =================================================================== -->
+<!-- decimal                                                             -->
+<!-- =================================================================== -->
+
+<xsd:simpleType name="listOfDecimal">
+  <xsd:list itemType="xsd:decimal"/>
+</xsd:simpleType>
+
+<xsd:attribute name="decimalList" type="foo:listOfDecimal" />
+
+<xsd:complexType name="C01">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute ref="foo:decimalList" fixed="1 2 3" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- string                                                              -->
+<!-- =================================================================== -->
+
+<xsd:simpleType name="listOfString">
+  <xsd:list itemType="xsd:string"/>
+</xsd:simpleType>
+
+<xsd:attribute name="stringList" type="foo:listOfString" />
+
+<xsd:complexType name="C02">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute ref="foo:stringList" fixed="1 2 3" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- anySimpleType                                                       -->
+<!-- =================================================================== -->
+
+<!-- xsd:anySimpleType cannot be used as list item type. -->
+
+<!-- xsd:simpleType name="listOfAnySimpleType">
+  <xsd:list itemType="xsd:anySimpleType"/>
+</xsd:simpleType>
+
+<xsd:attribute name="anySimpleTypeList" type="foo:listOfAnySimpleType" />
+
+<xsd:complexType name="C03">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute ref="foo:anySimpleTypeList" fixed="1 2 3" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType -->
+
+<!-- =================================================================== -->
+<!-- anyURI                                                              -->
+<!-- =================================================================== -->
+
+<xsd:simpleType name="listOfAnyURI">
+  <xsd:list itemType="xsd:anyURI"/>
+</xsd:simpleType>
+
+<xsd:attribute name="anyURIList" type="foo:listOfAnyURI" />
+
+<xsd:complexType name="C04">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute ref="foo:anyURIList" fixed="1 2 3" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- QName                                                               -->
+<!-- =================================================================== -->
+
+<!-- It appears that xsd:QName cannot be used as list item type... -->
+
+<!-- xsd:simpleType name="listOfQName">
+  <xsd:list itemType="xsd:QName"/>
+</xsd:simpleType>
+
+<xsd:attribute name="QNameList" type="foo:listOfQName" />
+
+<xsd:complexType name="C05">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute ref="foo:QNameList" fixed="goo:xyz xsd:abc foo:zyx" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType -->
+
+<!-- =================================================================== -->
+<!-- float                                                               -->
+<!-- =================================================================== -->
+
+<xsd:simpleType name="listOfFloat">
+  <xsd:list itemType="xsd:float"/>
+</xsd:simpleType>
+
+<xsd:attribute name="floatList" type="foo:listOfFloat" />
+
+<xsd:complexType name="C06">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute ref="foo:floatList" fixed="1.23 2.34 3.45" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- double                                                              -->
+<!-- =================================================================== -->
+
+<xsd:simpleType name="listOfDouble">
+  <xsd:list itemType="xsd:double"/>
+</xsd:simpleType>
+
+<xsd:attribute name="doubleList" type="foo:listOfDouble" />
+
+<xsd:complexType name="C07">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute ref="foo:doubleList" fixed="1.23 2.34 3.45" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- dateTime                                                            -->
+<!-- =================================================================== -->
+
+<xsd:simpleType name="listOfDate">
+  <xsd:list itemType="xsd:date"/>
+</xsd:simpleType>
+
+<xsd:attribute name="dateList" type="foo:listOfDate" />
+
+<xsd:complexType name="C08">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute ref="foo:dateList" fixed="2007-07-11 2008-08-12" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- duration                                                            -->
+<!-- =================================================================== -->
+
+<xsd:simpleType name="listOfDuration">
+  <xsd:list itemType="xsd:duration"/>
+</xsd:simpleType>
+
+<xsd:attribute name="durationList" type="foo:listOfDuration" />
+
+<xsd:complexType name="C09">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute ref="foo:durationList" fixed="P3DT10H30M P4DT11H31M" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- base64Binary                                                        -->
+<!-- =================================================================== -->
+
+<xsd:simpleType name="listOfBase64Binary">
+  <xsd:list itemType="xsd:base64Binary"/>
+</xsd:simpleType>
+
+<xsd:attribute name="base64BinaryList" type="foo:listOfBase64Binary" />
+
+<xsd:complexType name="C10">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute ref="foo:base64BinaryList" fixed="QUJDREVGR0hJSg== QUJDREVGR0hJ" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- hexBin                                                              -->
+<!-- =================================================================== -->
+
+<xsd:simpleType name="listOfHexBinary">
+  <xsd:list itemType="xsd:hexBinary"/>
+</xsd:simpleType>
+
+<xsd:attribute name="hexBinaryList" type="foo:listOfHexBinary" />
+
+<xsd:complexType name="C11">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute ref="foo:hexBinaryList" fixed="4142434445464748494A 4142434445464748494A4B" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- boolean                                                             -->
+<!-- =================================================================== -->
+
+<xsd:simpleType name="listOfBoolean">
+  <xsd:list itemType="xsd:boolean"/>
+</xsd:simpleType>
+
+<xsd:attribute name="booleanList" type="foo:listOfBoolean" />
+
+<xsd:complexType name="C12">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute ref="foo:booleanList" fixed="false true true" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- QName                                                             -->
+<!-- =================================================================== -->
+
+<xsd:simpleType name="listOfQName">
+  <xsd:list itemType="xsd:QName"/>
+</xsd:simpleType>
+
+<xsd:attribute name="qnameList" type="foo:listOfQName" />
+
+<xsd:complexType name="C13">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute ref="foo:qnameList" fixed="foo:dog goo:cat foo:pig" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+</xsd:schema>

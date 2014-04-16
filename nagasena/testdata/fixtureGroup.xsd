@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:complexType name="s0">
+  <xsd:sequence/><!-- not a fixture. not even a group. recognized as empty-->
+</xsd:complexType>
+
+<xsd:complexType name="s1">
+  <xsd:sequence><!-- fixture -->
+    <xsd:element name="B"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="s2">
+  <xsd:sequence><!-- not a fixture -->
+    <xsd:element name="B" minOccurs="0"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="s3">
+  <xsd:sequence><!-- fixture -->
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:element name="C"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="s4">
+  <xsd:sequence><!-- fixture -->
+    <xsd:element name="B"/>
+    <xsd:element name="C" minOccurs="0"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="s5">
+  <xsd:sequence><!-- fixture -->
+    <xsd:any namespace="##any"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="s6">
+  <xsd:sequence><!-- not a fixture -->
+    <xsd:any namespace="##any" minOccurs="0"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="s7">
+  <xsd:sequence><!-- fixture -->
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:sequence>
+      <xsd:element name="C"/>
+    </xsd:sequence>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="s8">
+  <xsd:sequence><!-- fixture -->
+    <xsd:element name="B"/>
+    <xsd:sequence>
+      <xsd:element name="C" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="s9">
+  <xsd:sequence><!-- not a fixture -->
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:sequence>
+      <xsd:element name="C" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="s10">
+  <xsd:sequence><!-- fixture -->
+    <xsd:element name="B"/>
+    <xsd:sequence minOccurs="0">
+      <xsd:element name="C"/>
+    </xsd:sequence>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="s11">
+  <xsd:sequence><!-- not a fixture -->
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:sequence minOccurs="0">
+      <xsd:element name="C"/>
+    </xsd:sequence>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="c0">
+  <xsd:choice/><!-- not a fixture. not even a group. recognized as empty-->
+</xsd:complexType>
+
+<xsd:complexType name="c1">
+  <xsd:choice><!-- fixture -->
+    <xsd:element name="B"/>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="c2">
+  <xsd:choice><!-- not a fixture -->
+    <xsd:element name="B" minOccurs="0"/>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="c3">
+  <xsd:choice><!-- not a fixture -->
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:element name="C"/>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="c4">
+  <xsd:choice><!-- not a fixture -->
+    <xsd:element name="B"/>
+    <xsd:element name="C" minOccurs="0"/>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="c5">
+  <xsd:choice><!-- fixture -->
+    <xsd:any namespace="##any"/>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="c6">
+  <xsd:choice><!-- not a fixture -->
+    <xsd:any namespace="##any" minOccurs="0"/>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="c7">
+  <xsd:sequence><!-- fixture -->
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:choice>
+      <xsd:element name="C"/>
+    </xsd:choice>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="c8">
+  <xsd:sequence><!-- fixture -->
+    <xsd:element name="B"/>
+    <xsd:choice>
+      <xsd:element name="C" minOccurs="0"/>
+    </xsd:choice>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="c9">
+  <xsd:choice><!-- not a fixture -->
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:choice>
+      <xsd:element name="C" minOccurs="0"/>
+    </xsd:choice>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="c10">
+  <xsd:choice><!-- not a fixture -->
+    <xsd:element name="B"/>
+    <xsd:choice minOccurs="0">
+      <xsd:element name="C"/>
+    </xsd:choice>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="c11">
+  <xsd:choice><!-- not a fixture -->
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:choice minOccurs="0">
+      <xsd:element name="C"/>
+    </xsd:choice>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="a0">
+  <xsd:all/><!-- not a fixture. not even a group. recognized as empty-->
+</xsd:complexType>
+
+<xsd:complexType name="a1">
+  <xsd:all><!-- fixture -->
+    <xsd:element name="B"/>
+  </xsd:all>
+</xsd:complexType>
+
+<xsd:complexType name="a2">
+  <xsd:all><!-- not a fixture -->
+    <xsd:element name="B" minOccurs="0"/>
+  </xsd:all>
+</xsd:complexType>
+
+<xsd:complexType name="a3">
+  <xsd:all><!-- fixture -->
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:element name="C"/>
+  </xsd:all>
+</xsd:complexType>
+
+<xsd:complexType name="a4">
+  <xsd:all><!-- fixture -->
+    <xsd:element name="B"/>
+    <xsd:element name="C" minOccurs="0"/>
+  </xsd:all>
+</xsd:complexType>
+
+<!-- wildcard cannot be a child of all group.
+	<xsd:complexType name="a5">
+	  <xsd:all>
+	    <xsd:any namespace="##any"/>
+	  </xsd:all>
+	</xsd:complexType>
+
+	<xsd:complexType name="a6">
+	  <xsd:all>
+	    <xsd:any namespace="##any" minOccurs="0"/>
+	  </xsd:all>
+	</xsd:complexType>
+ -->
+
+<xsd:element name="A" type="xsd:anySimpleType"/>
+
+</xsd:schema>

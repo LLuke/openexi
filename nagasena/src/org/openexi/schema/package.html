@@ -1,0 +1,16 @@
+<body>
+<table>
+<tr valign="top" cellpadding="3" border="0">
+<td>
+<p>The schema package contains classes that are used to represent XML Schema Documents (XSDs). <code>EXISchema.writeOut</code> writes an EXISchema to a <code>DataOutputStream</code> (which is typically saved to disk). <code>EXISchema.readIn</code> returns an <code>EXISchema</code> from a <code>DataInputStream</code> (typically from a file on disk), saving the step of processing the schema at runtime.
+</p>
+<p>
+<code>EmptySchema</code> is used to create an explicit schema object with default settings. This is to enable the <code>EXIDecoder</code> and <code>Transmogrifier</code> to process element tags that have embedded datatype overrides.
+</td>
+<td width="385">
+<img src="http://openexi.sourceforge.net/images/OpenEXI_Architecture_Schema.PNG" width="375" height="280" />
+</td>
+</tr>
+</table>
+</p>
+</body>

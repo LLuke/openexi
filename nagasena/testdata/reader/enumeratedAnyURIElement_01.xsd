@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="A">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:anyURI">
+      <xsd:enumeration value=" &#xD;&#x9;urn:foo&#xA;  "/>
+      <xsd:enumeration value="urn:goo"/>
+      <xsd:enumeration value="urn:hoo"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+</xsd:schema>

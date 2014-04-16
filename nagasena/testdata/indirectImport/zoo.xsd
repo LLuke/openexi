@@ -1,0 +1,13 @@
+<schema targetNamespace="urn:zoo" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:zoo="urn:zoo">
+
+  <complexType name="MyItemType">
+    <complexContent>
+      <restriction base="anyType"/>
+    </complexContent>
+  </complexType>
+
+  <element name="MyItem" type="zoo:MyItemType"/>
+
+</schema>
+

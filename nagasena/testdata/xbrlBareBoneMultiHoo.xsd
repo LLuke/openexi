@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:hoo" xmlns:goo="urn:hoo"
+            xmlns:foo="urn:foo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:xbrli="http://www.xbrl.org/2003/instance"
+            xmlns:link="http://www.xbrl.org/2003/linkbase">
+
+<xsd:import namespace="urn:foo"
+            schemaLocation="xbrlBareBone.xsd"/>
+
+<xsd:import namespace="http://www.xbrl.org/2003/instance"
+            schemaLocation="xbrl-itemTuple.xsd"/>
+
+<xsd:element name="IA" substitutionGroup="foo:IA"
+             xbrli:periodType="duration" type="xbrli:monetaryItemType"/>
+
+<xsd:element name="TA" substitutionGroup="foo:TA"
+             type="foo:tupleType"/>
+
+</xsd:schema>

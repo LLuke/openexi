@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="A">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:integer">
+      <xsd:enumeration value="115"/><!-- Integer -->
+      <xsd:enumeration value="9223372036854775807"/><!-- Long.MAX_VALUE -->
+      <xsd:enumeration value="-9223372036854775808"/><!-- Long.MIN_VALUE -->
+      <xsd:enumeration value="98765432109876543210"/><!-- BigInteger -->
+      <xsd:enumeration value="987654321098765432"/><!-- Long -->
+      <xsd:enumeration value="-987654321098765432"/><!-- Long -->
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+</xsd:schema>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+<xsd:notation name="cat" system="http://foo.com/cat"/>
+<xsd:notation name="dog" system="http://foo.com/dog"/>
+<xsd:notation name="pig" system="http://foo.com/pig"/>
+
+<xsd:element name="A">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:NOTATION">
+      <xsd:enumeration value="foo:cat"/>
+      <xsd:enumeration value="foo:dog"/>
+      <xsd:enumeration value="foo:pig"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+</xsd:schema>

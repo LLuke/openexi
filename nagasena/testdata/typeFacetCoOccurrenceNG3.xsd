@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:foo="urn:foo" >
+
+<xsd:simpleType name="int10">
+  <xsd:restriction base="xsd:int">
+    <xsd:minInclusive value="10"/>
+    <xsd:minExclusive value="10"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

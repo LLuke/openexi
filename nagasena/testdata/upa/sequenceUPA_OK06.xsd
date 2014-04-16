@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="AlGore">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:sequence maxOccurs="unbounded">
+        <xsd:element ref="foo:d"/>
+        <xsd:element ref="foo:b"/>
+      </xsd:sequence>
+      <xsd:sequence>
+        <xsd:element ref="foo:e"/>
+        <xsd:element ref="foo:c"/>
+      </xsd:sequence>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="a" type="xsd:string"/>
+<xsd:element name="b"/>
+<xsd:element name="c"/>
+
+<xsd:element name="d" substitutionGroup="foo:a" type="xsd:token"/>
+<xsd:element name="e" substitutionGroup="foo:a" type="xsd:token"/>
+
+</xsd:schema>

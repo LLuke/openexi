@@ -1,0 +1,11 @@
+<schema targetNamespace="urn:foo" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:foo="urn:foo">
+
+  <include schemaLocation="foo2.xsd"/>
+
+  <element name="MyItem" type="int"/>
+
+  <element name="MyTuple" type="foo:MyTupleType" />
+
+</schema>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:complexType name="stringItemType">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute name="id" type="xsd:ID" use="optional" />
+      <xsd:anyAttribute namespace="##targetNamespace urn:goo" processContents="lax" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<xsd:complexType name="restrictedStringItemType">
+  <xsd:simpleContent>
+    <xsd:restriction base="foo:stringItemType">
+      <xsd:maxLength value="10"/>
+      <xsd:anyAttribute namespace="urn:goo" processContents="lax"/>
+    </xsd:restriction>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+</xsd:schema>

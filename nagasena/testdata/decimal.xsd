@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" >
+
+<xsd:simpleType name="totalDigits6">
+  <xsd:restriction base="xsd:decimal">
+    <xsd:totalDigits value="6"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:element name="A" type="foo:totalDigits6"/>
+
+<xsd:element name="ListOfDecimals">
+  <xsd:simpleType>
+    <xsd:list>
+      <xsd:simpleType>
+        <xsd:restriction base="foo:totalDigits6"/>
+      </xsd:simpleType>
+    </xsd:list>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="ListOfDecimalsRepeated">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="foo:ListOfDecimals" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

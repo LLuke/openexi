@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:myhub"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:import namespace="http://www.opengis.net/gml" schemaLocation="GML-2.12/feature.xsd" />
+<xsd:import namespace="http://www.opengis.net/wfs" schemaLocation="WFS-1.0.0/WFS-basic.xsd" />
+<xsd:import namespace="http://www.ordnancesurvey.co.uk/xml/namespaces/osgb" schemaLocation="OSDNF-1.1/OSDNFFeatures.xsd" />
+
+</xsd:schema>

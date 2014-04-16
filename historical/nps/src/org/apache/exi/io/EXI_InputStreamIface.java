@@ -1,0 +1,40 @@
+/**
+ * Copyright 2010 Naval Postgraduate School
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.exi.io;
+
+import java.io.InputStream;
+import org.apache.exi.core.EXIConstants;
+import org.apache.exi.grammars.events.EventAbstract;
+
+/**
+ *
+ * @author Sheldon L. Snyder<br>
+ * @version 1.0.0<br>
+ */
+public interface EXI_InputStreamIface
+{
+
+    public int maxEvtCode1 = EXIConstants.VALUE_NOT_YET_SET;
+    public int maxEvtCode2 = EXIConstants.VALUE_NOT_YET_SET;
+    public int maxEvtCode3 = EXIConstants.VALUE_NOT_YET_SET;
+    public EventAbstract curEvent = null;
+
+    public String readStringLiteral(int n);
+    public int readUInt();
+    public int readNbit(int n);
+    public void cleanAndClose();
+    public int defaultHeader90();
+}

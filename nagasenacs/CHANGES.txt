@@ -1,0 +1,42 @@
+2014-04-11 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0002.0
+
+- Added Base64BinaryValueEncodingTest.
+
+A       test/Nagasena/Sax
+A       test/Nagasena/Sax/Base64BinaryValueEncodingTest.cs
+M       fixture/Nagasena/Schema/TestBase.cs
+A       testdata/base64Binary_95K.xml
+A       testdata/base64Binary.xsc
+A       testdata/DataStore
+A       testdata/DataStore/DataStore.xsc
+A       testdata/DataStore/instance
+A       testdata/DataStore/instance/1000BinaryStore.xml
+
+0000.0000.0002.0
+
+- Added ScriberRuntimeExceptionTest.
+
+A       test/Nagasena/Proc/IO/ScriberRuntimeExceptionTest.cs
+M       src/Nagasena/Proc/IO/ScriberRuntimeException.cs
+M       src/Nagasena/Proc/IO/Scriber.cs
+M       resources/Nagasena/Proc/IO/ScriberRuntimeExceptionXMsg.xml
+
+2014-04-10 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0001.0
+
+- ScriberException is now a run-time exception.
+
+A  +    src/Nagasena/Proc/IO/ScriberRuntimeException.cs
+M       src/Nagasena/Proc/IO/Scriber.cs
+M       src/Nagasena/Proc/IO/BinaryValueScriber.cs
+D       src/Nagasena/Proc/IO/ScriberExceptionMessages.cs
+D       src/Nagasena/Proc/IO/ScriberException.cs
+M       src/Nagasena/Proc/IO/BinaryDataSink.cs
+A  +    src/Nagasena/Proc/IO/ScriberRuntimeExceptionMessages.cs
+M       src/Nagasena/Sax/Transmogrifier.cs
+D       resources/Nagasena/Proc/IO/ScriberExceptionXMsg.xml
+A  +    resources/Nagasena/Proc/IO/ScriberRuntimeExceptionXMsg.xml
+

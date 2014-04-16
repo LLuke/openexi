@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.1//EN" "http://www.web3d.org/specifications/x3d-3.1.dtd">
+<X3D>
+    <!-- profile='Immersive' version='3.1' xmlns:xsd='http://www.w3.org/2001/XMLSchema-instance' xsd:noNamespaceSchemaLocation='http://www.web3d.org/specifications/x3d-3.1.xsd'> -->
+  <head>
+
+  </head>
+  <Scene>
+    <!-- Example scene to illustrate X3D tags and attributes. -->
+    <Group>
+      <Viewpoint centerOfRotation='0 -1 0' description='Hello world!' position='0 -1 7'/>
+      <Transform rotation='0 1 0 3'>
+        <Shape>
+          <Sphere/>
+          <Appearance>
+            <Material diffuseColor='0 0.5 1'/>
+            <ImageTexture url='"earth-topo.png" "earth-topo.jpg" "earth-topo-small.gif" "http://www.web3d.org/x3d/content/examples/Basic/earth-topo.png" "http://www.web3d.org/x3d/content/examples/Basic/earth-topo.jpg" "http://www.web3d.org/x3d/content/examples/Basic/earth-topo-small.gif"'/>
+          </Appearance>
+        </Shape>
+      </Transform>
+      <Transform translation='0 -2 0'>
+        <Shape>
+          <Text solid='false' string='"Hello" "world!"'>
+            <FontStyle justify='"MIDDLE" "MIDDLE"'/>
+          </Text>
+          <Appearance>
+            <Material diffuseColor='0.1 0.5 1'/>
+          </Appearance>
+        </Shape>
+      </Transform>
+    </Group>
+  </Scene>
+</X3D>

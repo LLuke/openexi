@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:group name="datedAddress1">
+  <xsd:sequence>
+    <xsd:element name="Zip" type="xsd:string"/>
+    <xsd:choice maxOccurs="7">
+      <xsd:element name="value" type="xsd:string"/>
+      <xsd:group ref="foo:datedAddress2" />
+    </xsd:choice>
+    <xsd:element name="Trailer" type="xsd:string"/>
+  </xsd:sequence>
+</xsd:group>
+
+<xsd:group name="datedAddress2">
+  <xsd:sequence>
+    <xsd:element name="Zip" type="xsd:string"/>
+    <xsd:choice maxOccurs="7">
+      <xsd:element name="value" type="xsd:string"/>
+      <xsd:group ref="foo:datedAddress1" />
+    </xsd:choice>
+    <xsd:element name="Trailer" type="xsd:string"/>
+  </xsd:sequence>
+</xsd:group>
+
+<xsd:complexType name="datedAddress">
+  <xsd:group ref="foo:datedAddress1" />
+  <xsd:attribute name="date" type="xsd:date" />
+</xsd:complexType>
+
+<xsd:element name="A" type="foo:datedAddress"/>
+
+</xsd:schema>

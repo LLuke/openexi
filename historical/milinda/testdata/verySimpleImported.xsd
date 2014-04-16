@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:goo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:goo="urn:goo">
+
+<xsd:element name="a">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="goo:b"/>
+      <xsd:element ref="goo:c"/>
+      <xsd:element ref="goo:d"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="b" type="goo:string10" id="goo_b"/>
+<xsd:element name="c" type="xsd:string"/>
+<xsd:element name="d" type="xsd:string"/>
+
+<xsd:simpleType name="string10">
+  <xsd:restriction base="xsd:string">
+    <xsd:length value="10"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="string16">
+  <xsd:restriction base="xsd:string">
+    <xsd:length value="16"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:attribute name="A" type="goo:string16"/>
+
+</xsd:schema>

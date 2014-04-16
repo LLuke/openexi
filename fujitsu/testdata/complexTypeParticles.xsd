@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:complexType name="s0">
+  <!-- optinal particle, fixture group -->
+  <xsd:sequence minOccurs="0">
+    <xsd:element name="B"/>
+    <xsd:element name="C"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="s1">
+  <!-- optinal particle, fixture group -->
+  <xsd:sequence minOccurs="0">
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:element name="C"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="s2">
+  <!-- optinal particle, non-fixture group -->
+  <xsd:sequence minOccurs="0">
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:element name="C" minOccurs="0"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="s3">
+  <!-- non-optinal particle, fixture group -->
+  <xsd:sequence>
+    <xsd:element name="B"/>
+    <xsd:element name="C"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="s4">
+  <!-- non-optinal particle, fixture group -->
+  <xsd:sequence>
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:element name="C"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="s5">
+  <!-- non-optinal particle, non-fixture group -->
+  <xsd:sequence>
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:element name="C" minOccurs="0"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="c0">
+  <!-- optinal particle, fixture group -->
+  <xsd:choice minOccurs="0">
+    <xsd:element name="B"/>
+    <xsd:element name="C"/>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="c1">
+  <!-- optinal particle, non-fixture group -->
+  <xsd:choice minOccurs="0">
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:element name="C"/>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="c2">
+  <!-- optinal particle, non-fixture group -->
+  <xsd:choice minOccurs="0">
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:element name="C" minOccurs="0"/>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="c3">
+  <!-- non-optinal particle, fixture group -->
+  <xsd:choice>
+    <xsd:element name="B"/>
+    <xsd:element name="C"/>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="c4">
+  <!-- non-optinal particle, non-fixture group -->
+  <xsd:choice>
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:element name="C"/>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="c5">
+  <!-- non-optinal particle, non-fixture group -->
+  <xsd:choice>
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:element name="C" minOccurs="0"/>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="c6">
+  <!-- non-optinal particle, non-fixture group -->
+  <xsd:choice>
+    <xsd:element name="B" minOccurs="0" maxOccurs="0" />
+    <xsd:element name="C" minOccurs="0" maxOccurs="0"/>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="a0">
+  <!-- optinal particle, fixture group -->
+  <xsd:all minOccurs="0">
+    <xsd:element name="B"/>
+    <xsd:element name="C"/>
+  </xsd:all>
+</xsd:complexType>
+
+<xsd:complexType name="a1">
+  <!-- optinal particle, fixture group -->
+  <xsd:all minOccurs="0">
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:element name="C"/>
+  </xsd:all>
+</xsd:complexType>
+
+<xsd:complexType name="a2">
+  <!-- optinal particle, non-fixture group -->
+  <xsd:all minOccurs="0">
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:element name="C" minOccurs="0"/>
+  </xsd:all>
+</xsd:complexType>
+
+<xsd:complexType name="a3">
+  <!-- non-optinal particle, fixture group -->
+  <xsd:all>
+    <xsd:element name="B"/>
+    <xsd:element name="C"/>
+  </xsd:all>
+</xsd:complexType>
+
+<xsd:complexType name="a4">
+  <!-- non-optinal particle, fixture group -->
+  <xsd:all>
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:element name="C"/>
+  </xsd:all>
+</xsd:complexType>
+
+<xsd:complexType name="a5">
+  <!-- non-optinal particle, non-fixture group -->
+  <xsd:all>
+    <xsd:element name="B" minOccurs="0"/>
+    <xsd:element name="C" minOccurs="0"/>
+  </xsd:all>
+</xsd:complexType>
+
+<xsd:complexType name="e1" />
+
+<xsd:complexType name="st1">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string"/>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+</xsd:schema>

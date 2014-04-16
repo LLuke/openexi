@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsd:schema [
+  <!ENTITY ns_target       "urn:foo" >
+  <!ENTITY ns_xmlSchema    "http://www.w3.org/2001/XMLSchema" >
+  <!ENTITY ns_xbrlInstance "http://www.xbrl.org/2003/instance" >
+  <!ENTITY ns_xbrlLinkbase "http://www.xbrl.org/2003/linkbase" >
+]>
+
+<xsd:schema targetNamespace="&ns_target;" xmlns:foo="&ns_target;"
+            xmlns:xsd="&ns_xmlSchema;" xmlns:xbrli="&ns_xbrlInstance;"
+            xmlns:link="&ns_xbrlLinkbase;">
+
+<xsd:annotation>
+  <xsd:appinfo>
+    <link:roleType roleURI="urn:finalDefinition">
+      <link:usedOn>link:definitionLink</link:usedOn>
+    </link:roleType>
+    <link:roleType roleURI="urn:beginNote">
+      <link:usedOn>link:footnote</link:usedOn>
+    </link:roleType>
+    <link:roleType roleURI="urn:endNote">
+      <link:usedOn>link:footnote</link:usedOn>
+      <link:usedOn>link:definitionLink</link:usedOn>
+    </link:roleType>
+  </xsd:appinfo>
+  <xsd:appinfo>
+    <link:arcroleType arcroleURI="urn:total-part" cyclesAllowed="none">
+      <link:usedOn>link:calculationArc</link:usedOn>
+    </link:arcroleType>
+    <link:arcroleType arcroleURI="urn:oya-kodomo" cyclesAllowed="undirected">
+      <link:usedOn>link:presentationArc</link:usedOn>
+    </link:arcroleType>
+    <link:arcroleType arcroleURI="urn:japan-fujitsu" cyclesAllowed="any">
+      <link:usedOn>link:labelArc</link:usedOn>
+      <link:usedOn>link:definitionArc</link:usedOn>
+    </link:arcroleType>
+  </xsd:appinfo>
+</xsd:annotation>
+
+<xsd:import namespace="&ns_xbrlInstance;"
+            schemaLocation="xbrl-itemTuple.xsd"/>
+
+<xsd:include schemaLocation="tupleType.xsd"/>
+
+<!-- IA is substitutable for xbrli:item. -->
+<xsd:element name="IA" substitutionGroup="xbrli:item"
+             xbrli:periodType="duration" type="xbrli:monetaryItemType"/>
+
+<!-- IB is indirectly substitutable for xbrli:item. -->
+<xsd:element name="IB" substitutionGroup="foo:IA"
+             xbrli:periodType="duration" type="xbrli:monetaryItemType"/>
+
+<!-- TA is substitutable for xbrli:tuple. -->
+<xsd:element name="TA" substitutionGroup="xbrli:tuple"
+             type="foo:tupleType"/>
+
+<!-- TB is indirectly substitutable for xbrli:tuple. -->
+<xsd:element name="TB" substitutionGroup="foo:TA"
+             type="foo:tupleType"/>
+
+<!-- nonIA is *not* substitutable for xbrli:item. -->
+<xsd:element name="nonIA"
+             xbrli:periodType="duration" type="xbrli:monetaryItemType"/>
+
+<!-- nonIB is *not* substitutable for xbrli:item. -->
+<xsd:element name="nonIB" substitutionGroup="foo:nonIA"
+             xbrli:periodType="duration" type="xbrli:monetaryItemType"/>
+
+</xsd:schema>

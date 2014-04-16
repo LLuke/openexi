@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="Street5"><xsd:complexType/></xsd:element>
+
+<xsd:complexType name="datedAddress5">
+  <xsd:sequence minOccurs="0" maxOccurs="5">
+    <xsd:choice maxOccurs="2">
+      <xsd:element ref="foo:Street5" maxOccurs="unbounded"/>
+      <xsd:element name="City5a"><xsd:complexType/></xsd:element>
+    </xsd:choice>
+    <xsd:element name="Zip5" maxOccurs="unbounded"><xsd:complexType/></xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:element name="DatedAddress5" type="foo:datedAddress5"/>
+
+</xsd:schema>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="urn:osgb" xmlns:osgb="urn:osgb"
+        xmlns="http://www.w3.org/2001/XMLSchema">
+
+  <include schemaLocation="osgbIncluded1.xsd"/>
+  <include schemaLocation="osgbIncluded2.xsd"/>
+
+  <element name="osgbElem">
+    <complexType>
+      <sequence>
+        <element name="eA" type="osgb:typeA"/>
+        <element name="eB" type="osgb:typeB"/>
+      </sequence>
+    </complexType>
+  </element>
+
+</schema>

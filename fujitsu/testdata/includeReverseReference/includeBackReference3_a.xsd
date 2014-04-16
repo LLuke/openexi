@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="urn:foo" xmlns:foo="urn:foo">
+
+  <include schemaLocation="includeBackReference3_b.xsd"/>
+
+  <group name="ga">
+    <sequence>
+      <element name="ea"/>
+    </sequence>
+  </group>
+
+  <element name="ea" type="foo:tc"/>
+
+</schema>

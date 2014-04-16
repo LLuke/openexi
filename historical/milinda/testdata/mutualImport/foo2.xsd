@@ -1,0 +1,8 @@
+<schema targetNamespace="urn:foo" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:zoo="urn:zoo" xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+  <import namespace="urn:zoo" schemaLocation="zoo.xsd"/>
+
+  <element name="MyItem" type="zoo:MyItemType"/>
+
+</schema>

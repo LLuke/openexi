@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:complexType name="anySequenceType">
+  <xsd:sequence>
+    <xsd:any namespace="##any"/>
+  </xsd:sequence>
+  <xsd:anyAttribute namespace="##any" processContents="skip" />
+</xsd:complexType>
+
+<xsd:complexType name="restrictedAnySequenceType">
+  <xsd:complexContent>
+    <xsd:restriction base="foo:anySequenceType">
+      <xsd:sequence>
+        <xsd:any namespace="##any"/>
+      </xsd:sequence>
+      <xsd:anyAttribute namespace="##any" processContents="lax"/>
+    </xsd:restriction>
+  </xsd:complexContent>
+</xsd:complexType>
+
+</xsd:schema>

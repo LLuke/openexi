@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:simpleType name="intName">
+  <xsd:union memberTypes="xsd:int xsd:Name"/>
+</xsd:simpleType>
+
+<xsd:simpleType name="unionDerived">
+  <xsd:restriction base="foo:intName">
+    <xsd:enumeration value="100xyz"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

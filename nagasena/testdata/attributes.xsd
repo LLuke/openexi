@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+<xsd:attribute name="aA" type="xsd:boolean" fixed="true"/>
+
+<xsd:attribute name="aB" type="xsd:boolean"/>
+
+<xsd:element name="A">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:any/>
+    </xsd:sequence>
+    <xsd:attribute ref="foo:aA"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="B">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:any/>
+    </xsd:sequence>
+    <xsd:attribute ref="foo:aB" fixed="true"/>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

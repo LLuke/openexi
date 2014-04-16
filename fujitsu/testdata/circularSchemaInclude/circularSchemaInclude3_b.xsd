@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="urn:foo" xmlns:foo="urn:foo">
+
+  <include schemaLocation="circularSchemaInclude3_c.xsd"/>
+
+  <group name="gb">
+    <sequence>
+      <group ref="foo:ga"/>
+      <element name="eb"/>
+    </sequence>
+  </group>
+
+</schema>

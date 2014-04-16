@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:simpleType name="fooDuration">
+  <xsd:restriction base="xsd:duration">
+    <xsd:maxExclusive value="P1Y2M3DT10H30M"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="durationDerived">
+  <xsd:restriction base="foo:fooDuration">
+    <xsd:enumeration value="P1Y2M3DT10H29M"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

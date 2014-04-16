@@ -1,0 +1,3 @@
+<foo:L xmlns:foo="urn:foo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true">
+123
+</foo:L>

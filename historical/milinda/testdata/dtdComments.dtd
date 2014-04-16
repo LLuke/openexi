@@ -1,0 +1,3 @@
+<!-- This is a comment in DTD. -->
+<!ELEMENT A (B)>
+<!ELEMENT B (#PCDATA)>

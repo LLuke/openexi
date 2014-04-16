@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<X3D>
+    <Transform rotation='1 0 0 0.4'>
+        <Transform rotation='0 0 1 0.5'/>
+    </Transform>
+</X3D>

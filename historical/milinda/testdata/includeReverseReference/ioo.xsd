@@ -1,0 +1,20 @@
+<schema targetNamespace="urn:ioo" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:hoo="urn:hoo" xmlns:ioo="urn:ioo" >
+
+  <import namespace="urn:hoo" schemaLocation="hoo2.xsd"/>
+
+  <simpleType name="MyItemType">
+    <restriction base="hoo:MyItemType">
+      <enumeration value="100"/>
+      <enumeration value="101"/>
+      <enumeration value="102"/>
+    </restriction>
+  </simpleType>
+
+  <complexType name="MyTupleType">
+    <sequence>
+      <element name="MyItem" type="ioo:MyItemType" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+</schema>

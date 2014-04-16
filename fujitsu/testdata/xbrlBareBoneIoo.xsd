@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:ioo" xmlns:goo="urn:goo"
+            xmlns:hoo="urn:hoo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:xbrli="http://www.xbrl.org/2003/instance"
+            xmlns:link="http://www.xbrl.org/2003/linkbase">
+
+<xsd:import namespace="urn:goo"
+            schemaLocation="xbrlBareBoneMultiGoo.xsd"/>
+
+<xsd:import namespace="urn:hoo"
+            schemaLocation="xbrlBareBoneMultiHoo.xsd"/>
+
+
+</xsd:schema>

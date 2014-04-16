@@ -1,0 +1,8 @@
+<foo:E xmlns:foo="urn:foo">
+  <F/>
+  <G/>
+  <F/>
+  <G/>
+  <F/>
+  <G/>
+</foo:E>

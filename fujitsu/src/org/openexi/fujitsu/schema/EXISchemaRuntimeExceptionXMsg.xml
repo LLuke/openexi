@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<Root>
+  <msg id="1">Requested type "{0}" is not compatible with the variant type.</msg>
+  <msg id="2">The node at position {0} is not an XBRL element.</msg>
+  <!-- msg id="3">The complex type node at position {0} does not own a particle.</msg -->
+  <msg id="4">The specified index {0} is out of the range (min:{1}-max:{2}).</msg>
+  <msg id="5">The node at position {0} is not an attribute.</msg>
+  <msg id="6">The node at position {0} is not an element.</msg>
+  <msg id="7">The element at position {0} is not a simple content element.</msg>
+  <msg id="8">The node at position {0} is neither an attribute nor an attribute use.</msg>
+  <msg id="9">The node at position {0} is not a simple type node.</msg>
+  <msg id="10">The node at position {0} is not a schema node.</msg>
+  <msg id="11">The node at position {0} is not a wildcard node.</msg>
+  <msg id="12">The node at position {0} is neither an element node nor an attribute node.</msg>
+  <msg id="13">The value of a Name cannot be changed to null.</msg>
+  <msg id="14">The simple type node at position {0} is not atomic.</msg>
+  <msg id="15">The node at position {0} is not a type node.</msg>
+  <msg id="16">The node at position {0} is not a complex type node.</msg>
+  <msg id="17">The node at position {0} is not a namespace node.</msg>
+  <msg id="18">The node at position {0} is not a group node.</msg>
+  <msg id="19">The node at position {0} is not a particle node.</msg>
+</Root>

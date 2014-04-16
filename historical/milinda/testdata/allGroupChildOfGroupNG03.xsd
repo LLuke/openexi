@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="A">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:group ref="foo:all" />
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:group name="all">
+  <xsd:all>
+    <xsd:element name="B" />
+  </xsd:all>
+</xsd:group>
+
+</xsd:schema>

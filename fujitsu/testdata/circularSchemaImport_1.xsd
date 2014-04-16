@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.fujitsu.com/xbrl/taxeditor/default3">
+
+  <import namespace="http://www.fujitsu.com/xbrl/taxeditor/default2"
+          schemaLocation="circularSchemaImport_2.xsd"/>
+
+  <element name="newItem" />
+
+</schema>

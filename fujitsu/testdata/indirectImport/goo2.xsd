@@ -1,0 +1,14 @@
+<schema targetNamespace="urn:goo" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:goo="urn:goo" xmlns:zoo="urn:zoo">
+
+  <import namespace="urn:zoo" schemaLocation="zoo.xsd"/>
+
+  <complexType name="MyItemType">
+    <complexContent>
+      <restriction base="zoo:MyItemType"/>
+    </complexContent>
+  </complexType>
+
+  <element name="MyItem" type="goo:MyItemType"/>
+
+</schema>

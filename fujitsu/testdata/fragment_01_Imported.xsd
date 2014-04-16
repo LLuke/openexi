@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:goo" elementFormDefault="qualified"
+           attributeFormDefault="qualified"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:goo="urn:goo" >
+
+<xsd:element name="A" type="xsd:boolean" />
+
+<xsd:attribute name="a">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:decimal">
+      <xsd:maxInclusive value="3.14"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:attribute>
+
+<xsd:attribute name="c" type="xsd:boolean"/>
+
+<xsd:group name="modelGroupA">
+  <xsd:sequence>
+    <xsd:element name="A__" type="xsd:string" />
+    <xsd:element name="A_">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:group ref="goo:modelGroupA" minOccurs="0"/>
+          <xsd:element name="Z" type="xsd:int" minOccurs="0" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:group>
+
+<xsd:element name="A_">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:group ref="goo:modelGroupA" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="a">
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:maxInclusive value="3.14"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+    <xsd:attribute name="c" type="xsd:boolean"/>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

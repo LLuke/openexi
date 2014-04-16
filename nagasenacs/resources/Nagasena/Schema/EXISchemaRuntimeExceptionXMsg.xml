@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<Root>
+  <msg id="1">The specified index {0} is out of the range (min:{1}-max:{2}).</msg>
+</Root>

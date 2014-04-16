@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="A">
+  <xsd:complexType>
+    <xsd:choice>
+      <xsd:element name="B"/>
+      <xsd:element name="C"/>
+    </xsd:choice>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="B">
+  <xsd:complexType>
+    <xsd:choice>
+      <xsd:sequence>
+        <xsd:element name="C"/>
+      </xsd:sequence>
+      <xsd:sequence>
+        <xsd:element name="D"/>
+      </xsd:sequence>
+    </xsd:choice>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="C">
+  <xsd:complexType>
+    <xsd:choice>
+      <xsd:sequence>
+        <xsd:element name="D"/>
+      </xsd:sequence>
+      <xsd:sequence>
+        <xsd:element name="E" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:choice>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="D">
+  <xsd:complexType>
+    <xsd:choice>
+      <xsd:element name="E" minOccurs="2" maxOccurs="2"/>
+      <xsd:element name="F"/>
+    </xsd:choice>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="E">
+  <xsd:complexType>
+    <xsd:choice>
+      <xsd:sequence minOccurs="2" maxOccurs="2">
+        <xsd:element name="F"/>
+        <xsd:element name="G"/>
+      </xsd:sequence>
+      <xsd:element name="H"/>
+    </xsd:choice>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="F">
+  <xsd:complexType>
+    <xsd:choice minOccurs="0" maxOccurs="0"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="G">
+  <xsd:complexType>
+    <xsd:choice>
+      <xsd:element minOccurs="0" name="H"/>
+      <xsd:element minOccurs="2" maxOccurs="unbounded" name="I"/>
+    </xsd:choice>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

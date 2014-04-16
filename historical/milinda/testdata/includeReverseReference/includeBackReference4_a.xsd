@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="urn:foo" xmlns:foo="urn:foo">
+
+  <include schemaLocation="includeBackReference4_b.xsd"/>
+
+  <attributeGroup name="ga">
+    <attribute name="aa" type="string"/>
+  </attributeGroup>
+
+  <element name="ea" type="foo:tc"/>
+
+</schema>

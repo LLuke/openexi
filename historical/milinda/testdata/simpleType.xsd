@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+<xsd:simpleType name="string10">
+  <xsd:restriction base="xsd:string">
+    <xsd:maxLength value="10"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="string16">
+  <xsd:restriction base="xsd:string">
+    <xsd:maxLength value="16"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="string3_10">
+  <xsd:restriction base="foo:string10">
+    <xsd:minLength value="3"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="strings16">
+  <xsd:list itemType="foo:string16"/>
+</xsd:simpleType>
+
+<xsd:simpleType name="digits10">
+  <xsd:restriction base="foo:string10">
+    <xsd:pattern value="(\d|\s)*"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<!--
+  [strictDigits8]
+    whiteSpace: preserve
+    maxLength : 8
+    pattern   : "\d*", "[0-5]*"
+  -->
+<xsd:simpleType name="strictDigits8">
+  <xsd:restriction base="foo:digits10">
+    <xsd:maxLength value="8"/>
+    <xsd:pattern value="[0-5\s]*"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="strictDigits6">
+  <xsd:restriction base="foo:strictDigits8">
+    <xsd:maxLength value="6"/>
+    <xsd:pattern value="[01]*"/>
+    <xsd:pattern value="[34]*"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="strictDigits4">
+  <xsd:restriction base="foo:strictDigits6">
+    <xsd:maxLength value="4"/>
+    <xsd:pattern value="[03]*"/>
+    <xsd:pattern value="[14]*"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="strictDigits3">
+  <xsd:restriction base="foo:strictDigits4">
+    <xsd:maxLength value="3"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="strictDigits2">
+  <xsd:restriction base="foo:strictDigits4">
+    <xsd:maxLength value="2"/>
+    <xsd:pattern value="[04]*"/>
+    <xsd:pattern value="[13]*"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="strictDigits1">
+  <xsd:restriction base="foo:strictDigits3">
+    <xsd:maxLength value="1"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="length10">
+  <xsd:restriction base="xsd:string">
+    <xsd:length value="10"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="minLength10">
+  <xsd:restriction base="xsd:string">
+    <xsd:minLength value="10"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="replaceString">
+  <xsd:restriction base="xsd:string">
+    <xsd:whiteSpace value="replace"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name='decimal8_2'>
+  <xsd:restriction base='xsd:decimal'>
+    <xsd:totalDigits value='8'/>
+    <xsd:fractionDigits value='2' fixed='true'/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="collapsedString">
+  <xsd:restriction base="xsd:normalizedString">
+    <xsd:whiteSpace value="collapse"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:element name="A" type="xsd:anySimpleType"/>
+
+</xsd:schema>

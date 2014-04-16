@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="A">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:double">
+      <xsd:enumeration value="-1E4"/>
+      <xsd:enumeration value="1267.43233E12"/>
+      <xsd:enumeration value="12.78e-2"/>
+      <xsd:enumeration value="12"/>
+      <xsd:enumeration value="1200"/>
+      <xsd:enumeration value="0"/>
+      <xsd:enumeration value="-0"/>
+      <xsd:enumeration value="INF"/>
+      <xsd:enumeration value="-INF"/>
+      <xsd:enumeration value="NaN"/>
+      <xsd:enumeration value="0E3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+</xsd:schema>

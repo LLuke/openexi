@@ -1,0 +1,13 @@
+<book>
+  <part>
+    <title>Intro</title>
+    <chapter>
+      <title>Start</title>
+      <!-- unexpected --><pseudoPara>chapterContent</pseudoPara>
+      <sect1>
+        <title>Markups</title>
+        <para>sectionContent</para>
+      </sect1>
+    </chapter>
+  </part>
+</book>

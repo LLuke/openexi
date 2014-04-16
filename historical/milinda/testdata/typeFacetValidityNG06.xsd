@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:foo="urn:foo" >
+
+<xsd:simpleType name="date2">
+  <xsd:restriction base="xsd:date">
+    <xsd:maxExclusive value="2005-10-10"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="date3">
+  <xsd:restriction base="foo:date2">
+    <xsd:maxExclusive value="2005-10-11"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

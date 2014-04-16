@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="A">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="foo:AB"/>
+      <xsd:sequence>
+        <xsd:element ref="foo:AC"/>
+      </xsd:sequence>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="AB" type="xsd:anySimpleType"/>
+
+<xsd:element name="AC" type="xsd:anySimpleType"/>
+
+<xsd:element name="AD" type="xsd:anySimpleType"/>
+
+<xsd:element name="B">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="foo:BA" minOccurs="2" maxOccurs="2"/>
+      <xsd:element ref="foo:BC"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="BA" type="xsd:anySimpleType"/>
+
+<xsd:element name="BC" type="xsd:anySimpleType"/>
+
+<xsd:element name="C">
+  <xsd:complexType>
+    <xsd:choice>
+      <xsd:element ref="foo:AB" minOccurs="0" maxOccurs="2"/>
+      <xsd:sequence>
+        <xsd:element ref="foo:AC"/>
+      </xsd:sequence>
+    </xsd:choice>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="D">
+  <xsd:complexType>
+    <xsd:all>
+      <xsd:element ref="foo:AB"/>
+      <xsd:element ref="foo:AC" minOccurs="0"/>
+      <xsd:element ref="foo:AD" minOccurs="0"/>
+    </xsd:all>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="E">
+  <xsd:complexType>
+    <xsd:all>
+      <xsd:element ref="foo:EB"/>
+      <xsd:element ref="foo:EC"/>
+    </xsd:all>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="EB" type="xsd:anySimpleType"/>
+
+<xsd:element name="EC" type="xsd:anySimpleType"/>
+
+<xsd:element name="ED" type="xsd:anySimpleType" substitutionGroup="foo:EB"/>
+
+<xsd:element name="EE" type="xsd:anySimpleType"/>
+
+<xsd:element name="F">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:any processContents="lax"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="G">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:any namespace="##other" processContents="lax"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

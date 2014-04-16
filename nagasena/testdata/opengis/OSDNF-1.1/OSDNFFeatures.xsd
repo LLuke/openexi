@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ordnancesurvey.co.uk/xml/namespaces/osgb" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml" xmlns:osgb="http://www.ordnancesurvey.co.uk/xml/namespaces/osgb" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<annotation>
+		<appinfo source="urn:x-ordnancesurvey:dnf:schema-xsd:dnf-features:v1.0">OSDNFFeatures.xsd v1.0 2001/08</appinfo>
+		<documentation xml:lang="en">Ordnance Survey, (c) Crown Copyright. All Rights Reserved August 2001.</documentation>
+		<documentation xml:lang="en">See http://www.ordnancesurvey.co.uk for guidelines and related information</documentation>
+		<documentation xml:lang="en">This schema defines the topographic features.</documentation>
+	</annotation>
+	<!-- include constructs from the OS schemas which import the GML Feature and Geometry schemas -->
+	<include schemaLocation="OSComplexTypes.xsd"/>
+	<import namespace="http://www.opengis.net/gml" schemaLocation="../GML-2.12/feature.xsd"/>
+	<!-- ================================================================
+	Global element Declarations 
+	================================================================ -->
+	<!-- feature members-->
+	<element name="boundaryMember" type="osgb:boundaryMemberType" substitutionGroup="osgb:_featureMember"/>
+	<element name="cartographicMember" type="osgb:cartographicMemberType" substitutionGroup="osgb:_featureMember"/>
+	<element name="topographicMember" type="osgb:topographicMemberType" substitutionGroup="osgb:_featureMember"/>
+	<!-- Abstract features -->
+	<element name="_BoundaryFeature" type="osgb:AbstractFeatureType" abstract="true" substitutionGroup="gml:_Feature"/>
+	<element name="_CartographicFeature" type="osgb:AbstractFeatureType" abstract="true" substitutionGroup="gml:_Feature"/>
+	<element name="_TopographicFeature" type="osgb:AbstractFeatureType" abstract="true" substitutionGroup="gml:_Feature"/>
+	<!-- features -->
+	<element name="BoundaryLine" type="osgb:BoundaryLineType" substitutionGroup="osgb:_BoundaryFeature"/>
+	<element name="CartographicText" type="osgb:CartographicTextType" substitutionGroup="osgb:_CartographicFeature"/>
+	<element name="CartographicSymbol" type="osgb:CartographicSymbolType" substitutionGroup="osgb:_CartographicFeature"/>
+	<element name="TopographicPoint" type="osgb:TopographicPointType" substitutionGroup="osgb:_TopographicFeature"/>
+	<element name="TopographicLine" type="osgb:TopographicLineType" substitutionGroup="osgb:_TopographicFeature"/>
+	<element name="TopographicArea" type="osgb:TopographicAreaType" substitutionGroup="osgb:_TopographicFeature"/>
+	<!-- ==============================================================
+	Type Declarations
+	============================================================== -->
+	<!-- member types -->
+	<complexType name="boundaryMemberType">
+		<complexContent>
+			<restriction base="gml:FeatureAssociationType">
+				<sequence minOccurs="0">
+					<element ref="osgb:_BoundaryFeature"/>
+				</sequence>
+				<attributeGroup ref="gml:AssociationAttributeGroup"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="cartographicMemberType">
+		<complexContent>
+			<restriction base="gml:FeatureAssociationType">
+				<sequence minOccurs="0">
+					<element ref="osgb:_CartographicFeature"/>
+				</sequence>
+				<attributeGroup ref="gml:AssociationAttributeGroup"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="topographicMemberType">
+		<complexContent>
+			<restriction base="gml:FeatureAssociationType">
+				<sequence minOccurs="0">
+					<element ref="osgb:_TopographicFeature"/>
+				</sequence>
+				<attributeGroup ref="gml:AssociationAttributeGroup"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<!-- abstract feature -->
+	<complexType name="AbstractFeatureType">
+		<annotation>
+			<documentation xml:lang="en">
+				This defines the properties common to all Ordnance Survey topographic features.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="gml:AbstractFeatureType">
+				<sequence>
+					<element name="featureCode" type="unsignedInt"/>
+					<element name="version" type="unsignedInt"/>
+					<element name="versionDate" type="date"/>
+					<element name="theme" type="osgb:themeType" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- features -->
+	<complexType name="BoundaryLineType">
+		<complexContent>
+			<extension base="osgb:AbstractFeatureType">
+				<sequence>
+					<element name="accuracyOfPosition" type="osgb:accuracyOfPositionType"/>
+					<element name="changeHistory" type="osgb:changeHistoryType" maxOccurs="unbounded"/>
+					<element name="descriptiveGroup" type="osgb:descriptiveGroupType" maxOccurs="unbounded"/>
+					<element name="descriptiveTerm" type="string" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="make" type="osgb:makeType" minOccurs="0"/>
+					<element name="physicalLevel" type="osgb:physicalLevelType"/>
+					<element name="physicalPresence" type="osgb:physicalPresenceType" minOccurs="0"/>
+					<element name="polyline" type="osgb:LineStringPropertyType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="CartographicSymbolType">
+		<complexContent>
+			<extension base="osgb:AbstractFeatureType">
+				<sequence>
+					<element name="changeHistory" type="osgb:changeHistoryType" maxOccurs="unbounded"/>
+					<element name="descriptiveGroup" type="osgb:descriptiveGroupType" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="descriptiveTerm" type="string" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="orientation" type="osgb:orientationType"/>
+					<element name="physicalLevel" type="osgb:physicalLevelType"/>
+					<element name="physicalPresence" type="osgb:physicalPresenceType" minOccurs="0"/>
+					<element name="point" type="gml:PointPropertyType"/>
+					<element name="referenceToFeature" type="gml:FeatureAssociationType" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="CartographicTextType">
+		<complexContent>
+			<extension base="osgb:AbstractFeatureType">
+				<sequence>
+					<element name="anchorPoint" type="gml:PointPropertyType"/>
+					<element name="changeHistory" type="osgb:changeHistoryType" maxOccurs="unbounded"/>
+					<element name="descriptiveGroup" type="osgb:descriptiveGroupType" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="descriptiveTerm" type="string" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="make" type="osgb:makeType" minOccurs="0"/>
+					<element name="physicalLevel" type="osgb:physicalLevelType"/>
+					<element name="physicalPresence" type="osgb:physicalPresenceType" minOccurs="0"/>
+					<element name="textRendering" type="osgb:textRenderingType"/>
+					<element name="textString" type="string"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TopographicAreaType">
+		<complexContent>
+			<extension base="osgb:AbstractFeatureType">
+				<sequence>
+					<element name="calculatedAreaValue" type="double"/>
+					<element name="changeHistory" type="osgb:changeHistoryType" maxOccurs="unbounded"/>
+					<element name="descriptiveGroup" type="osgb:descriptiveGroupType" maxOccurs="unbounded"/>
+					<element name="descriptiveTerm" type="string" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="make" type="osgb:makeType" minOccurs="0"/>
+					<element name="physicalLevel" type="osgb:physicalLevelType"/>
+					<element name="physicalPresence" type="osgb:physicalPresenceType" minOccurs="0"/>
+					<element name="polygon" type="osgb:PolygonPropertyType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TopographicLineType">
+		<complexContent>
+			<extension base="osgb:AbstractFeatureType">
+				<sequence>
+					<element name="accuracyOfPosition" type="osgb:accuracyOfPositionType"/>
+					<element name="changeHistory" type="osgb:changeHistoryType" maxOccurs="unbounded"/>
+					<element name="descriptiveGroup" type="osgb:descriptiveGroupType" maxOccurs="unbounded"/>
+					<element name="descriptiveTerm" type="string" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heightAboveDatum" type="osgb:heightAboveDatumType" minOccurs="0"/>
+					<element name="heightAboveGroundLevel" type="osgb:heightAboveGroundLevelType" minOccurs="0"/>
+					<element name="make" type="osgb:makeType" minOccurs="0"/>
+					<element name="physicalLevel" type="osgb:physicalLevelType"/>
+					<element name="physicalPresence" type="osgb:physicalPresenceType" minOccurs="0"/>
+					<element name="polyline" type="osgb:LineStringPropertyType"/>
+					<element name="referenceToFeature" type="gml:FeatureAssociationType" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TopographicPointType">
+		<complexContent>
+			<extension base="osgb:AbstractFeatureType">
+				<sequence>
+					<element name="accuracyOfPosition" type="osgb:accuracyOfPositionType"/>
+					<element name="changeHistory" type="osgb:changeHistoryType" maxOccurs="unbounded"/>
+					<element name="descriptiveGroup" type="osgb:descriptiveGroupType" maxOccurs="unbounded"/>
+					<element name="descriptiveTerm" type="string" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="heightAboveDatum" type="osgb:heightAboveDatumType" minOccurs="0"/>
+					<element name="heightAboveGroundLevel" type="osgb:heightAboveGroundLevelType" minOccurs="0"/>
+					<element name="make" type="osgb:makeType" minOccurs="0"/>
+					<element name="physicalLevel" type="osgb:physicalLevelType"/>
+					<element name="physicalPresence" type="osgb:physicalPresenceType" minOccurs="0"/>
+					<element name="point" type="gml:PointPropertyType"/>
+					<element name="referenceToFeature" type="gml:FeatureAssociationType" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+</schema>

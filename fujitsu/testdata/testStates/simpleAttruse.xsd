@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+<xsd:import namespace="urn:goo" schemaLocation="simpleAttruseImported.xsd"/>
+
+<xsd:element name="SA" type="xsd:anySimpleType" nillable="true"/>
+
+<xsd:element name="SB" type="xsd:string"/>
+
+<xsd:element name="CA">
+  <xsd:complexType>
+    <xsd:attribute name="role" type="xsd:anySimpleType"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="CB">
+  <xsd:complexType>
+    <xsd:attribute ref="goo:a1"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="CC">
+  <xsd:complexType>
+    <xsd:attribute name="role" fixed="fulcrum"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="CD">
+  <xsd:complexType>
+    <xsd:anyAttribute namespace="urn:goo" processContents="strict"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="CE">
+  <xsd:complexType>
+    <xsd:anyAttribute namespace="urn:none" processContents="skip"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="CF">
+  <xsd:complexType>
+    <xsd:anyAttribute namespace="urn:none" processContents="lax"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="CG">
+  <xsd:complexType>
+    <xsd:anyAttribute namespace="urn:goo" processContents="skip"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="CH">
+  <xsd:complexType>
+    <xsd:anyAttribute namespace="urn:goo" processContents="lax"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="CI">
+  <xsd:complexType>
+    <xsd:attribute ref="goo:a1" use="required"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="CJ">
+  <xsd:complexType>
+    <xsd:anyAttribute namespace="##other" processContents="lax"/>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

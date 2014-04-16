@@ -1,0 +1,3 @@
+<foo:C xmlns:foo="urn:foo">
+  <D/>
+</foo:C>

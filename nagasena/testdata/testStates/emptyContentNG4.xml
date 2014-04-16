@@ -1,0 +1,4 @@
+<A xmlns="urn:foo">
+  <B><D/></B>
+  <C/>
+</A>

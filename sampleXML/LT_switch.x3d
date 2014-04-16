@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<X3D profile='Immersive' version='3.2' xmlns:xsd='http://www.w3.org/2001/XMLSchema-instance' xsd:noNamespaceSchemaLocation='http://www.web3d.org/specifications/x3d-3.2.xsd'>
+    <head>
+        <meta content='snyderCH09.x3d' name='title'/>
+        <meta content='Chapter 9 project (BooleanToggle, IntegerTrigger, TouchSensor, Consol Script)' name='description'/>
+        <meta content='Sheldon L. Snyder' name='creator'/>
+        <meta content='6 April 2009' name='created'/>
+        <meta content='Version 1' name='version'/>
+        <meta content='X3D-Edit, https://savage.nps.edu/X3D-Edit' name='generator'/>
+        <meta content='../../license.html' name='license'/>
+    </head>
+    <Scene>
+        <Background skyColor='0 0 .7' />
+        <PointLight DEF='pointLight' global='true' on='false' location='0 0 5' />
+
+        <Transform translation='0 1.5 0' scale='.3 .3 .3'>
+            <Shape>
+                <Text solid='false' string='"Turn the lights On/Off" "by" "clicking the red switch"'>
+                    <FontStyle justify='"MIDDLE" "MIDDLE"' />
+                </Text>
+                <Appearance>
+                    <Material diffuseColor='1 0.972549 0.839216' />
+                </Appearance>
+            </Shape>
+        </Transform>
+
+        <Group>
+            <Shape DEF='switchBack'>
+                <Box size='1 1.5 .1' />
+                <Appearance>
+                    <Material diffuseColor='.5 .5 .5' />
+                </Appearance>
+            </Shape>
+            <Transform translation='0 0.5 0.01'>
+                <Transform rotation='1 0 0 1.57'>
+                    <Shape DEF='screw'>
+                        <Cylinder height='0.1' radius='0.02' />
+                        <Appearance DEF='black'>
+                            <Material diffuseColor='0 0 0' />
+                        </Appearance>
+                    </Shape>
+                </Transform>
+            </Transform>
+
+
+            <Transform translation='0 -0.5 0.01'>
+                <Transform rotation='1 0 0 1.57'>
+                    <Shape USE='screw' />
+                </Transform>
+            </Transform>
+            <Transform translation='0 0 0.1'>
+                <Transform rotation='0 0 1 1.57'>
+                    <Shape DEF='switchRotator'>
+                        <Cylinder height='0.1' radius='0.1' />
+                        <Appearance USE='black' />
+                    </Shape>
+                </Transform>
+            </Transform>
+        </Group>
+
+  
+
+    </Scene>
+</X3D>

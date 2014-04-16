@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:import namespace="urn:goo" schemaLocation="booleanImported.xsd"/>
+
+<xsd:simpleType name="trueType">
+  <xsd:restriction base="xsd:boolean">
+    <xsd:pattern value="true"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:element name="A" type="xsd:boolean" />
+
+<xsd:element name="B">
+  <xsd:complexType>
+    <xsd:attribute ref="foo:aA" />
+    <xsd:anyAttribute namespace="##targetNamespace" />
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="C" type="foo:trueType" />
+
+<xsd:attribute name="aA" type="xsd:boolean" />
+<xsd:attribute name="aB" type="xsd:boolean" />
+
+<xsd:simpleType name="listOfBooleans">
+  <xsd:list>
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:boolean"/>
+    </xsd:simpleType>
+  </xsd:list>
+</xsd:simpleType>
+
+<xsd:element name="Booleans" type="foo:listOfBooleans" />
+
+</xsd:schema>

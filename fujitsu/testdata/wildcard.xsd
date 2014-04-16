@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:complexType name="datedABCWildcard">
+  <xsd:sequence>
+    <xsd:element name="A" type="xsd:anySimpleType"/>
+    <xsd:any namespace="##any" processContents="lax"/>
+    <xsd:element name="B" type="xsd:anySimpleType"/>
+    <xsd:any namespace="##other" processContents="skip"/>
+    <xsd:element name="C" type="xsd:anySimpleType"/>
+    <xsd:any namespace="urn:goo ##targetNamespace urn:hoo ##local" processContents="strict"/>
+  </xsd:sequence>
+  <xsd:attribute name="date" type="xsd:date"/>
+</xsd:complexType>
+
+<xsd:element name="A" type="xsd:anySimpleType"/>
+
+</xsd:schema>

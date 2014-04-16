@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+            targetNamespace="urn:foo" xmlns:foo="urn:foo">
+
+  <xsd:import schemaLocation="noTargetNamespace.xsd"/>
+
+  <xsd:element name="personnel">
+    <xsd:complexType>
+      <xsd:choice maxOccurs="unbounded">
+        <xsd:element ref="person"/>
+        <xsd:element ref="foo:person"/>
+      </xsd:choice>
+    </xsd:complexType>
+  </xsd:element>
+
+
+  <xsd:element name="person">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="foo:name"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="name">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="family"/>
+        <xsd:element ref="given"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="family" type="xsd:normalizedString" />
+
+</xsd:schema>

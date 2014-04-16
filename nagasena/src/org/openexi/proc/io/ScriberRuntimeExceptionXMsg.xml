@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<Root>
+  <msg id="1">Manifested size and the actual size of the binary data do not match.</msg>
+  <msg id="2">Manifested binary data size "{0}" is too large to handle for alignment types compress or preCompress.</msg>
+  <msg id="3">Prefix cannot be null.</msg>
+</Root>

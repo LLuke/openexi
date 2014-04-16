@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:goo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+<xsd:import namespace="urn:foo" schemaLocation="list.xsd" />
+
+<xsd:simpleType name="decimal8">
+  <xsd:restriction base="xsd:decimal">
+    <xsd:totalDigits value="8"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="listOfDecimal4">
+  <!-- itemType referencing a type defined in different namespace. -->
+  <xsd:list itemType="foo:decimal4"/>
+</xsd:simpleType>
+
+</xsd:schema>

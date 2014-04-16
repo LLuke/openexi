@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" >
+
+<xsd:element name="ListOfTokens">
+  <xsd:simpleType>
+    <xsd:list>
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:token" />
+      </xsd:simpleType>
+    </xsd:list>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="ListOfTokensRepeated">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="foo:ListOfTokens" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

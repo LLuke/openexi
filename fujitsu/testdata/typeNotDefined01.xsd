@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsd:schema [
+  <!ENTITY ns_target       "urn:foo" >
+  <!ENTITY ns_xmlSchema    "http://www.w3.org/2001/XMLSchema" >
+]>
+
+<xsd:schema targetNamespace="&ns_target;"
+            xmlns:xsd="&ns_xmlSchema;" xmlns:goo="urn:goo">
+
+<xsd:import namespace="urn:goo" schemaLocation="verySimpleImported.xsd" />
+
+<xsd:element name="A" type="goo:none"/>
+
+</xsd:schema>

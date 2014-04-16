@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo" elementFormDefault="qualified"
+           attributeFormDefault="qualified"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" >
+
+<xsd:import namespace="urn:goo" schemaLocation="fragment_01_Imported.xsd" />
+
+<xsd:element name="A_" type="foo:ATYPE"/>
+
+<xsd:attribute name="b" type="xsd:boolean"/>
+
+<xsd:complexType name="ATYPE">
+  <xsd:sequence>
+    <xsd:element name="A_" type="foo:ATYPE" minOccurs="0" />
+    <xsd:element name="Z" type="xsd:int" minOccurs="0" />
+  </xsd:sequence>
+  <xsd:attribute name="b" type="xsd:boolean"/>
+</xsd:complexType>
+
+<xsd:element name="B" type="foo:BTYPE" nillable="true" />
+
+<xsd:complexType name="BTYPE">
+  <xsd:sequence>
+    <xsd:element name="B" type="foo:BTYPE" minOccurs="0" />
+    <xsd:element name="Z" type="xsd:dateTime" minOccurs="0" />
+  </xsd:sequence>
+</xsd:complexType>
+
+</xsd:schema>

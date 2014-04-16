@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+<xsd:import namespace="urn:goo" schemaLocation="verySimpleImported.xsd"/>
+
+<xsd:element name="A" id="foo_A">
+  <xsd:complexType>
+    <xsd:sequence minOccurs="3" maxOccurs="10">
+      <xsd:element ref="foo:B" minOccurs="0"/>
+      <xsd:element ref="foo:C"/>
+      <xsd:element ref="goo:a"/>
+      <xsd:element ref="foo:D"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="B" type="foo:string10" default="baa" nillable="true"/>
+<xsd:element name="C" type="goo:string10" substitutionGroup="goo:b" fixed="abcdefghij"/>
+<xsd:element name="D" type="goo:string10" substitutionGroup="foo:C"/>
+<xsd:element name="E" type="foo:string10" abstract="true"/>
+
+<xsd:element name="F"/>
+<xsd:element name="G" type="xsd:anyType"/>
+<xsd:element name="H" type="xsd:anySimpleType"/>
+
+<xsd:element name="I">
+  <xsd:complexType>
+    <xsd:simpleContent>
+      <xsd:extension base="foo:string10">
+        <xsd:attribute name="date" type="xsd:date"/>
+        <xsd:attribute name="time" type="xsd:time"/>
+        <xsd:anyAttribute namespace="##other" processContents="lax"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:attribute name="id" type="xsd:ID"/>
+
+<xsd:simpleType name="string10">
+  <xsd:restriction base="xsd:string">
+    <xsd:maxLength value="10"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

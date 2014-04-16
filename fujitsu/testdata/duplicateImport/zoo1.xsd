@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<xsd:schema targetNamespace="urn:zoo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:goo="urn:goo" xmlns:hoo="urn:hoo">
+
+<xsd:import namespace="urn:goo" schemaLocation="goo1.xsd" />
+<xsd:import namespace="urn:hoo" schemaLocation="hoo1.xsd" />
+
+<xsd:element name="Z">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="goo:X" />
+      <xsd:element ref="hoo:Y" />
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

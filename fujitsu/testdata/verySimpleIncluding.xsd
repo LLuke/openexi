@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:include schemaLocation="verySimple.xsd"/>
+
+<xsd:element name="J" type="foo:string10" substitutionGroup="foo:B" />
+<xsd:element name="K" type="foo:string8" substitutionGroup="foo:E" />
+
+<xsd:attribute name="role" type="xsd:token"/>
+
+<xsd:simpleType name="string8">
+  <xsd:restriction base="foo:string10">
+    <xsd:maxLength value="8"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

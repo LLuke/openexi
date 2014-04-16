@@ -1,0 +1,10 @@
+<foo:G xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+  <foo:A>
+    <B/>
+    <C/>
+  </foo:A>
+  <foo:A>
+    <B/>
+    <D/>
+  </foo:A>
+</foo:G>

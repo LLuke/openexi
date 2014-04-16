@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="urn:foo" xmlns:foo="urn:foo">
+
+  <include schemaLocation="circularSchemaInclude4_a.xsd"/>
+
+  <attributeGroup name="gc">
+    <attributeGroup ref="foo:ga"/>
+    <attribute name="ac" type="string"/>
+  </attributeGroup>
+
+  <complexType name="tc">
+    <attributeGroup ref="foo:gc"/>
+  </complexType>
+
+</schema>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" >
+
+<xsd:element name="Base64Binary" type="xsd:base64Binary"/>
+
+<xsd:element name="A">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="foo:Base64Binary" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="ListOfBase64Binaries">
+  <xsd:simpleType>
+    <xsd:list>
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:base64Binary" />
+      </xsd:simpleType>
+    </xsd:list>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="ListOfBase64BinariesRepeated">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="foo:ListOfBase64Binaries" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

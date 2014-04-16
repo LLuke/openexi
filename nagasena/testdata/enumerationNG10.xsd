@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsd:schema [
+<!-- This schema is valid contrary to its name. -->
+]>
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:notation name="teapot" system="http://foo.com/teapot"/>
+
+<xsd:simpleType name="fooNotation">
+  <xsd:restriction base="xsd:NOTATION">
+    <xsd:length value="11"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="notationDerived">
+  <xsd:restriction base="foo:fooNotation">
+    <xsd:enumeration value="foo:teapot"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

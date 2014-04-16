@@ -1,0 +1,20 @@
+<schema targetNamespace="urn:foo" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:zoo="urn:zoo" xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+  <!-- goo.xsd in turn imports zoo.xsd. -->
+  <import namespace="urn:goo" schemaLocation="goo.xsd"/>
+
+  <include schemaLocation="foo2.xsd"/>
+
+  <complexType name="MyTupleType">
+    <choice>
+      <element ref="foo:MyItem"/>
+      <!-- zoo:MyItem is used with zoo.xsd imported indirectly. -->
+      <element ref="zoo:MyItem"/>
+    </choice>
+  </complexType>
+
+  <element name="MyTuple" type="foo:MyTupleType" />
+
+</schema>
+

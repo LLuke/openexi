@@ -1,0 +1,41 @@
+<!DOCTYPE project [
+  <!ENTITY properties.xml SYSTEM "../properties.xml" >
+]>
+
+<project name="Process Files" default="processFiles" basedir=".">
+
+&properties.xml;
+
+<property name="build.dir" value="bin"/>
+
+<path id="xerces.class.path">
+  <pathelement location="${xercesImpl.jar}"/>
+</path>
+
+<path id="xml.class.path">
+  <path refid="xerces.class.path"/>
+</path>
+
+<path id="run.class.path">
+  <pathelement location="${build.dir}"/>
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${regexi.classes}"/>
+  <path refid="xml.class.path"/>
+</path>
+
+<target name="processFiles">
+  <!-- Compile Header Options schema -->
+  <java classname="${CompileSchemasClass}"
+        classpathref="run.class.path" fork="yes" failonerror="true"/>
+  <move todir="${build.dir}/org/openexi/schema">
+    <fileset dir="${build.dir}/org/openexi/scomp" includes="*.xsc" />
+  </move>
+  <!-- Encode Grammar Fragments -->
+  <java classname="${EncodeGrammarFragments}"
+        classpathref="run.class.path" fork="yes" failonerror="true"/>
+  <move todir="${build.dir}/org/openexi/scomp">
+    <fileset dir="${build.dir}/org/openexi/scomp" includes="*.exi" />
+  </move>
+</target>
+
+</project>

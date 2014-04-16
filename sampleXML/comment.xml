@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+Start document
+Comment on 2 lines...2 comment events...one for each line
+-->
+<document>
+	<author>Janet Schmidtt</author>
+    <!-- Element level comment -->
+	<date>8/17/2007</date>
+	<title>
+		<htmlimg src="tnation.jpg" alt="Tour Nation"/>
+	</title>
+	<subtitle>Bike Models</subtitle>    
+</document>

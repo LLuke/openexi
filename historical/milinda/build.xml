@@ -1,0 +1,827 @@
+<!DOCTYPE project [
+  <!ENTITY properties.xml SYSTEM "./properties.xml" >
+]>
+
+<project name="EXI Processor" default="test" basedir=".">
+
+<property name="debug" value="off"/>
+
+<property name="name" value="Efficient XML Interchange Processor"/>
+<property name="version" value="0000.0001.0032.0"/>
+<property name="vendor" value="OpenEXI"/>
+
+&properties.xml;
+
+<property name="src.dir" value="./src"/>
+<property name="test.dir" value="./test"/>
+<property name="fixture.dir" value="./fixture"/>
+<property name="testdata.dir" value="./testdata"/>
+
+<property name="build.dir" value="./build"/>
+<property name="build.docsrc" value="${build.dir}/docsrc"/>
+<property name="build.testdata.dir" value="${build.dir}/testdata"/>
+
+<property name="build.ttf.dir" value="${build.dir}/ttf"/>
+<property name="build.util.dir" value="${build.dir}/util"/>
+<property name="build.schema.dir" value="${build.dir}/schema"/>
+<property name="build.common.dir" value="${build.dir}/common"/>
+<property name="build.putil.dir" value="${build.dir}/putil"/>
+<property name="build.events.dir" value="${build.dir}/events"/>
+<property name="build.io.dir" value="${build.dir}/io"/>
+<property name="build.compression.dir" value="${build.dir}/compression"/>
+<property name="build.grammars.dir" value="${build.dir}/grammars"/>
+<property name="build.proc.dir" value="${build.dir}/proc"/>
+<property name="build.sax.dir" value="${build.dir}/sax"/>
+<property name="build.scomp.dir" value="${build.dir}/scomp"/>
+
+<property name="build.ttf.fixture" value="${build.ttf.dir}/fixture"/>
+
+<property name="build.util.src" value="${build.util.dir}/src"/>
+<property name="build.util.dest" value="${build.util.dir}/dest"/>
+
+<property name="build.schema.src" value="${build.schema.dir}/src"/>
+<property name="build.schema.test" value="${build.schema.dir}/test"/>
+<property name="build.schema.fixture" value="${build.schema.dir}/fixture"/>
+<property name="build.schema.dest" value="${build.schema.dir}/dest"/>
+
+<property name="build.common.src" value="${build.common.dir}/src"/>
+<property name="build.common.dest" value="${build.common.dir}/dest"/>
+
+<property name="build.putil.src" value="${build.putil.dir}/src"/>
+<property name="build.putil.dest" value="${build.putil.dir}/dest"/>
+
+<property name="build.events.src" value="${build.events.dir}/src"/>
+<property name="build.events.dest" value="${build.events.dir}/dest"/>
+
+<property name="build.grammars.src" value="${build.grammars.dir}/src"/>
+<property name="build.grammars.test" value="${build.grammars.dir}/test"/>
+<property name="build.grammars.fixture" value="${build.grammars.dir}/fixture"/>
+<property name="build.grammars.dest" value="${build.grammars.dir}/dest"/>
+
+<property name="build.io.src" value="${build.io.dir}/src"/>
+<property name="build.io.test" value="${build.io.dir}/test"/>
+<property name="build.io.dest" value="${build.io.dir}/dest"/>
+
+<property name="build.compression.src" value="${build.compression.dir}/src"/>
+<property name="build.compression.dest" value="${build.compression.dir}/dest"/>
+
+<property name="build.proc.src" value="${build.proc.dir}/src"/>
+<property name="build.proc.test" value="${build.proc.dir}/test"/>
+<property name="build.proc.dest" value="${build.proc.dir}/dest"/>
+
+<property name="build.sax.src" value="${build.sax.dir}/src"/>
+<property name="build.sax.test" value="${build.sax.dir}/test"/>
+<property name="build.sax.dest" value="${build.sax.dir}/dest"/>
+
+<property name="build.scomp.src" value="${build.scomp.dir}/src"/>
+<property name="build.scomp.test" value="${build.scomp.dir}/test"/>
+<property name="build.scomp.fixture" value="${build.scomp.dir}/fixture"/>
+<property name="build.scomp.dest" value="${build.scomp.dir}/dest"/>
+
+<path id="regexi.class.path">
+  <pathelement location="${regexi.jar}"/>
+</path>
+
+<path id="xerces.class.path">
+  <pathelement location="${xercesImpl.jar}"/>
+</path>
+
+<path id="xml-apis.class.path">
+  <pathelement location="${xml-apis.jar}"/>
+</path>
+
+<!-- =================================================================== -->
+<!-- Source Compilation Classpathes                                      -->
+<!-- =================================================================== -->
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="schema.src.compile.class.path">
+  <pathelement location="${build.util.dest}"/>
+  <path refid="xerces.class.path"/>
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="events.src.compile.class.path">
+  <pathelement location="${build.util.dest}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.putil.dest}"/>
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="grammars.src.compile.class.path">
+  <pathelement location="${build.util.dest}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.putil.dest}"/>
+  <pathelement location="${build.events.dest}"/>
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="io.src.compile.class.path">
+  <pathelement location="${build.util.dest}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.putil.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.events.dest}"/>
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="compression.src.compile.class.path">
+  <pathelement location="${build.util.dest}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.putil.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.events.dest}"/>
+  <pathelement location="${build.io.dest}"/>
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="proc.src.compile.class.path">
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.putil.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.events.dest}"/>
+  <pathelement location="${build.io.dest}"/>
+  <!-- pathelement location="${build.compression.dest}"/ -->
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="sax.src.compile.class.path">
+  <pathelement location="${build.util.dest}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.putil.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.events.dest}"/>
+  <pathelement location="${build.io.dest}"/>
+  <pathelement location="${build.proc.dest}"/>
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="scomp.src.compile.class.path">
+  <path refid="xerces.class.path"/>
+  <path refid="regexi.class.path"/>
+  <pathelement location="${build.util.dest}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+</path>
+
+<!-- =================================================================== -->
+<!-- Fixture Compilation Classpathes                                     -->
+<!-- =================================================================== -->
+
+<path id="ttf.fixture.compile.class.path">
+  <pathelement location="."/>
+</path>
+
+<path id="schema.fixture.compile.class.path">
+  <path refid="xerces.class.path"/>
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.schema.dest}"/>
+</path>
+
+<path id="grammars.fixture.compile.class.path">
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+</path>
+
+<path id="scomp.fixture.compile.class.path">
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.scomp.dest}"/>
+</path>
+
+<!-- =================================================================== -->
+<!-- Test Compilation Classpathes                                        -->
+<!-- =================================================================== -->
+
+<path id="schema.test.compile.class.path">
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.schema.fixture}"/>
+</path>
+
+<path id="grammars.test.compile.class.path">
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.putil.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+</path>
+
+<path id="io.test.compile.class.path">
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.putil.dest}"/>
+  <pathelement location="${build.io.dest}"/>
+  <!-- io test (but not src and fixture) can use grammars and scomp. -->
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.scomp.dest}"/>
+  <pathelement location="${build.scomp.fixture}"/>
+</path>
+
+<path id="scomp.test.compile.class.path">
+  <path refid="xerces.class.path"/>
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.schema.fixture}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.scomp.dest}"/>
+  <pathelement location="${build.scomp.fixture}"/>
+</path>
+
+<path id="proc.test.compile.class.path">
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.schema.fixture}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.putil.dest}"/>
+  <pathelement location="${build.events.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.io.dest}"/>
+  <pathelement location="${build.compression.dest}"/>
+  <pathelement location="${build.proc.dest}"/>
+  <pathelement location="${build.scomp.dest}"/>
+  <pathelement location="${build.scomp.fixture}"/>
+</path>
+
+<path id="sax.test.compile.class.path">
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.ttf.fixture}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.schema.fixture}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.putil.dest}"/>
+  <pathelement location="${build.events.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.grammars.fixture}"/>
+  <pathelement location="${build.io.dest}"/>
+  <pathelement location="${build.compression.dest}"/>
+  <pathelement location="${build.proc.dest}"/>
+  <pathelement location="${build.sax.dest}"/>
+  <pathelement location="${build.scomp.dest}"/>
+  <pathelement location="${build.scomp.fixture}"/>
+</path>
+
+<!-- =================================================================== -->
+<!-- Schema Compilation Classpathes                                      -->
+<!-- =================================================================== -->
+
+<path id="scomp.fixture.run.class.path">
+  <path refid="xerces.class.path"/>
+  <path refid="xml-apis.class.path"/>
+  <path refid="regexi.class.path"/>
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.util.dest}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.scomp.dest}"/>
+  <pathelement location="${build.scomp.fixture}"/>
+</path>
+
+<!-- =================================================================== -->
+<!-- Test Run Classpathes                                                -->
+<!-- =================================================================== -->
+
+<path id="schema.test.run.class.path">
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.dir}/xmlResourceBundle.jar"/>
+  <pathelement location="${build.dir}/exiGrammars.jar"/>
+  <pathelement location="${build.schema.fixture}"/>
+  <pathelement location="${build.schema.test}"/>
+</path>
+
+<path id="grammars.test.run.class.path">
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.dir}/xmlResourceBundle.jar"/>
+  <pathelement location="${build.dir}/exiGrammars.jar"/>
+  <pathelement location="${build.grammars.test}"/>
+</path>
+
+<path id="io.test.run.class.path">
+  <path refid="xerces.class.path"/>
+  <path refid="xml-apis.class.path"/>
+  <path refid="regexi.class.path"/>
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.dir}/xmlResourceBundle.jar"/>
+  <pathelement location="${build.dir}/exiGrammars.jar"/>
+  <pathelement location="${build.dir}/exiScomp.jar"/>
+  <pathelement location="${build.dir}/exiProc.jar"/>
+  <pathelement location="${build.scomp.fixture}"/>
+  <pathelement location="${build.io.test}"/>
+</path>
+
+<path id="scomp.test.run.class.path">
+  <path refid="xerces.class.path"/>
+  <path refid="xml-apis.class.path"/>
+  <path refid="regexi.class.path"/>
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.dir}/xmlResourceBundle.jar"/>
+  <pathelement location="${build.dir}/exiGrammars.jar"/>
+  <pathelement location="${build.dir}/exiScomp.jar"/>
+  <pathelement location="${build.testdata.dir}"/>
+  <pathelement location="${build.schema.fixture}"/>
+  <pathelement location="${build.scomp.fixture}"/>
+  <pathelement location="${build.scomp.test}"/>
+</path>
+
+<path id="proc.test.run.class.path">
+  <path refid="xerces.class.path"/>
+  <path refid="xml-apis.class.path"/>
+  <path refid="regexi.class.path"/>
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.dir}/xmlResourceBundle.jar"/>
+  <pathelement location="${build.dir}/exiGrammars.jar"/>
+  <pathelement location="${build.dir}/exiScomp.jar"/>
+  <pathelement location="${build.dir}/exiCompression.jar"/>
+  <pathelement location="${build.dir}/exiProc.jar"/>
+  <pathelement location="${build.testdata.dir}"/>
+  <pathelement location="${build.schema.fixture}"/>
+  <pathelement location="${build.scomp.fixture}"/>
+  <pathelement location="${build.proc.test}"/>
+</path>
+
+<path id="sax.test.run.class.path">
+  <path refid="xerces.class.path"/>
+  <path refid="xml-apis.class.path"/>
+  <path refid="regexi.class.path"/>
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.dir}/xmlResourceBundle.jar"/>
+  <pathelement location="${build.dir}/exiGrammars.jar"/>
+  <pathelement location="${build.dir}/exiScomp.jar"/>
+  <pathelement location="${build.dir}/exiCompression.jar"/>
+  <pathelement location="${build.dir}/exiProc.jar"/>
+  <pathelement location="${build.dir}/exiSax.jar"/>
+  <pathelement location="${build.testdata.dir}"/>
+  <pathelement location="${build.ttf.fixture}"/>
+  <pathelement location="${build.schema.fixture}"/>
+  <pathelement location="${build.grammars.fixture}"/>
+  <pathelement location="${build.scomp.fixture}"/>
+  <pathelement location="${build.sax.test}"/>
+</path>
+
+<path id="javadoc.src.path">
+  <pathelement location="${build.docsrc}"/>
+</path>
+
+<!-- =================================================================== -->
+<!-- Cleans everything                                                   -->
+<!-- =================================================================== -->
+<target name="clean">
+  <delete dir="${build.dir}"/>
+</target>
+
+<!-- =================================================================== -->
+<!-- Prepares the build directory                                        -->
+<!-- =================================================================== -->
+<target name="prepare">
+  <mkdir dir="${build.dir}"/>
+</target>
+
+<!-- =================================================================== -->
+<!-- directory creation and file copying common to all configurations    -->
+<!-- =================================================================== -->
+<target name="prepare-common" depends="prepare">
+  <!-- create directories -->
+  <mkdir dir="${build.ttf.dir}"/>
+  <mkdir dir="${build.ttf.fixture}"/>
+
+  <mkdir dir="${build.util.dir}"/>
+  <mkdir dir="${build.util.src}"/>
+  <mkdir dir="${build.util.dest}"/>
+
+  <mkdir dir="${build.schema.dir}"/>
+  <mkdir dir="${build.schema.src}"/>
+  <mkdir dir="${build.schema.fixture}"/>
+  <mkdir dir="${build.schema.test}"/>
+  <mkdir dir="${build.schema.dest}"/>
+
+  <mkdir dir="${build.common.dir}"/>
+  <mkdir dir="${build.common.src}"/>
+  <mkdir dir="${build.common.dest}"/>
+
+  <mkdir dir="${build.putil.dir}"/>
+  <mkdir dir="${build.putil.src}"/>
+  <mkdir dir="${build.putil.dest}"/>
+
+  <mkdir dir="${build.events.dir}"/>
+  <mkdir dir="${build.events.src}"/>
+  <mkdir dir="${build.events.dest}"/>
+
+  <mkdir dir="${build.grammars.dir}"/>
+  <mkdir dir="${build.grammars.src}"/>
+  <mkdir dir="${build.grammars.test}"/>
+  <mkdir dir="${build.grammars.fixture}"/>
+  <mkdir dir="${build.grammars.dest}"/>
+
+  <mkdir dir="${build.io.dir}"/>
+  <mkdir dir="${build.io.src}"/>
+  <mkdir dir="${build.io.test}"/>
+  <mkdir dir="${build.io.dest}"/>
+
+  <mkdir dir="${build.compression.dir}"/>
+  <mkdir dir="${build.compression.src}"/>
+  <mkdir dir="${build.compression.dest}"/>
+
+  <mkdir dir="${build.proc.dir}"/>
+  <mkdir dir="${build.proc.src}"/>
+  <mkdir dir="${build.proc.test}"/>
+  <mkdir dir="${build.proc.dest}"/>
+
+  <mkdir dir="${build.sax.dir}"/>
+  <mkdir dir="${build.sax.src}"/>
+  <mkdir dir="${build.sax.test}"/>
+  <mkdir dir="${build.sax.dest}"/>
+
+  <mkdir dir="${build.scomp.dir}"/>
+  <mkdir dir="${build.scomp.src}"/>
+  <mkdir dir="${build.scomp.fixture}"/>
+  <mkdir dir="${build.scomp.test}"/>
+  <mkdir dir="${build.scomp.dest}"/>
+
+  <mkdir dir="${build.testdata.dir}"/>
+
+  <mkdir dir="${build.docsrc}"/>
+
+</target>
+
+<!-- =================================================================== -->
+<!-- Prepares the source code                                            -->
+<!-- =================================================================== -->
+<target name="prepare-src" depends="prepare-common">
+
+  <!-- copy src files -->
+  <copy todir="${build.ttf.fixture}">
+    <fileset dir="${fixture.dir}" includes="**/w3c/exi/**/*" />
+  </copy>
+  <copy todir="${build.util.src}">
+    <fileset dir="${src.dir}" includes="**/openexi/util/**/*" />
+  </copy>
+  <copy todir="${build.schema.src}">
+    <fileset dir="${src.dir}" includes="**/openexi/schema/**/*" />
+  </copy>
+  <copy todir="${build.schema.fixture}">
+    <fileset dir="${fixture.dir}" includes="**/openexi/schema/**/*" />
+  </copy>
+  <copy todir="${build.schema.test}">
+    <fileset dir="${test.dir}" includes="**/openexi/schema/**/*" />
+  </copy>
+  <copy todir="${build.common.src}">
+    <fileset dir="${src.dir}" includes="**/openexi/proc/common/**/*" />
+  </copy>
+  <copy todir="${build.putil.src}">
+    <fileset dir="${src.dir}" includes="**/openexi/proc/util/**/*" />
+  </copy>
+  <copy todir="${build.events.src}">
+    <fileset dir="${src.dir}" includes="**/openexi/proc/events/**/*" />
+  </copy>
+  <copy todir="${build.grammars.src}">
+    <fileset dir="${src.dir}" includes="**/openexi/proc/grammars/**/*" />
+  </copy>
+  <copy todir="${build.grammars.fixture}">
+    <fileset dir="${fixture.dir}" includes="**/openexi/proc/grammars/**/*" />
+  </copy>
+  <copy todir="${build.grammars.test}">
+    <fileset dir="${test.dir}" includes="**/openexi/proc/grammars/**/*" />
+  </copy>
+  <copy todir="${build.io.src}">
+    <fileset dir="${src.dir}" includes="**/openexi/proc/io/**/*" 
+      excludes="**/openexi/proc/io/compression/**/*" />
+  </copy>
+  <copy todir="${build.io.test}">
+    <fileset dir="${test.dir}" includes="**/openexi/proc/io/**/*" />
+  </copy>
+  <copy todir="${build.compression.src}">
+    <fileset dir="${src.dir}" includes="**/openexi/proc/io/compression/**/*" />
+  </copy>
+  <copy todir="${build.proc.src}">
+    <fileset dir="${src.dir}" includes="**/openexi/proc/*" />
+  </copy>
+  <copy todir="${build.proc.test}">
+    <fileset dir="${test.dir}" includes="**/openexi/proc/*" />
+  </copy>
+  <copy todir="${build.sax.src}">
+    <fileset dir="${src.dir}" includes="**/openexi/sax/*" />
+  </copy>
+  <copy todir="${build.sax.test}">
+    <fileset dir="${test.dir}" includes="**/openexi/sax/*" />
+  </copy>
+  <copy todir="${build.scomp.src}">
+    <fileset dir="${src.dir}" includes="**/openexi/scomp/**/*" />
+  </copy>
+  <copy todir="${build.scomp.fixture}">
+    <fileset dir="${fixture.dir}" includes="**/openexi/scomp/**/*" />
+  </copy>
+  <copy todir="${build.scomp.test}">
+    <fileset dir="${test.dir}" includes="**/openexi/scomp/**/*" />
+  </copy>
+
+  <copy todir="${build.testdata.dir}">
+    <fileset dir="${testdata.dir}" includes="**/*/" />
+  </copy>
+
+  <copy todir="${build.docsrc}">
+    <fileset dir="${build.util.src}" includes="**/*.java" excludes="**/*XMsg.java" />
+    <fileset dir="${build.schema.src}" includes="**/*.java" excludes="**/*XMsg.java" />
+    <fileset dir="${build.common.src}" includes="**/*.java" excludes="**/*XMsg.java" />
+    <fileset dir="${build.putil.src}" includes="**/*.java" excludes="**/*XMsg.java" />
+    <fileset dir="${build.events.src}" includes="**/*.java" excludes="**/*XMsg.java" />
+    <fileset dir="${build.grammars.src}" includes="**/*.java" excludes="**/*XMsg.java" />
+    <fileset dir="${build.io.src}" includes="**/*.java" excludes="**/*XMsg.java" />
+    <fileset dir="${build.compression.src}" includes="**/*.java" excludes="**/*XMsg.java" />
+    <fileset dir="${build.proc.src}" includes="**/*.java" excludes="**/*XMsg.java" />
+    <fileset dir="${build.sax.src}" includes="**/*.java" excludes="**/*XMsg.java" />
+    <fileset dir="${build.scomp.src}" includes="**/*.java" excludes="**/*XMsg.java" />
+  </copy>
+
+</target>
+
+<!-- =================================================================== -->
+<!-- Compiles the source directory                                       -->
+<!-- =================================================================== -->
+<target name="compile" description="compilation" depends="prepare-src">
+
+  <!-- Build sources -->
+  <javac srcdir="${build.util.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.util.dest}" classpathref="xerces.class.path"/>
+  <copy overwrite="true" todir="${build.util.dest}">
+    <fileset dir="${build.util.src}">
+      <include name="**/*.xml"/>
+    </fileset>
+  </copy>
+
+  <javac srcdir="${build.schema.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.schema.dest}" classpathref="schema.src.compile.class.path"/>
+  <copy overwrite="true" todir="${build.schema.dest}">
+    <fileset dir="${build.schema.src}">
+      <include name="**/*.xml"/>
+    </fileset>
+  </copy>
+
+  <javac srcdir="${build.common.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.common.dest}" />
+
+  <javac srcdir="${build.putil.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.putil.dest}" />
+
+  <javac srcdir="${build.events.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.events.dest}" classpathref="events.src.compile.class.path"/>
+
+  <javac srcdir="${build.grammars.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.grammars.dest}" classpathref="grammars.src.compile.class.path"/>
+  <copy overwrite="true" todir="${build.grammars.dest}">
+    <fileset dir="${build.grammars.src}">
+      <include name="**/*.xml"/>
+    </fileset>
+  </copy>
+
+  <javac srcdir="${build.io.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.io.dest}" classpathref="io.src.compile.class.path"/>
+
+  <javac srcdir="${build.compression.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.compression.dest}" classpathref="compression.src.compile.class.path"/>
+
+  <javac srcdir="${build.proc.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.proc.dest}" classpathref="proc.src.compile.class.path"/>
+
+  <javac srcdir="${build.sax.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.sax.dest}" classpathref="sax.src.compile.class.path"/>
+  <copy overwrite="true" todir="${build.sax.dest}">
+    <fileset dir="${build.sax.src}">
+      <include name="**/*.xml"/>
+    </fileset>
+  </copy>
+
+  <javac srcdir="${build.scomp.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.scomp.dest}" classpathref="scomp.src.compile.class.path"/>
+  <copy overwrite="true" todir="${build.scomp.dest}">
+    <fileset dir="${build.scomp.src}">
+      <include name="**/*.xml"/>
+      <include name="**/*.xsd"/>
+    </fileset>
+  </copy>
+
+  <!-- Build fixtures -->
+  <javac srcdir="${build.ttf.fixture}" debug="on" optimize="off" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         classpathref="ttf.fixture.compile.class.path"/>
+
+  <javac srcdir="${build.schema.fixture}" debug="on" optimize="off" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         classpathref="schema.fixture.compile.class.path"/>
+
+  <javac srcdir="${build.grammars.fixture}" debug="on" optimize="off" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         classpathref="grammars.fixture.compile.class.path"/>
+
+  <javac srcdir="${build.scomp.fixture}" debug="on" optimize="off" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         classpathref="scomp.fixture.compile.class.path"/>
+
+  <!-- Compile Header Options schema -->
+  <java classname="${CompileSchemasClass}"
+        classpathref="scomp.fixture.run.class.path" fork="yes" failonerror="true"/>
+  <move todir="${build.schema.dest}/org/openexi/schema">
+    <fileset dir="${build.scomp.fixture}/org/openexi/scomp" includes="*.xsc" />
+  </move>
+
+  <!-- Build tests -->
+  <javac srcdir="${build.schema.test}" debug="on" optimize="off" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         classpathref="schema.test.compile.class.path"/>
+
+  <javac srcdir="${build.grammars.test}" debug="on" optimize="off" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         classpathref="grammars.test.compile.class.path"/>
+
+  <javac srcdir="${build.io.test}" debug="on" optimize="off" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         classpathref="io.test.compile.class.path"/>
+
+  <javac srcdir="${build.proc.test}" debug="on" optimize="off" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         classpathref="proc.test.compile.class.path"/>
+
+  <javac srcdir="${build.sax.test}" debug="on" optimize="off" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         classpathref="sax.test.compile.class.path"/>
+
+  <javac srcdir="${build.scomp.test}" debug="on" optimize="off" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         classpathref="scomp.test.compile.class.path"/>
+
+</target>
+
+<!-- =================================================================== -->
+<!-- Creates the package                                                 -->
+<!-- =================================================================== -->
+<target name="jar" description="packaging">
+  <tstamp>
+    <format property="hourMinute" pattern="HH:mm z"/>
+  </tstamp>
+  <delete file="${build.dir}/xmlResourceBundle.jar"/>
+  <delete file="${build.dir}/exiGrammars.jar"/>
+  <delete file="${build.dir}/exiProc.jar"/>
+  <delete file="${build.dir}/exiScomp.jar"/>
+  <jar destfile="${build.dir}/xmlResourceBundle.jar" basedir="${build.util.dest}">
+    <manifest>
+      <section name="org/openexi/util/">
+        <attribute name="Software-Name" value="${name}"/>
+        <attribute name="Software-Version" value="${version}"/>
+        <attribute name="Implementation-Title" value="org.openexi.util"/>
+        <attribute name="Implementation-Version" value="${version} ${TODAY} ${hourMinute}"/>
+        <attribute name="Implementation-Vendor" value="${vendor}"/>
+      </section>
+    </manifest>
+  </jar>
+  <jar destfile="${build.dir}/exiGrammars.jar">
+    <fileset dir="${build.common.dest}" />
+    <fileset dir="${build.putil.dest}" />
+    <fileset dir="${build.schema.dest}" />
+    <fileset dir="${build.events.dest}" />
+    <fileset dir="${build.grammars.dest}" />
+    <manifest>
+      <section name="org/openexi/proc/grammars/">
+        <attribute name="Software-Name" value="${name}"/>
+        <attribute name="Software-Version" value="${version}"/>
+        <attribute name="Implementation-Title" value="org.openexi.proc.grammars"/>
+        <attribute name="Implementation-Version" value="${version} ${TODAY} ${hourMinute}"/>
+        <attribute name="Implementation-Vendor" value="${vendor}"/>
+      </section>
+    </manifest>
+  </jar>
+  <jar destfile="${build.dir}/exiCompression.jar">
+    <fileset dir="${build.compression.dest}" />
+    <manifest>
+      <section name="org/openexi/proc/io/compression/">
+        <attribute name="Software-Name" value="${name}"/>
+        <attribute name="Software-Version" value="${version}"/>
+        <attribute name="Implementation-Title" value="org.openexi.proc.io.compression"/>
+        <attribute name="Implementation-Version" value="${version} ${TODAY} ${hourMinute}"/>
+        <attribute name="Implementation-Vendor" value="${vendor}"/>
+      </section>
+    </manifest>
+  </jar>
+  <jar destfile="${build.dir}/exiProc.jar">
+    <fileset dir="${build.io.dest}" />
+    <fileset dir="${build.proc.dest}" />
+    <manifest>
+      <section name="org/openexi/proc/">
+        <attribute name="Software-Name" value="${name}"/>
+        <attribute name="Software-Version" value="${version}"/>
+        <attribute name="Implementation-Title" value="org.openexi.proc"/>
+        <attribute name="Implementation-Version" value="${version} ${TODAY} ${hourMinute}"/>
+        <attribute name="Implementation-Vendor" value="${vendor}"/>
+      </section>
+    </manifest>
+  </jar>
+  <jar destfile="${build.dir}/exiSax.jar">
+    <fileset dir="${build.sax.dest}" />
+    <manifest>
+      <section name="org/openexi/sax/">
+        <attribute name="Software-Name" value="${name}"/>
+        <attribute name="Software-Version" value="${version}"/>
+        <attribute name="Implementation-Title" value="org.openexi.sax"/>
+        <attribute name="Implementation-Version" value="${version} ${TODAY} ${hourMinute}"/>
+        <attribute name="Implementation-Vendor" value="${vendor}"/>
+      </section>
+    </manifest>
+  </jar>
+  <jar destfile="${build.dir}/exiScomp.jar" basedir="${build.scomp.dest}">
+    <manifest>
+      <section name="org/openexi/scomp/">
+        <attribute name="Software-Name" value="${name}"/>
+        <attribute name="Software-Version" value="${version}"/>
+        <attribute name="Implementation-Title" value="org.openexi.scomp"/>
+        <attribute name="Implementation-Version" value="${version} ${TODAY} ${hourMinute}"/>
+        <attribute name="Implementation-Vendor" value="${vendor}"/>
+      </section>
+    </manifest>
+  </jar>
+</target>
+
+<target name="test" description="unit test" depends="compile, jar">
+
+  <junit printsummary="false" haltonfailure="true" fork="yes">
+    <formatter type="brief" usefile="false" />
+    <classpath refid="schema.test.run.class.path"/>
+    <batchtest>
+      <fileset dir="${build.schema.test}" includes="**/*Test.class" />
+    </batchtest>
+  </junit>
+
+  <junit printsummary="false" haltonfailure="true" fork="yes" maxmemory="256M">
+    <formatter type="brief" usefile="false" />
+    <classpath refid="grammars.test.run.class.path"/>
+    <batchtest>
+      <fileset dir="${build.grammars.test}" includes="**/*Test.class" />
+    </batchtest>
+  </junit>
+
+  <junit printsummary="false" haltonfailure="true" fork="yes" maxmemory="256M">
+    <formatter type="brief" usefile="false" />
+    <classpath refid="io.test.run.class.path"/>
+    <batchtest>
+      <fileset dir="${build.io.test}" includes="**/*Test.class" />
+    </batchtest>
+  </junit>
+
+  <junit printsummary="false" haltonfailure="true" fork="yes" maxmemory="256M">
+    <formatter type="brief" usefile="false" />
+    <classpath refid="scomp.test.run.class.path"/>
+    <batchtest>
+      <fileset dir="${build.scomp.test}" includes="**/*Test.class" />
+    </batchtest>
+  </junit>
+
+  <junit printsummary="false" haltonfailure="true" fork="yes" maxmemory="256M">
+    <formatter type="brief" usefile="false" />
+    <classpath refid="proc.test.run.class.path"/>
+    <batchtest>
+      <fileset dir="${build.proc.test}" includes="**/*Test.class" />
+    </batchtest>
+  </junit>
+
+  <junit printsummary="false" haltonfailure="true" fork="yes" maxmemory="256M">
+    <formatter type="brief" usefile="false" />
+    <classpath refid="sax.test.run.class.path"/>
+    <batchtest>
+      <fileset dir="${build.sax.test}" includes="**/*Test.class" />
+    </batchtest>
+  </junit>
+
+</target>
+
+<target name="doc" description="generate javadoc" depends="prepare-src">
+
+  <mkdir dir="${build.dir}/doc"/>
+  <delete dir="${build.dir}/doc"/>
+  <mkdir dir="${build.dir}/doc"/>
+
+  <javadoc sourcepathref="javadoc.src.path" destdir="${build.dir}/doc"
+     Doctitle="OpenEXI Processor" classpathref="xerces.class.path"
+     Locale="en_US" docencoding="ISO-8859-1" charset="ISO-8859-1"
+     packagenames="org.openexi.sax,org.openexi.proc,org.openexi.proc.common,org.openexi.proc.events,org.openexi.proc.grammars,org.openexi.proc.io,org.openexi.proc.io.compression,org.openexi.schema,org.openexi.scomp"
+     access="public" >
+  </javadoc>
+</target>
+
+</project>

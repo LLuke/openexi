@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<xsd:schema targetNamespace="urn:goo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+<xsd:import namespace="urn:foo" schemaLocation="foo1a.xsd" />
+
+<xsd:element name="X">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="foo:A" />
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

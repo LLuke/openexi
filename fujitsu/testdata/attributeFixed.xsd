@@ -1,0 +1,296 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+<!-- =================================================================== -->
+<!-- decimal                                                             -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="decimal" type="xsd:decimal" />
+
+<xsd:complexType name="decimal">
+  <xsd:attribute ref="foo:decimal" fixed="1.2345" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- integer                                                             -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="integer" type="xsd:integer" />
+
+<xsd:complexType name="integer">
+  <xsd:attribute ref="foo:integer" fixed="12345" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- long                                                                -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="long" type="xsd:long" />
+
+<xsd:complexType name="long">
+  <xsd:attribute ref="foo:long" fixed="100" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- int                                                                -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="int" type="xsd:int" />
+
+<xsd:complexType name="int">
+  <xsd:attribute ref="foo:int" fixed="101" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- short                                                                -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="short" type="xsd:short" />
+
+<xsd:complexType name="short">
+  <xsd:attribute ref="foo:short" fixed="102" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- byte                                                                -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="byte" type="xsd:byte" />
+
+<xsd:complexType name="byte">
+  <xsd:attribute ref="foo:byte" fixed="103" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- string                                                              -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="string" type="xsd:string" />
+
+<xsd:complexType name="string">
+  <xsd:attribute ref="foo:string" fixed="abc" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- anySimpleType                                                       -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="anySimpleType" type="xsd:anySimpleType" />
+
+<xsd:complexType name="anySimpleType">
+  <xsd:attribute ref="foo:anySimpleType" fixed="xyz" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- NMTOKEN                                                             -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="NMTOKEN" type="xsd:NMTOKEN" />
+
+<xsd:complexType name="NMTOKEN">
+  <xsd:attribute ref="foo:NMTOKEN" fixed="tokyo" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- anyURI                                                              -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="anyURI" type="xsd:anyURI" />
+
+<xsd:complexType name="anyURI">
+  <xsd:attribute ref="foo:anyURI" fixed="urn:foo" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- boolean                                                               -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="boolean" type="xsd:boolean" />
+
+<xsd:complexType name="boolean">
+  <xsd:attribute ref="foo:boolean" fixed="true" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- QName                                                               -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="QName" type="xsd:QName" />
+
+<xsd:complexType name="QName">
+  <xsd:attribute ref="foo:QName" fixed="goo:xyz" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- float                                                               -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="float" type="xsd:float" />
+
+<xsd:complexType name="float">
+  <xsd:attribute ref="foo:float" fixed="1.23" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- double                                                              -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="double" type="xsd:double" />
+
+<xsd:complexType name="double">
+  <xsd:attribute ref="foo:double" fixed="1.34" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- dateTime                                                            -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="dateTime" type="xsd:dateTime" />
+
+<xsd:complexType name="dateTime">
+  <xsd:attribute ref="foo:dateTime" fixed="2007-07-11T21:51:43+09:00" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- time                                                                -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="time" type="xsd:time" />
+
+<xsd:complexType name="time">
+  <xsd:attribute ref="foo:time" fixed="13:20:01-05:00" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- date                                                                -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="date" type="xsd:date" />
+
+<xsd:complexType name="date">
+  <xsd:attribute ref="foo:date" fixed="2003-04-25+09:00" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- gYearMonth                                                          -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="gYearMonth" type="xsd:gYearMonth" />
+
+<xsd:complexType name="gYearMonth">
+  <xsd:attribute ref="foo:gYearMonth" fixed="2003-05+09:00" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- gYear                                                               -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="gYear" type="xsd:gYear" />
+
+<xsd:complexType name="gYear">
+  <xsd:attribute ref="foo:gYear" fixed="1970+09:00" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- gMonthDay                                                           -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="gMonthDay" type="xsd:gMonthDay" />
+
+<xsd:complexType name="gMonthDay">
+  <xsd:attribute ref="foo:gMonthDay" fixed="--09-17+09:00" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- gDay                                                                -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="gDay" type="xsd:gDay" />
+
+<xsd:complexType name="gDay">
+  <xsd:attribute ref="foo:gDay" fixed="---17+09:00" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- gMonth                                                              -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="gMonth" type="xsd:gMonth" />
+
+<xsd:complexType name="gMonth">
+  <xsd:attribute ref="foo:gMonth" fixed="--10--+09:00" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- duration                                                            -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="duration" type="xsd:duration" />
+
+<xsd:complexType name="duration">
+  <xsd:attribute ref="foo:duration" fixed="P3DT10H30M" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- base64Binary                                                        -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="base64Binary" type="xsd:base64Binary" />
+
+<xsd:complexType name="base64Binary">
+  <xsd:attribute ref="foo:base64Binary" fixed="QUJDREVGR0hJSg==" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- hexBin                                                              -->
+<!-- =================================================================== -->
+
+<xsd:attribute name="hexBinary" type="xsd:hexBinary" />
+
+<xsd:complexType name="hexBinary">
+  <xsd:attribute ref="foo:hexBinary" fixed="4142434445464748494A" />
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- union                                                              -->
+<!-- =================================================================== -->
+
+<xsd:simpleType name="_decimalOrINF">
+  <xsd:union memberTypes="xsd:decimal">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:enumeration value="INF" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:union>
+</xsd:simpleType>
+
+<xsd:complexType name="decimalOrINF">
+  <xsd:attribute name="decimal" type="foo:_decimalOrINF" fixed="4" />
+  <xsd:attribute name="inf" type="foo:_decimalOrINF" fixed="INF" />
+</xsd:complexType>
+
+<xsd:complexType name="listOfUnion">
+  <xsd:attribute name="listOfDecimalOrINF" fixed="4 INF 1.23" >
+    <xsd:simpleType>
+      <xsd:list itemType="foo:_decimalOrINF"/>
+    </xsd:simpleType>
+  </xsd:attribute>
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- list                                                                -->
+<!-- =================================================================== -->
+
+<xsd:complexType name="listOfDecimal">
+  <xsd:attribute name="decimals" fixed="1.12 2.23 3.34">
+    <xsd:simpleType>
+      <xsd:list itemType="xsd:decimal"/>
+    </xsd:simpleType>
+  </xsd:attribute>
+</xsd:complexType>
+
+</xsd:schema>

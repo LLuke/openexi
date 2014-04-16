@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:simpleType name="fooAnyURI">
+  <xsd:restriction base="xsd:anyURI">
+    <xsd:length value="6"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="anyURIDerived">
+  <xsd:restriction base="foo:fooAnyURI">
+    <xsd:enumeration value="urn:foo"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

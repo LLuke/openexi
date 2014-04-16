@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<Root>
+  <msg id="1">SAX property "{0}" is not supported.</msg>
+  <msg id="2">Could not instantiate an XMLReader.</msg>
+  <msg id="3">SAXParser factory for use with Transmogrifier needs to be aware of namespaces.</msg>
+</Root>

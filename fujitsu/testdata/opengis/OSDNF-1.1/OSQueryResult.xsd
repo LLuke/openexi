@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ordnancesurvey.co.uk/xml/namespaces/osgb" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml" xmlns:osgb="http://www.ordnancesurvey.co.uk/xml/namespaces/osgb" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+  <annotation>
+    <appinfo source="urn:x-ordnancesurvey:dnf:schema-xsd:query-result:v1.0">OSQueryResult.xsd v1.0 2001/08</appinfo>
+    <documentation xml:lang="en">Ordnance Survey, (c) Crown Copyright. All Rights Reserved August 2001.</documentation>
+    <documentation xml:lang="en">See http://www.ordnancesurvey.co.uk/xml/schema for guidelines and related information</documentation>
+    <documentation xml:lang="en">This schema defines the structure of a query and change only update departed feature.</documentation>
+  </annotation>
+  <!-- include constructs from the OS Geometry, topology schema which imports GML Feature and Geometry schemas -->
+  <include schemaLocation="OSGeometryTopology.xsd"/>
+  <import namespace="http://www.opengis.net/gml" schemaLocation="../GML-2.12/feature.xsd"/>
+  <!-- ================================================================
+	Global element Declarations 
+	================================================================ -->
+  <element name="FeatureCollection" type="osgb:FeatureCollectionType" substitutionGroup="gml:_FeatureCollection"/>
+  <element name="_featureMember" type="gml:FeatureAssociationType" abstract="true" substitutionGroup="gml:featureMember"/>
+  <!-- deleted features used in changeOnlyUpdate -->
+  <element name="departedMember" type="osgb:departedMemberType" substitutionGroup="osgb:_featureMember"/>
+  <element name="DepartedFeature" type="osgb:DepartedFeatureType" substitutionGroup="gml:_Feature"/>
+  <!-- ==============================================================
+	Type Declarations
+	============================================================== -->
+  <!-- query collection -->
+  <complexType name="FeatureCollectionType">
+    <complexContent>
+      <extension base="gml:AbstractFeatureCollectionType">
+        <sequence>
+          <element name="queryTime" type="dateTime"/>
+          <element name="queryExtent" type="gml:GeometryPropertyType" minOccurs="0"/>
+          <element name="queryChangeSinceDate" type="date" minOccurs="0"/>
+          <element ref="osgb:_featureMember" minOccurs="0" maxOccurs="unbounded"/>
+          <element name="boundedBy" type="gml:BoundingShapeType" minOccurs="0"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <!-- departed member and feature definition -->
+  <complexType name="departedMemberType">
+    <complexContent>
+      <restriction base="gml:FeatureAssociationType">
+        <sequence minOccurs="0">
+          <element ref="osgb:DepartedFeature"/>
+        </sequence>
+        <attributeGroup ref="gml:AssociationAttributeGroup"/>
+      </restriction>
+    </complexContent>
+  </complexType>
+  <complexType name="DepartedFeatureType">
+    <complexContent>
+      <extension base="gml:AbstractFeatureType"/>
+    </complexContent>
+  </complexType>
+</schema>

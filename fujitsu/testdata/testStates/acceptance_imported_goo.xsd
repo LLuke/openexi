@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:goo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:goo="urn:goo">
+
+<xsd:element name="AB" type="xsd:anySimpleType"/>
+
+<xsd:element name="AC" type="xsd:anySimpleType"/>
+
+<xsd:element name="AD" type="xsd:anySimpleType"/>
+
+<xsd:element name="AE" type="xsd:anySimpleType"/>
+
+<xsd:attribute name="aA" />
+
+<xsd:attribute name="bA" type="xsd:boolean" />
+<xsd:attribute name="bB" type="xsd:boolean" />
+<xsd:attribute name="bC" type="xsd:boolean" />
+<xsd:attribute name="bD" type="xsd:boolean" />
+
+</xsd:schema>

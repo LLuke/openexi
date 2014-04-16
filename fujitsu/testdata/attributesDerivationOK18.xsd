@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:complexType name="stringItemType">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute name="ref" type="xsd:IDREF" use="required" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<xsd:complexType name="restrictedStringItemType">
+  <xsd:simpleContent>
+    <xsd:restriction base="foo:stringItemType">
+      <xsd:maxLength value="10"/>
+      <xsd:attribute name="ref" type="xsd:IDREF" use="required" />
+    </xsd:restriction>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+</xsd:schema>

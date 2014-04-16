@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="urn:foo" xmlns:foo="urn:foo">
+
+  <include schemaLocation="circularSchemaInclude2_b.xsd"/>
+
+  <element name="ea" type="foo:tc"/>
+
+  <attribute name="aa" type="string"/>
+
+</schema>

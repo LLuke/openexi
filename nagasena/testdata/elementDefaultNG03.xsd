@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<xsd:schema targetNamespace="urn:foo" xmlns:foo="urn:foo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:element name="A" default="goo:test">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:QName"/>
+  </xsd:simpleType>
+</xsd:element>
+
+</xsd:schema>

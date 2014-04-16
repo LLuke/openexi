@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+
+<xsd:schema targetNamespace="urn:foo" xmlns:goo="urn:goo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:import namespace="urn:goo" schemaLocation="substAbstracts.xsd"/>
+
+<xsd:import namespace="urn:hoo" schemaLocation="substElems.xsd"/>
+
+<xsd:element name="myroot">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="goo:part" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

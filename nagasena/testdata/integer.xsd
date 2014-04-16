@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" >
+
+<xsd:element name="Integer" type="xsd:integer"/>
+
+<xsd:element name="NBitInteger_A">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:integer">
+      <!-- value should be represented as 6 bits unsigned integer. -->
+      <xsd:minInclusive value="15"/>
+      <xsd:maxInclusive value="65"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="NBitInteger_B">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:integer">
+      <!-- value should be represented as 6 bits unsigned integer. -->
+      <xsd:minInclusive value="12678967543233"/>
+      <xsd:maxInclusive value="12678967543283"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+
+</xsd:schema>

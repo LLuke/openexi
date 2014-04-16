@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+
+<xsd:schema targetNamespace="urn:hoo" xmlns:hoo="urn:hoo"
+        xmlns:goo="urn:goo" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:import namespace="urn:goo" schemaLocation="substAbstracts01.xsd"/>
+
+<xsd:element name="name" type="xsd:string" substitutionGroup="goo:part" id="name"/>
+
+</xsd:schema>

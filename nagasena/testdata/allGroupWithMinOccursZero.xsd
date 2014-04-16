@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+<!-- =================================================================== -->
+<!-- complex types                                                       -->
+<!-- =================================================================== -->
+
+<xsd:complexType name="allMinOccursZero">
+  <xsd:all minOccurs="0">
+    <xsd:element name="B" type="xsd:string"/>
+    <xsd:element name="C" type="xsd:string"/>
+  </xsd:all>
+</xsd:complexType>
+
+<!-- =================================================================== -->
+<!-- Place Holder                                                        -->
+<!-- =================================================================== -->
+
+<xsd:element name="A" type="xsd:anySimpleType"/>
+
+</xsd:schema>

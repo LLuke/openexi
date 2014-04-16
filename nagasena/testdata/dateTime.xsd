@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" >
+
+<xsd:element name="DateTime" type="xsd:dateTime"/>
+
+<xsd:element name="ListOfDateTimes">
+  <xsd:simpleType>
+    <xsd:list>
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:dateTime" />
+      </xsd:simpleType>
+    </xsd:list>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="ListOfDateTimesRepeated">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="foo:ListOfDateTimes" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Date" type="xsd:date"/>
+
+<xsd:element name="Time" type="xsd:time"/>
+
+<xsd:element name="GDay" type="xsd:gDay"/>
+
+<xsd:element name="GMonth" type="xsd:gMonth"/>
+
+<xsd:element name="GMonthDay" type="xsd:gMonthDay"/>
+
+<xsd:element name="GYear" type="xsd:gYear"/>
+
+<xsd:element name="GYearMonth" type="xsd:gYearMonth"/>
+
+</xsd:schema>

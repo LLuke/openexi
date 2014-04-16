@@ -1,0 +1,12 @@
+<xsd:schema targetNamespace="urn:foo" xmlns:p0="urn:foo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:simpleType name="string">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+
+  <xsd:element name="A" type="p0:string" xmlns:p0="http://www.w3.org/2001/XMLSchema"/>
+
+  <xsd:element name="B" type="p0:string"/>
+
+</xsd:schema>

@@ -1,0 +1,17 @@
+<schema targetNamespace="urn:foo" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:foo="urn:foo"  >
+
+  <include schemaLocation="foo2a.xsd"/>
+  <include schemaLocation="foo2b.xsd"/>
+
+  <element name="Foo">
+    <complexType>
+      <sequence>
+        <element ref="foo:A"/>
+        <element ref="foo:B"/>
+      </sequence>
+    </complexType>
+  </element>
+
+</schema>
+

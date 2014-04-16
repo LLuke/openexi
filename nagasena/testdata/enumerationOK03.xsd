@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:simpleType name="stringMin2">
+  <xsd:restriction base="xsd:string">
+    <xsd:minLength value="2"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="stringMin2Derived">
+  <xsd:restriction base="foo:stringMin2">
+    <xsd:enumeration value="XY"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

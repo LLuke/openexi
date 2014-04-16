@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+
+<xsd:schema targetNamespace="urn:foo" xmlns:foo="urn:foo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:element name="A" type="xsd:string" substitutionGroup="foo:B" />
+
+<xsd:element name="B" type="xsd:string" substitutionGroup="foo:A" />
+
+<xsd:element name="Z" type="xsd:string" />
+
+</xsd:schema>

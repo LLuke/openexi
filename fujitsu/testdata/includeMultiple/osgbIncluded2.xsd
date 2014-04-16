@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="urn:osgb"
+        xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="urn:gml">
+        
+  <import namespace="urn:gml" schemaLocation="gml.xsd"/>
+  
+  <complexType name="typeB">
+    <simpleContent>
+      <extension base="gml:abcdType">
+        <attributeGroup ref="gml:gmlAttrs"/>
+      </extension>
+    </simpleContent>
+  </complexType>
+  
+</schema>

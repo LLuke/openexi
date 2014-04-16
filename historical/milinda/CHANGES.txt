@@ -1,0 +1,513 @@
+2012-02-17 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0032.0
+
+- Unwinding the previous change.
+
+D       src/org/openexi/scomp/EventAT.java
+D       src/org/openexi/scomp/EventTypeCache.java
+D       src/org/openexi/scomp/EventSE.java
+D       src/org/openexi/scomp/ProtoGrammar.java
+D       src/org/openexi/scomp/RightHandSide.java
+D       src/org/openexi/scomp/EventATWildcard.java
+D       src/org/openexi/scomp/EventATWildcardNS.java
+D       src/org/openexi/scomp/Event.java
+D       src/org/openexi/scomp/Goal.java
+D       src/org/openexi/scomp/EventSEWildcard.java
+D       src/org/openexi/scomp/EventSEWildcardNS.java
+D       src/org/openexi/scomp/Production.java
+D       src/org/openexi/scomp/EventCharactersTyped.java
+D       src/org/openexi/scomp/EventCharactersUntyped.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+0000.0001.0033.0
+
+- Added some code for grammar generation.
+
+A       src/org/openexi/scomp/EventAT.java
+A       src/org/openexi/scomp/EventTypeCache.java
+A       src/org/openexi/scomp/EventSE.java
+A       src/org/openexi/scomp/ProtoGrammar.java
+A       src/org/openexi/scomp/RightHandSide.java
+A       src/org/openexi/scomp/EventATWildcard.java
+A       src/org/openexi/scomp/EventATWildcardNS.java
+A       src/org/openexi/scomp/Event.java
+A       src/org/openexi/scomp/Goal.java
+A       src/org/openexi/scomp/EventSEWildcard.java
+A       src/org/openexi/scomp/EventSEWildcardNS.java
+A       src/org/openexi/scomp/Production.java
+A       src/org/openexi/scomp/EventCharactersTyped.java
+A       src/org/openexi/scomp/EventCharactersUntyped.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+2012-01-31 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0032.0
+
+- Removed some redundant codes.
+
+M       src/org/openexi/proc/grammars/AbstractEventType.java
+M       src/org/openexi/proc/grammars/ArrayEventTypeList.java
+M       build.xml
+
+2012-01-27 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0031.0
+
+- Reorganized directory structure of EXISchema.
+
+M       src/org/openexi/schema/EXISchema.java
+M       build.xml
+
+2012-01-18 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0030.0
+
+- Fixed a bug that prevented anonymus union types from causing the elements 
+  that use them to be augmented with xsi:type in strict mode.
+
+M       test/org/openexi/proc/DecodeStrictTest.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+A       testdata/interop/datatypes/enumeration
+A       testdata/interop/datatypes/enumeration/enumeration-valid-04.xml
+A       testdata/interop/datatypes/enumeration/enumeration.xsd
+A       testdata/interop/datatypes/enumeration/enumeration-valid-04.byteAligned
+M       build.xml
+
+2012-01-17 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0029.0
+
+- Opaque data are now stored in a separate array in EXISchema.
+
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaStruct.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       src/org/openexi/proc/grammars/ComplexContentGrammar.java
+M       src/org/openexi/proc/grammars/SequenceChoiceGrammar.java
+M       src/org/openexi/proc/grammars/AllGroupGrammar.java
+M       src/org/openexi/proc/grammars/GroupGrammar.java
+M       src/org/openexi/proc/grammars/SchemaInformedGrammar.java
+M       build.xml
+
+0000.0001.0028.0
+
+- Simplified _getSubstanceListOfParticle method of EXISchema.
+
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+2012-01-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0027.0
+
+- m_opaque array was introduced in EXISchema.
+
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaStruct.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       src/org/openexi/proc/grammars/ElementTagGrammar.java
+M       build.xml
+
+0000.0001.0026.0
+
+- m_n_types in EXISchemaStruct has been renamed as m_typesCount.
+
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaStruct.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+2011-12-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0025.0
+
+- URIs in EXISchema are in the order defined in EXI spec.
+
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaStruct.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       src/org/openexi/proc/io/StringTable.java
+M       build.xml
+
+0000.0001.0024.0
+
+- URIConst was renamed as ExiUriConst.
+
+M       test/org/openexi/proc/DecodeStrictTest.java
+M       test/org/openexi/sax/DTRMTest.java
+M       test/org/openexi/sax/OptionsDocumentTest.java
+M       src/org/openexi/proc/EXIOptionsEncoder.java
+M       src/org/openexi/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/proc/io/IntegerValueScriber.java
+M       src/org/openexi/proc/io/FloatValueScriber.java
+M       src/org/openexi/proc/io/StringValueScanner.java
+M       src/org/openexi/proc/io/GYearValueScriber.java
+M       src/org/openexi/proc/io/Scanner.java
+M       src/org/openexi/proc/io/DecimalValueScriber.java
+M       src/org/openexi/proc/io/StringValueScriber.java
+M       src/org/openexi/proc/io/GYearMonthValueScriber.java
+M       src/org/openexi/proc/io/BooleanValueScriber.java
+M       src/org/openexi/proc/io/BinaryValueScriber.java
+M       src/org/openexi/proc/HeaderOptionsDecoder.java
+D       src/org/openexi/proc/util/URIConst.java
+A  +    src/org/openexi/proc/util/ExiUriConst.java
+
+0000.0001.0023.0
+
+- Pre-populate names array with well-known local names in EXISchemaStruct.
+
+M       src/org/openexi/scomp/EXISchemaStruct.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+0000.0001.0022.0
+
+- Initial localName partitions are now incorporated in EXISchema.
+
+M       test/org/openexi/proc/io/LocalNamePartitionTest.java
+M       test/org/openexi/proc/io/PrefixPartitionTest.java
+M       test/org/openexi/sax/DTRMTest.java
+M       test/org/openexi/sax/EXIReaderTest.java
+M       test/org/openexi/sax/FloatValueEncodingTest.java
+M       test/org/openexi/sax/GrammarXsiTypeTest.java
+M       test/org/openexi/sax/GrammarBuiltinTest.java
+M       test/org/openexi/sax/GrammarStrictTest.java
+M       test/org/openexi/sax/GrammarAttributeWildcardTest.java
+M       test/org/openexi/sax/EnumerationTest.java
+M       test/org/openexi/sax/OptionsDocumentTest.java
+M       test/org/openexi/sax/GrammarSchemaInformedTest.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       src/org/openexi/proc/events/EXIEventSchemaType.java
+M       src/org/openexi/proc/events/EXIEventSchemaNil.java
+M       src/org/openexi/proc/io/SimpleScanner.java
+M       src/org/openexi/proc/io/Scanner.java
+M       src/org/openexi/proc/io/StringTable.java
+M       src/org/openexi/proc/io/compression/ChannellingScanner.java
+M       src/org/openexi/proc/io/Scriber.java
+A       src/org/openexi/proc/common/StringTableConst.java
+A       src/org/openexi/proc/common/XmlUriConst.java
+M       src/org/openexi/proc/grammars/EventTypeSchemaType.java
+M       src/org/openexi/proc/grammars/EventTypeNamespaceDeclaration.java
+M       src/org/openexi/proc/grammars/EventTypeSchemaNil.java
+M       src/org/openexi/proc/util/URIConst.java
+M       src/org/openexi/sax/EXIReader.java
+M       src/org/openexi/sax/Transmogrifier.java
+
+2011-12-21 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0021.0
+
+- StringTable no longer needs to sort URIs.
+
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       src/org/openexi/proc/io/StringTable.java
+M       build.xml
+
+0000.0001.0020.0
+
+- Abandoned SIMPLE_TYPE_N_FACET_ENUMERATIONS field in EXISchemaLayout.
+
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+2011-12-20 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0019.0
+
+- Abandoned SIMPLE_TYPE_BOOLEANS field in EXISchemaLayout.
+
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+0000.0001.0018.0
+
+- No need to retain pattern facets for xsd:boolean and its derived types.
+
+M       test/org/openexi/sax/BooleanValueEncodingTest.java
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       src/org/openexi/proc/io/Scanner.java
+M       src/org/openexi/proc/io/BooleanValueScriber.java
+M       build.xml
+
+2011-12-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0017.0
+
+- Abandoned SIMPLE_TYPE_N_RESTRICTED_CHARSET field in EXISchemaLayout.
+
+M       test/org/openexi/sax/BooleanValueEncodingTest.java
+M       test/org/openexi/sax/ValuePartitionCapacityTest.java
+M       test/org/openexi/sax/Base64BinaryValueEncodingTest.java
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+0000.0001.0016.0
+
+- Abandoned SIMPLE_TYPE_FACET_WHITESPACE field in EXISchemaLayout.
+
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+2011-12-09 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0015.0
+
+- Abandoned SIMPLE_TYPE_VARIETY field in EXISchemaLayout.
+
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+0000.0001.0014.0
+
+- Added support for enumerations of lists.
+
+M       test/org/openexi/sax/EnumerationTest.java
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       src/org/openexi/proc/io/Apparatus.java
+M       src/org/openexi/proc/io/Scanner.java
+M       src/org/openexi/proc/io/EnumerationValueScriber.java
+M       testdata/enumeration.xsd
+M       build.xml
+
+2011-12-08 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0013.0
+
+- SIMPLE_TYPE_BASE_TYPE in EXISchemaLayout has been renamed as
+  SIMPLE_TYPE_INT_FIELD
+
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+0000.0001.0012.0
+
+- getBaseTypeOfSimpleType has been renamed as getBaseTypeOfAtomicSimpleType
+  in EXISchema.
+
+M       test/org/openexi/schema/EmptySchemaTest.java
+M       test/org/openexi/scomp/BuiltinTypeTest.java
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       test/org/openexi/sax/IntegerValueEncodingTest.java
+M       test/org/openexi/sax/DecimalValueEncodingTest.java
+M       test/org/openexi/sax/LongEncodingTest.java
+M       test/org/openexi/sax/EnumerationTest.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/proc/io/Apparatus.java
+M       src/org/openexi/proc/io/Scanner.java
+M       src/org/openexi/proc/io/EnumerationValueScriber.java
+M       build.xml
+
+2011-12-06 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0011.0
+
+- TYPE_BASE_TYPE in EXISchemaLayout is available only for simple types.
+
+M       test/org/openexi/schema/EmptySchemaTest.java
+M       test/org/openexi/scomp/BuiltinTypeTest.java
+M       test/org/openexi/scomp/EXISchemaFactorySubstGroupTest.java
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       test/org/openexi/sax/IntegerValueEncodingTest.java
+M       test/org/openexi/sax/DecimalValueEncodingTest.java
+M       test/org/openexi/sax/LongEncodingTest.java
+M       test/org/openexi/sax/EnumerationTest.java
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       src/org/openexi/proc/io/Apparatus.java
+M       src/org/openexi/proc/io/Scanner.java
+M       src/org/openexi/proc/io/EnumerationValueScriber.java
+M       build.xml
+
+0000.0001.0010.0
+
+- Abrogated SIMPLE_TYPE_ISINTEGRAL_MASK field in EXISchemaLayout.
+
+M       test/org/openexi/scomp/BuiltinTypeTest.java
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       test/org/openexi/sax/FragmentTest.java
+M       test/org/openexi/sax/Base64BinaryValueEncodingTest.java
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       src/org/openexi/proc/io/Apparatus.java
+M       src/org/openexi/proc/io/Scanner.java
+M       src/org/openexi/proc/io/EnumerationValueScriber.java
+M       build.xml
+
+2011-12-02 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0009.0
+
+- SIMPLE_TYPE_N_MEMBER_TYPES has been merged into SIMPLE_TYPE_AUX.
+
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/schema/EXISchemaRuntimeExceptionXMsg.xml
+M       src/org/openexi/schema/EXISchemaRuntimeException.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+0000.0001.0008.0
+
+- INTEGER_TYPE is now right after primitive types in EXISchemaConst.
+
+M       src/org/openexi/schema/EXISchemaConst.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+2011-12-01 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0007.0
+
+- Removed ELEMENT_ISABSTRACT_MASK and TYPE_HASSUBTYPE_MASK from EXISchemaLayout.
+
+- Added ELEMENT_ISTYPABLE_MASK in EXISchemaLayout.
+
+M       test/org/openexi/scomp/BuiltinTypeTest.java
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       src/org/openexi/proc/grammars/SchemaInformedGrammar.java
+
+0000.0001.0006.0
+
+- Removed fields related to urtype checking from EXISchemaLayout.
+
+M       test/org/openexi/scomp/BuiltinTypeTest.java
+M       test/org/openexi/scomp/EXISchemaFactorySubstGroupTest.java
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+2011-11-30 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0005.0
+
+- URIs are stored separately from other names in EXISchema.
+
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaStruct.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       src/org/openexi/proc/io/StringTable.java
+M       build.xml
+
+2011-11-29 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0004.0
+
+- Pruned unused facets.
+
+M       test/org/openexi/scomp/BuiltinTypeTest.java
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       test/org/openexi/sax/IntValueEncodingTest.java
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+0000.0001.0003.0
+
+- Removed isFixtureType method from EXISchema.
+
+M       test/org/openexi/scomp/BuiltinTypeTest.java
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/schema/EXISchemaConst.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+0000.0001.0002.0
+
+- Removed getBuiltinTypeOfAtomicSimpleType method from EXISchema.
+
+M       test/org/openexi/scomp/BuiltinTypeTest.java
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       test/org/openexi/proc/DecodeStrictTest.java
+M       test/org/openexi/sax/DateTimeValueEncodingTest.java
+M       test/org/openexi/sax/IntegerValueEncodingTest.java
+M       test/org/openexi/sax/CompressionTest.java
+M       test/org/openexi/sax/DecimalValueEncodingTest.java
+M       test/org/openexi/sax/LongEncodingTest.java
+M       test/org/openexi/sax/FloatValueEncodingTest.java
+M       test/org/openexi/sax/EnumerationTest.java
+M       test/org/openexi/sax/Base64BinaryValueEncodingTest.java
+M       test/org/openexi/sax/HexBinaryValueEncodingTest.java
+M       test/org/openexi/sax/IntValueEncodingTest.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       src/org/openexi/proc/io/Scanner.java
+M       src/org/openexi/proc/io/EnumerationValueScriber.java
+M       build.xml
+
+2011-11-28 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0001.0
+
+- Removed validation tests.
+
+D       test/org/openexi/scomp/NonNegativeIntegerValidatorTest.java
+D       test/org/openexi/scomp/NonPositiveIntegerValidatorTest.java
+D       test/org/openexi/scomp/SimpleTypeValidatorTest.java
+D       test/org/openexi/scomp/DateTimeValidatorTest.java
+D       test/org/openexi/scomp/DecimalValidatorTest.java
+D       test/org/openexi/scomp/LongValidatorTest.java
+D       test/org/openexi/scomp/QNameValidatorTest.java
+M       test/org/openexi/scomp/BuiltinTypeTest.java
+D       test/org/openexi/scomp/AttributeValidatorTest.java
+D       test/org/openexi/scomp/FloatValidatorTest.java
+D       test/org/openexi/scomp/StringValidatorTest.java
+D       test/org/openexi/scomp/ListValidatorTest.java
+D       test/org/openexi/scomp/GregorianValidatorTest.java
+D       test/org/openexi/scomp/BooleanValidatorTest.java
+D       test/org/openexi/scomp/NameValidatorTest.java
+D       test/org/openexi/scomp/TokenValidatorTest.java
+D       test/org/openexi/scomp/LanguageValidatorTest.java
+D       test/org/openexi/scomp/BinaryValidatorTest.java
+D       test/org/openexi/scomp/DurationValidatorTest.java
+D       test/org/openexi/scomp/EnumerationValidatorTest.java
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+D       test/org/openexi/scomp/UnionValidatorTest.java
+M       fixture/org/openexi/schema/SimpleTypeValidator.java
+M       src/org/openexi/schema/EXISchemaLayout.java
+M       src/org/openexi/schema/EXISchema.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
+2011-11-21 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0001.0000.0
+
+- Initial checkin.
+

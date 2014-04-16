@@ -1,0 +1,8 @@
+<xsd:schema targetNamespace="urn:foo" xmlns:goo="urn:goo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:element name="A" substitutionGroup="goo:A" />
+
+<xsd:element name="B" substitutionGroup="goo:B" type="xsd:int" />
+
+</xsd:schema>

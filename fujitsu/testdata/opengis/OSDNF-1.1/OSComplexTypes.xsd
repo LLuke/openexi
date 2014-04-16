@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ordnancesurvey.co.uk/xml/namespaces/osgb" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:osgb="http://www.ordnancesurvey.co.uk/xml/namespaces/osgb" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+  <annotation>
+    <appinfo source="urn:x-ordnancesurvey:dnf:schema-xsd:complex-types:v1.0">OSComplexTypes.xsd 1.0 2001/08</appinfo>
+    <documentation xml:lang="en">Ordnance Survey, (c) Crown Copyright. All Rights Reserved August 2001.</documentation>
+    <documentation xml:lang="en">See http://www.ordnancesurvey.co.uk/xml/schema for guidelines and related information</documentation>
+    <documentation xml:lang="en">This schema defines the complex types used as properties on features.</documentation>
+  </annotation>
+  <include schemaLocation="OSQueryResult.xsd"/>
+  <include schemaLocation="OSSimpleTypes.xsd"/>
+  <!-- ================================================================
+	Complex Type Definitions 
+	================================================================ -->
+  <complexType name="changeHistoryType">
+    <sequence>
+      <element name="changeDate" type="date"/>
+      <element name="reasonForChange" type="osgb:reasonForChangeType"/>
+    </sequence>
+  </complexType>
+  <complexType name="heightAboveDatumType">
+    <sequence>
+      <element name="heightAboveDatum" type="double"/>
+      <element name="accuracyOfHeightAboveDatum" type="osgb:accuracyOfPositionType"/>
+    </sequence>
+  </complexType>
+  <complexType name="heightAboveGroundLevelType">
+    <sequence>
+      <element name="heightAboveGroundLevel" type="double"/>
+      <element name="accuracyOfHeightAboveGroundLevel" type="osgb:accuracyOfPositionType"/>
+    </sequence>
+  </complexType>
+  <complexType name="textRenderingType">
+    <sequence>
+      <element name="anchorPosition" type="unsignedByte"/>
+      <element name="font" type="unsignedByte"/>
+      <element name="height" type="float"/>
+      <element name="orientation" type="unsignedShort"/>
+    </sequence>
+  </complexType>
+</schema>

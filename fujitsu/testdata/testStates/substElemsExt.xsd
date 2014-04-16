@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+
+<xsd:schema targetNamespace="urn:foo" xmlns:foo="urn:foo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:include schemaLocation="substElemsIncluded.xsd" />
+
+<xsd:element name="B2" substitutionGroup="foo:B">
+  <xsd:complexType/>
+</xsd:element>
+
+<xsd:element name="C">
+  <xsd:complexType/>
+</xsd:element>
+
+</xsd:schema>

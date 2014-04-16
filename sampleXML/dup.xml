@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<X3D>
+    <head>
+        <meta content='cnt1' name='nm1'/>
+        <meta content='cnt2' name='nm2'/>
+        <meta content='cnt3' name='nm3' nether="some"/>
+        <meta gain="one" content='cnt3' name='nm3' nether="some"/>
+    </head>
+</X3D>

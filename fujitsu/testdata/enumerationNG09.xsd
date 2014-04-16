@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsd:schema [
+<!-- This schema is valid contrary to its name. -->
+]>
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:simpleType name="fooQName">
+  <xsd:restriction base="xsd:QName">
+    <xsd:length value="11"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="qNameDerived">
+  <xsd:restriction base="foo:fooQName">
+    <xsd:enumeration value="foo:teapot"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

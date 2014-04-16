@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:complexType name="typeA">
+  <xsd:simpleContent>
+    <xsd:extension base="foo:typeB" />
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<xsd:complexType name="typeB">
+  <xsd:complexContent>
+    <xsd:restriction base="xsd:anyType" />
+  </xsd:complexContent>
+</xsd:complexType>
+
+<!-- 
+  DO NOT REMOVE ELEMENT DECLARATIONS. 
+  Use of substitutionGroup is part of the purpose of the test.
+ -->
+
+<xsd:element name="A" substitutionGroup="foo:B" type="foo:typeA" />
+
+<xsd:element name="B" type="foo:typeB" />
+
+</xsd:schema>

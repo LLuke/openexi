@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:goo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:goo="urn:goo">
+
+<xsd:attribute name="a1" type="xsd:date"/>
+
+<xsd:attribute name="a2" type="xsd:string" fixed="ocha"/>
+
+<xsd:attribute name="a3" type="xsd:string" />
+
+</xsd:schema>

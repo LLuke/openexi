@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+
+<xsd:schema targetNamespace="urn:foo" xmlns:foo="urn:foo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:complexType name="base">
+  <xsd:choice maxOccurs="unbounded">
+    <xsd:element ref="foo:B"/>
+    <xsd:element ref="foo:C"/>
+  </xsd:choice>
+</xsd:complexType>
+
+<xsd:complexType name="derived">
+  <xsd:complexContent>
+    <xsd:restriction base="foo:base">
+      <xsd:choice maxOccurs="unbounded">
+        <xsd:element ref="foo:B"/>
+        <xsd:choice>
+          <xsd:element ref="foo:D"/>
+          <xsd:element ref="foo:E"/>
+        </xsd:choice>
+      </xsd:choice>
+    </xsd:restriction>
+  </xsd:complexContent>
+</xsd:complexType>
+
+<xsd:element name="B" type="xsd:int"/>
+
+<xsd:element name="C" type="xsd:string"/>
+<xsd:element name="D" substitutionGroup="foo:C" type="xsd:token"/>
+<xsd:element name="E" type="xsd:token"/>
+<xsd:element name="F" substitutionGroup="foo:C" type="xsd:token"/>
+
+<xsd:element name="A" type="foo:derived"/>
+
+</xsd:schema>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<customers>
+   <customer custID="cust201" custType="home">
+      <orders>
+          
+         <order orderID="or10311" orderBy="cust201">
+            <orderDate>8/1/2008</orderDate>
+         </order>
+
+         <order orderID="or10311" orderBy="cust201">            <!-- orderBy -->
+            <orderDate>8/1/2008</orderDate>
+         </order>
+
+      </orders>
+   </customer>
+</customers>

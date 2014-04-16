@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:foo="urn:foo">
+
+<xsd:attributeGroup name="StandardAttributes.atts">
+  <xsd:attribute name="version">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:token"/>
+    </xsd:simpleType>
+  </xsd:attribute>
+</xsd:attributeGroup>
+
+<xsd:complexType name="typeC">
+  <xsd:complexContent>
+    <xsd:restriction base="foo:typeB">
+      <xsd:sequence>
+        <xsd:element name="header" type="xsd:token" />
+      </xsd:sequence>
+      <xsd:attributeGroup ref="foo:StandardAttributes.atts"/>
+    </xsd:restriction>
+  </xsd:complexContent>
+</xsd:complexType>
+
+<xsd:complexType name="typeB">
+  <xsd:complexContent>
+    <xsd:extension base="foo:typeA">
+      <xsd:sequence>
+        <xsd:element name="header" type="xsd:string" />
+      </xsd:sequence>
+    </xsd:extension>
+  </xsd:complexContent>
+</xsd:complexType>
+
+<xsd:complexType name="typeA">
+  <xsd:attributeGroup ref="foo:StandardAttributes.atts"/>
+</xsd:complexType>
+
+</xsd:schema>

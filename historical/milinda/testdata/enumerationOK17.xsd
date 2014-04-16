@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:simpleType name="fooHexBinary">
+  <xsd:restriction base="xsd:hexBinary">
+    <xsd:length value="5"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="hexBinaryDerived">
+  <xsd:restriction base="foo:fooHexBinary">
+    <xsd:enumeration value="6161616161"/><!-- aaaaa -->
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

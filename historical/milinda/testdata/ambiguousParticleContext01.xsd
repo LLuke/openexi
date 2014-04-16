@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:complexType name="datedAddress">
+  <xsd:sequence minOccurs="0" maxOccurs="5">
+    <xsd:choice maxOccurs="unbounded">
+      <xsd:sequence>
+        <xsd:element name="Street4a" maxOccurs="2" type="xsd:string"/>
+        <xsd:element name="City4a" type="xsd:string"/>
+      </xsd:sequence>
+      <xsd:sequence maxOccurs="2">
+        <xsd:element name="Street4b" maxOccurs="unbounded" type="xsd:string"/>
+        <xsd:element name="City4b" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:choice>
+    <xsd:element name="Zip" type="xsd:string" maxOccurs="unbounded"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+</xsd:schema>

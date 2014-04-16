@@ -1,0 +1,8 @@
+<foo:H xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+  <foo:A>
+    <NONE/>
+    <NOPE/>
+  </foo:A>
+  <foo:NONE/>
+  <goo:NONE/>
+</foo:H>

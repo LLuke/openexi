@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:simpleType name="string1">
+  <xsd:restriction base="xsd:string">
+    <xsd:length value="1"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="string1Derived">
+  <xsd:restriction base="foo:string1">
+    <xsd:enumeration value="W"/>
+    <xsd:enumeration value="XY"/>
+    <xsd:enumeration value="Z"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

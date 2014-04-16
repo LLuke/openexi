@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+<xsd:import namespace="urn:goo" schemaLocation="listImported.xsd" />
+
+<xsd:simpleType name="listOfIDs">
+  <xsd:list>
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:ID"/>
+    </xsd:simpleType>
+  </xsd:list>
+</xsd:simpleType>
+
+<xsd:simpleType name="listOfIDsMin3Max5">
+  <xsd:restriction base="foo:listOfIDs">
+    <xsd:minLength value="3"/>
+    <xsd:maxLength value="5"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="listOfIDsLen4">
+  <xsd:restriction base="foo:listOfIDs">
+    <xsd:length value="4"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="listOfUnion">
+  <xsd:list>
+    <xsd:simpleType>
+      <xsd:union memberTypes="xsd:integer xsd:Name"/>
+    </xsd:simpleType>
+  </xsd:list>
+</xsd:simpleType>
+
+<xsd:simpleType name="list4OfUnion">
+  <xsd:restriction>
+    <xsd:simpleType>
+      <xsd:list>
+        <xsd:simpleType>
+          <xsd:union memberTypes="xsd:integer xsd:Name"/>
+        </xsd:simpleType>
+      </xsd:list>
+    </xsd:simpleType>
+    <xsd:length value="4"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="listOfDecimal8">
+  <!-- itemType referencing a type defined in different namespace. -->
+  <xsd:list itemType="goo:decimal8"/>
+</xsd:simpleType>
+
+<xsd:simpleType name="decimal4">
+  <xsd:restriction base="goo:decimal8">
+    <xsd:totalDigits value="4"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:element name="ListOfEnumeratedGMonthDay">
+  <xsd:simpleType>
+    <xsd:list>
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:gMonthDay">
+          <xsd:enumeration value="--09-16"/>
+          <xsd:enumeration value="--09-18"/>
+          <xsd:enumeration value="--09-20"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:list>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="A" type="xsd:anySimpleType"/>
+
+</xsd:schema>

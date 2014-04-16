@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.ordnancesurvey.co.uk/xml/namespaces/osgb" xmlns:osgb="http://www.ordnancesurvey.co.uk/xml/namespaces/osgb" xmlns:gml="http://www.opengis.net/gml" xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<annotation>
+		<appinfo source="urn:x-ordnancesurvey:dnf:schema-xsd:geometry-topology:v1.0">OSGeometryTopology.xsd v1.0 2001/08</appinfo>
+		<documentation xml:lang="en">Ordnance Survey, (c) Crown Copyright. All Rights Reserved August 2001.</documentation>
+		<documentation xml:lang="en">See http://www.ordnancesurvey.co.uk for guidelines and related information</documentation>
+		<documentation xml:lang="en">This schema defines the geometry and topology extensions to GML 2.0.</documentation>
+	</annotation>
+	<!-- import constructs from the GML Feature and Geometry schemas -->
+	<import namespace="http://www.opengis.net/gml" schemaLocation="../GML-2.12/feature.xsd"/>
+	<!-- ================================================================
+	Global element Declarations 
+	================================================================ -->
+	<!-- Geometric extensions -->
+	<element name="Rectangle" type="gml:BoxType" substitutionGroup="gml:_Geometry"/>
+	<!-- topology extensions -->
+	<element name="outerBoundaryIs" type="osgb:boundaryType" substitutionGroup="gml:featureMember"/>
+	<element name="innerBoundaryIs" type="osgb:boundaryType" substitutionGroup="gml:featureMember"/>
+	<element name="Ring" type="osgb:RingType"/>
+	<element name="ringMember" type="osgb:ringMemberType" substitutionGroup="gml:featureMember"/>
+	<!-- ==============================================================
+	Type Declarations
+	============================================================== -->
+	<!-- extended geometry property types -->
+	<complexType name="PolygonPropertyType">
+		<complexContent>
+			<extension base="gml:PolygonPropertyType">
+				<sequence>
+					<element ref="osgb:outerBoundaryIs" minOccurs="0"/>
+					<element ref="osgb:innerBoundaryIs" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute name="broken" type="boolean" default="false"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="AbstractLineStringPropertyType">
+		<complexContent>
+			<restriction base="gml:GeometryPropertyType">
+				<sequence>
+					<element ref="gml:LineString"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="LineStringPropertyType">
+		<complexContent>
+			<extension base="osgb:AbstractLineStringPropertyType">
+				<attribute name="broken" type="boolean" default="false"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- topological types -->
+	<complexType name="boundaryType">
+		<complexContent>
+			<extension base="gml:FeatureAssociationType">
+				<sequence minOccurs="0">
+					<element ref="osgb:Ring"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="RingType">
+		<sequence>
+			<element ref="osgb:ringMember" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="orientation" type="osgb:circularOrientationType" use="required"/>
+	</complexType>
+	<complexType name="ringMemberType">
+		<complexContent>
+			<extension base="gml:FeatureAssociationType">
+				<attribute name="orientation" type="osgb:linearOrientationType" default="+"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<simpleType name="circularOrientationType">
+		<restriction base="string">
+			<enumeration value="clockwise"/>
+			<enumeration value="anticlockwise"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="linearOrientationType">
+		<annotation>
+			<documentation xml:lang="en">
+				'+' Natural direction, '-' reverse direction
+			</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="+"/>
+			<enumeration value="-"/>
+		</restriction>
+	</simpleType>
+</schema>

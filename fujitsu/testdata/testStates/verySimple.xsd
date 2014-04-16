@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:simpleType name="string10">
+  <xsd:restriction base="xsd:string">
+    <xsd:length value="10"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:element name="STRING10" type="foo:string10"/>
+
+<xsd:element name="STRING10n" nillable="true" type="foo:string10"/>
+
+</xsd:schema>

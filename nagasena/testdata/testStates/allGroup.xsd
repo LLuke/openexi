@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo">
+
+<xsd:element name="A">
+  <xsd:complexType>
+    <xsd:all>
+      <xsd:element name="B"/>
+      <xsd:element name="C"/>
+    </xsd:all>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="B">
+  <xsd:complexType>
+    <xsd:all>
+      <xsd:element name="C" minOccurs="0"/>
+      <xsd:element name="D" minOccurs="0"/>
+    </xsd:all>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="C">
+  <xsd:complexType>
+    <xsd:all>
+      <xsd:element name="D" minOccurs="0"/>
+      <xsd:element name="E"/>
+    </xsd:all>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="D">
+  <xsd:complexType>
+    <xsd:all>
+      <xsd:element name="E"/>
+      <xsd:element name="F" minOccurs="0"/>
+    </xsd:all>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="E">
+  <xsd:complexType>
+    <xsd:all>
+      <xsd:element ref="foo:a"/>
+      <xsd:element name="G"/>
+    </xsd:all>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="a" type="xsd:string" />
+<xsd:element name="b" type="xsd:string" substitutionGroup="foo:a" />
+
+<!-- xsd:element name="B">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element name="C"/>
+      <xsd:sequence>
+        <xsd:element name="D"/>
+      </xsd:sequence>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="C">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element name="D"/>
+      <xsd:sequence>
+        <xsd:element name="E" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element -->
+
+</xsd:schema>

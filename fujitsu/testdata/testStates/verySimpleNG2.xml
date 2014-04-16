@@ -1,0 +1,2 @@
+<!-- Namespace "urn:goo" where "urn:foo" is expected. -->
+<STRING10 xmlns="urn:goo">0123456789</STRING10>

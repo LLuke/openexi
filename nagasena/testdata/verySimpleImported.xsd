@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:goo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:goo="urn:goo">
+
+<xsd:element name="a">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="goo:b"/>
+      <xsd:element ref="goo:c"/>
+      <xsd:element ref="goo:d"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="b" type="goo:string10" id="goo_b"/>
+<xsd:element name="c" type="xsd:string"/>
+<xsd:element name="d" type="xsd:string"/>
+
+<!-- Elements e and f have properties (nillable, typable) = (true, false) -->
+<xsd:element name="e" type="goo:string16" nillable="true" />
+<xsd:element name="f" type="goo:string16" nillable="true" />
+
+<!-- Elements g and h have properties (nillable, typable) = (false, true) -->
+<xsd:element name="g" type="xsd:string" />
+<xsd:element name="h" type="xsd:string" />
+
+<!-- Elements i and j have properties (nillable, typable) = (true, true) -->
+<xsd:element name="i" type="xsd:string" nillable="true" />
+<xsd:element name="j" type="xsd:string" nillable="true" />
+
+<xsd:simpleType name="string10">
+  <xsd:restriction base="xsd:string">
+    <xsd:length value="10"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="string16">
+  <xsd:restriction base="xsd:string">
+    <xsd:length value="16"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:attribute name="A" type="goo:string16"/>
+
+</xsd:schema>

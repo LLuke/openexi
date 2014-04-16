@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="urn:gml" xmlns:gml="urn:gml"
+        xmlns="http://www.w3.org/2001/XMLSchema">
+
+    <attribute name="remoteSchema" type="gml:abcdType"/>
+
+    <attributeGroup name="gmlAttrs">
+        <attribute ref="gml:remoteSchema" use="optional"/>
+    </attributeGroup>
+
+    <simpleType name="abcdType">
+	<restriction base="string">
+	    <enumeration value="a"/>
+	    <enumeration value="b"/>
+	    <enumeration value="c"/>
+	    <enumeration value="d"/>
+	</restriction>
+    </simpleType>
+
+</schema>

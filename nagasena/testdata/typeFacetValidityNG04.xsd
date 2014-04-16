@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:foo="urn:foo" >
+
+<xsd:simpleType name="dateTime2">
+  <xsd:restriction base="xsd:dateTime">
+    <xsd:maxExclusive value="cat"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>

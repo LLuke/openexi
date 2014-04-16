@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<Root>
+  <msg id="1">Element "{0}" of namespace "{1}" is not expected.</msg>
+  <msg id="2">Attribute "{0}" of namespace "{1}" is not expected.</msg>
+  <msg id="3">Unexpected characters "{0}" encountered.</msg>
+  <!-- msg id="4">Could not instantiate a SAXParserFactory.</msg -->
+  <msg id="5">SAX feature "{0}" is not supported.</msg>
+  <msg id="6">SAX property "{0}" is not supported.</msg>
+  <msg id="7">{0}</msg><!-- SAX error -->
+  <msg id="8">End of element for "{0}" of namespace "{1}" is not expected.</msg>
+  <msg id="9">End of document is not expected.</msg>
+  <msg id="10">Start of document is not expected.</msg>
+  <msg id="11">Could not instantiate an XMLReader.</msg>
+</Root>

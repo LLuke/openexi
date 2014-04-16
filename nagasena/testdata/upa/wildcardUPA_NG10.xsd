@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           xmlns:foo="urn:foo" xmlns:goo="urn:goo">
+
+<xsd:import namespace="urn:goo" schemaLocation="wildcardUPA_OK10.xsd"/>
+
+<xsd:element name="a" substitutionGroup="goo:a" type="xsd:token"/>
+
+</xsd:schema>

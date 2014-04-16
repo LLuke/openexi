@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wfs:FeatureCollection xmlns="http://www.opengis.net/wfs"
+   xmlns:gml="http://www.opengis.net/gml"
+   xmlns:osgb="http://www.ordnancesurvey.co.uk/xml/namespaces/osgb"
+   xmlns:tgr="http://www.census.gov/geo/tiger"
+   xmlns:wfs="http://www.opengis.net/wfs"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <gml:boundedBy>
+      <gml:Box>
+         <gml:coord>
+            <gml:X>277970.000</gml:X>
+            <gml:Y>185994.800</gml:Y>
+         </gml:coord>
+         <gml:coord>
+            <gml:X>280015.100</gml:X>
+            <gml:Y>188004.600</gml:Y>
+         </gml:coord>
+      </gml:Box>
+   </gml:boundedBy>
+   <gml:featureMember>
+      <osgb:TopographicPoint fid="osgb1000000756121779">
+         <osgb:featureCode>10197</osgb:featureCode>
+         <osgb:version>1</osgb:version>
+         <osgb:versionDate>2001-11-07</osgb:versionDate>
+         <osgb:theme>Terrain And Height</osgb:theme>
+         <osgb:accuracyOfPosition>1.0m</osgb:accuracyOfPosition>
+         <osgb:changeHistory>
+            <osgb:changeDate>1970-01-01</osgb:changeDate>
+            <osgb:reasonForChange>New</osgb:reasonForChange>
+         </osgb:changeHistory>
+         <osgb:descriptiveGroup>Terrain And Height</osgb:descriptiveGroup>
+         <osgb:descriptiveTerm>Spot Height</osgb:descriptiveTerm>
+         <osgb:heightAboveDatum>
+            <osgb:heightAboveDatum>8.8</osgb:heightAboveDatum>
+            <osgb:accuracyOfHeightAboveDatum>1.0m</osgb:accuracyOfHeightAboveDatum>
+         </osgb:heightAboveDatum>
+         <osgb:physicalLevel>50</osgb:physicalLevel>
+         <osgb:point>
+            <gml:Point srsName="osgb:BNG">
+               <gml:coordinates>278236.600,187794.500</gml:coordinates>
+            </gml:Point>
+         </osgb:point>
+      </osgb:TopographicPoint>
+   </gml:featureMember>
+</wfs:FeatureCollection>
