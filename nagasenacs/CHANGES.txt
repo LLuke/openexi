@@ -1,3 +1,20 @@
+2014-04-17 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added EXIReaderTest.
+
+A       test/Nagasena/Sax/EXIReaderTest.cs
+A       fixture/Org
+A       fixture/Org/W3C
+A       fixture/Org/W3C/Exi
+A       fixture/Org/W3C/Exi/Ttf
+A       fixture/Org/W3C/Exi/Ttf/Event.cs
+A       fixture/Org/W3C/Exi/Ttf/Sax
+A       fixture/Org/W3C/Exi/Ttf/Sax/SAXRecorder.cs
+M       src/Nagasena/Proc/Common/StringTable.cs
+M       src/Nagasena/Sax/EXIReader.cs
+A       testdata/testStates
+A       testdata/testStates/acceptance.xsc
+
 2014-04-11 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0000.0002.0

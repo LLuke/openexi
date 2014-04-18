@@ -189,7 +189,8 @@ namespace Nagasena.Sax {
           parse(stream);
         }        
       }
-      throw new NotSupportedException("");
+      else
+        throw new NotSupportedException("");
     }
 
     /// <summary>

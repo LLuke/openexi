@@ -392,7 +392,7 @@ namespace Nagasena.Proc.Common {
 
       public int getCompactId(string name) {
         LocalNameEntry item;
-        if ((item = m_nameMap[name]) != null) {
+        if (m_nameMap.TryGetValue(name, out item)) {
           return item.number;
         }
         return -1;
