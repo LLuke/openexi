@@ -84,6 +84,9 @@ namespace Nagasena.Scomp {
     }
 
     internal static Uri getAbsoluteUri(String fileName, Object obj) {
+      if (obj == null) {
+        obj = new EXISchemaFactoryTestUtil();
+      }
       String codeBase = obj.GetType().Assembly.CodeBase;
       Uri baseUri = new Uri(codeBase);
 

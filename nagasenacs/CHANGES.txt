@@ -1,3 +1,25 @@
+2014-04-18 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added GrammarStrictTest.
+
+A       test/Nagasena/Sax/GrammarStrictTest.cs
+M       fixture/Nagasena/Scomp/EXISchemaFactoryTestUtil.cs
+A       fixture/Nagasena/Scomp/Docbook43Schema.cs
+M       src/Nagasena/Sax/Transmogrifier.cs
+A       testdata/nillable01.xsc
+A       testdata/ambiguousParticleContext01.xsc
+A       testdata/ambiguousParticleContext02.xsc
+A       testdata/ambiguousParticleContext03.xsc
+A       testdata/substitutionGroup.xsc
+A       testdata/fpml-4.0
+A       testdata/fpml-4.0/msg_ex01_request_confirmation.xml
+A       testdata/fpml-4.0/fpml-main-4-0.xsc
+A       testdata/opengis
+A       testdata/opengis/openGis.xsc
+A       testdata/opengis/openGis.xml
+A       testdata/docbook-xsd-4.3
+A       testdata/docbook-xsd-4.3/docbook.xsc
+
 2014-04-17 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - Added EXIReaderTest.

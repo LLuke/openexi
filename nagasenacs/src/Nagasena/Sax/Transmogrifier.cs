@@ -373,6 +373,7 @@ namespace Nagasena.Sax {
     /// Parses XML input source and converts it to an EXI stream. </summary>
     /// <param name="is"> XML input source </param>
     public void encode(InputSource @is) {
+      reset();
       try {
         m_xmlReader.Parse(@is);
       }
@@ -469,6 +470,8 @@ namespace Nagasena.Sax {
 
       internal bool m_preserveWhitespaces;
 
+      private TransmogrifierException m_transmogrifierException;
+
       internal SAXEventHandler(Transmogrifier outerInstance) {
         this.outerInstance = outerInstance;
         m_schema = null;
@@ -505,6 +508,7 @@ namespace Nagasena.Sax {
         m_locator = null;
         m_inDTD = false;
         m_contentState = ETAG;
+        m_transmogrifierException = null;
       }
 
       public AlignmentType AlignmentType {
@@ -636,9 +640,9 @@ namespace Nagasena.Sax {
             m_scriber.startDocument();
           }
           else {
-            TransmogrifierException te = new TransmogrifierException(TransmogrifierException.UNEXPECTED_SD,
+            m_transmogrifierException = new TransmogrifierException(TransmogrifierException.UNEXPECTED_SD,
               (string[])null, new LocatorImpl(m_locator));
-            throw new SaxException(te.Message, te);
+            throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
           }
           m_scriber.writeEventType(eventType);
         }
@@ -828,10 +832,9 @@ namespace Nagasena.Sax {
                       continue;
                     }
                     Debug.Assert(isSchemaInformedGrammar);
-                    TransmogrifierException te;
-                    te = new TransmogrifierException(TransmogrifierException.UNEXPECTED_ATTR, 
+                    m_transmogrifierException = new TransmogrifierException(TransmogrifierException.UNEXPECTED_ATTR, 
                       new string[] { "type", XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, attrs.GetValue(i) }, new LocatorImpl(m_locator));
-                    throw new SaxException(te.Message, te);
+                    throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
                   }
                   else if ("nil".Equals(instanceName)) {
                     positionOfNil = i;
@@ -936,10 +939,9 @@ namespace Nagasena.Sax {
                   }
                 }
                 if (i == i_len) {
-                  TransmogrifierException te;
-                  te = new TransmogrifierException(TransmogrifierException.UNEXPECTED_ATTR, 
+                  m_transmogrifierException = new TransmogrifierException(TransmogrifierException.UNEXPECTED_ATTR, 
                     new string[] { "nil", XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, nilval }, new LocatorImpl(m_locator));
-                  throw new SaxException(te.Message, te);
+                  throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
                 }
               }
               if (nilled.HasValue) {
@@ -1067,17 +1069,16 @@ namespace Nagasena.Sax {
                     continue;
                   }
                 }
-                TransmogrifierException te;
-                te = new TransmogrifierException(TransmogrifierException.UNEXPECTED_ATTR, 
+                m_transmogrifierException = new TransmogrifierException(TransmogrifierException.UNEXPECTED_ATTR, 
                   new string[] { instanceName, instanceUri, attrs.GetValue(attr.index) }, new LocatorImpl(m_locator));
-                throw new SaxException(te.Message, te);
+                throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
               }
             }
           }
           else {
-            TransmogrifierException te;
-            te = new TransmogrifierException(TransmogrifierException.UNEXPECTED_ELEM, new string[] { localName, uri }, new LocatorImpl(m_locator));
-            throw new SaxException(te.Message, te);
+            m_transmogrifierException = new TransmogrifierException(TransmogrifierException.UNEXPECTED_ELEM, 
+              new string[] { localName, uri }, new LocatorImpl(m_locator));
+            throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
           }
         }
         catch (IOException ioe) {
@@ -1111,19 +1112,17 @@ namespace Nagasena.Sax {
                 binaryDataSink.startBinaryData(totalLength, m_scribble, m_scriber);
               }
               catch (ScriberRuntimeException se) {
-                TransmogrifierException _te;
-                _te = new TransmogrifierException(TransmogrifierException.SCRIBER_ERROR, 
+                m_transmogrifierException = new TransmogrifierException(TransmogrifierException.SCRIBER_ERROR, 
                   new string[] { se.Message }, new LocatorImpl(m_locator));
-                _te.Exception = se;
-                throw new SaxException(_te.Message, _te);
+                m_transmogrifierException.Exception = se;
+                throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
               }
               return binaryDataSink;
             }
           }
-          TransmogrifierException te;
-          te = new TransmogrifierException(TransmogrifierException.UNEXPECTED_BINARY_VALUE, 
+          m_transmogrifierException = new TransmogrifierException(TransmogrifierException.UNEXPECTED_BINARY_VALUE, 
             (string[])null, new LocatorImpl(m_locator));
-          throw new SaxException(te.Message, te);
+          throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
         }
         catch (IOException ioe) {
           throw new SaxException(ioe.Message, ioe);
@@ -1145,11 +1144,10 @@ namespace Nagasena.Sax {
           binaryDataSink.endBinaryData(m_scribble, locusItem.elementLocalName, locusItem.elementURI, m_scriber);
         }
         catch (ScriberRuntimeException se) {
-          TransmogrifierException te;
-          te = new TransmogrifierException(TransmogrifierException.SCRIBER_ERROR, 
+          m_transmogrifierException = new TransmogrifierException(TransmogrifierException.SCRIBER_ERROR, 
             new string[] { se.Message }, new LocatorImpl(m_locator));
-          te.Exception = se;
-          throw new SaxException(te.Message, te);
+          m_transmogrifierException.Exception = se;
+          throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
         }
         catch (IOException ioe) {
           throw new SaxException(ioe.Message, ioe);
@@ -1236,10 +1234,9 @@ namespace Nagasena.Sax {
               case ' ':
                 continue;
               default:
-                TransmogrifierException te;
-                te = new TransmogrifierException(TransmogrifierException.UNEXPECTED_CHARS, 
+                m_transmogrifierException = new TransmogrifierException(TransmogrifierException.UNEXPECTED_CHARS, 
                   new string[] { new string(m_charBuf, 0, m_charPos) }, new LocatorImpl(m_locator));
-                throw new SaxException(te.Message, te);
+                throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
             }
           }
         }
@@ -1278,10 +1275,10 @@ namespace Nagasena.Sax {
                 return; // Good luck!
               }
             }
-            TransmogrifierException te = new TransmogrifierException(
+            m_transmogrifierException = new TransmogrifierException(
               TransmogrifierException.UNEXPECTED_END_ELEM, 
               new string[] { localName, uri }, new LocatorImpl(m_locator));
-            throw new SaxException(te.Message, te);
+            throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
           }
         }
         catch (IOException ioe) {
@@ -1292,6 +1289,8 @@ namespace Nagasena.Sax {
       }
 
       public void EndDocument() {
+        if (m_transmogrifierException != null)
+          return;
         if (m_charPos > 0) {
           do_characters(false);
         }
@@ -1302,9 +1301,9 @@ namespace Nagasena.Sax {
             m_scriber.endDocument();
           }
           else {
-            TransmogrifierException te = new TransmogrifierException(
+            m_transmogrifierException = new TransmogrifierException(
               TransmogrifierException.UNEXPECTED_ED, (string[])null, new LocatorImpl(m_locator));
-            throw new SaxException(te.Message, te);
+            throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
           }
           m_scriber.writeEventType(eventType);
           m_scriber.finish();
@@ -1472,17 +1471,17 @@ namespace Nagasena.Sax {
       internal void verifyPrefix(string uri, string prefix, bool isAttribute) {
         Debug.Assert(hasNS && isAttribute);
         if (prefix.Length != 0) {
-          TransmogrifierException te;
+          //TransmogrifierException te;
           string _uri = m_prefixUriBindings.getUri(prefix);
           if (_uri == null) {
-            te = new TransmogrifierException(TransmogrifierException.PREFIX_NOT_BOUND, 
+            m_transmogrifierException = new TransmogrifierException(TransmogrifierException.PREFIX_NOT_BOUND, 
               new string[] { prefix }, new LocatorImpl(m_locator));
-            throw new SaxException(te.Message, te);
+            throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
           }
           else if (!uri.Equals(_uri)) {
-            te = new TransmogrifierException(TransmogrifierException.PREFIX_BOUND_TO_ANOTHER_NAMESPACE, 
+            m_transmogrifierException = new TransmogrifierException(TransmogrifierException.PREFIX_BOUND_TO_ANOTHER_NAMESPACE, 
               new string[] { prefix, _uri }, new LocatorImpl(m_locator));
-            throw new SaxException(te.Message, te);
+            throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
           }
         }
       }
