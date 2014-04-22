@@ -57,7 +57,7 @@ namespace Nagasena.Proc.IO {
         tz = scribble.intValue1;
       }
       scribble.dateTime = new XSDateTime(XSDateTime.FIELD_UNDEFINED, month, day, XSDateTime.FIELD_UNDEFINED,
-        XSDateTime.FIELD_UNDEFINED, XSDateTime.FIELD_UNDEFINED, XSDateTime.BIGINTEGER_MINUSONE, tz, EXISchemaConst.G_MONTHDAY_TYPE);
+        XSDateTime.FIELD_UNDEFINED, XSDateTime.FIELD_UNDEFINED, null, tz, EXISchemaConst.G_MONTHDAY_TYPE);
       return true;
     }
 

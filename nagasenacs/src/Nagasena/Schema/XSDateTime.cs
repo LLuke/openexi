@@ -9,7 +9,6 @@ namespace Nagasena.Schema {
   public sealed class XSDateTime {
 
     public static readonly int FIELD_UNDEFINED = int.MinValue;
-    public static readonly BigInteger BIGINTEGER_MINUSONE = BigInteger.MinusOne;
 
     /// <summary>
     /// One of the eight calendar-related datatype identifers defined 
@@ -18,7 +17,7 @@ namespace Nagasena.Schema {
     private sbyte primTypeId;
 
     public int year, month, day, hour, minute, second, timeZone;
-    public BigInteger reverseFractionalSecond;
+    public BigInteger? reverseFractionalSecond;
 
     private static readonly int[] LAST_DAY_OF_MONTH;
     static XSDateTime() {
@@ -69,7 +68,7 @@ namespace Nagasena.Schema {
     }
 
     public XSDateTime(int year, int month, int day, int hour, int minute, int second, 
-      BigInteger reverseFractionalSecond, int timeZone, sbyte primTypeId) {
+      BigInteger? reverseFractionalSecond, int timeZone, sbyte primTypeId) {
       this.primTypeId = primTypeId;
       this.year = year;
       this.month = month;
@@ -97,11 +96,11 @@ namespace Nagasena.Schema {
               hour != dateTime.hour || minute != dateTime.minute || second != dateTime.second) {
             return false;
           }
-          if (reverseFractionalSecond == BIGINTEGER_MINUSONE) {
-            return dateTime.reverseFractionalSecond == BIGINTEGER_MINUSONE || dateTime.reverseFractionalSecond.Sign == 0;
+          if (!reverseFractionalSecond.HasValue) {
+            return !dateTime.reverseFractionalSecond.HasValue || dateTime.reverseFractionalSecond.Value.Sign == 0;
           }
-          else if (dateTime.reverseFractionalSecond == BIGINTEGER_MINUSONE) {
-            return reverseFractionalSecond.Sign == 0;
+          else if (!dateTime.reverseFractionalSecond.HasValue) {
+            return reverseFractionalSecond.Value.Sign == 0;
           }
           else {
             return reverseFractionalSecond == dateTime.reverseFractionalSecond;
@@ -126,14 +125,14 @@ namespace Nagasena.Schema {
           hour = 0;
           minute = 0;
           second = 0;
-          reverseFractionalSecond = BIGINTEGER_MINUSONE;
+          reverseFractionalSecond = null;
           break;
         case EXISchemaConst.G_YEARMONTH_TYPE:
           day = 1;
           hour = 0;
           minute = 0;
           second = 0;
-          reverseFractionalSecond = BIGINTEGER_MINUSONE;
+          reverseFractionalSecond = null;
           break;
         case EXISchemaConst.G_YEAR_TYPE:
           month = 1;
@@ -141,14 +140,14 @@ namespace Nagasena.Schema {
           hour = 0;
           minute = 0;
           second = 0;
-          reverseFractionalSecond = BIGINTEGER_MINUSONE;
+          reverseFractionalSecond = null;
           break;
         case EXISchemaConst.G_MONTHDAY_TYPE:
           year = DEFAULT_YEAR;
           hour = 0;
           minute = 0;
           second = 0;
-          reverseFractionalSecond = BIGINTEGER_MINUSONE;
+          reverseFractionalSecond = null;
           break;
         case EXISchemaConst.G_DAY_TYPE:
           year = DEFAULT_YEAR;
@@ -156,7 +155,7 @@ namespace Nagasena.Schema {
           hour = 0;
           minute = 0;
           second = 0;
-          reverseFractionalSecond = BIGINTEGER_MINUSONE;
+          reverseFractionalSecond = null;
           break;
         case EXISchemaConst.G_MONTH_TYPE:
           year = DEFAULT_YEAR;
@@ -164,7 +163,7 @@ namespace Nagasena.Schema {
           hour = 0;
           minute = 0;
           second = 0;
-          reverseFractionalSecond = BIGINTEGER_MINUSONE;
+          reverseFractionalSecond = null;
           break;
         case EXISchemaConst.DATETIME_TYPE:
           break;
@@ -299,7 +298,7 @@ namespace Nagasena.Schema {
       dateTime.hour = FIELD_UNDEFINED;
       dateTime.minute = FIELD_UNDEFINED;
       dateTime.second = FIELD_UNDEFINED;
-      dateTime.reverseFractionalSecond = BIGINTEGER_MINUSONE;
+      dateTime.reverseFractionalSecond = null;
       dateTime.timeZone = FIELD_UNDEFINED;
 
       switch (dateTime.primTypeId) {
@@ -417,24 +416,24 @@ namespace Nagasena.Schema {
       }
     }
 
-    private static void writePredicatedInteger(BigInteger val, Stream @out) {
-      if (val != null) {
+    private static void writePredicatedInteger(BigInteger? val, Stream @out) {
+      if (val.HasValue) {
         @out.WriteByte(1);
-        EXISchema.writeString(val.ToString(), @out);
+        EXISchema.writeString(val.Value.ToString(), @out);
       }
       else {
         @out.WriteByte(0);
       }
     }
 
-    private static BigInteger readPredicatedInteger(Stream @in) {
+    private static BigInteger? readPredicatedInteger(Stream @in) {
       int predicate;
       if ((predicate = @in.ReadByte()) == 1) {
         return Convert.ToInt64(EXISchema.readString(@in));
       }
       else {
         Debug.Assert(predicate == 0);
-        return BIGINTEGER_MINUSONE;
+        return null;
       }
     }
 
@@ -449,8 +448,8 @@ namespace Nagasena.Schema {
           printTwoDigits(hour, buffer);
           printTwoDigits(minute, buffer.Append(':'));
           printTwoDigits(second, buffer.Append(':'));
-          if (reverseFractionalSecond != null) {
-            printFractionalSecond(reverseFractionalSecond, buffer);
+          if (reverseFractionalSecond.HasValue) {
+            printFractionalSecond(reverseFractionalSecond.Value, buffer);
           }
           break;
         case EXISchemaConst.DATE_TYPE:
@@ -483,8 +482,8 @@ namespace Nagasena.Schema {
           printTwoDigits(hour, buffer);
           printTwoDigits(minute, buffer.Append(':'));
           printTwoDigits(second, buffer.Append(':'));
-          if (reverseFractionalSecond != null) {
-            printFractionalSecond(reverseFractionalSecond, buffer);
+          if (reverseFractionalSecond.HasValue) {
+            printFractionalSecond(reverseFractionalSecond.Value, buffer);
           }
           break;
         default:

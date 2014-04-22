@@ -54,13 +54,13 @@ namespace Nagasena.Proc.IO {
       scriber.writeNBitUnsigned(monthDay, 9, ostream);
     }
 
-    protected internal void writeTime(int hour, int minute, int second, BigInteger reverseFractionalSecond, Stream ostream, Scriber scriber) {
+    protected internal void writeTime(int hour, int minute, int second, BigInteger? reverseFractionalSecond, Stream ostream, Scriber scriber) {
       int time = (hour * 64 + minute) * 64 + second;
       scriber.writeNBitUnsigned(time, 17, ostream);
-      if (reverseFractionalSecond != null) {
+      if (reverseFractionalSecond.HasValue) {
         scriber.writeBoolean(true, ostream);
-        Debug.Assert(reverseFractionalSecond.Sign == 1);
-        scriber.writeUnsignedInteger(reverseFractionalSecond, ostream);
+        Debug.Assert(reverseFractionalSecond.Value.Sign == 1);
+        scriber.writeUnsignedInteger(reverseFractionalSecond.Value, ostream);
       }
       else {
         scriber.writeBoolean(false, ostream);
@@ -181,7 +181,7 @@ namespace Nagasena.Proc.IO {
       return true;
     }
 
-    protected internal BigInteger parseFractionalSecondField(string value) {
+    protected internal BigInteger? parseFractionalSecondField(string value) {
       BigInteger magnitude = BigInteger.One;
       BigInteger reverseFractionalSecond = BigInteger.Zero;
       int n_digits;
@@ -193,7 +193,7 @@ namespace Nagasena.Proc.IO {
         reverseFractionalSecond = reverseFractionalSecond + (magnitude * new BigInteger(c - '0'));
       }
       if (n_digits == 0) {
-        return BigInteger.MinusOne;
+        return null;
       }
       return reverseFractionalSecond;
     }

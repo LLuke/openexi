@@ -3371,7 +3371,6 @@ namespace Nagasena.Sax {
     /// xsi:type is used in this example.
     /// </summary>
     [Test]
-    [Ignore("ASSERT")]
     public virtual void testFpmlExample01() {
       EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fpml-4.0/fpml-main-4-0.xsc", this);
 

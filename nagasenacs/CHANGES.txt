@@ -1,3 +1,21 @@
+2014-04-21 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added DateTimeValueEncodingTest.
+
+M       test/Nagasena/Sax/GrammarStrictTest.cs
+A       test/Nagasena/Sax/DateTimeValueEncodingTest.cs
+M       src/Nagasena/Schema/XSDateTime.cs
+M       src/Nagasena/Proc/IO/GYearMonthValueScriber.cs
+M       src/Nagasena/Proc/IO/DateValueScriber.cs
+M       src/Nagasena/Proc/IO/GDayValueScriber.cs
+M       src/Nagasena/Proc/IO/DateTimeValueScriberBase.cs
+M       src/Nagasena/Proc/IO/GMonthDayValueScriber.cs
+M       src/Nagasena/Proc/IO/DateTimeValueScriber.cs
+M       src/Nagasena/Proc/IO/TimeValueScriber.cs
+M       src/Nagasena/Proc/IO/GYearValueScriber.cs
+M       src/Nagasena/Proc/IO/GMonthValueScriber.cs
+A       testdata/dateTime.xsc
+
 2014-04-18 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - Added GrammarStrictTest.

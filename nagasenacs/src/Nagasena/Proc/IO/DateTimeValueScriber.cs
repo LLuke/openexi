@@ -36,7 +36,7 @@ namespace Nagasena.Proc.IO {
         return false;
       }
       int year, month, day, hour, minute, second;
-      BigInteger reverseFractionalSecond = XSDateTime.BIGINTEGER_MINUSONE;
+      BigInteger? reverseFractionalSecond = null;
       int tz = XSDateTime.FIELD_UNDEFINED;
       nextPosition = startPosition; // OK, Let's start parsing
       if (!parseYearField(value, scribble) || nextPosition == limitPosition) {
@@ -89,11 +89,11 @@ namespace Nagasena.Proc.IO {
           if (++nextPosition == limitPosition) {
             return false;
           }
-          else if ((reverseFractionalSecond = parseFractionalSecondField(value)) == XSDateTime.BIGINTEGER_MINUSONE) {
+          else if (!(reverseFractionalSecond = parseFractionalSecondField(value)).HasValue) {
             return false;
           }
-          else if (reverseFractionalSecond.Sign == 0) {
-            reverseFractionalSecond = XSDateTime.BIGINTEGER_MINUSONE;
+          else if (reverseFractionalSecond.Value.Sign == 0) {
+            reverseFractionalSecond = null;
           }
         }
         if (nextPosition != limitPosition) {
