@@ -375,6 +375,7 @@ public final class Transmogrifier {
    * @param is XML input source
    */
   public void encode(InputSource is) throws TransmogrifierException, IOException {
+    reset();
     try {
       m_xmlReader.parse(is);
     }

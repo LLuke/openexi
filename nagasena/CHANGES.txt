@@ -1,3 +1,12 @@
+2014-04-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0037.0
+
+- Transmogrifier.encode() needs to call reset().
+
+M       src/org/openexi/sax/Transmogrifier.java
+M       build.xml
+
 2014-04-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0036.0
