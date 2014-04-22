@@ -1,5 +1,10 @@
 2014-04-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added FloatValueEncodingTest.
+
+A       test/Nagasena/Sax/FloatValueEncodingTest.cs
+A       testdata/float.xsc
+
 - Added DecimalValueEncodingTest.
 
 A       test/Nagasena/Sax/DecimalValueEncodingTest.cs
