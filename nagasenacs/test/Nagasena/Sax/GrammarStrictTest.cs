@@ -3296,6 +3296,7 @@ namespace Nagasena.Sax {
         InputSource inputSource = new InputSource<Stream>(inputStream, url.ToString());
 
         encoder.encode(inputSource);
+        inputStream.Close();
 
         byte[] bts = baos.ToArray();
 
@@ -3393,6 +3394,7 @@ namespace Nagasena.Sax {
         InputSource inputSource = new InputSource<Stream>(inputStream, url.ToString());
 
         encoder.encode(inputSource);
+        inputStream.Close();
 
         byte[] bts = baos.ToArray();
 
