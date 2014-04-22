@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Numerics;
 using System.Text;
 
 using QName = Nagasena.Proc.Common.QName;
@@ -248,7 +250,7 @@ namespace Nagasena.Proc.IO {
         scriber.writeUnsignedInteger32(integralDigitsIntValue, ostream);
       }
       else {
-        System.Numerics.BigInteger integralDigitsIntegerValue = Convert.ToInt64(integralDigits);
+        BigInteger integralDigitsIntegerValue = BigInteger.Parse(integralDigits, NumberFormatInfo.InvariantInfo);
         scriber.writeUnsignedInteger(integralDigitsIntegerValue, ostream);
       }
 
@@ -258,7 +260,7 @@ namespace Nagasena.Proc.IO {
         scriber.writeUnsignedInteger32(fractionalDigitsIntValue, ostream);
       }
       else {
-        System.Numerics.BigInteger fractionalDigitsIntegerValue = Convert.ToInt64(fractionalDigits);
+        System.Numerics.BigInteger fractionalDigitsIntegerValue = BigInteger.Parse(fractionalDigits, NumberFormatInfo.InvariantInfo);
         scriber.writeUnsignedInteger(fractionalDigitsIntegerValue, ostream);
       }
     }

@@ -1,5 +1,12 @@
 2014-04-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added DecimalValueEncodingTest.
+
+A       test/Nagasena/Sax/DecimalValueEncodingTest.cs
+M       test/Nagasena/Sax/BooleanValueEncodingTest.cs
+M       src/Nagasena/Proc/IO/DecimalValueScriber.cs
+A       testdata/decimal.xsc
+
 - Added BooleanValueEncodingTest.
 
 M       test/Nagasena/Sax/GrammarStrictTest.cs
