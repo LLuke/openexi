@@ -1,3 +1,11 @@
+2014-04-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added support for "http://xml.org/sax/features/namespace-prefixes" feature
+  in Transmogrifier.
+
+A       test/Nagasena/Sax/TransmogrifierTest.cs
+M       src/Nagasena/Sax/Transmogrifier.cs
+
 2014-04-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - Added FloatValueEncodingTest.

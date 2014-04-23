@@ -60,16 +60,21 @@ namespace Nagasena.Sax {
     }
 
     /// <summary>
-    /// Create an instance of the Transmogrifier, specifying the SAXParserFactory
-    /// from which to create the SAX parser. </summary>
+    /// Create an instance of the Transmogrifier
+    /// </summary>
     /// <param name="saxParserFactory"> </param>
     /// <exception cref="TransmogrifierException"> </exception>
-    public Transmogrifier() {
+    public Transmogrifier()
+      : this(false) {
+    }
+
+    internal Transmogrifier(bool namespacePrefixesFeature) {
       // fixtures
       m_saxHandler = new SAXEventHandler(this);
       try {
         m_xmlReader = new SaxDriver();
         m_xmlReader.SetFeature(Constants.NamespacesFeature, true);
+        m_xmlReader.SetFeature(Constants.NamespacePrefixesFeature, namespacePrefixesFeature);
       }
       catch (Exception) {
         throw new TransmogrifierRuntimeException(TransmogrifierRuntimeException.XMLREADER_ACCESS_ERROR, (string[])null);
@@ -424,6 +429,7 @@ namespace Nagasena.Sax {
     private sealed class SAXEventHandler : SAXTransmogrifier {
       private readonly Transmogrifier outerInstance;
 
+      private const String W3C_2000_XMLNS_URI = "http://www.w3.org/2000/xmlns/";
 
       internal XMLLocusItemEx[] m_locusStack;
       internal int m_locusLastDepth;
@@ -802,7 +808,14 @@ namespace Nagasena.Sax {
             if ((n_attrs = attrs.Length) != 0) {
               sortedAttributes.Clear();
               for (i = 0, i_len = n_attrs; i < i_len; i++) {
-                if (XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI.Equals(attrs.GetUri(i))) {
+                String instanceUri = attrs.GetUri(i);
+                String instanceQName = attrs.GetQName(i);
+                if (W3C_2000_XMLNS_URI.Equals(instanceUri) ||
+                    instanceQName.StartsWith("xmlns") && (instanceQName.Length == 5 || instanceQName[5] == ':')) { // i.e. "xmlns" or "xmlns:*"
+                  --n_attrs;
+                  continue;
+                }
+                else if (XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI.Equals(instanceUri)) {
                   string instanceName = attrs.GetLocalName(i);
                   if ("type".Equals(instanceName)) {
                     eventTypes = m_scriber.NextEventTypes;
@@ -842,9 +855,9 @@ namespace Nagasena.Sax {
                   }
                 }
                 ComparableAttribute comparableAttribute;
-                string _prefix = hasNS ? getPrefixOfQualifiedName(attrs.GetQName(i)) : null;
+                string _prefix = hasNS ? getPrefixOfQualifiedName(instanceQName) : null;
                 comparableAttribute = acquireComparableAttribute();
-                comparableAttribute.init(attrs.GetUri(i), attrs.GetLocalName(i), _prefix, i);
+                comparableAttribute.init(instanceUri, attrs.GetLocalName(i), _prefix, i);
                 sortedAttributes.Add(comparableAttribute);
               }
             }
@@ -1006,7 +1019,7 @@ namespace Nagasena.Sax {
                       m_scriber.writeEventType(eventType);
                       string prefix = attr.prefix;
                       if (hasNS) {
-                        verifyPrefix(instanceUri, prefix, true);
+                        verifyPrefix(instanceUri, prefix);
                       }
                       m_scriber.writeQName(qname.setValue(instanceUri, instanceName, prefix), eventType);
                       valueScriber.scribe(attrs.GetValue(attr.index), m_scribble, qname.localNameId, qname.uriId, tp, m_scriber);
@@ -1040,7 +1053,7 @@ namespace Nagasena.Sax {
                       m_scriber.writeEventType(eventType);
                       string prefix = attr.prefix;
                       if (hasNS) {
-                        verifyPrefix(instanceUri, prefix, true);
+                        verifyPrefix(instanceUri, prefix);
                       }
                       m_scriber.writeQName(qname.setValue(instanceUri, instanceName, prefix), eventType);
                       valueScriber.scribe(attrs.GetValue(attr.index), m_scribble, qname.localNameId, qname.uriId, tp, m_scriber);
@@ -1059,7 +1072,7 @@ namespace Nagasena.Sax {
                     m_scriber.writeEventType(eventType);
                     string prefix = attr.prefix;
                     if (hasNS) {
-                      verifyPrefix(instanceUri, prefix, true);
+                      verifyPrefix(instanceUri, prefix);
                     }
                     m_scriber.writeQName(qname.setValue(instanceUri, instanceName, prefix), eventType);
                     valueScriber.scribe(attrs.GetValue(attr.index), m_scribble, qname.localNameId, qname.uriId, tp, m_scriber);
@@ -1468,10 +1481,8 @@ namespace Nagasena.Sax {
         return m_comparableAttributes[m_n_comparableAttributes++];
       }
 
-      internal void verifyPrefix(string uri, string prefix, bool isAttribute) {
-        Debug.Assert(hasNS && isAttribute);
+      internal void verifyPrefix(string uri, string prefix) {
         if (prefix.Length != 0) {
-          //TransmogrifierException te;
           string _uri = m_prefixUriBindings.getUri(prefix);
           if (_uri == null) {
             m_transmogrifierException = new TransmogrifierException(TransmogrifierException.PREFIX_NOT_BOUND, 
