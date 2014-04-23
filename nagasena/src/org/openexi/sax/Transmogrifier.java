@@ -65,13 +65,15 @@ public final class Transmogrifier {
     SCHEMAID_NO_SCHEMA = new SchemaId((String)null);
     SCHEMAID_EMPTY_SCHEMA = new SchemaId(""); 
   }
+
   /**
    * Create an instance of the Transmogrifier with a default SAX parser.
    * @throws TransmogrifierException
    */
   public Transmogrifier() throws TransmogrifierRuntimeException {
-    this(createSAXParserFactory());
+    this(false);
   }
+  
   /**
    * Create an instance of the Transmogrifier, specifying the SAXParserFactory
    * from which to create the SAX parser.
@@ -79,6 +81,14 @@ public final class Transmogrifier {
    * @throws TransmogrifierException
    */
   public Transmogrifier(SAXParserFactory saxParserFactory) throws TransmogrifierRuntimeException {
+    this(saxParserFactory, false);
+  }
+  
+  Transmogrifier(boolean namespacePrefixesFeature) throws TransmogrifierRuntimeException {
+    this(createSAXParserFactory(), namespacePrefixesFeature);
+  }
+
+  Transmogrifier(SAXParserFactory saxParserFactory, boolean namespacePrefixesFeature) throws TransmogrifierRuntimeException {
     if (!saxParserFactory.isNamespaceAware()) {
       throw new TransmogrifierRuntimeException(TransmogrifierRuntimeException.SAXPARSER_FACTORY_NOT_NAMESPACE_AWARE, 
           (String[])null);
@@ -88,6 +98,7 @@ public final class Transmogrifier {
     try {
       final SAXParser saxParser = saxParserFactory.newSAXParser();
       m_xmlReader = saxParser.getXMLReader();
+      m_xmlReader.setFeature("http://xml.org/sax/features/namespace-prefixes", namespacePrefixesFeature);
     }
     catch (Exception exc) {
       throw new TransmogrifierRuntimeException(TransmogrifierRuntimeException.XMLREADER_ACCESS_ERROR, 
@@ -418,6 +429,8 @@ public final class Transmogrifier {
   ///////////////////////////////////////////////////////////////////////////
 
   private final class SAXEventHandler implements SAXTransmogrifier {
+
+    private static final String W3C_2000_XMLNS_URI = "http://www.w3.org/2000/xmlns/";
 
     private XMLLocusItemEx[] m_locusStack;
     private int m_locusLastDepth;
@@ -763,7 +776,14 @@ public final class Transmogrifier {
           if ((n_attrs = attrs.getLength()) != 0) {
             sortedAttributes.clear();
             for (i = 0, i_len = n_attrs; i < i_len; i++) {
-              if (XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI.equals(attrs.getURI(i))) {
+              final String instanceUri = attrs.getURI(i);
+              final String instanceQName = attrs.getQName(i);
+              if (W3C_2000_XMLNS_URI.equals(instanceUri) ||
+                  instanceQName.startsWith("xmlns") && (instanceQName.length() == 5 || instanceQName.charAt(5) == ':')) { // i.e. "xmlns" or "xmlns:*"
+                --n_attrs;
+                continue;
+              }
+              else if (XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI.equals(instanceUri)) {
                 final String instanceName = attrs.getLocalName(i);
                 if ("type".equals(instanceName)) {
                   eventTypes = m_scriber.getNextEventTypes();
@@ -804,9 +824,9 @@ public final class Transmogrifier {
                 }
               }
               final ComparableAttribute comparableAttribute;
-              final String _prefix = hasNS ? getPrefixOfQualifiedName(attrs.getQName(i)) : null;
+              final String _prefix = hasNS ? getPrefixOfQualifiedName(instanceQName) : null;
               comparableAttribute = acquireComparableAttribute();
-              comparableAttribute.init(attrs.getURI(i), attrs.getLocalName(i), _prefix, i);
+              comparableAttribute.init(instanceUri, attrs.getLocalName(i), _prefix, i);
               sortedAttributes.add(comparableAttribute);
             }
           }
@@ -970,7 +990,7 @@ public final class Transmogrifier {
                     m_scriber.writeEventType(eventType);
                     final String prefix = attr.prefix;
                     if (hasNS)
-                      verifyPrefix(instanceUri, prefix, true);
+                      verifyPrefix(instanceUri, prefix);
                     m_scriber.writeQName(qname.setValue(instanceUri, instanceName, prefix), eventType);
                     valueScriber.scribe(attrs.getValue(attr.index), m_scribble, qname.localNameId, qname.uriId, tp, m_scriber);
                     m_scriber.attribute(eventType);
@@ -1001,7 +1021,7 @@ public final class Transmogrifier {
                     m_scriber.writeEventType(eventType);
                     final String prefix = attr.prefix;
                     if (hasNS)
-                      verifyPrefix(instanceUri, prefix, true);
+                      verifyPrefix(instanceUri, prefix);
                     m_scriber.writeQName(qname.setValue(instanceUri, instanceName, prefix), eventType);
                     valueScriber.scribe(attrs.getValue(attr.index), m_scribble, qname.localNameId, qname.uriId, tp, m_scriber);
                     if (itemType == EventType.ITEM_AT_WC_ANY_UNTYPED)
@@ -1019,7 +1039,7 @@ public final class Transmogrifier {
                   m_scriber.writeEventType(eventType);
                   final String prefix = attr.prefix;
                   if (hasNS)
-                    verifyPrefix(instanceUri, prefix, true);
+                    verifyPrefix(instanceUri, prefix);
                   m_scriber.writeQName(qname.setValue(instanceUri, instanceName, prefix), eventType);
                   valueScriber.scribe(attrs.getValue(attr.index), m_scribble, qname.localNameId, qname.uriId, tp, m_scriber);
                   if (eventType.itemType == EventType.ITEM_AT_WC_ANY_UNTYPED)
@@ -1425,8 +1445,7 @@ public final class Transmogrifier {
       return m_comparableAttributes[m_n_comparableAttributes++];
     }
     
-    private void verifyPrefix(String uri, String prefix, boolean isAttribute) throws SAXException, IOException {
-      assert hasNS && isAttribute;
+    private void verifyPrefix(String uri, String prefix) throws SAXException, IOException {
       if (prefix.length() != 0) {
         final TransmogrifierException te;
         final String _uri = m_prefixUriBindings.getUri(prefix);

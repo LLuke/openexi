@@ -7,21 +7,32 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
 import junit.framework.Assert;
 
+import org.openexi.proc.EXIDecoder;
 import org.openexi.proc.common.AlignmentType;
+import org.openexi.proc.common.EventDescription;
+import org.openexi.proc.common.EventType;
 import org.openexi.proc.common.GrammarOptions;
 import org.openexi.proc.common.XmlUriConst;
 import org.openexi.proc.grammars.GrammarCache;
+import org.openexi.proc.io.Scanner;
 import org.openexi.schema.EXISchema;
 import org.openexi.schema.EmptySchema;
 import org.openexi.schema.TestBase;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.exi.ttf.Event;
@@ -373,5 +384,89 @@ public class XmlSerializationTest extends TestBase {
     }
   }
 
+  /**
+   * Use JAXP transformer to convert DOM events into SAX.
+   */
+  public void testFromDOM_01() throws Exception {
+
+    GrammarCache grammarCache = new GrammarCache((EXISchema)null, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
+    
+    final String xmlString = "<abc:rpc message-id='id' xmlns:abc='a.b.c'><abc:inner/></abc:rpc>\n";
+    
+    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+    documentBuilderFactory.setNamespaceAware(true);
+    DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+    Document doc = documentBuilder.parse(new InputSource(new StringReader(xmlString)));
+
+    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
+    for (AlignmentType alignment : Alignments) {
+      
+      Transmogrifier encoder = new Transmogrifier();
+      encoder.setAlignmentType(alignment);
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      encoder.setGrammarCache(grammarCache);
+      encoder.setOutputStream(baos);
+      
+      Transformer transformer = transformerFactory.newTransformer();
+      transformer.transform(new DOMSource(doc), new SAXResult(encoder.getSAXTransmogrifier()));
+      
+      byte[] bts = baos.toByteArray();
+      
+      EXIDecoder decoder = new EXIDecoder();
+
+      decoder.setAlignmentType(alignment);
+      decoder.setGrammarCache(grammarCache);
+      decoder.setInputStream(new ByteArrayInputStream(bts));
+      
+      Scanner scanner = decoder.processHeader();
+      
+      EventDescription exiEvent;
+      EventType eventType;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      Assert.assertEquals("rpc", exiEvent.getName());
+      Assert.assertEquals("a.b.c", exiEvent.getURI());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+      
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_NS, exiEvent.getEventKind());
+      Assert.assertEquals("abc", exiEvent.getPrefix());
+      Assert.assertEquals("a.b.c", exiEvent.getURI());
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
+      Assert.assertEquals("message-id", exiEvent.getName());
+      Assert.assertEquals("", exiEvent.getURI());
+      Assert.assertEquals("id", exiEvent.getCharacters().makeString());
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      Assert.assertEquals("inner", exiEvent.getName());
+      Assert.assertEquals("a.b.c", exiEvent.getURI());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+      
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
+
+      Assert.assertNull(scanner.nextEvent());
+    }
+  }
 
 }
