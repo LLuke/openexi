@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Numerics;
 using System.IO;
 
@@ -265,7 +266,7 @@ namespace Nagasena.Proc.IO {
             scriber.writeUnsignedInteger64(isNegative ? longValue - 1 : longValue, ostream);
           }
           else {
-            BigInteger bint = Convert.ToInt64(digits);
+            BigInteger bint = BigInteger.Parse(digits, NumberFormatInfo.InvariantInfo);
             if (isNegative) {
               bint = bint - BigInteger.One;
             }
@@ -280,7 +281,7 @@ namespace Nagasena.Proc.IO {
             scriber.writeUnsignedInteger64(longValue, ostream);
           }
           else {
-            scriber.writeUnsignedInteger(Convert.ToInt64(digits), ostream);
+            scriber.writeUnsignedInteger(BigInteger.Parse(digits, NumberFormatInfo.InvariantInfo), ostream);
           }
           break;
         default:

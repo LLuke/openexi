@@ -1,5 +1,11 @@
 2014-04-24 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added IntegerValueEncodingTest.
+
+A       test/Nagasena/Sax/IntegerValueEncodingTest.cs
+M       src/Nagasena/Proc/IO/IntegerValueScriber.cs
+A       testdata/integer.xsc
+
 - Added IntValueEncodingTest.
 
 A       test/Nagasena/Sax/IntValueEncodingTest.cs
