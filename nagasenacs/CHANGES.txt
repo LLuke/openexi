@@ -1,3 +1,10 @@
+2014-04-24 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added IntValueEncodingTest.
+
+A       test/Nagasena/Sax/IntValueEncodingTest.cs
+A       testdata/int.xsc
+
 2014-04-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - Added support for "http://xml.org/sax/features/namespace-prefixes" feature
