@@ -51,8 +51,12 @@ public class GrammarBuiltinTest extends TestBase {
 
   private EXISchemaFactoryErrorMonitor m_compilerErrors;
   
-  private static final AlignmentType[] Alignments = 
-    new AlignmentType[] { AlignmentType.bitPacked, AlignmentType.byteAligned, AlignmentType.preCompress, AlignmentType.compress };
+  private static final AlignmentType[] Alignments = new AlignmentType[] { 
+    AlignmentType.bitPacked, 
+    AlignmentType.byteAligned, 
+    AlignmentType.preCompress, 
+    AlignmentType.compress 
+  };
 
   ///////////////////////////////////////////////////////////////////////////
   // Test cases
@@ -2842,6 +2846,7 @@ public class GrammarBuiltinTest extends TestBase {
         "<foo:None2 xsi:type='foo:finalString'>abc</foo:None2>" +
         "<foo:None2 xsi:type='foo:finalString'>abc</foo:None2>" + 
       "</foo:None>";
+    
     for (AlignmentType alignment : Alignments) {
       Transmogrifier encoder = new Transmogrifier();
       EXIDecoder decoder = new EXIDecoder();
@@ -3601,6 +3606,7 @@ public class GrammarBuiltinTest extends TestBase {
         "<foo:None2 xsi:nil='true'>abc</foo:None2>" +
         "<foo:None2 foo:aA='xyz' xsi:nil='true'>abc</foo:None2>" +
       "</foo:None>";
+    
     for (AlignmentType alignment : Alignments) {
       Transmogrifier encoder = new Transmogrifier();
       EXIDecoder decoder = new EXIDecoder();
