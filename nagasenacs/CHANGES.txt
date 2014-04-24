@@ -1,5 +1,20 @@
 2014-04-24 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added GrammarBuiltinTest.
+
+A       test/Nagasena/Sax/GrammarBuiltinTest.cs
+A       testdata/interop/schemaInformedGrammar/declaredProductions/document-01.byteAligned
+A       testdata/interop/schemaInformedGrammar/declaredProductions/document.xsc
+A       testdata/dtdComments.xml
+A       testdata/attributes.xsc
+A       testdata/Ant
+A       testdata/Ant/build-build.bitPacked
+A       testdata/oneSimpleType.xsc
+A       testdata/dtdComments.dtd
+A       testdata/perversion
+A       testdata/perversion/duplicateLocalNames_01.byteAligned
+A       testdata/perversion/duplicateURIsLocalNames_01.byteAligned
+
 - Added IntegerValueEncodingTest.
 
 A       test/Nagasena/Sax/IntegerValueEncodingTest.cs
