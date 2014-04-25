@@ -1,3 +1,10 @@
+2014-04-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added HexBinaryValueEncodingTest.
+
+A       test/Nagasena/Sax/HexBinaryValueEncodingTest.cs
+A       testdata/hexBinary.xsc
+
 2014-04-24 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - Added GrammarBuiltinTest.
