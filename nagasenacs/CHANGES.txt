@@ -1,5 +1,10 @@
 2014-04-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added LongEncodingTest.
+
+A       test/Nagasena/Sax/LongEncodingTest.cs
+A       testdata/long.xsc
+
 - Added HexBinaryValueEncodingTest.
 
 A       test/Nagasena/Sax/HexBinaryValueEncodingTest.cs
