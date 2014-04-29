@@ -1,5 +1,9 @@
 2014-04-29 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added ValueMaxLengthTest.
+
+A       test/Nagasena/Sax/ValueMaxLengthTest.cs
+
 - Added StringValueEncodingTest.
 
 A       test/Nagasena/Sax/StringValueEncodingTest.cs
