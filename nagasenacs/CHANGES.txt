@@ -1,3 +1,10 @@
+2014-04-29 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added StringValueEncodingTest.
+
+A       test/Nagasena/Sax/StringValueEncodingTest.cs
+A       testdata/verySimpleDefault.xsc
+
 2014-04-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - Added LongEncodingTest.
