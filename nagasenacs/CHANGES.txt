@@ -1,5 +1,11 @@
 2014-04-29 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added ValuePartitionCapacityTest.
+
+A       test/Nagasena/Sax/ValuePartitionCapacityTest.cs
+A       testdata/interop/datatypes/string
+A       testdata/interop/datatypes/string/indexed-05.xml
+
 - Added ValueMaxLengthTest.
 
 A       test/Nagasena/Sax/ValueMaxLengthTest.cs
