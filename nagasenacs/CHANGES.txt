@@ -1,5 +1,12 @@
 2014-04-29 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added EnumerationTest.
+
+A       test/Nagasena/Sax/EnumerationTest.cs
+M       src/Nagasena/Schema/EXISchema.cs
+M       src/Nagasena/Proc/IO/EnumerationValueScriber.cs
+A       testdata/enumeration.xsc
+
 - Added ValuePartitionCapacityTest.
 
 A       test/Nagasena/Sax/ValuePartitionCapacityTest.cs

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Numerics;
 using System.Text;
@@ -296,12 +297,9 @@ namespace Nagasena.Proc.IO {
           }
           BigInteger integer;
           try {
-            integer = Convert.ToInt64(norm);
+            integer = BigInteger.Parse(norm, NumberFormatInfo.InvariantInfo);
           }
           catch (FormatException) {
-            return null;
-          }
-          catch (OverflowException) {
             return null;
           }
           return integer;

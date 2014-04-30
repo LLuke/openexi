@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Numerics;
 using System.Text;
 using XmlConvert = System.Xml.XmlConvert;
 
@@ -277,7 +279,7 @@ namespace Nagasena.Schema {
     internal bool[] m_signs; // array of decimal value signs
     internal string[] m_integralDigits; // array of decimal integral value
     internal string[] m_reverseFractionalDigits; // array of decimal reverse-fractional digits value
-    internal System.Numerics.BigInteger[] m_integers; // array of integer values
+    internal BigInteger[] m_integers; // array of integer values
     internal long[] m_longs; // array of long values
     internal XSDateTime[] m_datetimes; // array of datetime values
     internal TimeSpan[] m_durations; // array of duration values
@@ -331,7 +333,7 @@ namespace Nagasena.Schema {
       string[] uris, int n_uris, string[] names, int n_names, int[][] localNames, string[] strings, int n_strings, 
       int[] ints, int n_ints, long[] mantissas, int[] exponents, int n_floats, 
       bool[] signs, string[] integralDigits, string[] reverseFractionalDigits, 
-      int n_decimals, System.Numerics.BigInteger[] integers, int n_integers, long[] longs, int n_longs,
+      int n_decimals, BigInteger[] integers, int n_integers, long[] longs, int n_longs,
       XSDateTime[] datetimes, int n_datetimes, TimeSpan[] durations, int n_durations, 
       sbyte[][] binaries, int n_binaries, sbyte[] variantTypes, int[] variants, int n_variants, 
       int[] grammars, int n_grammars, int grammarCount, int[] productions, int n_productions, 
@@ -379,7 +381,7 @@ namespace Nagasena.Schema {
       m_reverseFractionalDigits = new string[n_decimals];
       Array.Copy(reverseFractionalDigits, 0, m_reverseFractionalDigits, 0, n_decimals);
 
-      m_integers = new System.Numerics.BigInteger[n_integers];
+      m_integers = new BigInteger[n_integers];
       Array.Copy(integers, 0, m_integers, 0, n_integers);
 
       m_longs = new long[n_longs];
@@ -683,7 +685,7 @@ namespace Nagasena.Schema {
           }
           break;
         case VARIANT_INTEGER:
-          System.Numerics.BigInteger bigInteger = getIntegerValueOfVariant(variant);
+          BigInteger bigInteger = getIntegerValueOfVariant(variant);
           stringValue = bigInteger.ToString();
           break;
         case VARIANT_INT:
@@ -699,7 +701,7 @@ namespace Nagasena.Schema {
           stringValue = dateTime.ToString();
           break;
         case VARIANT_DURATION:
-          stringValue = getDurationValueOfVariant(variant).ToString();
+          stringValue = XmlConvert.ToString(getDurationValueOfVariant(variant));
           break;
         case VARIANT_BASE64:
           binaryValue = getBinaryValueOfVariant(variant);
@@ -1722,7 +1724,7 @@ namespace Nagasena.Schema {
     /// <param name="variant"> a variant of type VARIANT_INTEGER </param>
     /// <returns> BigInteger value
     /// @y.exclude </returns>
-    public System.Numerics.BigInteger getIntegerValueOfVariant(int variant) {
+    public BigInteger getIntegerValueOfVariant(int variant) {
       Debug.Assert(0 <= variant && m_variantTypes[variant] == VARIANT_INTEGER);
       return m_integers[m_variants[variant]];
     }
@@ -1872,9 +1874,9 @@ namespace Nagasena.Schema {
       }
 
       len = ReadInt(@in);
-      System.Numerics.BigInteger[] integers = new System.Numerics.BigInteger[len];
+      BigInteger[] integers = new BigInteger[len];
       for (i = 0; i < len; i++) {
-        integers[i] = Convert.ToInt64(readString(@in));
+        integers[i] = BigInteger.Parse(readString(@in), NumberFormatInfo.InvariantInfo);
       }
 
       len = ReadInt(@in);
