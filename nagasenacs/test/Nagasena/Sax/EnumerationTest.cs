@@ -2118,7 +2118,7 @@ namespace Nagasena.Sax {
             }
             else {
               double expectedValue = resultValues[i];
-              if (expectedValue != expectedValue) {
+              if (Double.IsNaN(expectedValue)) {
                 Assert.AreEqual("NaN", exiEvent.Characters.makeString());
               }
               else if (double.IsInfinity(expectedValue)) {

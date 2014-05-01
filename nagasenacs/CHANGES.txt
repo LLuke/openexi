@@ -1,3 +1,10 @@
+2014-05-01 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added OptionsDocumentTest.
+
+M       test/Nagasena/Sax/EnumerationTest.cs
+A       test/Nagasena/Sax/OptionsDocumentTest.cs
+
 2014-04-29 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - Added EnumerationTest.
