@@ -1,5 +1,10 @@
 2014-05-01 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added QNameValueEncodingTest.
+
+A       test/Nagasena/Sax/QNameValueEncodingTest.cs
+A       testdata/QName.xsc
+
 - Added OptionsDocumentTest.
 
 M       test/Nagasena/Sax/EnumerationTest.cs
