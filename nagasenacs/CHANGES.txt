@@ -1,5 +1,18 @@
 2014-05-01 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added FragmentTest.
+
+A       test/Nagasena/Sax/FragmentTest.cs
+A       testdata/interop/schemaInformedGrammar/declaredProductions/fragment-c.xsc
+A       testdata/interop/schemaInformedGrammar/declaredProductions/elementFragment-03.bitPacked
+A       testdata/interop/schemaInformedGrammar/declaredProductions/elementFragment-02b.byteAligned
+A       testdata/interop/schemaInformedGrammar/declaredProductions/elementFragment-04.byteAligned
+A       testdata/interop/schemaInformedGrammar/declaredProductions/elementFragment.xsc
+A       testdata/interop/schemaInformedGrammar/declaredProductions/fragment-03.byteAligned
+A       testdata/interop/schemaInformedGrammar/declaredProductions/fragment-04.byteAligned
+A       testdata/interop/schemaInformedGrammar/declaredProductions/fragment-b.xsc
+A       testdata/fragment_01.xsc
+
 - Added GrammarSchemaInformedTest.
 
 A       test/Nagasena/Sax/GrammarSchemaInformedTest.cs
