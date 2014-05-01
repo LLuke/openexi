@@ -1,5 +1,10 @@
 2014-05-01 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added GrammarSchemaInformedTest.
+
+A       test/Nagasena/Sax/GrammarSchemaInformedTest.cs
+A       testdata/testStates/choiceGroup.xsc
+
 - Added QNameValueEncodingTest.
 
 A       test/Nagasena/Sax/QNameValueEncodingTest.cs
