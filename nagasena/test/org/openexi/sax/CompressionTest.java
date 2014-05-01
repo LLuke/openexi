@@ -21,6 +21,7 @@ import org.openexi.proc.grammars.GrammarCache;
 import org.openexi.proc.io.Scanner;
 import org.openexi.proc.io.compression.ChannellingScanner;
 import org.openexi.proc.io.compression.EXIEventValueReference;
+import org.openexi.proc.util.ExiUriConst;
 import org.openexi.sax.Transmogrifier;
 import org.openexi.schema.EXISchema;
 import org.openexi.schema.TestBase;
@@ -1173,4 +1174,78 @@ public class CompressionTest extends TestBase {
     Assert.assertEquals(1, ((ChannellingScanner)scanner).getBlockCount());
   }
 
+  /**
+   */
+  public void testCompressionOption_01() throws Exception {
+    EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema(
+        "/optionsSchema.xsd", getClass(), m_compilerErrors);
+    
+    Assert.assertEquals(0, m_compilerErrors.getTotalCount());
+    
+    GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
+    
+    Transmogrifier encoder = new Transmogrifier();
+    encoder.setGrammarCache(grammarCache);
+    encoder.setAlignmentType(AlignmentType.compress);
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    encoder.setOutputStream(baos);
+    encoder.setOutputOptions(HeaderOptionsOutputType.lessSchemaId);
+    
+    String xmlString;
+    byte[] bts;
+    EXIDecoder decoder;
+    Scanner scanner;
+    int n_events;
+    
+    xmlString = "<header xmlns='http://www.w3.org/2009/exi'><strict/></header>\n";
+    
+    encoder.encode(new InputSource(new StringReader(xmlString)));
+    
+    bts = baos.toByteArray();
+    
+    decoder = new EXIDecoder();
+    decoder.setGrammarCache(grammarCache);
+    decoder.setAlignmentType(AlignmentType.bitPacked); // try to confuse decoder.
+    decoder.setInputStream(new ByteArrayInputStream(bts));
+    scanner = decoder.processHeader();
+    
+    EventDescription exiEvent;
+    n_events = 0;
+
+    EventType eventType;
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
+    ++n_events;
+    
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+    Assert.assertEquals("header", exiEvent.getName());
+    Assert.assertEquals(ExiUriConst.W3C_2009_EXI_URI, exiEvent.getURI());
+    ++n_events;
+    
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+    Assert.assertEquals("strict", exiEvent.getName());
+    Assert.assertEquals(ExiUriConst.W3C_2009_EXI_URI, exiEvent.getURI());
+    ++n_events;
+    
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+    ++n_events;
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+    ++n_events;
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
+    eventType = exiEvent.getEventType();
+    Assert.assertSame(exiEvent, eventType);
+    Assert.assertEquals(0, eventType.getIndex());
+    ++n_events;
+    
+    Assert.assertEquals(6, n_events);
+  }
+  
 }

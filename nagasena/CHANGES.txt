@@ -1,3 +1,13 @@
+2014-05-01 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0038.0
+
+- Some test reorganization.
+
+M       test/org/openexi/sax/CompressionTest.java
+M       test/org/openexi/sax/EnumerationTest.java
+M       test/org/openexi/sax/OptionsDocumentTest.java
+
 2014-04-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0038.0

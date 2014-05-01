@@ -2179,7 +2179,7 @@ public class EnumerationTest extends TestBase {
           }
           else {
             double expectedValue = resultValues[i];
-            if (expectedValue != expectedValue)
+            if (Double.isNaN(expectedValue))
               Assert.assertEquals("NaN", exiEvent.getCharacters().makeString());
             else if (Double.isInfinite(expectedValue))
               Assert.assertEquals(expectedValue > 0 ? "INF" : "-INF", exiEvent.getCharacters().makeString());
