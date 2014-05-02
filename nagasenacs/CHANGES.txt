@@ -1,5 +1,11 @@
 2014-05-02 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added GrammarAttributeWildcardTest.
+
+A       test/Nagasena/Sax/GrammarAttributeWildcardTest.cs
+A       testdata/interop/schemaInformedGrammar/undeclaredProductions/xsiTypeStrict-07.xml
+A       testdata/interop/schemaInformedGrammar/declaredProductions/complexType-05.byteAligned
+
 - Added GrammarXsiTypeTest.
 
 A       test/Nagasena/Sax/GrammarXsiTypeTest.cs
