@@ -1,3 +1,14 @@
+2014-05-02 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added GrammarXsiTypeTest.
+
+A       test/Nagasena/Sax/GrammarXsiTypeTest.cs
+A       testdata/interop/schemaInformedGrammar/undeclaredProductions
+A       testdata/interop/schemaInformedGrammar/undeclaredProductions/union.xsc
+A       testdata/interop/schemaInformedGrammar/undeclaredProductions/xsiTypeStrict-03.xml
+A       testdata/exi/qname-invalid.xsc
+A       testdata/exi/qname-invalid-00.xml.exi
+
 2014-05-01 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - Added FragmentTest.
