@@ -4,7 +4,7 @@ namespace Nagasena.Proc.IO {
 
   public sealed class OctetBuffer {
 
-    internal sbyte[] octets;
+    internal byte[] octets;
     private int m_bufSize;
 
     public int nextIndex;
@@ -18,7 +18,7 @@ namespace Nagasena.Proc.IO {
     internal void init(int initialBufferSize) {
       if (octets == null) {
         m_bufSize = initialBufferSize;
-        octets = new sbyte[initialBufferSize];
+        octets = new byte[initialBufferSize];
       }
     }
 
@@ -39,7 +39,7 @@ namespace Nagasena.Proc.IO {
           }
         }
         int newBufSize = m_bufSize + expansion;
-        sbyte[] _octets = new sbyte[newBufSize];
+        byte[] _octets = new byte[newBufSize];
         Array.Copy(octets, 0, _octets, 0, nextIndex);
         octets = _octets;
         m_bufSize = newBufSize;

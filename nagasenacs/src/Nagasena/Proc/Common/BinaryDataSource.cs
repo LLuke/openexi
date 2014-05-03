@@ -2,7 +2,7 @@
 
   public sealed class BinaryDataSource {
 
-    private sbyte[] m_byteArray;
+    private byte[] m_byteArray;
     private int m_startIndex;
     private int m_length;
 
@@ -10,7 +10,7 @@
 
     private IBinaryValueScanner m_scanner;
 
-    public sbyte[] ByteArray {
+    public byte[] ByteArray {
       get {
         return m_byteArray;
       }
@@ -34,7 +34,7 @@
       }
     }
 
-    internal void setValues(sbyte[] byteArray, int startIndex, int length, IBinaryValueScanner scanner, long n_remainingBytes) {
+    internal void setValues(byte[] byteArray, int startIndex, int length, IBinaryValueScanner scanner, long n_remainingBytes) {
       m_byteArray = byteArray;
       m_startIndex = startIndex;
       m_length = length;

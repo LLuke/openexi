@@ -50,9 +50,9 @@ namespace Nagasena.Proc.IO {
       }
       m_octetBuffer.ensureOctets(n_nextBytes);
       int offset = m_octetBuffer.allocOctets(n_nextBytes);
-      sbyte[] octets = m_octetBuffer.octets;
+      byte[] octets = m_octetBuffer.octets;
       for (int i = 0; i < n_nextBytes; i++) {
-        octets[offset + i] = (sbyte)m_scanner.readEightBitsUnsigned(m_istream);
+        octets[offset + i] = (byte)m_scanner.readEightBitsUnsigned(m_istream);
       }
       if (binaryDataSource == null) {
         binaryDataSource = new BinaryDataSource();

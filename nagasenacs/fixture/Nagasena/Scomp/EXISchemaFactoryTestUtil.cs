@@ -20,11 +20,7 @@ namespace Nagasena.Scomp {
     /// Loads schema then compiles it into EXISchema.
     /// Schema file is resolved relative to the specified class.
     /// </summary>
-    public static EXISchema getEXISchema(string fileName, Object obj) {
-      return getEXISchema(fileName, obj, fileName == null ? null : new EXISchemaFactoryTestUtilContext());
-    }
-
-    internal static EXISchema getEXISchema(string fileName, Object obj, EXISchemaFactoryTestUtilContext context) {
+    internal static EXISchema getEXISchema(string fileName, Object obj) {
       if (fileName == null) {
         return EmptySchema.EXISchema;
       }

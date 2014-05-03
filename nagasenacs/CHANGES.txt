@@ -1,5 +1,16 @@
 2014-05-02 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added SAXTransmogrifierTest.
+
+A       test/Nagasena/Sax/SAXTransmogrifierTest.cs
+M       fixture/Nagasena/Scomp/EXISchemaFactoryTestUtil.cs
+A       fixture/Nagasena/Proc
+A       fixture/Nagasena/Proc/Common
+A       fixture/Nagasena/Proc/Common/BinaryDataUtil.cs
+M       src/Nagasena/Proc/IO/BinaryValueScanner.cs
+M       src/Nagasena/Proc/IO/OctetBuffer.cs
+M       src/Nagasena/Proc/Common/BinaryDataSource.cs
+
 - Added ListValueEncodingTest.
 
 A       test/Nagasena/Sax/ListValueEncodingTest.cs
