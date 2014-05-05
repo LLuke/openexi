@@ -1,5 +1,16 @@
 2014-05-05 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added ProfileDecodeTest.
+
+A       test/Nagasena/Sax/ProfileDecodeTest.cs
+A       testdata/profile
+A       testdata/profile/nestedA_01.bitPacked
+A       testdata/profile/nestedA_01_profile.bitPacked
+A       testdata/profile/nestedA_01.byteAligned
+A       testdata/profile/nestedA_01_profile.byteAligned
+A       testdata/profile/xsiType-02_profile.bitPacked
+A       testdata/profile/xsiType-02_profile.byteAligned
+
 - Added DTRMTest.
 
 A       test/Nagasena/Sax/DTRMTest.cs
