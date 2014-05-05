@@ -1,5 +1,23 @@
 2014-05-05 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added JTLMTest.
+
+A       test/Nagasena/Sax/JTLMTest.cs
+A       testdata/JTLM
+A       testdata/JTLM/publish911
+A       testdata/JTLM/publish911/publish911.preCompress
+A       testdata/JTLM/publish911/publish911.bitPacked
+A       testdata/JTLM/publish911/publish911.byteAligned
+A       testdata/JTLM/publish911/publish911.compress
+A       testdata/JTLM/schemas
+A       testdata/JTLM/schemas/TLMComposite.xsc
+A       testdata/JTLM/publish100.xml
+A       testdata/JTLM/publish100
+A       testdata/JTLM/publish100/publish100.compress
+A       testdata/JTLM/publish100/publish100.preCompress
+A       testdata/JTLM/publish100/publish100.bitPacked
+A       testdata/JTLM/publish100/publish100.byteAligned
+
 - Added ProfileDecodeTest.
 
 A       test/Nagasena/Sax/ProfileDecodeTest.cs
