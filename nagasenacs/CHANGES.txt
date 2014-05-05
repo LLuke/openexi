@@ -1,5 +1,14 @@
 2014-05-05 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added DTRMTest.
+
+A       test/Nagasena/Sax/DTRMTest.cs
+A       fixture/Nagasena/Proc/Grammars
+A       fixture/Nagasena/Proc/Grammars/ApparatusUtil.cs
+A       testdata/interop/datatypes/nbitInteger
+A       testdata/interop/datatypes/nbitInteger/nbitInteger.xsc
+A       testdata/union.xsc
+
 - Added GrammarStrictAllTest.
 
 A       test/Nagasena/Sax/GrammarStrictAllTest.cs
