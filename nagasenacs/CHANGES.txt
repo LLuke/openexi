@@ -1,3 +1,10 @@
+2014-05-05 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added GrammarStrictAllTest.
+
+A       test/Nagasena/Sax/GrammarStrictAllTest.cs
+A       testdata/interop/schemaInformedGrammar/declaredProductions/all-03.bitPacked
+
 2014-05-02 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - Added SAXTransmogrifierTest.
