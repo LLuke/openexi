@@ -1,3 +1,12 @@
+2014-05-06 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added ISO15118Test.
+
+A       test/Nagasena/Sax/ISO15118Test.cs
+A       testdata/iso15118
+A       testdata/iso15118/V2G_CI_MsgDef.xsc
+A       testdata/iso15118/SessionSetupRes.xml
+
 2014-05-05 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - Added JTLMTest.
