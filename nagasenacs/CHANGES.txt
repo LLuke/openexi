@@ -1,5 +1,10 @@
 2014-05-06 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added RCSTest.
+
+A       test/Nagasena/Sax/RCSTest.cs
+A       testdata/patterns.xsc
+
 - Added ISO15118Test.
 
 A       test/Nagasena/Sax/ISO15118Test.cs
