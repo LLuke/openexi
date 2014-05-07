@@ -1,5 +1,9 @@
 2014-05-06 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added CookieTest.
+
+A       test/Nagasena/Sax/CookieTest.cs
+
 - Added RCSTest.
 
 A       test/Nagasena/Sax/RCSTest.cs
