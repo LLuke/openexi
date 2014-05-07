@@ -1,5 +1,9 @@
 2014-05-06 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added NonWellFormedXmlTest.
+
+A       test/Nagasena/Sax/NonWellFormedXmlTest.cs
+
 - Added CookieTest.
 
 A       test/Nagasena/Sax/CookieTest.cs
