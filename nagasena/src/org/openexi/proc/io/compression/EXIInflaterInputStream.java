@@ -1,12 +1,13 @@
 package org.openexi.proc.io.compression;
 
-import java.io.FilterInputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.zip.Inflater;
 import java.util.zip.DataFormatException;
 
-class EXIInflaterInputStream extends FilterInputStream {
+final class EXIInflaterInputStream extends InputStream {
+
+  private final InputStream m_inputStream;
   
   private final Inflater m_inflater;
 
@@ -18,7 +19,7 @@ class EXIInflaterInputStream extends FilterInputStream {
   private int inputLength;
   
   public EXIInflaterInputStream(InputStream inputStream, Inflater inflater, int bufSize) {
-    super(inputStream);
+    m_inputStream = inputStream;
     m_inflater = inflater;
     inputBuffer = new byte[bufSize];
     inputLength = 0;
@@ -46,7 +47,7 @@ class EXIInflaterInputStream extends FilterInputStream {
         else { // remain == 0 || remain == inputLength
           if (outputLimit == 0 && remain == 0) {
             assert !m_inflater.finished();
-            if ((inputLength = super.read(inputBuffer, 0, inputBuffer.length)) < 0) {
+            if ((inputLength = m_inputStream.read(inputBuffer, 0, inputBuffer.length)) < 0) {
               inputLength = 0;
               return -1;
             }

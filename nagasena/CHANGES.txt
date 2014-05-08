@@ -1,5 +1,12 @@
 2014-05-08 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+0000.0002.0040.0
+
+- EXIInflaterInputStream class does not need to inherit FilterInputStream.
+
+M       src/org/openexi/proc/io/compression/EXIInflaterInputStream.java
+M       build.xml
+
 0000.0002.0039.0
 
 - EXIDeflaterOutputStream class does not need to inherit FilterOutputStream.
