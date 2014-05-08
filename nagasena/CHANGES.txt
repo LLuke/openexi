@@ -1,3 +1,13 @@
+2014-05-08 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0039.0
+
+- EXIDeflaterOutputStream class does not need to inherit FilterOutputStream.
+
+M       test/org/openexi/sax/DTRMTest.java
+M       src/org/openexi/proc/io/compression/EXIDeflaterOutputStream.java
+M       build.xml
+
 2014-05-01 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0038.0

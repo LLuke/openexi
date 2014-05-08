@@ -1,12 +1,13 @@
 package org.openexi.proc.io.compression;
 
-import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
 import java.util.zip.Deflater;
 
-final class EXIDeflaterOutputStream extends FilterOutputStream {
+final class EXIDeflaterOutputStream extends OutputStream {
+  
+  private final OutputStream m_outputStream;
 
   private final Deflater m_deflater;
   
@@ -16,7 +17,7 @@ final class EXIDeflaterOutputStream extends FilterOutputStream {
   private final byte[] m_bytesOut;
   
   public EXIDeflaterOutputStream(OutputStream outputStream, Deflater deflater) {
-    super(outputStream);
+    m_outputStream = outputStream;
     deflater.reset();
     m_deflater = deflater; 
     
@@ -28,11 +29,12 @@ final class EXIDeflaterOutputStream extends FilterOutputStream {
   @Override
   public void flush() throws IOException {
     flushInput();
-    super.flush();
+    m_outputStream.flush();
   }
   
+  @Override
   public void close() throws IOException {
-    super.close();
+    m_outputStream.close();
   }
   
   @Override
@@ -50,7 +52,7 @@ final class EXIDeflaterOutputStream extends FilterOutputStream {
     do {
       if ((n_bytesOut = m_deflater.deflate(m_bytesOut)) != 0) { 
         for (int i = 0; i < n_bytesOut; i++) {
-          super.write(0xFF & m_bytesOut[i]);
+          m_outputStream.write(0xFF & m_bytesOut[i]);
         }
       }
       else
@@ -74,7 +76,7 @@ final class EXIDeflaterOutputStream extends FilterOutputStream {
     while (!m_deflater.finished()) {
       int len = m_deflater.deflate(m_bytesOut);
       for (int i = 0; i < len; i++) {
-        super.write(0xFF & m_bytesOut[i]);
+        m_outputStream.write(0xFF & m_bytesOut[i]);
       }
     }
     m_deflater.reset();

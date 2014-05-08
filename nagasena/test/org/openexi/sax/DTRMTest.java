@@ -629,11 +629,11 @@ public class DTRMTest extends TestBase  {
         "126743233E7",
     };
 
-      xmlString = 
-        "<Z>" + 
-          "<foo:A xmlns:foo='urn:foo'>" + values[0] + "</foo:A>" +
-          "<foo:C xmlns:foo='urn:foo'>" + values[1] + "</foo:C>" +
-        "</Z>"; 
+    xmlString = 
+      "<Z>" + 
+        "<foo:A xmlns:foo='urn:foo'>" + values[0] + "</foo:A>" +
+        "<foo:C xmlns:foo='urn:foo'>" + values[1] + "</foo:C>" +
+      "</Z>"; 
     
     Transmogrifier encoder = new Transmogrifier();
     EXIDecoder decoder = new EXIDecoder();
