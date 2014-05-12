@@ -45,6 +45,7 @@ public final class ScriberFactory {
           catch (Exception exc) {
           }
         }
+        break;
       case compress:
         if (m_channellingScriberConstructor != null) {
           try {
@@ -53,6 +54,7 @@ public final class ScriberFactory {
           catch (Exception exc) {
           }
         }
+        break;
     }
     return null;
   }

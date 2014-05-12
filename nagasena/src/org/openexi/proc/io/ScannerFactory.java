@@ -28,9 +28,9 @@ public final class ScannerFactory {
    * Create a scanner for processing the EXI body of a stream.
    * @param alignmentType
    * @param inflatorBufSize
-   * @param documentGrammarState
+   * @param useThreadedInflater
    * @return a scanner, or null if AlignmentType.preCompress or AlignmentType.compress was 
-   * specified as alignmentType when EXI compression classes are not made available.
+   * specified as alignmentType and EXI compression classes are not available.
    */
   public static Scanner createScanner(AlignmentType alignmentType, int inflatorBufSize, boolean useThreadedInflater) {
     final Scanner scanner;

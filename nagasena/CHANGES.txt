@@ -1,3 +1,15 @@
+2014-05-12 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0040.1
+
+- Minor code clean-up.
+
+M       test/org/openexi/proc/DecodeStrictTest.java
+M       src/org/openexi/proc/io/ScannerFactory.java
+M       src/org/openexi/proc/io/compression/ChannellingScriber.java
+M       src/org/openexi/proc/io/ScriberFactory.java
+M       build.xml
+
 2014-05-08 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0040.0

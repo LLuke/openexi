@@ -152,6 +152,7 @@ public final class ChannellingScriber extends Scriber {
     }
   }
 
+  @Override
   public AlignmentType getAlignmentType() {
     return m_compressed ? AlignmentType.compress : AlignmentType.preCompress;
   }

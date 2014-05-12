@@ -258,14 +258,8 @@ public class DecodeStrictTest extends TestBase {
         "/encoding/headerOptions-01.preCompress", 
         "/encoding/headerOptions-01.compress", 
     };
-    AlignmentType[] alignments =  { 
-        AlignmentType.bitPacked,
-        AlignmentType.byteAligned,
-        AlignmentType.preCompress, 
-        AlignmentType.compress 
-    };
 
-    for (int i = 0; i < alignments.length; i++) {
+    for (int i = 0; i < Alignments.length; i++) {
       EXIDecoder decoder = new EXIDecoder();
       Scanner scanner;
       
@@ -274,13 +268,13 @@ public class DecodeStrictTest extends TestBase {
       int n_events;
       
       final AlignmentType falseAlignmentType;
-      falseAlignmentType = alignments[i] == AlignmentType.compress ?  
+      falseAlignmentType = Alignments[i] == AlignmentType.compress ?  
           AlignmentType.bitPacked : AlignmentType.compress;
       decoder.setAlignmentType(falseAlignmentType); // trying to confuse decoder.
       decoder.setGrammarCache(grammarCache);
       decoder.setInputStream(url.openStream());
       scanner = decoder.processHeader();
-      Assert.assertEquals(alignments[i], scanner.getAlignmentType());
+      Assert.assertEquals(Alignments[i], scanner.getAlignmentType());
       
       ArrayList<EventDescription> exiEventList = new ArrayList<EventDescription>();
       
