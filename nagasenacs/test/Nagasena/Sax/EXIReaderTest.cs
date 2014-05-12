@@ -21,14 +21,13 @@ using EXISchemaFactoryTestUtil = Nagasena.Scomp.EXISchemaFactoryTestUtil;
 namespace Nagasena.Sax {
 
   [TestFixture]
-  [Category("Enable_Compression")]
   public class EXIReaderTest : TestBase {
 
     private static readonly AlignmentType[] Alignments = new AlignmentType[] { 
       AlignmentType.bitPacked, 
       AlignmentType.byteAligned, 
-      //AlignmentType.preCompress, 
-      //AlignmentType.compress 
+      AlignmentType.preCompress, 
+      AlignmentType.compress 
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -1076,7 +1075,6 @@ namespace Nagasena.Sax {
     }
 
     [Test]
-    [Ignore("COMPRESSION")]
     public virtual void testBlockSize_01() {
 
       GrammarCache grammarCache = new GrammarCache((EXISchema)null, GrammarOptions.DEFAULT_OPTIONS);

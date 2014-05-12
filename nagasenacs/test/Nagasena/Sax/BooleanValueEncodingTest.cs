@@ -22,14 +22,13 @@ using EXISchemaFactoryTestUtil = Nagasena.Scomp.EXISchemaFactoryTestUtil;
 namespace Nagasena.Sax {
 
   [TestFixture]
-  [Category("Enable_Compression")]
   public class BooleanValueEncodingTest : TestBase {
 
     private static readonly AlignmentType[] Alignments = new AlignmentType[] { 
       AlignmentType.bitPacked, 
       AlignmentType.byteAligned, 
-      //AlignmentType.preCompress, 
-      //AlignmentType.compress 
+      AlignmentType.preCompress, 
+      AlignmentType.compress 
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -1286,55 +1285,50 @@ namespace Nagasena.Sax {
 
       foreach (AlignmentType alignment in Alignments) {
         Transmogrifier encoder = new Transmogrifier();
-        foreach (bool useThreadedInflater in new bool[] { true, false }) {
-          if (useThreadedInflater && alignment != AlignmentType.compress) {
-            continue;
-          }
-          EXIDecoder decoder = new EXIDecoder(999, useThreadedInflater);
-          Scanner scanner;
-          InputSource inputSource;
+        EXIDecoder decoder = new EXIDecoder(999);
+        Scanner scanner;
+        InputSource inputSource;
 
-          encoder.AlignmentType = alignment;
-          decoder.AlignmentType = alignment;
+        encoder.AlignmentType = alignment;
+        decoder.AlignmentType = alignment;
 
-          encoder.GrammarCache = grammarCache;
-          MemoryStream baos = new MemoryStream();
-          encoder.OutputStream = baos;
+        encoder.GrammarCache = grammarCache;
+        MemoryStream baos = new MemoryStream();
+        encoder.OutputStream = baos;
 
-          Uri url = resolveSystemIdAsURL("/DataStore/instance/4BooleanStore.xml");
-          FileStream inputStream = new FileStream(url.LocalPath, FileMode.Open);
-          inputSource = new InputSource<Stream>(inputStream, url.ToString());
+        Uri url = resolveSystemIdAsURL("/DataStore/instance/4BooleanStore.xml");
+        FileStream inputStream = new FileStream(url.LocalPath, FileMode.Open);
+        inputSource = new InputSource<Stream>(inputStream, url.ToString());
 
-          byte[] bts;
-          int n_texts;
+        byte[] bts;
+        int n_texts;
 
-          encoder.encode(inputSource);
-          inputStream.Close();
+        encoder.encode(inputSource);
+        inputStream.Close();
 
-          bts = baos.ToArray();
+        bts = baos.ToArray();
 
-          decoder.GrammarCache = grammarCache;
-          decoder.InputStream = new MemoryStream(bts);
-          scanner = decoder.processHeader();
+        decoder.GrammarCache = grammarCache;
+        decoder.InputStream = new MemoryStream(bts);
+        scanner = decoder.processHeader();
 
-          EventDescription exiEvent;
-          n_texts = 0;
-          while ((exiEvent = scanner.nextEvent()) != null) {
-            if (exiEvent.EventKind == EventDescription_Fields.EVENT_CH) {
-              string expected = booleanValues4[n_texts];
-              string val = exiEvent.Characters.makeString();
-              if ("true".Equals(val)) {
-                Assert.IsTrue("true".Equals(expected) || "1".Equals(expected));
-              }
-              else {
-                Assert.AreEqual("false", val);
-                Assert.IsTrue("false".Equals(expected) || "0".Equals(expected));
-              }
-              ++n_texts;
+        EventDescription exiEvent;
+        n_texts = 0;
+        while ((exiEvent = scanner.nextEvent()) != null) {
+          if (exiEvent.EventKind == EventDescription_Fields.EVENT_CH) {
+            string expected = booleanValues4[n_texts];
+            string val = exiEvent.Characters.makeString();
+            if ("true".Equals(val)) {
+              Assert.IsTrue("true".Equals(expected) || "1".Equals(expected));
             }
+            else {
+              Assert.AreEqual("false", val);
+              Assert.IsTrue("false".Equals(expected) || "0".Equals(expected));
+            }
+            ++n_texts;
           }
-          Assert.AreEqual(4, n_texts);
         }
+        Assert.AreEqual(4, n_texts);
       }
     }
 

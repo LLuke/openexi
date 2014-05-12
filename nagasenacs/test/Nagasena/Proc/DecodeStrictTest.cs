@@ -20,14 +20,13 @@ using EXISchemaFactoryTestUtil = Nagasena.Scomp.EXISchemaFactoryTestUtil;
 namespace Nagasena.Proc {
 
   [TestFixture]
-  [Category("Enable_Compression")]
   public class DecodeStrictTest : TestBase {
 
     private static readonly AlignmentType[] Alignments = new AlignmentType[] { 
       AlignmentType.bitPacked, 
       AlignmentType.byteAligned, 
-      //AlignmentType.preCompress, 
-      //AlignmentType.compress 
+      AlignmentType.preCompress, 
+      AlignmentType.compress 
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -225,7 +224,6 @@ namespace Nagasena.Proc {
     }
 
     [Test]
-    [Ignore("COMPRESSION")]
     public virtual void testHeaderOptionsAlignment_01() {
       EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.xsc", this);
 
@@ -239,14 +237,8 @@ namespace Nagasena.Proc {
         "/encoding/headerOptions-01.preCompress", 
         "/encoding/headerOptions-01.compress" 
       };
-      AlignmentType[] alignments = new AlignmentType[] { 
-        AlignmentType.bitPacked, 
-        AlignmentType.byteAligned, 
-        AlignmentType.preCompress, 
-        AlignmentType.compress 
-      };
 
-      for (int i = 0; i < alignments.Length; i++) {
+      for (int i = 0; i < Alignments.Length; i++) {
         EXIDecoder decoder = new EXIDecoder();
         Scanner scanner;
 
@@ -256,12 +248,12 @@ namespace Nagasena.Proc {
         int n_events;
 
         AlignmentType falseAlignmentType;
-        falseAlignmentType = alignments[i] == AlignmentType.compress ? AlignmentType.bitPacked : AlignmentType.compress;
+        falseAlignmentType = Alignments[i] == AlignmentType.compress ? AlignmentType.bitPacked : AlignmentType.compress;
         decoder.AlignmentType = falseAlignmentType; // trying to confuse decoder.
         decoder.GrammarCache = grammarCache;
         decoder.InputStream = inputStream;
         scanner = decoder.processHeader();
-        Assert.AreEqual(alignments[i], scanner.AlignmentType);
+        Assert.AreEqual(Alignments[i], scanner.AlignmentType);
 
         List<EventDescription> exiEventList = new List<EventDescription>();
 
@@ -305,7 +297,6 @@ namespace Nagasena.Proc {
     }
 
     [Test]
-    [Ignore("COMPRESSION")]
     public virtual void testEmptyBlock_01() {
       EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/compression/emptyBlock_01.xsc", this);
 

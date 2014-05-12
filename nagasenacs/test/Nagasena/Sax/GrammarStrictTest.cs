@@ -26,14 +26,13 @@ using EXISchemaFactoryTestUtil = Nagasena.Scomp.EXISchemaFactoryTestUtil;
 namespace Nagasena.Sax {
 
   [TestFixture]
-  [Category("Enable_Compression")]
   public class GrammarStrictTest : TestBase {
 
     private static readonly AlignmentType[] Alignments = new AlignmentType[] { 
       AlignmentType.bitPacked, 
       AlignmentType.byteAligned, 
-      //AlignmentType.preCompress, 
-      //AlignmentType.compress 
+      AlignmentType.preCompress, 
+      AlignmentType.compress 
     };
 
     ///////////////////////////////////////////////////////////////////////////

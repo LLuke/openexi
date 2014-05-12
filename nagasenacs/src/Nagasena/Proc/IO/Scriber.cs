@@ -5,6 +5,8 @@ using System.IO;
 using System.Numerics;
 using System.Text;
 
+using DeflateStrategy = ICSharpCode.SharpZipLib.Zip.Compression.DeflateStrategy;
+
 using EXIOptions = Nagasena.Proc.Common.EXIOptions;
 using EventType = Nagasena.Proc.Common.EventType;
 using QName = Nagasena.Proc.Common.QName;
@@ -240,7 +242,7 @@ namespace Nagasena.Proc.IO {
     /// Methods for controlling Deflater parameters
     ///////////////////////////////////////////////////////////////////////////
 
-    public virtual void setDeflateParams(int level, int strategy) {
+    public virtual void setDeflateParams(int level, DeflateStrategy strategy) {
       // Do nothing.
     }
 

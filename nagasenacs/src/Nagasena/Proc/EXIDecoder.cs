@@ -38,8 +38,6 @@ namespace Nagasena.Proc {
     private const int DEFAULT_INFLATOR_BUF_SIZE = 8192;
     private readonly int m_inflatorBufSize;
 
-    private readonly bool m_useThreadedInflater;
-
     private bool m_binaryDataEnabled;
     private int m_initialBinaryDataBufferSize;
 
@@ -48,7 +46,7 @@ namespace Nagasena.Proc {
     /// buffer size of 8192 bytes.  Buffer size is only used when
     /// the EXI stream is encoded with EXI compression.
     /// </summary>
-    public EXIDecoder() : this(DEFAULT_INFLATOR_BUF_SIZE, false) {
+    public EXIDecoder() : this(DEFAULT_INFLATOR_BUF_SIZE) {
     }
 
     /// <summary>
@@ -57,8 +55,7 @@ namespace Nagasena.Proc {
     /// the buffer size can improve performance and avoid runtime errors. Buffer 
     /// size is only used when the EXI stream is encoded with EXI compression. </summary>
     /// <param name="inflatorBufSize"> size of the buffer, in bytes. </param>
-    /// <param name="useThreadedInflater"> Inflater will be run in its own thread if true </param>
-    public EXIDecoder(int inflatorBufSize, bool useThreadedInflater) {
+    public EXIDecoder(int inflatorBufSize) {
       m_inflatorBufSize = inflatorBufSize;
       m_exiOptions = new EXIOptions();
       m_exiHeaderOptions = new EXIOptions();
@@ -66,8 +63,7 @@ namespace Nagasena.Proc {
       m_grammarCache = null;
       m_schema = null;
       m_schemaResolver = null;
-      m_useThreadedInflater = useThreadedInflater;
-      m_scanner = ScannerFactory.createScanner(AlignmentType.bitPacked, m_inflatorBufSize, m_useThreadedInflater);
+      m_scanner = ScannerFactory.createScanner(AlignmentType.bitPacked, m_inflatorBufSize);
       m_scanner.setSchema(m_schema, (QName[])null, 0);
       m_scanner.StringTable = Scanner.createStringTable(m_grammarCache);
       m_binaryDataEnabled = false;
@@ -92,7 +88,7 @@ namespace Nagasena.Proc {
       set {
         m_exiOptions.AlignmentType = value;
         if (m_scanner.AlignmentType != value) {
-          m_scanner = ScannerFactory.createScanner(value, m_inflatorBufSize, m_useThreadedInflater);
+          m_scanner = ScannerFactory.createScanner(value, m_inflatorBufSize);
           m_scanner.setSchema(m_schema, m_exiOptions.DatatypeRepresentationMap, m_exiOptions.DatatypeRepresentationMapBindingsCount);
           m_scanner.StringTable = Scanner.createStringTable(m_grammarCache);
           m_scanner.ValueMaxLength = m_exiOptions.ValueMaxLength;
@@ -308,7 +304,7 @@ namespace Nagasena.Proc {
         if ((alignmentType = m_exiHeaderOptions.AlignmentType) == AlignmentType.bitPacked) {
           bitInputStream = inputStream;
         }
-        scanner = ScannerFactory.createScanner(alignmentType, m_inflatorBufSize, m_useThreadedInflater);
+        scanner = ScannerFactory.createScanner(alignmentType, m_inflatorBufSize);
         scanner.setSchema(schema, m_exiHeaderOptions.DatatypeRepresentationMap, m_exiHeaderOptions.DatatypeRepresentationMapBindingsCount);
         scanner.StringTable = Scanner.createStringTable(grammarCache);
         scanner.ValueMaxLength = m_exiHeaderOptions.ValueMaxLength;

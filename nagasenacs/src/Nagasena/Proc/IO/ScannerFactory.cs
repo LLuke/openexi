@@ -24,10 +24,10 @@ namespace Nagasena.Proc.IO {
     /// Create a scanner for processing the EXI body of a stream. </summary>
     /// <param name="alignmentType"> </param>
     /// <param name="inflatorBufSize"> </param>
-    /// <param name="documentGrammarState"> </param>
-    /// <returns> a scanner, or null if AlignmentType.preCompress or AlignmentType.compress was 
-    /// specified as alignmentType when EXI compression classes are not made available. </returns>
-    public static Scanner createScanner(AlignmentType alignmentType, int inflatorBufSize, bool useThreadedInflater) {
+    /// <returns>a scanner, or null if AlignmentType.preCompress or AlignmentType.compress was 
+    /// specified as alignmentType and EXI compression classes are not available.
+    /// </returns>
+    public static Scanner createScanner(AlignmentType alignmentType, int inflatorBufSize) {
       Scanner scanner;
       switch (alignmentType) {
         case AlignmentType.bitPacked:

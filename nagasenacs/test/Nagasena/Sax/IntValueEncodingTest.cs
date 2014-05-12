@@ -24,14 +24,13 @@ using EXISchemaFactoryTestUtil = Nagasena.Scomp.EXISchemaFactoryTestUtil;
 namespace Nagasena.Sax {
 
   [TestFixture]
-  [Category("Enable_Compression")]
   public class IntValueEncodingTest : TestBase {
 
     private static readonly AlignmentType[] Alignments = new AlignmentType[] { 
       AlignmentType.bitPacked, 
       AlignmentType.byteAligned, 
-      //AlignmentType.preCompress, 
-      //AlignmentType.compress 
+      AlignmentType.preCompress, 
+      AlignmentType.compress 
     };
 
     ///////////////////////////////////////////////////////////////////////////

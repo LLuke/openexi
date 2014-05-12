@@ -7,6 +7,8 @@ using Org.System.Xml.Sax;
 using LocatorImpl = Org.System.Xml.Sax.Helpers.LocatorImpl;
 using SaxDriver = AElfred.SaxDriver;
 
+using DeflateStrategy = ICSharpCode.SharpZipLib.Zip.Compression.DeflateStrategy;
+
 using EXIOptionsEncoder = Nagasena.Proc.EXIOptionsEncoder;
 using HeaderOptionsOutputType = Nagasena.Proc.HeaderOptionsOutputType;
 using AlignmentType = Nagasena.Proc.Common.AlignmentType;
@@ -364,7 +366,7 @@ namespace Nagasena.Sax {
     /// <seealso cref= java.util.zip.Deflator#setStrategy(int strategy)
     /// Not for public use.
     /// @y.exclude </seealso>
-    public int DeflateStrategy {
+    public DeflateStrategy DeflateStrategy {
       set {
         m_saxHandler.DeflateStrategy = value;
       }
@@ -472,7 +474,7 @@ namespace Nagasena.Sax {
       internal readonly Scribble m_scribble;
 
       internal int m_zlibLevel;
-      internal int m_zlibStrategy;
+      internal DeflateStrategy m_zlibStrategy;
 
       internal bool m_preserveWhitespaces;
 
@@ -590,7 +592,7 @@ namespace Nagasena.Sax {
         }
       }
 
-      public int DeflateStrategy {
+      public DeflateStrategy DeflateStrategy {
         set {
           m_zlibStrategy = value;
         }

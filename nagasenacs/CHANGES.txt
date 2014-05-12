@@ -1,3 +1,68 @@
+2014-05-12 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added EXI-compression support.
+
+M       test/Nagasena/Proc/DecodeStrictTest.cs
+M       test/Nagasena/Proc/XsiTypeTest.cs
+M       test/Nagasena/Sax/ListValueEncodingTest.cs
+M       test/Nagasena/Sax/BooleanValueEncodingTest.cs
+M       test/Nagasena/Sax/ValueMaxLengthTest.cs
+M       test/Nagasena/Sax/GrammarAttributeWildcardTest.cs
+M       test/Nagasena/Sax/EnumerationTest.cs
+M       test/Nagasena/Sax/OptionsDocumentTest.cs
+M       test/Nagasena/Sax/IntegerValueEncodingTest.cs
+M       test/Nagasena/Sax/DecimalValueEncodingTest.cs
+M       test/Nagasena/Sax/FragmentTest.cs
+M       test/Nagasena/Sax/GrammarStrictAllTest.cs
+M       test/Nagasena/Sax/FloatValueEncodingTest.cs
+M       test/Nagasena/Sax/CookieTest.cs
+M       test/Nagasena/Sax/StringValueEncodingTest.cs
+M       test/Nagasena/Sax/GrammarXsiTypeTest.cs
+M       test/Nagasena/Sax/GrammarBuiltinTest.cs
+M       test/Nagasena/Sax/GrammarStrictTest.cs
+M       test/Nagasena/Sax/RCSTest.cs
+M       test/Nagasena/Sax/ISO15118Test.cs
+M       test/Nagasena/Sax/TransmogrifierTest.cs
+M       test/Nagasena/Sax/GrammarSchemaInformedTest.cs
+M       test/Nagasena/Sax/HexBinaryValueEncodingTest.cs
+M       test/Nagasena/Sax/Base64BinaryValueEncodingTest.cs
+M       test/Nagasena/Sax/IntValueEncodingTest.cs
+M       test/Nagasena/Sax/DateTimeValueEncodingTest.cs
+M       test/Nagasena/Sax/QNameValueEncodingTest.cs
+M       test/Nagasena/Sax/LongEncodingTest.cs
+M       test/Nagasena/Sax/DTRMTest.cs
+M       test/Nagasena/Sax/JTLMTest.cs
+M       test/Nagasena/Sax/SAXTransmogrifierTest.cs
+M       test/Nagasena/Sax/EXIReaderTest.cs
+A       lib/sharpziplib
+A       lib/sharpziplib/ICSharpCode.SharpZipLib.dll
+M       src/Nagasena/Proc/EXIDecoder.cs
+M       src/Nagasena/Proc/IO/ScriberFactory.cs
+M       src/Nagasena/Proc/IO/Scriber.cs
+A       src/Nagasena/Proc/IO/Compression/ScriberChannel.cs
+A       src/Nagasena/Proc/IO/Compression/ScannerChannel.cs
+A       src/Nagasena/Proc/IO/Compression/ScriberValueHolder.cs
+A       src/Nagasena/Proc/IO/Compression/EXIDeflaterOutputStream.cs
+A       src/Nagasena/Proc/IO/Compression/ChannellingValueScriberProxy.cs
+M       src/Nagasena/Proc/IO/Compression/ChannellingScanner.cs
+A       src/Nagasena/Proc/IO/Compression/ChannellingScriber.cs
+A       src/Nagasena/Proc/IO/Compression/ChannellingBinaryValueScriberProxy.cs
+A       src/Nagasena/Proc/IO/Compression/ChannelFactory.cs
+A       src/Nagasena/Proc/IO/Compression/EXIEventElement.cs
+A       src/Nagasena/Proc/IO/Compression/EXIEventValueReference.cs
+A       src/Nagasena/Proc/IO/Compression/ChannelKeeper.cs
+A       src/Nagasena/Proc/IO/Compression/EXIInflaterInputStream.cs
+A       src/Nagasena/Proc/IO/Compression/ScriberChannelFactory.cs
+A       src/Nagasena/Proc/IO/Compression/ScannerChannelFactory.cs
+M       src/Nagasena/Proc/IO/ScannerFactory.cs
+M       src/Nagasena/Sax/Transmogrifier.cs
+A       testdata/interop/schemaInformedGrammar/declaredProductions/sequence-01.compress
+A       testdata/interop/schemaInformedGrammar/declaredProductions/sequence-01.preCompress
+A       testdata/interop/datatypes/string/indexed-10.xml
+A       testdata/compression
+A       testdata/compression/emptyBlock_01.compress
+A       testdata/compression/emptyBlock_01.xsc
+
 2014-05-06 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - Added NonWellFormedXmlTest.

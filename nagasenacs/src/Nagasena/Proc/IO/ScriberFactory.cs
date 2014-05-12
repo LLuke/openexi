@@ -38,7 +38,7 @@ namespace Nagasena.Proc.IO {
             catch (Exception) {
             }
           }
-          goto case AlignmentType.compress;
+          break;
         case AlignmentType.compress:
           if (m_channellingScriberConstructor != null) {
             try {
@@ -47,7 +47,7 @@ namespace Nagasena.Proc.IO {
             catch (Exception) {
             }
           }
-        break;
+          break;
       }
       return null;
     }

@@ -19,14 +19,13 @@ using EXISchemaFactoryTestUtil = Nagasena.Scomp.EXISchemaFactoryTestUtil;
 namespace Nagasena.Sax {
 
   [TestFixture]
-  [Category("Enable_Compression")]
   public class JTLMTest : TestBase {
 
     private static readonly AlignmentType[] Alignments = new AlignmentType[] { 
       AlignmentType.bitPacked, 
       AlignmentType.byteAligned, 
-      //AlignmentType.preCompress, 
-      //AlignmentType.compress 
+      AlignmentType.preCompress, 
+      AlignmentType.compress 
     };
 
     private static readonly string[] publish100_centennials_0 = {
@@ -336,53 +335,48 @@ namespace Nagasena.Sax {
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
       foreach (AlignmentType alignment in Alignments) {
-        foreach (bool useThreadedInflater in new bool[] { true, false }) {
-          if (useThreadedInflater && alignment != AlignmentType.compress) {
-            continue;
-          }
-          Transmogrifier encoder = new Transmogrifier();
-          EXIDecoder decoder = new EXIDecoder(999, useThreadedInflater);
-          Scanner scanner;
-          InputSource inputSource;
+        Transmogrifier encoder = new Transmogrifier();
+        EXIDecoder decoder = new EXIDecoder(999);
+        Scanner scanner;
+        InputSource inputSource;
 
-          encoder.AlignmentType = alignment;
-          decoder.AlignmentType = alignment;
+        encoder.AlignmentType = alignment;
+        decoder.AlignmentType = alignment;
 
-          encoder.GrammarCache = grammarCache;
-          MemoryStream baos = new MemoryStream();
-          encoder.OutputStream = baos;
+        encoder.GrammarCache = grammarCache;
+        MemoryStream baos = new MemoryStream();
+        encoder.OutputStream = baos;
 
-          Uri url = resolveSystemIdAsURL("/JTLM/publish100.xml");
-          FileStream inputStream = new FileStream(url.LocalPath, FileMode.Open);
-          inputSource = new InputSource<Stream>(inputStream, url.ToString());
+        Uri url = resolveSystemIdAsURL("/JTLM/publish100.xml");
+        FileStream inputStream = new FileStream(url.LocalPath, FileMode.Open);
+        inputSource = new InputSource<Stream>(inputStream, url.ToString());
 
-          byte[] bts;
-          int n_events, n_texts;
+        byte[] bts;
+        int n_events, n_texts;
 
-          encoder.encode(inputSource);
-          inputStream.Close();
+        encoder.encode(inputSource);
+        inputStream.Close();
 
-          bts = baos.ToArray();
+        bts = baos.ToArray();
 
-          decoder.GrammarCache = grammarCache;
-          decoder.InputStream = new MemoryStream(bts);
-          scanner = decoder.processHeader();
+        decoder.GrammarCache = grammarCache;
+        decoder.InputStream = new MemoryStream(bts);
+        scanner = decoder.processHeader();
 
-          EventDescription exiEvent;
-          n_events = 0;
-          n_texts = 0;
-          while ((exiEvent = scanner.nextEvent()) != null) {
-            ++n_events;
-            if (exiEvent.EventKind == EventDescription_Fields.EVENT_CH) {
-              if (n_texts % 100 == 0) {
-                int n = n_texts / 100;
-                Assert.AreEqual(publish100_centennials_1[n], exiEvent.Characters.makeString());
-              }
-              ++n_texts;
+        EventDescription exiEvent;
+        n_events = 0;
+        n_texts = 0;
+        while ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          if (exiEvent.EventKind == EventDescription_Fields.EVENT_CH) {
+            if (n_texts % 100 == 0) {
+              int n = n_texts / 100;
+              Assert.AreEqual(publish100_centennials_1[n], exiEvent.Characters.makeString());
             }
+            ++n_texts;
           }
-          Assert.AreEqual(10610, n_events);
         }
+        Assert.AreEqual(10610, n_events);
       }
     }
 
