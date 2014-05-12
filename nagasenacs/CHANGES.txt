@@ -1,5 +1,16 @@
 2014-05-12 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+- Added CompressionTest.
+
+A       test/Nagasena/Sax/CompressionTest.cs
+M       test/Nagasena/Sax/JTLMTest.cs
+A       testdata/interop/schemaInformedGrammar/declaredProductions/sequence-01.xml
+A       testdata/NLM/catplussamp2006.xml
+A       testdata/compression/valueOrder-01.xml
+A       testdata/compression/duplicateValues-01.xml
+A       testdata/compression/emptyBlock_01.xml
+A       testdata/JTLM/publish911.xml
+
 - Added EXI-compression support.
 
 M       test/Nagasena/Proc/DecodeStrictTest.cs

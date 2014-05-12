@@ -297,8 +297,8 @@ namespace Nagasena.Sax {
       "Unknown"
     };
 
-    private static readonly string[] publish100_centennials_1;
-    private static readonly string[] publish911_centennials_1;
+    internal static readonly string[] publish100_centennials_1;
+    internal static readonly string[] publish911_centennials_1;
     static JTLMTest() {
       int len;
       len = publish100_centennials_0.Length;
