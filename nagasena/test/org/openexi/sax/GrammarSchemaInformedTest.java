@@ -24,8 +24,6 @@ import org.openexi.proc.events.EXIEventSchemaNil;
 import org.openexi.proc.events.EXIEventSchemaType;
 import org.openexi.proc.grammars.GrammarCache;
 import org.openexi.proc.io.Scanner;
-import org.openexi.sax.Transmogrifier;
-import org.openexi.sax.TransmogrifierException;
 import org.openexi.schema.EXISchema;
 import org.openexi.schema.TestBase;
 

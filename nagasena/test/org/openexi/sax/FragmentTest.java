@@ -34,7 +34,6 @@ import org.openexi.proc.io.Scribble;
 import org.openexi.proc.io.Scriber;
 import org.openexi.proc.io.ScriberFactory;
 import org.openexi.proc.io.ValueScriber;
-import org.openexi.sax.Transmogrifier;
 import org.openexi.schema.EXISchema;
 import org.openexi.schema.EXISchemaConst;
 import org.openexi.schema.EXISchemaUtil;

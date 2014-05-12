@@ -20,8 +20,6 @@ import org.openexi.proc.grammars.ApparatusUtil;
 import org.openexi.proc.grammars.GrammarCache;
 import org.openexi.proc.io.Scanner;
 import org.openexi.proc.util.ExiUriConst;
-import org.openexi.sax.Transmogrifier;
-import org.openexi.sax.TransmogrifierException;
 import org.openexi.schema.EXISchemaConst;
 import org.openexi.schema.EmptySchema;
 import org.openexi.schema.EXISchema;

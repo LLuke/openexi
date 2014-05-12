@@ -2,6 +2,33 @@
 
 0000.0002.0040.1
 
+- Minor test-code clean-up.
+
+M       test/org/openexi/sax/IntegerValueEncodingTest.java
+M       test/org/openexi/sax/DecimalValueEncodingTest.java
+M       test/org/openexi/sax/FragmentTest.java
+M       test/org/openexi/sax/CookieTest.java
+M       test/org/openexi/sax/FloatValueEncodingTest.java
+M       test/org/openexi/sax/GrammarBuiltinTest.java
+M       test/org/openexi/sax/GrammarStrictTest.java
+M       test/org/openexi/sax/RCSTest.java
+M       test/org/openexi/sax/GrammarSchemaInformedTest.java
+M       test/org/openexi/sax/Base64BinaryValueEncodingTest.java
+M       test/org/openexi/sax/IntValueEncodingTest.java
+M       test/org/openexi/sax/DateTimeValueEncodingTest.java
+M       test/org/openexi/sax/CompressionTest.java
+M       test/org/openexi/sax/DTRMTest.java
+M       test/org/openexi/sax/JTLMTest.java
+M       test/org/openexi/sax/LongEncodingTest.java
+M       test/org/openexi/sax/EXIReaderTest.java
+M       test/org/openexi/sax/ListValueEncodingTest.java
+M       test/org/openexi/sax/BooleanValueEncodingTest.java
+M       test/org/openexi/sax/ValueMaxLengthTest.java
+M       test/org/openexi/sax/ValuePartitionCapacityTest.java
+M       test/org/openexi/sax/OptionsDocumentTest.java
+
+0000.0002.0040.1
+
 - Minor code clean-up.
 
 M       test/org/openexi/proc/DecodeStrictTest.java

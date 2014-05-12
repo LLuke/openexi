@@ -11,7 +11,6 @@ import org.openexi.proc.common.EventDescription;
 import org.openexi.proc.common.GrammarOptions;
 import org.openexi.proc.grammars.GrammarCache;
 import org.openexi.proc.io.Scanner;
-import org.openexi.sax.Transmogrifier;
 import org.openexi.schema.EXISchema;
 import org.openexi.scomp.EXISchemaFactoryErrorMonitor;
 import org.openexi.scomp.EXISchemaFactoryTestUtil;

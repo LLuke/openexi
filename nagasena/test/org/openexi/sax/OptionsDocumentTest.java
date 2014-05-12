@@ -26,7 +26,6 @@ import org.openexi.proc.grammars.GrammarCache;
 import org.openexi.proc.grammars.OptionsGrammarCache;
 import org.openexi.proc.io.Scanner;
 import org.openexi.proc.util.ExiUriConst;
-import org.openexi.sax.Transmogrifier;
 import org.openexi.schema.EXISchema;
 import org.openexi.schema.EmptySchema;
 import org.openexi.schema.TestBase;

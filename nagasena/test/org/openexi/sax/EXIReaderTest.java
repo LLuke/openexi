@@ -20,7 +20,6 @@ import org.openexi.proc.common.AlignmentType;
 import org.openexi.proc.common.GrammarOptions;
 import org.openexi.proc.common.XmlUriConst;
 import org.openexi.proc.grammars.GrammarCache;
-import org.openexi.sax.Transmogrifier;
 import org.openexi.schema.EXISchema;
 import org.openexi.schema.TestBase;
 

@@ -22,7 +22,6 @@ import org.openexi.proc.io.Scanner;
 import org.openexi.proc.io.compression.ChannellingScanner;
 import org.openexi.proc.io.compression.EXIEventValueReference;
 import org.openexi.proc.util.ExiUriConst;
-import org.openexi.sax.Transmogrifier;
 import org.openexi.schema.EXISchema;
 import org.openexi.schema.TestBase;
 import org.openexi.scomp.EXISchemaFactoryErrorMonitor;

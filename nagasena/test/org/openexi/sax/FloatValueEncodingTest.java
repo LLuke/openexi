@@ -14,7 +14,6 @@ import org.openexi.proc.common.XmlUriConst;
 import org.openexi.proc.events.EXIEventSchemaType;
 import org.openexi.proc.grammars.GrammarCache;
 import org.openexi.proc.io.Scanner;
-import org.openexi.sax.Transmogrifier;
 import org.openexi.schema.EXISchema;
 import org.openexi.schema.EXISchemaConst;
 import org.openexi.schema.EmptySchema;
