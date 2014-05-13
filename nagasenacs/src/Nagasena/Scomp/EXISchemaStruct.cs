@@ -33,7 +33,7 @@ namespace Nagasena.Scomp {
     protected internal long[] m_longs; // array of long values
     protected internal XSDateTime[] m_datetimes; // array of datetime values
     protected internal TimeSpan[] m_durations; // array of duration values
-    protected internal sbyte[][] m_binaries; // array of binary values
+    protected internal byte[][] m_binaries; // array of binary values
     protected internal sbyte[] m_variantTypes; // array of variant types
     protected internal int[] m_variants; // array of variant values
     protected internal int[] m_grammars; // int array describing grammar structure
@@ -127,7 +127,7 @@ namespace Nagasena.Scomp {
       m_longs = new long[VALUES_INITIAL];
       m_datetimes = new XSDateTime[VALUES_INITIAL];
       m_durations = new TimeSpan[VALUES_INITIAL];
-      m_binaries = new sbyte[VALUES_INITIAL][];
+      m_binaries = new byte[VALUES_INITIAL][];
       m_variantTypes = new sbyte[VALUES_INITIAL];
       m_variants = new int[VALUES_INITIAL];
 
@@ -452,12 +452,12 @@ namespace Nagasena.Scomp {
       return pos;
     }
 
-    protected internal int addBinaryValue(sbyte[] val) {
+    protected internal int addBinaryValue(byte[] val) {
       int pos = EXISchema.NIL_VALUE;
       if (val != null) {
         // Ensure array size
         if (m_n_binaries >= m_binaries.Length) {
-          sbyte[][] vals = new sbyte[m_binaries.Length + VALUES_INCREMENT][];
+          byte[][] vals = new byte[m_binaries.Length + VALUES_INCREMENT][];
           Array.Copy(m_binaries, 0, vals, 0, m_binaries.Length);
           m_binaries = vals;
         }
@@ -562,7 +562,7 @@ namespace Nagasena.Scomp {
       return pos;
     }
 
-    protected internal int addVariantBinaryValue(sbyte[] val, sbyte variantType) {
+    protected internal int addVariantBinaryValue(byte[] val, sbyte variantType) {
       Debug.Assert(variantType == EXISchema.VARIANT_BASE64 || variantType == EXISchema.VARIANT_HEXBIN);
       int pos = EXISchema.NIL_VALUE;
       if (val != null) {
@@ -623,7 +623,7 @@ namespace Nagasena.Scomp {
       Debug.Assert((eventType == EXISchema.EVENT_TYPE_AT || eventType == EXISchema.EVENT_TYPE_SE) && nd != EXISchema.NIL_NODE);
       int eventComposite = (nd << 2) | (byte)eventType;
       int? _event;
-      if ((_event = m_eventMap[eventComposite]) != null) {
+      if (m_eventMap.TryGetValue(eventComposite, out _event)) {
         return (int)_event;
       }
       ensureEvent();
@@ -640,7 +640,7 @@ namespace Nagasena.Scomp {
       Debug.Assert(0 <= index);
       int eventComposite = (index << 2) | (byte)eventType;
       int? _event;
-      if ((_event = m_eventMap[eventComposite]) != null) {
+      if (m_eventMap.TryGetValue(eventComposite, out _event)) {
         return (int)_event;
       }
       ensureEvent();

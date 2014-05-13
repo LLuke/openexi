@@ -335,7 +335,7 @@ namespace Nagasena.Schema {
       bool[] signs, string[] integralDigits, string[] reverseFractionalDigits, 
       int n_decimals, BigInteger[] integers, int n_integers, long[] longs, int n_longs,
       XSDateTime[] datetimes, int n_datetimes, TimeSpan[] durations, int n_durations, 
-      sbyte[][] binaries, int n_binaries, sbyte[] variantTypes, int[] variants, int n_variants, 
+      byte[][] binaries, int n_binaries, sbyte[] variantTypes, int[] variants, int n_variants, 
       int[] grammars, int n_grammars, int grammarCount, int[] productions, int n_productions, 
       sbyte[] eventTypes, int[] eventData, int n_events, int n_stypes) {
 

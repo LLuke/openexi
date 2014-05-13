@@ -2,6 +2,8 @@
 using System.IO;
 using System.Text;
 
+using Org.System.Xml.Sax;
+
 using HeaderOptionsOutputType = Nagasena.Proc.HeaderOptionsOutputType;
 using SchemaId = Nagasena.Proc.Common.SchemaId;
 using Transmogrifier = Nagasena.Sax.Transmogrifier;
@@ -16,11 +18,15 @@ namespace Nagasena.Scomp {
       return getEXISchema((string)null, (Object)null);
     }
 
+    internal static EXISchema getEXISchema(string fileName, Object obj) {
+      return getEXISchema(fileName, obj, new EXISchemaFactoryTestUtilContext());
+    }
+
     /// <summary>
     /// Loads schema then compiles it into EXISchema.
     /// Schema file is resolved relative to the specified class.
     /// </summary>
-    internal static EXISchema getEXISchema(string fileName, Object obj) {
+    internal static EXISchema getEXISchema(string fileName, Object obj, EXISchemaFactoryTestUtilContext context) {
       if (fileName == null) {
         return EmptySchema.EXISchema;
       }
@@ -32,7 +38,7 @@ namespace Nagasena.Scomp {
 
       EXISchema compiled;
       compiled = loadSchema(fos);
-
+      compiled = readEXIGrammar(writeEXIGrammar(compiled, context.stringBuilder), context.schemaReader);
       Stream serialized = serializeSchema(compiled);
       return loadSchema(serialized);
     }
@@ -98,40 +104,38 @@ namespace Nagasena.Scomp {
       return new Uri(baseUri, fileName);
     }
 
-    /*
-    private static sbyte[] writeEXIGrammar(EXISchema schema, StringBuilder stringBuilder) {
-      ByteArrayOutputStream outputStream;
-      outputStream = new ByteArrayOutputStream();
+    private static byte[] writeEXIGrammar(EXISchema schema, StringBuilder stringBuilder) {
+      MemoryStream outputStream;
+      outputStream = new MemoryStream();
       schema.writeXml(outputStream, false);
-      sbyte[] grammarXml = outputStream.toByteArray();
-      outputStream.close();
+      byte[] grammarXml = outputStream.ToArray();
+      outputStream.Close();
       if (stringBuilder != null) {
         stringBuilder.Remove(0, stringBuilder.Length);
-        stringBuilder.Append(StringHelperClass.NewString(grammarXml, "UTF-8"));
-        //System.out.println(stringBuilder.toString());
+        stringBuilder.Append(System.Text.Encoding.UTF8.GetString(grammarXml));
+        //Console.Out.WriteLine(stringBuilder.ToString());
       }
-      outputStream = new ByteArrayOutputStream();
+      outputStream = new MemoryStream();
       Transmogrifier transmogrifier = new Transmogrifier();
       transmogrifier.setGrammarCache(GrammarCache4Grammar.GrammarCache, new SchemaId("nagasena:grammar"));
       transmogrifier.OutputOptions = HeaderOptionsOutputType.all;
       transmogrifier.OutputStream = outputStream;
-      ByteArrayInputStream inputStream = new ByteArrayInputStream(grammarXml);
-      transmogrifier.encode(new InputSource(inputStream));
-      inputStream.close();
-      sbyte[] grammarBytes = outputStream.toByteArray();
-      outputStream.close();
+      MemoryStream inputStream = new MemoryStream(grammarXml);
+      transmogrifier.encode(new InputSource<Stream>(inputStream));
+      inputStream.Close();
+      byte[] grammarBytes = outputStream.ToArray();
+      outputStream.Close();
       return grammarBytes;
     }
 
-    private static EXISchema readEXIGrammar(sbyte[] grammarBytes, EXISchemaReader schemaReader) {
-      InputStream inputStream;
-      inputStream = new ByteArrayInputStream(grammarBytes);
+    private static EXISchema readEXIGrammar(byte[] grammarBytes, EXISchemaReader schemaReader) {
+      MemoryStream inputStream;
+      inputStream = new MemoryStream(grammarBytes);
       if (schemaReader == null) {
         schemaReader = new EXISchemaReader();
       }
       return schemaReader.parse(inputStream);
     }
-    */
 
   }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Diagnostics;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Reflection;
@@ -742,7 +743,7 @@ namespace Nagasena.Scomp {
             throw new Exception();
           }
           int byteCount = m_scribble.intValue1;
-          sbyte[] binaryValue = new sbyte[byteCount];
+          byte[] binaryValue = new byte[byteCount];
           Array.Copy(m_scribble.binaryValue, 0, binaryValue, 0, byteCount);
           variant = addVariantBinaryValue(binaryValue, EXISchema.VARIANT_HEXBIN);
         }
@@ -752,7 +753,7 @@ namespace Nagasena.Scomp {
             throw new Exception();
           }
           int byteCount = m_scribble.intValue1;
-          sbyte[] binaryValue = new sbyte[byteCount];
+          byte[] binaryValue = new byte[byteCount];
           Array.Copy(m_scribble.binaryValue, 0, binaryValue, 0, byteCount);
           variant = addVariantBinaryValue(binaryValue, EXISchema.VARIANT_BASE64);
         }
@@ -1224,7 +1225,7 @@ namespace Nagasena.Scomp {
     /// Read a BigInteger value that terminates with EE.
     /// </summary>
     private BigInteger readBigIntegerContent() {
-      return Convert.ToInt64(readStringContent());
+      return BigInteger.Parse(readStringContent(), NumberFormatInfo.InvariantInfo);
     }
 
     /// <summary>

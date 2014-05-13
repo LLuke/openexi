@@ -1,3 +1,19 @@
+2014-05-13 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- EXISchemaReader is functional.
+
+M       fixture/Nagasena/Scomp/EXISchemaFactoryTestUtil.cs
+M       src/Nagasena/Schema/EXISchema.cs
+M       src/Nagasena/Scomp/EXISchemaStruct.cs
+M       src/Nagasena/Scomp/EXISchemaReader.cs
+A       resources/Nagasena/Scomp
+A       resources/Nagasena/Scomp/FixtureNamesXsiNamespace.exi
+A       resources/Nagasena/Scomp/FixtureTypes.exi
+A       resources/Nagasena/Scomp/FixtureGrammars.exi
+A       resources/Nagasena/Scomp/FixtureNamesNoNamespace.exi
+A       resources/Nagasena/Scomp/FixtureNamesXsdNamespace.exi
+A       resources/Nagasena/Scomp/FixtureNamesXmlNamespace.exi
+
 2014-05-12 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - Added CompressionTest.
