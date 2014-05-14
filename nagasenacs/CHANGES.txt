@@ -1,3 +1,64 @@
+2014-05-14 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added EXISchemaReaderTest.
+
+A       test/Nagasena/Scomp
+A       test/Nagasena/Scomp/EXISchemaReaderTest.cs
+M       test/Nagasena/Sax/IntegerValueEncodingTest.cs
+A       testdata/reader
+A       testdata/reader/attributeGlobal_01.xsc
+A       testdata/reader/enumeratedQNameElement_01.xsc
+A       testdata/reader/attributeGlobal_02.xsc
+A       testdata/reader/gDayElement_01.xsc
+A       testdata/reader/durationElement_01.xsc
+A       testdata/reader/enumeratedGYearMonthElement_01.xsc
+A       testdata/reader/enumeratedDateElement_01.xsc
+A       testdata/reader/base64BinaryElement_01.xsc
+A       testdata/reader/hexBinaryElement_01.xsc
+A       testdata/reader/gMonthDayElement_01.xsc
+A       testdata/reader/contentDatatype_01.xsc
+A       testdata/reader/dateTimeElement_01.xsc
+A       testdata/reader/timeElement_01.xsc
+A       testdata/reader/qNameElement_01.xsc
+A       testdata/reader/enumeratedGMonthElement_01.xsc
+A       testdata/reader/enumeratedGMonthElement_02.xsc
+A       testdata/reader/enumeratedIntegerElement_01.xsc
+A       testdata/reader/enumeratedDecimalElement_01.xsc
+A       testdata/reader/patternedStringElement_01.xsc
+A       testdata/reader/gYearMonthElement_01.xsc
+A       testdata/reader/dateElement_01.xsc
+A       testdata/reader/patternedStringElement_02.xsc
+A       testdata/reader/booleanElement_01.xsc
+A       testdata/reader/enumeratedFloatElement_01.xsc
+A       testdata/reader/booleanElement_02.xsc
+A       testdata/reader/enumeratedFloatElement_02.xsc
+A       testdata/reader/enumeratedStringElement_01.xsc
+A       testdata/reader/enumeratedAnyURIElement_01.xsc
+A       testdata/reader/enumeratedGYearElement_01.xsc
+A       testdata/reader/gMonthElement_01.xsc
+A       testdata/reader/integerElement_01.xsc
+A       testdata/reader/enumeratedGDayElement_01.xsc
+A       testdata/reader/decimalElement_01.xsc
+A       testdata/reader/enumeratedDurationElement_01.xsc
+A       testdata/reader/integerElement_02a.xsc
+A       testdata/reader/integerElement_03.xsc
+A       testdata/reader/integerElement_02b.xsc
+A       testdata/reader/integerElement_04.xsc
+A       testdata/reader/enumeratedHexBinaryElement_01.xsc
+A       testdata/reader/enumeratedBase64BinaryElement_01.xsc
+A       testdata/reader/enumeratedGMonthDayElement_01.xsc
+A       testdata/reader/attributeLocal_01.xsc
+A       testdata/reader/enumeratedNotationElement_01.xsc
+A       testdata/reader/floatElement_01.xsc
+A       testdata/reader/enumeratedDateTimeElement_01.xsc
+A       testdata/reader/floatElement_02.xsc
+A       testdata/reader/stringElement_01.xsc
+A       testdata/reader/anyURIElement_01.xsc
+A       testdata/reader/gYearElement_01.xsc
+A       testdata/reader/stringElement_02.xsc
+A       testdata/reader/enumeratedTimeElement_01.xsc
+A       testdata/reader/stringElement_03.xsc
+
 2014-05-13 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - EXISchemaReader is functional.

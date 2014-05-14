@@ -5,21 +5,20 @@ using NUnit.Framework;
 
 using Org.System.Xml.Sax;
 
+using EXIDecoder = Nagasena.Proc.EXIDecoder;
+using AlignmentType = Nagasena.Proc.Common.AlignmentType;
+using EventDescription = Nagasena.Proc.Common.EventDescription;
+using EventDescription_Fields = Nagasena.Proc.Common.EventDescription_Fields;
+using EventType = Nagasena.Proc.Common.EventType;
+using GrammarOptions = Nagasena.Proc.Common.GrammarOptions;
+using GrammarCache = Nagasena.Proc.Grammars.GrammarCache;
+using Scanner = Nagasena.Proc.IO.Scanner;
+using EXISchema = Nagasena.Schema.EXISchema;
+using EXISchemaConst = Nagasena.Schema.EXISchemaConst;
+using TestBase = Nagasena.Schema.TestBase;
+using EXISchemaFactoryTestUtil = Nagasena.Scomp.EXISchemaFactoryTestUtil;
 
 namespace Nagasena.Sax {
-
-  using EXIDecoder = Nagasena.Proc.EXIDecoder;
-  using AlignmentType = Nagasena.Proc.Common.AlignmentType;
-  using EventDescription = Nagasena.Proc.Common.EventDescription;
-  using EventDescription_Fields = Nagasena.Proc.Common.EventDescription_Fields;
-  using EventType = Nagasena.Proc.Common.EventType;
-  using GrammarOptions = Nagasena.Proc.Common.GrammarOptions;
-  using GrammarCache = Nagasena.Proc.Grammars.GrammarCache;
-  using Scanner = Nagasena.Proc.IO.Scanner;
-  using EXISchema = Nagasena.Schema.EXISchema;
-  using EXISchemaConst = Nagasena.Schema.EXISchemaConst;
-  using TestBase = Nagasena.Schema.TestBase;
-  using EXISchemaFactoryTestUtil = Nagasena.Scomp.EXISchemaFactoryTestUtil;
 
   [TestFixture]
   public class IntegerValueEncodingTest : TestBase {
