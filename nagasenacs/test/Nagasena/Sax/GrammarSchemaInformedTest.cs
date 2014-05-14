@@ -64,7 +64,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForA_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -540,7 +540,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForA_01_with_UndeclaredElement_1() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -755,7 +755,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForA_01_with_UndeclaredElement_2() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -1016,7 +1016,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForA_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -1256,7 +1256,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForB() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -1587,7 +1587,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForNillableB_with_UndeclaredElement() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -1778,7 +1778,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForC_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -2073,7 +2073,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForC_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -2308,7 +2308,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForAB_with_UndeclaredElement_1() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -2469,7 +2469,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForAB_with_UndeclaredElement_2() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -2659,7 +2659,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testLenientXsiNil_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache;
 
@@ -2822,7 +2822,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testLenientXsiNil_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache;
 
@@ -2979,7 +2979,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testLenientXsiNil_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache;
 
@@ -3122,7 +3122,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testNextSubstances_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -3736,7 +3736,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testNextSubstances_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -4250,7 +4250,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForF() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -4633,7 +4633,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForNilledF() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -5070,7 +5070,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForNilledF_with_UndeclaredElement() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -5322,7 +5322,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForG() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -5704,7 +5704,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForH() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -5971,7 +5971,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForH2_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -6248,7 +6248,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForH2_01_with_UndeclaredElement() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -6459,7 +6459,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForH2_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -6695,7 +6695,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForH2_02_with_UndeclaredElement() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -6942,7 +6942,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForH2_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -7117,7 +7117,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForH2_03_with_UndeclaredElement() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -7320,7 +7320,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForH2_04() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -7647,7 +7647,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForH3_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -8199,7 +8199,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForH3_01_with_UndeclaredElement() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -8445,7 +8445,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testOpenGisExample01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/opengis/openGis.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/opengis/openGis.gram", this);
 
       Assert.AreEqual(9, corpus.uris.Length);
       Assert.AreEqual("", corpus.uris[0]);
@@ -8685,7 +8685,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testFpmlExample01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fpml-4.0/fpml-main-4-0.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fpml-4.0/fpml-main-4-0.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -8744,7 +8744,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForANY_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -9148,7 +9148,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForANY_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -9553,7 +9553,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForANY_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -9687,7 +9687,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForJ_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -10108,7 +10108,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testAcceptanceForJ_01_with_UndeclaredElement() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -10417,7 +10417,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testUndeclaredEEOfElementGrammar() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -10545,7 +10545,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testUndeclaredEEOfElementTagGrammar_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -10698,7 +10698,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testUndeclaredEEOfElementTagGrammar_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -10896,7 +10896,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testUndeclaredEEOfComplexContentGrammar() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -11068,7 +11068,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testUndeclaredEEOfSimpleContentGrammar() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -11216,7 +11216,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testUndeclaredAttrWildcardAnyOfElementGrammar() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache;
 
@@ -11382,7 +11382,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testUndeclaredAttrWildcardAnyOfElementTagGrammar_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache;
 
@@ -11540,7 +11540,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testUndeclaredAttrWildcardAnyOfElementTagGrammar_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache;
 
@@ -11722,7 +11722,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testUseInvalidAttributes() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -12126,7 +12126,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testUseInvalidAttributes_PreserveNS() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -12427,7 +12427,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testNamespaceDeclaration_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -12696,7 +12696,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testNamespaceDeclaration_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -13024,7 +13024,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testNamespaceDeclaration_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -13333,7 +13333,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testNamespaceDeclaration_04() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -13560,7 +13560,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testNamespaceDeclaration_05() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -13827,7 +13827,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testNamespaceDeclaration_06() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -14094,7 +14094,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testNamespaceDeclaration_07() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -14400,7 +14400,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testSelfContained_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addSC(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -14659,7 +14659,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testSelfContained_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       short grammarOptions;
       grammarOptions = GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS);
@@ -14999,7 +14999,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testSelfContained_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addSC(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -15158,7 +15158,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testCommentPI_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       short options = GrammarOptions.DEFAULT_OPTIONS;
       options = GrammarOptions.addCM(options);
@@ -15425,7 +15425,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testCommentPI_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       short options = GrammarOptions.DEFAULT_OPTIONS;
       options = GrammarOptions.addCM(options);
@@ -15661,7 +15661,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testCommentPI_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/choiceGroup.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/choiceGroup.gram", this);
 
       short options = GrammarOptions.DEFAULT_OPTIONS;
       options = GrammarOptions.addCM(options);
@@ -15893,7 +15893,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testCommentPI_04() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/choiceGroup.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/choiceGroup.gram", this);
 
       short options = GrammarOptions.DEFAULT_OPTIONS;
       options = GrammarOptions.addCM(options);
@@ -16154,7 +16154,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testCommentPI_05() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       short options = GrammarOptions.DEFAULT_OPTIONS;
       options = GrammarOptions.addCM(options);
@@ -16314,7 +16314,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testCommentPI_06() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       short options = GrammarOptions.DEFAULT_OPTIONS;
       options = GrammarOptions.addCM(options);
@@ -16475,7 +16475,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testCommentPI_07() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       short options = GrammarOptions.DEFAULT_OPTIONS;
       options = GrammarOptions.addCM(options);
@@ -16674,7 +16674,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testCommentPI_08() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       short options = GrammarOptions.DEFAULT_OPTIONS;
       options = GrammarOptions.addCM(options);
@@ -16869,7 +16869,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testCommentPI_09() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       short options = GrammarOptions.DEFAULT_OPTIONS;
       options = GrammarOptions.addCM(options);
@@ -17073,7 +17073,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testCommentPI_10() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       short options = GrammarOptions.DEFAULT_OPTIONS;
       options = GrammarOptions.addCM(options);
@@ -17298,7 +17298,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testNilFalse() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/nillable01.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/nillable01.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 

@@ -39,7 +39,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testLongRCS() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -112,7 +112,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidLong() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -208,7 +208,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testInvalidLong() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -300,7 +300,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidNBitLong_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -399,7 +399,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testInvalidNBitLong_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -441,7 +441,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidNBitLong_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -540,7 +540,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testInvalidNBitLong_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -582,7 +582,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidNBitLong_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 

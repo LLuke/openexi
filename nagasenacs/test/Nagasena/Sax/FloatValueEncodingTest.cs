@@ -43,7 +43,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidFloat() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/float.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/float.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -159,7 +159,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidDouble() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/float.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/float.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -269,7 +269,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testFloatRCS() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/float.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/float.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 

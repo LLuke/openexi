@@ -12,7 +12,7 @@ namespace Nagasena.Scomp {
     private static readonly EXISchema m_corpus;
 
     static Docbook43Schema() {
-      m_corpus = EXISchemaFactoryTestUtil.getEXISchema("/docbook-xsd-4.3/docbook.xsc", (Object)null);
+      m_corpus = EXISchemaFactoryTestUtil.getEXISchema("/docbook-xsd-4.3/docbook.gram", (Object)null);
     }
 
     private Docbook43Schema() {

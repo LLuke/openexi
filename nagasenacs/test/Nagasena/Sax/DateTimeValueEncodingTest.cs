@@ -39,7 +39,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDateTimeRCS() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -112,7 +112,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDateTime() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -263,7 +263,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDate() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -405,7 +405,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testTime() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -547,7 +547,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testGDay() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -693,7 +693,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testGMonth() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -834,7 +834,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testGMonthDay() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -976,7 +976,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testGYear() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -1116,7 +1116,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testGYearMonth() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/dateTime.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 

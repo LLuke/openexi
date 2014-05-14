@@ -40,7 +40,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidDecimal_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/decimal.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/decimal.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -142,7 +142,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidDecimal_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/decimal.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/decimal.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -239,7 +239,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDecimalRCS() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/decimal.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/decimal.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 

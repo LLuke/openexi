@@ -43,7 +43,7 @@ namespace Nagasena.Proc {
     /// </summary>
     [Test]
     public virtual void testXsiType_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -196,7 +196,7 @@ namespace Nagasena.Proc {
     /// </summary>
     [Test]
     public virtual void testXsiTypePreserveLexicalValue_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
 

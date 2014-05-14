@@ -36,7 +36,7 @@ namespace Nagasena.Sax {
     ///  
     [Test]
     public virtual void testNoChars_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/patterns.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/patterns.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -95,7 +95,7 @@ namespace Nagasena.Sax {
     ///  
     [Test]
     public virtual void testOneChar_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/patterns.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/patterns.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 

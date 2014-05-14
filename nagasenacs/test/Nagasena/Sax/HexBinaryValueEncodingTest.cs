@@ -39,7 +39,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidHexBinary() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/hexBinary.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/hexBinary.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -167,7 +167,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidHexBinaryRCS() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/hexBinary.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/hexBinary.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 

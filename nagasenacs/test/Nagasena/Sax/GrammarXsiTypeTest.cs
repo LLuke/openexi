@@ -60,7 +60,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testXsiTypeStrict() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -283,7 +283,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testXsiTypeDefault() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -630,7 +630,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testXsiTypeNillableStrict() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -932,7 +932,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testXsiTypeNillableDefault() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -1503,7 +1503,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testLenientXsiType_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache;
 
@@ -1792,7 +1792,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testLenientXsiType_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache;
 
@@ -1987,7 +1987,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testLenientXsiType_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       GrammarCache grammarCache;
 
@@ -2187,7 +2187,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testXsiTypeOnElementOfUnion() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/schemaInformedGrammar/undeclaredProductions/union.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/schemaInformedGrammar/undeclaredProductions/union.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -2293,7 +2293,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testInvalidQName_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/exi/qname-invalid.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/exi/qname-invalid.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -2325,7 +2325,7 @@ namespace Nagasena.Sax {
 
           bts = baos.ToArray();
 
-          EXISchemaFactoryTestUtil.serializeBytes(bts, "/exi/qname-invalid.xsc", "qname-invalid-00.xml.exi", this);
+          EXISchemaFactoryTestUtil.serializeBytes(bts, "/exi/qname-invalid.gram", "qname-invalid-00.xml.exi", this);
 
           decoder.GrammarCache = grammarCache;
           decoder.InputStream = new MemoryStream(bts);

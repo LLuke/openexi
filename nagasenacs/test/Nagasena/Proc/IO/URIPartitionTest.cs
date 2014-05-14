@@ -81,7 +81,7 @@ namespace Nagasena.Proc.IO {
       Assert.AreEqual(2, stringTable.getCompactIdOfURI("http://www.w3.org/2001/XMLSchema-instance"));
       Assert.AreEqual(3, stringTable.getCompactIdOfURI("http://www.w3.org/2001/XMLSchema"));
 
-      corpus = EXISchemaFactoryTestUtil.getEXISchema("/exi/LocationSightings/LocationSightings.xsc", this);
+      corpus = EXISchemaFactoryTestUtil.getEXISchema("/exi/LocationSightings/LocationSightings.gram", this);
 
       grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 

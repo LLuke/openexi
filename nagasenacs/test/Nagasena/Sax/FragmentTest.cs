@@ -61,7 +61,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testSchemaInformedFragment_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -241,7 +241,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testSchemaInformedFragment_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -580,7 +580,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testSchemaInformedFragment_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -1220,7 +1220,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testElementFragmentStrict_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -1478,7 +1478,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testElementFragmentDefault_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -1760,7 +1760,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testElementFragmentDefault_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addCM(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -2103,7 +2103,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testElementFragmentStrict_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -2430,7 +2430,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testElementFragmentStrict_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -2799,7 +2799,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testElementFragmentStrict_04() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -3069,7 +3069,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testElementFragmentDefault_04() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -3423,7 +3423,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testElementFragmentStrict_05() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -3722,7 +3722,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testElementFragmentStrict_06() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/fragment_01.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -4042,7 +4042,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDecodeFragment_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/schemaInformedGrammar/declaredProductions/fragment-b.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/schemaInformedGrammar/declaredProductions/fragment-b.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addPI(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -4272,7 +4272,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDecodeFragment_04() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/schemaInformedGrammar/declaredProductions/fragment-c.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/schemaInformedGrammar/declaredProductions/fragment-c.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addPI(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -4483,7 +4483,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDecodeElementFragment_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/schemaInformedGrammar/declaredProductions/elementFragment.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/schemaInformedGrammar/declaredProductions/elementFragment.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -4555,7 +4555,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDecodeElementFragment_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/schemaInformedGrammar/declaredProductions/elementFragment.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/schemaInformedGrammar/declaredProductions/elementFragment.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -4647,7 +4647,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDecodeElementFragment_04() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/schemaInformedGrammar/declaredProductions/elementFragment.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/schemaInformedGrammar/declaredProductions/elementFragment.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 

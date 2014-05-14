@@ -330,7 +330,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testJTLM_publish100() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/JTLM/schemas/TLMComposite.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/JTLM/schemas/TLMComposite.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -385,7 +385,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDecodeJTLM_publish100() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/JTLM/schemas/TLMComposite.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/JTLM/schemas/TLMComposite.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -441,7 +441,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDecodeJTLM_publish911() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/JTLM/schemas/TLMComposite.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/JTLM/schemas/TLMComposite.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 

@@ -214,7 +214,7 @@ namespace Nagasena.Sax {
 
     [Test]
     public virtual void testAlignmentOption_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -285,7 +285,7 @@ namespace Nagasena.Sax {
 
     [Test]
     public virtual void testStrictOption_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.gram", this);
 
       GrammarCache encodeGrammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
       GrammarCache decodeGrammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
@@ -357,7 +357,7 @@ namespace Nagasena.Sax {
 
     [Test]
     public virtual void testPreserveCommentsOption_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.gram", this);
 
       GrammarCache encodeGrammarCache = new GrammarCache(corpus, GrammarOptions.addCM(GrammarOptions.DEFAULT_OPTIONS));
       GrammarCache decodeGrammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
@@ -439,7 +439,7 @@ namespace Nagasena.Sax {
 
     [Test]
     public virtual void testPreserveProcessingInstructionOption_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.gram", this);
 
       GrammarCache encodeGrammarCache = new GrammarCache(corpus, GrammarOptions.addPI(GrammarOptions.DEFAULT_OPTIONS));
       GrammarCache decodeGrammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
@@ -522,7 +522,7 @@ namespace Nagasena.Sax {
 
     [Test]
     public virtual void testPreserveDtdOption_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.gram", this);
 
       GrammarCache encodeGrammarCache = new GrammarCache(corpus, GrammarOptions.addDTD(GrammarOptions.DEFAULT_OPTIONS));
       GrammarCache decodeGrammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
@@ -607,7 +607,7 @@ namespace Nagasena.Sax {
 
     [Test]
     public virtual void testPreservePrefixesOption_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.gram", this);
 
       GrammarCache encodeGrammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
       GrammarCache decodeGrammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
@@ -688,7 +688,7 @@ namespace Nagasena.Sax {
 
     [Test]
     public virtual void testSchemaIdOption_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.gram", this);
 
       GrammarCache encodeGrammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
       GrammarCache decodeGrammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
@@ -767,7 +767,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testSchemaIdOption_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.gram", this);
 
       GrammarCache encodeGrammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
       GrammarCache decodeGrammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
@@ -845,7 +845,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testSchemaIdOption_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.gram", this);
 
       GrammarCache encodeGrammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 

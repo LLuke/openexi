@@ -129,7 +129,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testBooleanToInteger_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -198,7 +198,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testIntToDecimal_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/int.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/int.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -267,7 +267,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testIntToDecimal_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/int.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/int.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -336,7 +336,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testIntToDecimal_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/long.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -369,7 +369,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testEnumerationToInteger_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/enumeration.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/enumeration.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -437,7 +437,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testEnumerationToInteger_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/enumeration.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/enumeration.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -503,7 +503,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testEnumerationToInteger_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/enumeration.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/enumeration.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -568,7 +568,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testHeaderOptions() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -645,7 +645,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDecimalListToString_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/list.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/list.gram", this);
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
       string[] xmlStrings;
@@ -737,7 +737,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDecimalListToString_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/list.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/list.gram", this);
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
       string[] xmlStrings;
@@ -826,7 +826,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testUnionToDecimal_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/union.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/union.gram", this);
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
       string[] xmlStrings;
@@ -918,7 +918,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testUnionToDecimal_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/union.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/union.gram", this);
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
       string[] xmlStrings;
@@ -1009,7 +1009,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testImperviousnessOfByte_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/datatypes/nbitInteger/nbitInteger.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/datatypes/nbitInteger/nbitInteger.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 

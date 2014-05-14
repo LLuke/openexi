@@ -41,7 +41,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidBoolean_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -173,7 +173,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testInvalidBoolean_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -291,7 +291,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidBoolean_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -419,7 +419,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testInvalidBoolean_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -548,7 +548,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidBoolean_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -691,7 +691,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testInvalidBoolean_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -837,7 +837,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidBoolean_04() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -980,7 +980,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testInvalidBoolean_04() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 
@@ -1123,7 +1123,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testPatternedBoolean() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -1212,7 +1212,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testBooleanRCS() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/boolean.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -1277,7 +1277,7 @@ namespace Nagasena.Sax {
 
     [Test]
     public virtual void test4BooleanStore() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/DataStore/DataStore.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/DataStore/DataStore.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -1337,7 +1337,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDecode1000BooleanStore_BitPacked() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/DataStore/DataStore.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/DataStore/DataStore.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 

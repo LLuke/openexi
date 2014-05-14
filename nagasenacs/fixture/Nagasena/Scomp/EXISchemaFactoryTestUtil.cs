@@ -14,6 +14,8 @@ namespace Nagasena.Scomp {
 
   public class EXISchemaFactoryTestUtil {
 
+    private static readonly byte[] m_inputBufferBytes = new byte[1024];
+
     public static EXISchema getEXISchema() {
       return getEXISchema((string)null, (Object)null);
     }
@@ -36,8 +38,16 @@ namespace Nagasena.Scomp {
       FileStream fos;
       fos = new FileStream(uri.LocalPath, FileMode.Open);
 
-      EXISchema compiled;
-      compiled = loadSchema(fos);
+      MemoryStream baos = new MemoryStream();
+      int n_bytesRead;
+      while ((n_bytesRead = fos.Read(m_inputBufferBytes, 0, m_inputBufferBytes.Length)) != 0) {
+        baos.Write(m_inputBufferBytes, 0, n_bytesRead);
+      }
+      fos.Close();
+      byte[] grammarBytes = baos.ToArray();
+      baos.Close();
+
+      EXISchema compiled = readEXIGrammar(grammarBytes, context.schemaReader);
       compiled = readEXIGrammar(writeEXIGrammar(compiled, context.stringBuilder), context.schemaReader);
       Stream serialized = serializeSchema(compiled);
       return loadSchema(serialized);

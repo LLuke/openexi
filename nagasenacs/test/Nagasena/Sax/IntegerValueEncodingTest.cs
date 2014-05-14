@@ -40,7 +40,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidInteger() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/integer.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/integer.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -141,7 +141,7 @@ namespace Nagasena.Sax {
 
     [Test]
     public virtual void testValidNBitInteger_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/integer.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/integer.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -235,7 +235,7 @@ namespace Nagasena.Sax {
 
     [Test]
     public virtual void testValidNBitInteger_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/integer.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/integer.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -332,7 +332,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testIntegerRCS() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/integer.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/integer.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 

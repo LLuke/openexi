@@ -39,7 +39,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testValidQName() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/QName.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/QName.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 

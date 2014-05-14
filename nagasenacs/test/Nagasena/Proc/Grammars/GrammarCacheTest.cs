@@ -20,7 +20,7 @@ namespace Nagasena.Proc.Grammars {
     /// </summary>
     [Test]
     public virtual void testEXIGrammarInternalization() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/verySimple.xsc", this);
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/verySimple.gram", this);
 
       int eB, eC, eD, eE, ee, ef, eg, eh, ei, ej;
       eB = eC = eD = eE = ee = ef = eg = eh = ei = ej = EXISchema.NIL_NODE;

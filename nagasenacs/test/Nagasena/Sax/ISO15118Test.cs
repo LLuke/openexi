@@ -38,7 +38,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testISO15118() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/iso15118/V2G_CI_MsgDef.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/iso15118/V2G_CI_MsgDef.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 

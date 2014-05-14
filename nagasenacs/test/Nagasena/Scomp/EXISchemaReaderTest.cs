@@ -41,7 +41,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testStringElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/stringElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/stringElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -116,7 +116,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testStringElement_02() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/stringElement_02.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/stringElement_02.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -191,7 +191,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testStringElement_03() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/stringElement_03.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/stringElement_03.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -266,7 +266,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedStringElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedStringElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedStringElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -342,7 +342,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testPatternedStringElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/patternedStringElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/patternedStringElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -430,7 +430,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testPatternedStringElement_02() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/patternedStringElement_02.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/patternedStringElement_02.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -532,7 +532,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testBooleanElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/booleanElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/booleanElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -623,7 +623,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testBooleanElement_02() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/booleanElement_02.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/booleanElement_02.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -714,7 +714,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testDecimalElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/decimalElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/decimalElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -788,7 +788,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedDecimalElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedDecimalElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedDecimalElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -896,7 +896,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testFloatElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/floatElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/floatElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -970,7 +970,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testFloatElement_02() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/floatElement_02.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/floatElement_02.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -1044,7 +1044,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedFloatElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedFloatElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedFloatElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -1152,7 +1152,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedFloatElement_02() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedFloatElement_02.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedFloatElement_02.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -1276,7 +1276,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testIntegerElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/integerElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/integerElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -1352,7 +1352,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testIntegerElement_02a() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/integerElement_02a.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/integerElement_02a.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -1428,7 +1428,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testIntegerElement_02b() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/integerElement_02b.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/integerElement_02b.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -1504,7 +1504,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testIntegerElement_03() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/integerElement_03.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/integerElement_03.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -1581,7 +1581,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testIntegerElement_04() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/integerElement_04.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/integerElement_04.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -1658,7 +1658,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedIntegerElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedIntegerElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedIntegerElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -1772,7 +1772,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testDurationElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/durationElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/durationElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -1846,7 +1846,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedDurationElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedDurationElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedDurationElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -1954,7 +1954,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testDateTimeElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/dateTimeElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/dateTimeElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -2028,7 +2028,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedDateTimeElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedDateTimeElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedDateTimeElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -2142,7 +2142,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testTimeElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/timeElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/timeElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -2216,7 +2216,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedTimeElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedTimeElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedTimeElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -2324,7 +2324,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testDateElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/dateElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/dateElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -2398,7 +2398,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedDateElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedDateElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedDateElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -2506,7 +2506,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testGYearMonthElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/gYearMonthElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/gYearMonthElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -2580,7 +2580,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedGYearMonthElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedGYearMonthElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedGYearMonthElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -2688,7 +2688,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testGYearElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/gYearElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/gYearElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -2762,7 +2762,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedGYearElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedGYearElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedGYearElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -2878,7 +2878,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testGMonthDayElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/gMonthDayElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/gMonthDayElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -2952,7 +2952,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedGMonthDayElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedGMonthDayElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedGMonthDayElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -3066,7 +3066,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testGDayElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/gDayElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/gDayElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -3140,7 +3140,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedGDayElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedGDayElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedGDayElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -3248,7 +3248,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testGMonthElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/gMonthElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/gMonthElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -3322,7 +3322,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedGMonthElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedGMonthElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedGMonthElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -3430,7 +3430,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedGMonthElement_02() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedGMonthElement_02.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedGMonthElement_02.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -3530,7 +3530,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testHexBinaryElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/hexBinaryElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/hexBinaryElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -3604,7 +3604,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedHexBinaryElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedHexBinaryElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedHexBinaryElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -3712,7 +3712,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testBase64BinaryElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/base64BinaryElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/base64BinaryElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -3786,7 +3786,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedBase64BinaryElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedBase64BinaryElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedBase64BinaryElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -3894,7 +3894,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testAnyURIElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/anyURIElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/anyURIElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -3968,7 +3968,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedAnyURIElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedAnyURIElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedAnyURIElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -4076,7 +4076,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testQNameElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/qNameElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/qNameElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -4150,7 +4150,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedQNameElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedQNameElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedQNameElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -4244,7 +4244,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testEnumeratedNotationElement_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedNotationElement_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/enumeratedNotationElement_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -4340,7 +4340,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testAttributeLocal_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/attributeLocal_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/attributeLocal_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -4427,7 +4427,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testAttributeGlobal_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/attributeGlobal_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/attributeGlobal_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -4514,7 +4514,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testAttributeGlobal_02() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/attributeGlobal_02.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/attributeGlobal_02.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 
@@ -4602,7 +4602,7 @@ namespace Nagasena.Scomp {
     /// </summary>
     [Test]
     public virtual void testContentDatatype_01() {
-      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/contentDatatype_01.xsc", this, 
+      EXISchema schema = EXISchemaFactoryTestUtil.getEXISchema("/reader/contentDatatype_01.gram", this, 
         new EXISchemaFactoryTestUtilContext(m_stringBuilder, m_schemaReader));
       Assert.IsNotNull(schema);
 

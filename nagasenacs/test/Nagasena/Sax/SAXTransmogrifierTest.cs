@@ -70,7 +70,7 @@ namespace Nagasena.Sax {
     public virtual void testStrict_01() {
       EXISchema corpus;
       try {
-        corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+        corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
       }
       finally {
         //System.out.println(m_stringBuilder.toString());
@@ -358,7 +358,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testLexicalHandler_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
       short options = GrammarOptions.DEFAULT_OPTIONS;
       options = GrammarOptions.addCM(options);
@@ -621,7 +621,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testBinaryData_01a() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/base64Binary.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/base64Binary.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -714,7 +714,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testBinaryData_01b() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/base64Binary.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/base64Binary.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -834,7 +834,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testBinaryData_01c() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/base64Binary.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/base64Binary.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -949,7 +949,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testBinaryData_01d() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/base64Binary.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/base64Binary.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -1060,7 +1060,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testBinaryData_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/integer.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/integer.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -1110,7 +1110,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDuplicateNS_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/verySimpleDefault.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/verySimpleDefault.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -1215,7 +1215,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDuplicateNS_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/verySimpleDefault.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/verySimpleDefault.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -1320,7 +1320,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDuplicateNS_03() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/verySimpleDefault.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/verySimpleDefault.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -1425,7 +1425,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testDuplicateNS_04() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/verySimpleDefault.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/verySimpleDefault.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
 
@@ -1531,7 +1531,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testBinaryDataLong_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/base64Binary.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/base64Binary.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -1569,7 +1569,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testBinaryDataLong_02() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/base64Binary.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/base64Binary.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -1653,7 +1653,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testBinaryDataSizeMismatch_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/base64Binary.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/base64Binary.gram", this);
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
       Transmogrifier encoder = new Transmogrifier();

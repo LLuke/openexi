@@ -39,7 +39,7 @@ namespace Nagasena.Sax {
     /// </summary>
     [Test]
     public virtual void testNonBMPCharacters_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/verySimpleDefault.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/verySimpleDefault.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
 

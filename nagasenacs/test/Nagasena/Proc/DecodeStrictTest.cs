@@ -38,7 +38,7 @@ namespace Nagasena.Proc {
     /// </summary>
     [Test]
     public virtual void testNLM_strict_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/NLM/nlmcatalogrecord_060101.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/NLM/nlmcatalogrecord_060101.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -87,7 +87,7 @@ namespace Nagasena.Proc {
     /// </summary>
     [Test]
     public virtual void testSequence_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/schemaInformedGrammar/acceptance.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/schemaInformedGrammar/acceptance.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -225,7 +225,7 @@ namespace Nagasena.Proc {
 
     [Test]
     public virtual void testHeaderOptionsAlignment_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/optionsSchema.gram", this);
 
       /// Use DEFAULT_OPTIONS to confuse the decoder. The streams all have been
       /// encoded with STRICT_OPTIONS.
@@ -298,7 +298,7 @@ namespace Nagasena.Proc {
 
     [Test]
     public virtual void testEmptyBlock_01() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/compression/emptyBlock_01.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/compression/emptyBlock_01.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
@@ -390,7 +390,7 @@ namespace Nagasena.Proc {
     /// </summary>
     [Test]
     public virtual void testEnmueration_04() {
-      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/datatypes/enumeration/enumeration.xsc", this);
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/interop/datatypes/enumeration/enumeration.gram", this);
 
       GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
 
