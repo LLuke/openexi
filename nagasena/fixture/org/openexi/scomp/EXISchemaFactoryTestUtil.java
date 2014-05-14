@@ -59,7 +59,9 @@ public class EXISchemaFactoryTestUtil {
     EXISchema compiled;
     if ((compiled = schemaCompiler.compile(inputSources)) != null) {
       //saveXsc(compiled, url);
-      compiled = readEXIGrammar(writeEXIGrammar(compiled, context.stringBuilder), context.schemaReader);
+      byte[] grammarBytes = writeEXIGrammar(compiled, context.stringBuilder);
+      //saveGram(grammarBytes, url);
+      compiled = readEXIGrammar(grammarBytes, context.schemaReader);
       InputStream serialized = serializeSchema(compiled);
       return loadSchema(serialized);
     }
@@ -74,6 +76,18 @@ public class EXISchemaFactoryTestUtil {
       String filePath = new URL(urlString).getFile();
       DataOutputStream out = new DataOutputStream(new FileOutputStream(filePath));
       schema.writeOut(out);
+      out.close();
+    }
+  }
+
+  @SuppressWarnings("unused")
+  private static void saveGram(byte[] grammar, URL url) throws Exception {
+    if (url != null) {
+      String urlString = url.toString();
+      urlString = urlString.substring(0, urlString.lastIndexOf('.')) + ".gram";
+      String filePath = new URL(urlString).getFile();
+      FileOutputStream out = new FileOutputStream(filePath);
+      out.write(grammar);
       out.close();
     }
   }
