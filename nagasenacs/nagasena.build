@@ -1,0 +1,130 @@
+<?xml version="1.0" ?>
+
+<project name="Nagasena for .Net" default="compile" basedir=".">
+
+<property name="debug" value="false" overwrite="false" />
+
+<property name="AElfred.dll" value="lib/saxdotnet/AElfred.dll"/>
+<property name="Sax.dll" value="lib/saxdotnet/Sax.dll"/>
+
+<property name="SharpZipLib.dll" value="lib/sharpziplib/ICSharpCode.SharpZipLib.dll"/>
+
+<property name="nunit.framework.dll" value="lib/nunit/nunit.framework.dll"/>
+
+<property name="nagasena" value="OpenEXI.Nagasena"/>
+<property name="nagasena.dll" value="${nagasena}.dll"/>
+
+<property name="nagasena_test.dll" value="${nagasena}_test.dll"/>
+
+<property name="src.dir" value="./src"/>
+<property name="resources.dir" value="./resources"/>
+<property name="test.dir" value="./test"/>
+<property name="fixture.dir" value="./fixture"/>
+<property name="testdata.dir" value="./testdata"/>
+
+<property name="build.dir" value="./build"/>
+<property name="build.src" value="${build.dir}/src"/>
+<property name="build.resources" value="${build.dir}/resources"/>
+<property name="build.test" value="${build.dir}/test"/>
+<property name="build.fixture" value="${build.dir}/fixture"/>
+<property name="build.dest" value="${build.dir}/classes"/>
+
+<!-- =================================================================== -->
+<!-- Cleans everything                                                   -->
+<!-- =================================================================== -->
+<target name="clean">
+  <delete dir="${build.dir}"/>
+</target>
+
+<!-- =================================================================== -->
+<!-- Prepares the build directory                                        -->
+<!-- =================================================================== -->
+<target name="prepare">
+  <mkdir dir="${build.dir}"/>
+</target>
+
+<!-- =================================================================== -->
+<!-- directory creation and file copying common to all configurations    -->
+<!-- =================================================================== -->
+<target name="prepare-common" depends="prepare">
+  <!-- create directories -->
+  <mkdir dir="${build.fixture}"/>
+  <mkdir dir="${build.test}"/>
+  <mkdir dir="${build.dest}"/>
+</target>
+
+<!-- =================================================================== -->
+<!-- Prepares the source code                                            -->
+<!-- =================================================================== -->
+<target name="prepare-src" depends="prepare-common">
+  <!-- copy src files -->
+  <copy todir="${build.dir}">
+    <fileset><include name="${src.dir}/**"/></fileset>
+  </copy>
+  <copy todir="${build.dir}">
+    <fileset><include name="${resources.dir}/**"/></fileset>
+  </copy>
+  <copy todir="${build.dir}">
+    <fileset><include name="${fixture.dir}/**"/></fileset>
+  </copy>
+  <copy todir="${build.dir}">
+    <fileset><include name="${test.dir}/**"/></fileset>
+  </copy>
+  <copy todir="${build.dir}">
+    <fileset>
+      <include name="${testdata.dir}/**"/>
+      <include name="${AElfred.dll}"/>
+      <include name="${Sax.dll}"/>
+      <include name="${SharpZipLib.dll}" />
+      <include name="${nunit.framework.dll}" />
+    </fileset>
+  </copy>
+</target>
+
+<!-- =================================================================== -->
+<!-- Compiles the source directory                                       -->
+<!-- =================================================================== -->
+<target name="compile" description="compilation" depends="prepare-src" >
+
+  <csc target="library" output="${build.dir}/${nagasena.dll}" debug="${debug}" optimize="true">
+    <sources>
+      <include name="${build.src}/**/*.cs"/>
+    </sources>
+    <references failonempty="true">
+      <include name="System.Numerics.dll"/>
+      <include name="${AElfred.dll}"/>
+      <include name="${Sax.dll}"/>
+      <include name="${SharpZipLib.dll}" />
+    </references>
+    <resources prefix="OpenEXI.Nagasena">
+      <include name="${build.resources}/Nagasena/**/*.xml"/>
+      <include name="${build.resources}/Nagasena/**/*.xsc"/>
+      <include name="${build.resources}/Nagasena/**/*.exi"/>
+    </resources>
+  </csc>
+
+  <csc target="library" output="${build.dir}/${nagasena_test.dll}" debug="true">
+    <sources>
+      <include name="${build.src}/**/*.cs"/>
+      <include name="${build.fixture}/**/*.cs"/>
+      <include name="${build.test}/**/*.cs"/>
+    </sources>
+    <references failonempty="true">
+      <include name="System.Numerics.dll" />
+      <include name="${AElfred.dll}"/>
+      <include name="${Sax.dll}"/>
+      <include name="${SharpZipLib.dll}" />
+      <include name="${nunit.framework.dll}" />
+    </references>
+    <resources prefix="OpenEXI.Nagasena">
+      <include name="${build.resources}/Nagasena/**/*.xml"/>
+      <include name="${build.resources}/Nagasena/**/*.xsc"/>
+      <include name="${build.resources}/Nagasena/**/*.exi"/>
+    </resources>
+  </csc>
+
+</target>
+
+
+
+</project>
