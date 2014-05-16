@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Numerics;
 using System.Collections.Generic;
@@ -911,7 +912,7 @@ namespace Nagasena.Proc.IO {
       while (continued);
 
       // NOTE: Let BigInteger to the job of the conversion. It's just faster that way.
-      string digitsString = uinteger.ToString();
+      string digitsString = uinteger.ToString(NumberFormatInfo.InvariantInfo);
       int n_digits = digitsString.Length;
       int i, ind;
       for (i = 0, ind = n_digits; i < n_digits; i++) {
@@ -1165,7 +1166,7 @@ namespace Nagasena.Proc.IO {
                 default:
                   Debug.Assert(variantType == EXISchema.VARIANT_INTEGER);
                   BigInteger minInclusiveIntegerValue = outerInstance.schema.getIntegerValueOfVariant(minInclusiveFacet);
-                  string stringValue = (minInclusiveIntegerValue + intValue).ToString();
+                  string stringValue = (minInclusiveIntegerValue + intValue).ToString(NumberFormatInfo.InvariantInfo);
                   int length = stringValue.Length;
                   outerInstance.m_characterBuffer.ensureCharacters(length);
                   return outerInstance.m_characterBuffer.addString(stringValue, length);
@@ -1522,7 +1523,7 @@ namespace Nagasena.Proc.IO {
         if (isNegative) {
           longValue = -longValue - 1;
         }
-        string mantissaDigitsString = Convert.ToString(longValue);
+        string mantissaDigitsString = Convert.ToString(longValue, NumberFormatInfo.InvariantInfo);
         bool isNegativeExponent = outerInstance.readBoolean(m_istream);
         int intValue = outerInstance.readUnsignedInteger(m_istream);
         if (isNegativeExponent) {
@@ -1530,7 +1531,7 @@ namespace Nagasena.Proc.IO {
         }
         string stringValue;
         if (16384 != intValue) {
-          stringValue = mantissaDigitsString + 'E' + (isNegativeExponent ? "-" : "") + Convert.ToString(intValue);
+          stringValue = mantissaDigitsString + 'E' + (isNegativeExponent ? "-" : "") + Convert.ToString(intValue, NumberFormatInfo.InvariantInfo);
         }
         else {
           stringValue = longValue == 1 ? "INF" : longValue == -1 ? "-INF" : "NaN";

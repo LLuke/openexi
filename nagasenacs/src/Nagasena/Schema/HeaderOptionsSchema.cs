@@ -7,7 +7,6 @@
     private static readonly EXISchema m_schema = null;
 
     static HeaderOptionsSchema() {
-      //URL optionslSchemaURI = typeof(HeaderOptionsSchema).getResource(COMPILED_SCHEMA_LOCATION);
       EXISchema schema = null;
       try {
         schema = CommonSchema.loadCompiledSchema(COMPILED_SCHEMA_LOCATION);

@@ -16,12 +16,6 @@ namespace Nagasena.Schema {
       }
     }
 
-    //internal EXISchemaRuntimeExceptionMessages() : this(null) {
-    //}
-
-    //internal EXISchemaRuntimeExceptionMessages(CultureInfo locale) : base(locale) {
-    //}
-
   }
 
 }

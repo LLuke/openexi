@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Xml;
 
@@ -2047,12 +2048,12 @@ namespace Nagasena.Sax {
         "NaN"
       };
       double[] resultValues = {
-        Convert.ToDouble("-1E4"),
-        Convert.ToDouble("1267.43233E12"),
-        Convert.ToDouble("12.78e-2"),
-        Convert.ToDouble("12"),
-        Convert.ToDouble("0"),
-        Convert.ToDouble("-0"),
+        Convert.ToDouble("-1E4", NumberFormatInfo.InvariantInfo),
+        Convert.ToDouble("1267.43233E12", NumberFormatInfo.InvariantInfo),
+        Convert.ToDouble("12.78e-2", NumberFormatInfo.InvariantInfo),
+        Convert.ToDouble("12", NumberFormatInfo.InvariantInfo),
+        Convert.ToDouble("0", NumberFormatInfo.InvariantInfo),
+        Convert.ToDouble("-0", NumberFormatInfo.InvariantInfo),
         Double.PositiveInfinity,
         Double.NegativeInfinity,
         Double.NaN

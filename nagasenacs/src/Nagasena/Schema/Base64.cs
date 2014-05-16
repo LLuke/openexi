@@ -100,7 +100,7 @@ namespace Nagasena.Schema {
             baos.Close();
           }
           catch (IOException ioe) {
-            Console.WriteLine(ioe.ToString());
+            Console.WriteLine(ioe.ToString(/**/));
             Console.Write(ioe.StackTrace);
           }
         }

@@ -15,6 +15,7 @@
 <property name="nagasena.dll" value="${nagasena}.dll"/>
 
 <property name="nagasena_test.dll" value="${nagasena}_test.dll"/>
+<property name="nagasena_test.dll.config" value="${nagasena_test.dll}.config"/>
 
 <property name="src.dir" value="./src"/>
 <property name="resources.dir" value="./resources"/>
@@ -130,6 +131,20 @@
 <!-- =================================================================== -->
 
 <target name="test" description="unit test" depends="compile">
+  <delete file="${build.dir}/${nagasena_test.dll.config}" />
+  <nunit2 failonerror="true">
+    <formatter type="Plain" />
+    <test assemblyname="${build.dir}/${nagasena_test.dll}">
+      <references failonempty="true">
+        <include name="${AElfred.dll}"/>
+        <include name="${Sax.dll}"/>
+        <include name="${SharpZipLib.dll}" />
+        <include name="${nunit.framework.dll}" />
+      </references>
+    </test>
+  </nunit2>
+  <!-- Run tests in Spain locale. -->
+  <copy file="locales/spain.xml" tofile="${build.dir}/${nagasena_test.dll.config}" />
   <nunit2 failonerror="true">
     <formatter type="Plain" />
     <test assemblyname="${build.dir}/${nagasena_test.dll}">

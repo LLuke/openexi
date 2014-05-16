@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -192,7 +193,7 @@ namespace Nagasena.Proc.IO {
       if (m_scanner.readBoolean(istream)) {
         intValue = m_scanner.readUnsignedInteger(istream);
         m_dateTimeCharacters[m_n_dateTimeCharacters++] = '.';
-        char[] charArray = Convert.ToString(intValue).ToCharArray();
+        char[] charArray = Convert.ToString(intValue, NumberFormatInfo.InvariantInfo).ToCharArray();
         Array.Reverse(charArray);
         for (int i = 0; i < charArray.Length; i++) {
           m_dateTimeCharacters[m_n_dateTimeCharacters++] = charArray[i];

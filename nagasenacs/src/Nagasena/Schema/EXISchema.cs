@@ -656,11 +656,11 @@ namespace Nagasena.Schema {
               stringValue = mantissa == 1L ? "INF" : mantissa == -1 ? "-INF" : "NaN";
             }
             else {
-              stringValue = Convert.ToString(mantissa) + "E" + Convert.ToString(exponent);
+              stringValue = Convert.ToString(mantissa, NumberFormatInfo.InvariantInfo) + "E" + Convert.ToString(exponent, NumberFormatInfo.InvariantInfo);
             }
           }
           else {
-            stringValue = Convert.ToString(mantissa);
+            stringValue = Convert.ToString(mantissa, NumberFormatInfo.InvariantInfo);
           }
           break;
         case VARIANT_DECIMAL:
@@ -686,19 +686,19 @@ namespace Nagasena.Schema {
           break;
         case VARIANT_INTEGER:
           BigInteger bigInteger = getIntegerValueOfVariant(variant);
-          stringValue = bigInteger.ToString();
+          stringValue = bigInteger.ToString(NumberFormatInfo.InvariantInfo);
           break;
         case VARIANT_INT:
           int intValue = getIntValueOfVariant(variant);
-          stringValue = Convert.ToString(intValue);
+          stringValue = Convert.ToString(intValue, NumberFormatInfo.InvariantInfo);
           break;
         case VARIANT_LONG:
           long longValue = getLongValueOfVariant(variant);
-          stringValue = Convert.ToString(longValue);
+          stringValue = Convert.ToString(longValue, NumberFormatInfo.InvariantInfo);
           break;
         case VARIANT_DATETIME:
           XSDateTime dateTime = getDateTimeValueOfVariant(variant);
-          stringValue = dateTime.ToString();
+          stringValue = dateTime.ToString(/**/);
           break;
         case VARIANT_DURATION:
           stringValue = XmlConvert.ToString(getDurationValueOfVariant(variant));
@@ -721,7 +721,7 @@ namespace Nagasena.Schema {
           binaryValue = getBinaryValueOfVariant(variant);
           StringBuilder stringBuffer = new StringBuilder();
           HexBin.encode(binaryValue, binaryValue.Length, stringBuffer);
-          stringValue = stringBuffer.ToString();
+          stringValue = stringBuffer.ToString(/**/);
           break;
         default:
           Debug.Assert(false);
@@ -983,8 +983,11 @@ namespace Nagasena.Schema {
     /// @y.exclude </exception>
     public int getBuiltinTypeOfSchema(int i) {
       if (i < 0 || EXISchemaConst.N_BUILTIN_TYPES - 1 < i) {
-        throw new EXISchemaRuntimeException(EXISchemaRuntimeException.INDEX_OUT_OF_BOUNDS, 
-          new string[] { Convert.ToString(i), Convert.ToString(0), Convert.ToString(EXISchemaConst.N_BUILTIN_TYPES - 1) });
+        throw new EXISchemaRuntimeException(EXISchemaRuntimeException.INDEX_OUT_OF_BOUNDS,
+          new string[] { 
+            Convert.ToString(i, NumberFormatInfo.InvariantInfo), 
+            Convert.ToString(0, NumberFormatInfo.InvariantInfo), 
+            Convert.ToString(EXISchemaConst.N_BUILTIN_TYPES - 1, NumberFormatInfo.InvariantInfo) });
       }
       return m_buitinTypes[i];
     }
@@ -1339,7 +1342,9 @@ namespace Nagasena.Schema {
       Debug.Assert(0 <= stype && m_types[stype + EXISchemaLayout.TYPE_AUX] < 0 && getVarietyOfSimpleType(stype) == ATOMIC_SIMPLE_TYPE);
       int n = _getEnumerationFacetCountOfAtomicSimpleType(stype, m_types, ancestryIds);
       if (i < 0 || i >= n) {
-        throw new EXISchemaRuntimeException(EXISchemaRuntimeException.INDEX_OUT_OF_BOUNDS, new string[] { Convert.ToString(i), Convert.ToString(0), Convert.ToString(n - 1) });
+        throw new EXISchemaRuntimeException(EXISchemaRuntimeException.INDEX_OUT_OF_BOUNDS,
+          new string[] { Convert.ToString(i, NumberFormatInfo.InvariantInfo), 
+            Convert.ToString(0, NumberFormatInfo.InvariantInfo), Convert.ToString(n - 1, NumberFormatInfo.InvariantInfo) });
       }
       int n_patterns = ancestryIds[m_types[stype + EXISchemaLayout.TYPE_NUMBER]] == EXISchemaConst.STRING_TYPE ? _getRestrictedCharacterCountOfStringSimpleType(stype, m_types, ancestryIds) : 0;
       return m_types[stype + EXISchemaLayout.SZ_SIMPLE_TYPE + n_patterns + 1 + i];
@@ -1453,7 +1458,10 @@ namespace Nagasena.Schema {
     public int getProductionOfGrammar(int gram, int i) {
       int n = getProductionCountOfGrammar(gram);
       if (i < 0 || i >= n) {
-        throw new EXISchemaRuntimeException(EXISchemaRuntimeException.INDEX_OUT_OF_BOUNDS, new string[] { Convert.ToString(i), Convert.ToString(0), Convert.ToString(n - 1) });
+        throw new EXISchemaRuntimeException(EXISchemaRuntimeException.INDEX_OUT_OF_BOUNDS,
+          new string[] { Convert.ToString(i, NumberFormatInfo.InvariantInfo), 
+            Convert.ToString(0, NumberFormatInfo.InvariantInfo), 
+            Convert.ToString(n - 1, NumberFormatInfo.InvariantInfo) });
       }
       return _getProductionOfGrammar(gram, i, m_grammars);
     }
@@ -2061,7 +2069,7 @@ namespace Nagasena.Schema {
       len = m_integers.Length;
       WriteInt(len, @out);
       for (i = 0; i < len; i++) {
-        writeString(m_integers[i].ToString(), @out);
+        writeString(m_integers[i].ToString(NumberFormatInfo.InvariantInfo), @out);
       }
 
       len = m_longs.Length;
@@ -2142,7 +2150,7 @@ namespace Nagasena.Schema {
       for (int i = 0; i < len; i++) {
         stringBuider.Append(ReadChar(@in));
       }
-      return stringBuider.ToString();
+      return stringBuider.ToString(/**/);
     }
 
     public void writeXml(Stream @out, bool whole) {
@@ -2455,7 +2463,7 @@ namespace Nagasena.Schema {
                     break;
                 }
               }
-              stringValue = stringBuilder.ToString();
+              stringValue = stringBuilder.ToString(/**/);
             }
             writer.Write(stringValue);
             writer.Write("</" + valueTagName + ">");

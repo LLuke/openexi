@@ -263,7 +263,7 @@ namespace Nagasena.Proc.IO {
       string digitsString;
       int n_integralDigits;
 
-      digitsString = integralDigits.ToString();
+      digitsString = integralDigits.ToString(/**/);
       n_integralDigits = integralDigits.Length;
       long mantissa;
       if (n_integralDigits > 19) {
@@ -351,7 +351,7 @@ namespace Nagasena.Proc.IO {
         integralDigits.Append('0');
       }
 
-      digitsString = integralDigits.ToString();
+      digitsString = integralDigits.ToString(/**/);
       int exponent;
       try {
         exponent = Convert.ToInt32(digitsString);

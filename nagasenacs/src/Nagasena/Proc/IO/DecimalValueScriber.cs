@@ -227,15 +227,15 @@ namespace Nagasena.Proc.IO {
         reverseFractionalDigits.Append('0');
       }
       else {
-        char[] charArray = reverseFractionalDigits.ToString().ToCharArray();
+        char[] charArray = reverseFractionalDigits.ToString(/**/).ToCharArray();
         Array.Reverse(charArray);
         reverseFractionalDigits.Length = 0;
         reverseFractionalDigits.Append(charArray);
       }
 
       scribble.booleanValue1 = !positive;
-      scribble.stringValue1 = integralDigits.ToString();
-      scribble.stringValue2 = reverseFractionalDigits.ToString();
+      scribble.stringValue1 = integralDigits.ToString(/**/);
+      scribble.stringValue2 = reverseFractionalDigits.ToString(/**/);
 
       return true;
     }

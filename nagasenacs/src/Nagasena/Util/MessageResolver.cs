@@ -1,12 +1,13 @@
-namespace Nagasena.Util {
+using System;
+using System.Collections;
+using System.IO;
+using System.Reflection;
+using System.Resources;
+using System.Text;
+using System.Xml;
+using System.Globalization;
 
-  using System;
-  using System.Collections;
-  using System.IO;
-  using System.Reflection;
-  using System.Resources;
-  using System.Text;
-  using System.Xml;
+namespace Nagasena.Util {
 
   public abstract class MessageResolver {
 
@@ -111,7 +112,7 @@ namespace Nagasena.Util {
       if (templ.Length > 0 && texts.Length > 0) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.AppendFormat(templ, texts);
-        msg = stringBuilder.ToString();
+        msg = stringBuilder.ToString(/**/);
       }
       return msg != null ? msg : "";
     }
@@ -129,7 +130,7 @@ namespace Nagasena.Util {
                     if (id != null && xmlReader.MoveToElement()) {
                       String innerXml = xmlReader.ReadInnerXml();
                       innerXml = innerXml.Replace("''", "'");
-                      m_messageTable.Add(System.Int32.Parse(id), innerXml);
+                      m_messageTable.Add(System.Int32.Parse(id, NumberFormatInfo.InvariantInfo), innerXml);
                     }
                     break;
                   }

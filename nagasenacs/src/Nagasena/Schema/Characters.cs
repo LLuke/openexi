@@ -23,8 +23,6 @@ namespace Nagasena.Schema {
       this.startIndex = startIndex;
       this.length = length;
       int hashCode = 0;
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int limit = this.startIndex + this.length;
       int limit = this.startIndex + this.length;
       int mojiCount = 0;
       for (int i = this.startIndex; i < limit; ++mojiCount) {
@@ -45,8 +43,6 @@ namespace Nagasena.Schema {
 
     public void turnPermanent() {
       if (isVolatile) {
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final char[] _characters = new char[length];
         char[] _characters = new char[length];
         Array.Copy(characters, startIndex, _characters, 0, length);
         characters = _characters;
@@ -57,8 +53,6 @@ namespace Nagasena.Schema {
     }
 
     public int IndexOf(char c) {
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int limit = startIndex + length;
       int limit = startIndex + length;
       for (int i = startIndex; i < limit; i++) {
         if (characters[i] == c) {
@@ -78,18 +72,12 @@ namespace Nagasena.Schema {
 
     public override bool Equals(object @object) {
       if (@object is Characters) {
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final Characters characterSequence = (Characters)object;
         Characters characterSequence = (Characters)@object;
         if (length != characterSequence.length) {
           return false;
         }
         else {
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int startIndex = characterSequence.startIndex;
           int startIndex = characterSequence.startIndex;
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final char[] characters = characterSequence.characters;
           char[] characters = characterSequence.characters;
           for (int i = 0; i < length; i++) {
             if (this.characters[this.startIndex + i] != characters[startIndex + i]) {

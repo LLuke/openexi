@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Numerics;
 using System.Text;
@@ -419,7 +420,7 @@ namespace Nagasena.Schema {
     private static void writePredicatedInteger(BigInteger? val, Stream @out) {
       if (val.HasValue) {
         @out.WriteByte(1);
-        EXISchema.writeString(val.Value.ToString(), @out);
+        EXISchema.writeString(val.Value.ToString(NumberFormatInfo.InvariantInfo), @out);
       }
       else {
         @out.WriteByte(0);
@@ -493,7 +494,7 @@ namespace Nagasena.Schema {
       if (timeZone != FIELD_UNDEFINED) {
         printTimezone(timeZone, buffer);
       }
-      return buffer.ToString();
+      return buffer.ToString(/**/);
     }
 
     private static void printTimezone(int timeZone, StringBuilder buffer) {
@@ -556,7 +557,7 @@ namespace Nagasena.Schema {
     }
 
     private static void printFractionalSecond(BigInteger reverseFractionalSecond, StringBuilder buffer) {
-      string reverseDigits = reverseFractionalSecond.ToString();
+      string reverseDigits = reverseFractionalSecond.ToString(NumberFormatInfo.InvariantInfo);
       int len = reverseDigits.Length;
       for (int i = len - 1; i > -1; i--) {
         buffer.Append('.').Append(reverseDigits[i]);

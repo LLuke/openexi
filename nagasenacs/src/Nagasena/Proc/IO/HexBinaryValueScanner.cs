@@ -36,7 +36,7 @@ namespace Nagasena.Proc.IO {
       }
       m_stringBuffer.Length = 0;
       HexBin.encode(m_octets, len, m_stringBuffer);
-      string stringValue = m_stringBuffer.ToString();
+      string stringValue = m_stringBuffer.ToString(/**/);
       int length = stringValue.Length;
       m_scanner.m_characterBuffer.ensureCharacters(length);
       return m_scanner.m_characterBuffer.addString(stringValue, length);

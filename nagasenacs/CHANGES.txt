@@ -1,5 +1,33 @@
 2014-05-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+0000.0002.0040.1
+
+- Addressed potential locale-related issues.
+
+M       test/Nagasena/Sax/EnumerationTest.cs
+A       locales
+A       locales/spain.xml
+M       src/AssemblyInfo.cs
+M       src/Nagasena/Schema/EXISchemaConst.cs
+M       src/Nagasena/Schema/Characters.cs
+M       src/Nagasena/Schema/EXISchemaRuntimeExceptionMessages.cs
+M       src/Nagasena/Schema/Base64.cs
+M       src/Nagasena/Schema/HeaderOptionsSchema.cs
+M       src/Nagasena/Schema/EXISchema.cs
+M       src/Nagasena/Schema/XSDateTime.cs
+M       src/Nagasena/Proc/IO/ListValueScriber.cs
+M       src/Nagasena/Proc/IO/Compression/ChannellingBinaryValueScriberProxy.cs
+M       src/Nagasena/Proc/IO/HexBinaryValueScanner.cs
+M       src/Nagasena/Proc/IO/FloatValueScriber.cs
+M       src/Nagasena/Proc/IO/Scanner.cs
+M       src/Nagasena/Proc/IO/EnumerationValueScriber.cs
+M       src/Nagasena/Proc/IO/DateTimeValueScannerBase.cs
+M       src/Nagasena/Proc/IO/DecimalValueScriber.cs
+M       src/Nagasena/Sax/ReaderSupport.cs
+M       src/Nagasena/Sax/EXIReader.cs
+M       src/Nagasena/Util/MessageResolver.cs
+M       nagasena.build
+
 0000.0002.0040.0
 
 - Support for unit tests in .Net build script.

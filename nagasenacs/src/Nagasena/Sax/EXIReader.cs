@@ -377,13 +377,13 @@ namespace Nagasena.Sax {
         attrPrefix = exiEvent.Prefix;
         Debug.Assert(attrPrefix.Length != 0);
         stringBuilder.Length = 0;
-        attrQualifiedName = stringBuilder.Append(attrPrefix).Append(":nil").ToString();
+        attrQualifiedName = stringBuilder.Append(attrPrefix).Append(":nil").ToString(/**/);
       }
       else {
         int uriId = exiEvent.URIId;
         Debug.Assert(uriId < m_n_prefixes);
         stringBuilder.Length = 0;
-        attrQualifiedName = stringBuilder.Append(m_prefixesColon[uriId]).Append("nil").ToString();
+        attrQualifiedName = stringBuilder.Append(m_prefixesColon[uriId]).Append("nil").ToString(/**/);
       }
       addAttribute(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, "nil", attrQualifiedName, "", m_preserveLexicalValues ? exiEvent.Characters : ((EXIEventSchemaNil)exiEvent).Nilled ? CHARACTERS_TRUE : CHARACTERS_FALSE);
     }
@@ -395,13 +395,13 @@ namespace Nagasena.Sax {
         attrPrefix = exiEvent.Prefix;
         Debug.Assert(attrPrefix.Length != 0);
         stringBuilder.Length = 0;
-        attrQualifiedName = stringBuilder.Append(attrPrefix).Append(":type").ToString();
+        attrQualifiedName = stringBuilder.Append(attrPrefix).Append(":type").ToString(/**/);
       }
       else {
         int uriId = exiEvent.URIId;
         Debug.Assert(uriId < m_n_prefixes);
         stringBuilder.Length = 0;
-        attrQualifiedName = stringBuilder.Append(m_prefixesColon[uriId]).Append("type").ToString();
+        attrQualifiedName = stringBuilder.Append(m_prefixesColon[uriId]).Append("type").ToString(/**/);
       }
       EXIEventSchemaType eventSchemaType = (EXIEventSchemaType)exiEvent;
       string typeQualifiedName;
@@ -415,7 +415,7 @@ namespace Nagasena.Sax {
           typePrefix = eventSchemaType.TypePrefix;
           if (typePrefix.Length != 0) {
             stringBuilder.Length = 0;
-            typeQualifiedName = stringBuilder.Append(typePrefix).Append(':').Append(typeName).ToString();
+            typeQualifiedName = stringBuilder.Append(typePrefix).Append(':').Append(typeName).ToString(/**/);
           }
           else {
             typeQualifiedName = typeName;
@@ -440,14 +440,14 @@ namespace Nagasena.Sax {
               }
               else {
                 stringBuilder.Length = 0;
-                typePrefix = stringBuilder.Append('p').Append(m_n_namespaceDeclarations).ToString();
+                typePrefix = stringBuilder.Append('p').Append(m_n_namespaceDeclarations).ToString(/**/);
               }
               m_contentHandler.StartPrefixMapping(typePrefix, typeUri);
               pushNamespaceDeclaration(typePrefix, typeUri);
               namespaceDeclAdded = true;
             }
             stringBuilder.Length = 0;
-            typeQualifiedName = stringBuilder.Append(typePrefix).Append(':').Append(typeName).ToString();
+            typeQualifiedName = stringBuilder.Append(typePrefix).Append(':').Append(typeName).ToString(/**/);
           }
           else {
             typeQualifiedName = typeName;
@@ -486,7 +486,7 @@ namespace Nagasena.Sax {
         }
         if (prefix.Length != 0) {
           stringBuilder.Length = 0;
-          elementQualifiedName = stringBuilder.Append(prefix).Append(':').Append(elementLocalName).ToString();
+          elementQualifiedName = stringBuilder.Append(prefix).Append(':').Append(elementLocalName).ToString(/**/);
         }
         else {
           elementQualifiedName = elementLocalName;
@@ -506,7 +506,7 @@ namespace Nagasena.Sax {
           }
           else {
             stringBuilder.Length = 0;
-            elementQualifiedName = stringBuilder.Append(m_prefixesColon[uriId]).Append(elementLocalName).ToString();
+            elementQualifiedName = stringBuilder.Append(m_prefixesColon[uriId]).Append(elementLocalName).ToString(/**/);
           }
         }
         else {
@@ -526,7 +526,7 @@ namespace Nagasena.Sax {
               }
               else {
                 stringBuilder.Length = 0;
-                prefix = stringBuilder.Append('p').Append(m_n_namespaceDeclarations).ToString();
+                prefix = stringBuilder.Append('p').Append(m_n_namespaceDeclarations).ToString(/**/);
               }
               m_contentHandler.StartPrefixMapping(prefix, elementURI);
               pushNamespaceDeclaration(prefix, elementURI);
@@ -534,7 +534,7 @@ namespace Nagasena.Sax {
             }
             if (prefix.Length != 0) {
               stringBuilder.Length = 0;
-              elementQualifiedName = stringBuilder.Append(prefix).Append(':').Append(elementLocalName).ToString();
+              elementQualifiedName = stringBuilder.Append(prefix).Append(':').Append(elementLocalName).ToString(/**/);
             }
             else {
               elementQualifiedName = elementLocalName;

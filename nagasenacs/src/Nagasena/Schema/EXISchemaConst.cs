@@ -82,7 +82,13 @@
     /// <summary>
     /// Initial Entries in "http://www.w3.org/2001/XMLSchema" localName partition.
     /// </summary>
-    public static readonly string[] XSD_LOCALNAMES = new string[] { "ENTITIES", "ENTITY", "ID", "IDREF", "IDREFS", "NCName", "NMTOKEN", "NMTOKENS", "NOTATION", "Name", "QName", "anySimpleType", "anyType", "anyURI", "base64Binary", "boolean", "byte", "date", "dateTime", "decimal", "double", "duration", "float", "gDay", "gMonth", "gMonthDay", "gYear", "gYearMonth", "hexBinary", "int", "integer", "language", "long", "negativeInteger", "nonNegativeInteger", "nonPositiveInteger", "normalizedString", "positiveInteger", "short", "string", "time", "token", "unsignedByte", "unsignedInt", "unsignedLong", "unsignedShort" };
+    public static readonly string[] XSD_LOCALNAMES = { "ENTITIES", "ENTITY", "ID", "IDREF", 
+      "IDREFS", "NCName", "NMTOKEN", "NMTOKENS", "NOTATION", "Name", "QName", "anySimpleType", 
+      "anyType", "anyURI", "base64Binary", "boolean", "byte", "date", "dateTime", "decimal", 
+      "double", "duration", "float", "gDay", "gMonth", "gMonthDay", "gYear", "gYearMonth", 
+      "hexBinary", "int", "integer", "language", "long", "negativeInteger", "nonNegativeInteger", 
+      "nonPositiveInteger", "normalizedString", "positiveInteger", "short", "string", "time", 
+      "token", "unsignedByte", "unsignedInt", "unsignedLong", "unsignedShort" };
 
     public static readonly int N_BUILTIN_LOCAL_NAMES = 1 + XML_LOCALNAMES.Length + XSI_LOCALNAMES.Length + XSD_LOCALNAMES.Length;
 

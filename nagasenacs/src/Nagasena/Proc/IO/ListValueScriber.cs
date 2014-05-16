@@ -58,7 +58,7 @@ namespace Nagasena.Proc.IO {
           case '\r':
           case ' ':
             if (!isWhitespaces) {
-              stringItems.Add(stringBuffer.ToString());
+              stringItems.Add(stringBuffer.ToString(/**/));
               stringBuffer.Length = 0;
               isWhitespaces = true;
             }
@@ -73,7 +73,7 @@ namespace Nagasena.Proc.IO {
       }
       if (!isWhitespaces) {
         Debug.Assert(stringBuffer.Length > 0);
-        stringItems.Add(stringBuffer.ToString());
+        stringItems.Add(stringBuffer.ToString(/**/));
         stringBuffer.Length = 0;
       }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 using StringTable = Nagasena.Proc.Common.StringTable;
 using EXISchema = Nagasena.Schema.EXISchema;
@@ -18,7 +19,8 @@ namespace Nagasena.Proc.IO.Compression {
     public void startBinaryData(long totalSize, Scribble scribble, Scriber scriber) {
       scribble.intValue1 = 0;
       if ((totalSize & (long.MinValue >> 31)) != 0) {
-        throw new ScriberRuntimeException(ScriberRuntimeException.BINARY_DATA_SIZE_TOO_LARGE, new string[] { Convert.ToString(totalSize) });
+        throw new ScriberRuntimeException(ScriberRuntimeException.BINARY_DATA_SIZE_TOO_LARGE, 
+          new string[] { Convert.ToString(totalSize, NumberFormatInfo.InvariantInfo) });
       }
       scribble.binaryValue = scribble.expandOctetArray(scribble.intValue2 = (int)totalSize);
     }

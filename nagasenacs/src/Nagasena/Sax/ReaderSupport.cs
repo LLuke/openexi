@@ -136,7 +136,7 @@ namespace Nagasena.Sax {
         attrPrefix = exiEvent.Prefix;
         if (attrPrefix.Length != 0) {
           stringBuilder.Length = 0;
-          attrQualifiedName = stringBuilder.Append(attrPrefix).Append(':').Append(attrName).ToString();
+          attrQualifiedName = stringBuilder.Append(attrPrefix).Append(':').Append(attrName).ToString(/**/);
         }
         else {
           attrQualifiedName = attrName;
@@ -151,7 +151,7 @@ namespace Nagasena.Sax {
           }
           else {
             stringBuilder.Length = 0;
-            attrQualifiedName = stringBuilder.Append(m_prefixesColon[uriId]).Append(attrName).ToString();
+            attrQualifiedName = stringBuilder.Append(m_prefixesColon[uriId]).Append(attrName).ToString(/**/);
           }
         }
         else {
@@ -170,7 +170,7 @@ namespace Nagasena.Sax {
               }
               else {
                 stringBuilder.Length = 0;
-                attrPrefix = stringBuilder.Append('p').Append(m_n_namespaceDeclarations).ToString();
+                attrPrefix = stringBuilder.Append('p').Append(m_n_namespaceDeclarations).ToString(/**/);
               }
               if (m_contentHandler != null) {
                 m_contentHandler.StartPrefixMapping(attrPrefix, attrUri);
@@ -180,7 +180,7 @@ namespace Nagasena.Sax {
             }
             if (attrPrefix.Length != 0) {
               stringBuilder.Length = 0;
-              attrQualifiedName = stringBuilder.Append(attrPrefix).Append(':').Append(attrName).ToString();
+              attrQualifiedName = stringBuilder.Append(attrPrefix).Append(':').Append(attrName).ToString(/**/);
             }
             else {
               attrQualifiedName = attrName;
@@ -407,9 +407,9 @@ namespace Nagasena.Sax {
         m_prefixesColon[3] = "xsd:";
         for (int i = 4; i < m_n_prefixes; i++) {
           stringBuilder.Length = 0;
-          m_prefixes[i] = stringBuilder.Append('s').Append(i - 4).ToString();
+          m_prefixes[i] = stringBuilder.Append('s').Append(i - 4).ToString(/**/);
           stringBuilder.Length = 0;
-          m_prefixesColon[i] = stringBuilder.Append(m_prefixes[i]).Append(':').ToString();
+          m_prefixesColon[i] = stringBuilder.Append(m_prefixes[i]).Append(':').ToString(/**/);
         }
       }
 
@@ -422,7 +422,7 @@ namespace Nagasena.Sax {
         m_qualifiedNames[i] = new string[names.Length];
           for (int j = 0; j < names.Length; j++) {
             stringBuilder.Length = 0;
-            m_qualifiedNames[i][j] = stringBuilder.Append(m_prefixesColon[i]).Append(names[j]).ToString();
+            m_qualifiedNames[i][j] = stringBuilder.Append(m_prefixesColon[i]).Append(names[j]).ToString(/**/);
           }
       }
     }
