@@ -9,7 +9,7 @@ using EXISchemaFactoryTestUtil = Nagasena.Scomp.EXISchemaFactoryTestUtil;
 namespace Nagasena.Proc.Grammars {
 
   [TestFixture]
-  public class GrammarCacheTest {
+  public class GrammarCacheTest : Nagasena.LocaleLauncher {
 
     [SetUp]
     public void setUp() {

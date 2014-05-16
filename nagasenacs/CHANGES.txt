@@ -1,3 +1,28 @@
+2014-05-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0040.0
+
+- Support for unit tests in .Net build script.
+
+M       test/Nagasena/Schema/EmptySchemaTest.cs
+M       test/Nagasena/Proc/IO/ScriberRuntimeExceptionTest.cs
+M       test/Nagasena/Proc/IO/QNameTest.cs
+M       test/Nagasena/Proc/IO/LocalNamePartitionTest.cs
+M       test/Nagasena/Proc/IO/ValuePartitionTest.cs
+M       test/Nagasena/Proc/IO/PrefixPartitionTest.cs
+M       test/Nagasena/Proc/IO/URIPartitionTest.cs
+M       test/Nagasena/Proc/Common/EXIOptionsTest.cs
+M       test/Nagasena/Proc/Grammars/HeaderOptionsGrammarTest.cs
+M       test/Nagasena/Proc/Grammars/GrammarCacheTest.cs
+M       test/Nagasena/Proc/XsiTypeTest.cs
+M       fixture/Nagasena/Schema/TestBase.cs
+A       fixture/Nagasena/LocaleLauncher.cs
+M       lib/nunit/nunit.framework.dll
+M       src/AssemblyInfo.cs
+M       src/Nagasena/Util/MessageResolver.cs
+M       4.0_build.sh
+M       nagasena.build
+
 2014-05-14 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - Removed xsc files.

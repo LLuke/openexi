@@ -12,7 +12,7 @@ using EXISchemaFactoryTestUtil = Nagasena.Scomp.EXISchemaFactoryTestUtil;
 namespace Nagasena.Proc.IO {
 
   [TestFixture]
-  public class LocalNamePartitionTest {
+  public class LocalNamePartitionTest : Nagasena.LocaleLauncher {
 
     ///////////////////////////////////////////////////////////////////////////
     // Test cases

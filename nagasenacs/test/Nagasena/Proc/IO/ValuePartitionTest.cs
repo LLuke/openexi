@@ -11,7 +11,7 @@ using EXISchema = Nagasena.Schema.EXISchema;
 namespace Nagasena.Proc.IO {
 
   [TestFixture]
-  public class ValuePartitionTest {
+  public class ValuePartitionTest : Nagasena.LocaleLauncher {
 
     private Characters createCharacters(string value) {
       char[] characters = value.ToCharArray();

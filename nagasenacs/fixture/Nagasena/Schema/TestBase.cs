@@ -7,7 +7,7 @@ namespace Nagasena.Schema {
   /// <summary>
   /// Base class for test cases.
   /// </summary>
-  public abstract class TestBase {
+  public abstract class TestBase : Nagasena.LocaleLauncher {
 
     ///////////////////////////////////////////////////////////////////////////
     // Utility classes, methods

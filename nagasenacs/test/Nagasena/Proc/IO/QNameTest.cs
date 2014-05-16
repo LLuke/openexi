@@ -6,7 +6,7 @@ using QName = Nagasena.Proc.Common.QName;
 namespace Nagasena.Proc.IO {
 
   [TestFixture]
-  public class QNameTest {
+  public class QNameTest : Nagasena.LocaleLauncher {
 
     ///////////////////////////////////////////////////////////////////////////
     // Test cases

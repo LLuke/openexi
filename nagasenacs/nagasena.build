@@ -125,6 +125,23 @@
 
 </target>
 
+<!-- =================================================================== -->
+<!-- Execute unit tests                                                  -->
+<!-- =================================================================== -->
+
+<target name="test" description="unit test" depends="compile">
+  <nunit2 failonerror="true">
+    <formatter type="Plain" />
+    <test assemblyname="${build.dir}/${nagasena_test.dll}">
+      <references failonempty="true">
+        <include name="${AElfred.dll}"/>
+        <include name="${Sax.dll}"/>
+        <include name="${SharpZipLib.dll}" />
+        <include name="${nunit.framework.dll}" />
+      </references>
+    </test>
+  </nunit2>
+</target>
 
 
 </project>

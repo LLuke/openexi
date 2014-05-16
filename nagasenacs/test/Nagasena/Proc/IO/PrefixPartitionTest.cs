@@ -9,7 +9,7 @@ using EmptySchema = Nagasena.Schema.EmptySchema;
 namespace Nagasena.Proc.IO {
 
   [TestFixture]
-  public class PrefixPartitionTest {
+  public class PrefixPartitionTest : Nagasena.LocaleLauncher {
 
     ///////////////////////////////////////////////////////////////////////////
     // Test cases

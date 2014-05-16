@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Nagasena.Schema {
 	
   [TestFixture]
-  public class EmptySchemaTest {
+  public class EmptySchemaTest : Nagasena.LocaleLauncher {
 	
 
     ///////////////////////////////////////////////////////////////////////////

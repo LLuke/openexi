@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Nagasena.Proc.Common {
 
   [TestFixture]
-  public class EXIOptionsTest {
+  public class EXIOptionsTest : Nagasena.LocaleLauncher {
 
     /// <summary>
     /// <common> element will be output when getOutput is called

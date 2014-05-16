@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace Nagasena.Proc.IO {
 
   [TestFixture]
-  public class ScriberRuntimeExceptionTest {
+  public class ScriberRuntimeExceptionTest : Nagasena.LocaleLauncher {
 
     ///////////////////////////////////////////////////////////////////////////
     // Test cases

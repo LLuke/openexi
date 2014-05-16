@@ -11,7 +11,7 @@ using HeaderOptionsSchema = Nagasena.Schema.HeaderOptionsSchema;
 namespace Nagasena.Proc.Grammars {
 
   [TestFixture]
-  public class HeaderOptionsGrammarTest {
+  public class HeaderOptionsGrammarTest : Nagasena.LocaleLauncher {
 
     ///////////////////////////////////////////////////////////////////////////
     // Test cases

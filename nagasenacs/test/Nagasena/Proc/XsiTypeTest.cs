@@ -25,7 +25,7 @@ using EXISchemaFactoryTestUtil = Nagasena.Scomp.EXISchemaFactoryTestUtil;
 namespace Nagasena.Proc {
 
   [TestFixture]
-  public class XsiTypeTest {
+  public class XsiTypeTest : Nagasena.LocaleLauncher {
 
     private static readonly AlignmentType[] Alignments = new AlignmentType[] { 
       AlignmentType.bitPacked, 

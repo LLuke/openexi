@@ -4,6 +4,7 @@ namespace Nagasena.Util {
   using System.Collections;
   using System.IO;
   using System.Reflection;
+  using System.Resources;
   using System.Text;
   using System.Xml;
 
@@ -27,26 +28,36 @@ namespace Nagasena.Util {
       if (locale == null) {
         locale = System.Globalization.CultureInfo.CurrentCulture;
       }
+      Stream iStream = null;
       Assembly assembly = Assembly.GetCallingAssembly();
-      Assembly satellite = null;
-      try {
-        satellite = assembly.GetSatelliteAssembly(locale);
+      Object[] attributes = assembly.GetCustomAttributes(false);
+      for (int i = 0; i < attributes.Length; i++) {
+        if (attributes[i] is NeutralResourcesLanguageAttribute) {
+          String neutralLanguage = ((NeutralResourcesLanguageAttribute)attributes[i]).CultureName;
+          if (neutralLanguage.Equals(locale.Name))
+            iStream = resolveResourceAsStream(FileName, assembly);
+        }
       }
+      if (iStream == null) {
+        Assembly satellite = null;
+        try {
+          satellite = assembly.GetSatelliteAssembly(locale);
+        }
 #if DEBUG
-      catch (System.IO.IOException ioe) {
-        System.Console.Error.WriteLine("culture='" + locale.Name + "'");
-        System.Console.Error.WriteLine(ioe.Message);
-        System.Console.Error.Flush();
+        catch (System.IO.IOException ioe) {
+          System.Console.Error.WriteLine("culture='" + locale.Name + "'");
+          System.Console.Error.WriteLine(ioe.Message);
+          System.Console.Error.Flush();
 #else
       catch (System.IO.IOException) {
 #endif
-      }
-      Stream iStream = null;
-      if (satellite != null) {
-        iStream = resolveResourceAsStream(FileName, satellite);
-      }
-      if (iStream == null) {
-        iStream = resolveResourceAsStream(FileName, assembly);
+        }
+        if (satellite != null) {
+          iStream = resolveResourceAsStream(FileName, satellite);
+        }
+        if (iStream == null) {
+          iStream = resolveResourceAsStream(FileName, assembly);
+        }
       }
       m_messageTable = new Hashtable();
       loadMessages(iStream);

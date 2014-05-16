@@ -1,16 +1,16 @@
 ﻿using System;
 using NUnit.Framework;
 
+using GrammarOptions = Nagasena.Proc.Common.GrammarOptions;
+using StringTable = Nagasena.Proc.Common.StringTable;
+using GrammarCache = Nagasena.Proc.Grammars.GrammarCache;
+using EXISchema = Nagasena.Schema.EXISchema;
+using EXISchemaFactoryTestUtil = Nagasena.Scomp.EXISchemaFactoryTestUtil;
+
 namespace Nagasena.Proc.IO {
 
-  using GrammarOptions = Nagasena.Proc.Common.GrammarOptions;
-  using StringTable = Nagasena.Proc.Common.StringTable;
-  using GrammarCache = Nagasena.Proc.Grammars.GrammarCache;
-  using EXISchema = Nagasena.Schema.EXISchema;
-  using EXISchemaFactoryTestUtil = Nagasena.Scomp.EXISchemaFactoryTestUtil;
-
   [TestFixture]
-  public class URIPartitionTest {
+  public class URIPartitionTest : Nagasena.LocaleLauncher {
 
     ///////////////////////////////////////////////////////////////////////////
     // Test cases
