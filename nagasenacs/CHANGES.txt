@@ -2,6 +2,12 @@
 
 0000.0002.0040.1
 
+- Added "doc" target in nagasena.build.
+
+M       nagasena.build
+
+0000.0002.0040.1
+
 - Addressed potential locale-related issues.
 
 M       test/Nagasena/Sax/EnumerationTest.cs
