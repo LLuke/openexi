@@ -2,7 +2,7 @@
 
 namespace Nagasena.Proc.Common {
 
-  public sealed class EXIOptionsException : Exception {
+  internal sealed class EXIOptionsException : Exception {
 
     public EXIOptionsException(string msg) : base(msg) {
     }

@@ -23,7 +23,7 @@ using ExiUriConst = Nagasena.Proc.Util.ExiUriConst;
 
 namespace Nagasena.Proc {
 
-  public sealed class EXIOptionsEncoder {
+  internal sealed class EXIOptionsEncoder {
 
     private readonly GrammarCache m_grammarCache;
     private readonly BitPackedScriber m_scriber;

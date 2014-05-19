@@ -1,3 +1,20 @@
+2014-05-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0040.2
+
+- Preparing documentation.
+
+M       src/AssemblyInfo.cs
+M       src/Nagasena/Proc/EXIOptionsEncoder.cs
+M       src/Nagasena/Proc/Common/EventCode.cs
+M       src/Nagasena/Proc/Common/SchemaId.cs
+M       src/Nagasena/Proc/Common/EventTypeList.cs
+M       src/Nagasena/Proc/Common/EXIOptionsException.cs
+M       src/Nagasena/Proc/Common/Channel.cs
+M       src/Nagasena/Proc/Grammars/BuiltinGrammar.cs
+M       src/Nagasena/Proc/Grammars/SchemaInformedGrammar.cs
+M       nagasena.build
+
 2014-05-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0040.1

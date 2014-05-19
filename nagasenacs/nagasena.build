@@ -163,10 +163,6 @@
 
 <target name="doc" description="generate htmldoc" depends="prepare-src">
 
-  <mkdir dir="${build.dir}/doc"/>
-  <delete dir="${build.dir}/doc"/>
-  <mkdir dir="${build.dir}/doc"/>
-
   <csc target="library" output="${build.dir}/${nagasena_doc.dll}" debug="true"
        doc="${build.dir}/${nagasena}_doc.xml">
     <sources>
@@ -179,6 +175,14 @@
       <include name="${SharpZipLib.dll}" />
     </references>
   </csc>
+
+  <copy todir="${build.dir}" flatten="true">
+    <fileset>
+      <include name="${AElfred.dll}"/>
+      <include name="${Sax.dll}"/>
+      <include name="${SharpZipLib.dll}" />
+    </fileset>
+  </copy>
 
 </target>
 

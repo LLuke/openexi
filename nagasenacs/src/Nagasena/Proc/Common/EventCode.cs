@@ -6,6 +6,7 @@
   /// distinguish events defined in a schema, events defined in a namespace,
   /// and undefined events that are captured when the document is encoded.
   /// </summary>
+  /// <exclude/>
   public abstract class EventCode {
 
     /// <summary>

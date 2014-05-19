@@ -32,7 +32,7 @@ namespace Nagasena.Proc.Grammars {
     /// <summary>
     /// Create an EventType instance of item type EventType.ITEM_SCHEMA_AT_INVALID_VALUE.
     /// </summary>
-    protected internal EventType createEventTypeSchemaAttributeInvalid(EventType eventTypeSchemaAttribute, EventTypeList eventTypeList) {
+    internal EventType createEventTypeSchemaAttributeInvalid(EventType eventTypeSchemaAttribute, EventTypeList eventTypeList) {
       return new EventType(eventTypeSchemaAttribute.uri, eventTypeSchemaAttribute.name, eventTypeSchemaAttribute.URIId, eventTypeSchemaAttribute.NameId, EventCode.EVENT_CODE_DEPTH_THREE, eventTypeList, EventType.ITEM_SCHEMA_AT_INVALID_VALUE, eventTypeSchemaAttribute.subsequentGrammar);
     }
 
@@ -57,11 +57,11 @@ namespace Nagasena.Proc.Grammars {
       }
     }
 
-    protected internal void createEventCodeTuple(List<EventType> schemaEventTypes, short grammarOptions, EventCodeTupleSink @out, EventTypeList eventTypeList) {
+    internal void createEventCodeTuple(List<EventType> schemaEventTypes, short grammarOptions, EventCodeTupleSink @out, EventTypeList eventTypeList) {
       createEventCodeTuple(schemaEventTypes, grammarOptions, @out, (List<EventType>)null, eventTypeList, false, EXISchema.NIL_GRAM, false, -1, -1);
     }
 
-    protected internal void createEventCodeTuple(List<EventType> schemaEventTypes, short grammarOptions, EventCodeTupleSink @out, List<EventType> invalidAttributes, EventTypeList eventTypeList, bool atZero, int nd, bool isElem, int gramTypeEmpty, int gramContent) {
+    internal void createEventCodeTuple(List<EventType> schemaEventTypes, short grammarOptions, EventCodeTupleSink @out, List<EventType> invalidAttributes, EventTypeList eventTypeList, bool atZero, int nd, bool isElem, int gramTypeEmpty, int gramContent) {
       int gram, elem;
       bool isEmptyGrammar;
       if (isElem) {

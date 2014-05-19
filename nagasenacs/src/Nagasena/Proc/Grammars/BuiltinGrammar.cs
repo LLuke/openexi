@@ -34,7 +34,7 @@ namespace Nagasena.Proc.Grammars {
       throw new InvalidOperationException("char() cannot be invoked on a built-in element grammar.");
     }
 
-    public EventType duplicate(EventType eventType, EventTypeList eventTypeList) {
+    internal EventType duplicate(EventType eventType, EventTypeList eventTypeList) {
       switch (eventType.itemType) {
         case EventType.ITEM_AT_WC_ANY_UNTYPED:
           return new EventType(eventType.depth, eventTypeList, EventType.ITEM_AT_WC_ANY_UNTYPED, (IGrammar)null);

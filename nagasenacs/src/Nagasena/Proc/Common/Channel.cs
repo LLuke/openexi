@@ -2,6 +2,7 @@
 
 namespace Nagasena.Proc.Common {
 
+  /// <exclude/>
   public abstract class Channel : IComparable<Channel> {
 
     private int firstPos;
