@@ -16,6 +16,7 @@ using EXISchema = Nagasena.Schema.EXISchema;
 
 namespace Nagasena.Proc.IO.Compression {
 
+  /// <exclude/>
   public sealed class ChannellingScriber : Scriber {
 
     private readonly bool m_compressed;

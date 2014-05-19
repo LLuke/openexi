@@ -1,5 +1,6 @@
 ﻿namespace Nagasena.Schema {
 
+  /// <exclude/>
   public sealed class HeaderOptionsSchema {
 
     private const string COMPILED_SCHEMA_LOCATION = "HeaderOptions.xsc";

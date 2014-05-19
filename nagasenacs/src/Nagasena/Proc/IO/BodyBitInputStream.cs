@@ -7,6 +7,7 @@ namespace Nagasena.Proc.IO {
   /// An implementation of BitInputStream representing the EXI body of
   /// a bit-packed stream.
   /// </summary>
+  /// <exclude/>
   public sealed class BodyBitInputStream : BitInputStream {
 
     private const int BYTEBUFFER_LENGTH = 8192;

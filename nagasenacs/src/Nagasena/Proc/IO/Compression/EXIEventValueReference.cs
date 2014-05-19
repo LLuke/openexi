@@ -10,6 +10,7 @@ using EXISchema = Nagasena.Schema.EXISchema;
 
 namespace Nagasena.Proc.IO.Compression {
 
+  /// <exclude/>
   public sealed class EXIEventValueReference : EventDescription {
 
     internal sbyte eventKind;

@@ -7,7 +7,8 @@ namespace Nagasena.Schema {
   /// Thrown when any programming errors are detected while accessing
   /// SchemaCorpus. This exception is meant to be dealt with during
   /// development time as opposed to run-time. </summary>
-  /// <seealso cref= EXISchema </seealso>
+  /// <exclude/>
+  /// <seealso cref="EXISchema"></seealso>
   public class EXISchemaRuntimeException : Exception {
 
     /// <summary>

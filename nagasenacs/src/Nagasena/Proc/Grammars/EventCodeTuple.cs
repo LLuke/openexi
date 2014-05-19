@@ -2,6 +2,7 @@
 
 namespace Nagasena.Proc.Grammars {
 
+  /// <exclude/>
   public abstract class EventCodeTuple : EventCode {
 
     public readonly bool reversed;

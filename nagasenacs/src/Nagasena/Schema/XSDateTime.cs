@@ -7,6 +7,7 @@ using System.Text;
 
 namespace Nagasena.Schema {
 
+  /// <exclude/>
   public sealed class XSDateTime {
 
     public static readonly int FIELD_UNDEFINED = int.MinValue;

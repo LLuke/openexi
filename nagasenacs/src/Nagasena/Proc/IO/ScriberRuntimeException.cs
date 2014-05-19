@@ -6,6 +6,7 @@ namespace Nagasena.Proc.IO {
   /// <summary>
   /// ScriberException represents an exception inherent to Scribers.
   /// </summary>
+  /// <exclude/>
   public sealed class ScriberRuntimeException : Exception {
 
     /// <summary>

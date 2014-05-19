@@ -4,6 +4,7 @@ using System.IO;
 
 namespace Nagasena.Proc.IO {
 
+  /// <exclude/>
   public sealed class ByteAlignedCommons {
 
     private ByteAlignedCommons() {

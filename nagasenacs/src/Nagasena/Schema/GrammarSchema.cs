@@ -1,5 +1,6 @@
 ﻿namespace Nagasena.Schema {
 
+  /// <exclude/>
   public class GrammarSchema {
 
     private const string COMPILED_SCHEMA_LOCATION = "Grammar.xsc";

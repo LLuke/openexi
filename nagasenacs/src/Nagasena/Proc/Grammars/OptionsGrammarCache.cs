@@ -4,6 +4,7 @@
   using EXISchema = Nagasena.Schema.EXISchema;
   using HeaderOptionsSchema = Nagasena.Schema.HeaderOptionsSchema;
 
+  /// <exclude/>
   public sealed class OptionsGrammarCache {
 
     private static readonly GrammarCache m_grammarCache;

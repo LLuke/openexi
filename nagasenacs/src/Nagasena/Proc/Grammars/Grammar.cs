@@ -11,6 +11,7 @@ namespace Nagasena.Proc.Grammars {
   /// CommonState is common base of those classes that represent
   /// grammars such as documents, elements, groups and so on.
   /// </summary>
+  /// <exclude/>
   public abstract class Grammar {
 
     public const sbyte BUILTIN_GRAMMAR_ELEMENT = 0;

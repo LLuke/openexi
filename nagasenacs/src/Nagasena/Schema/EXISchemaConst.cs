@@ -6,6 +6,7 @@
   /// Note that it is the serial numbers that are constant. Node numbers are
   /// usually different.
   /// </summary>
+  /// <exclude/>
   public sealed class EXISchemaConst {
     public const sbyte UNTYPED = -1;
     public const sbyte ANY_TYPE = 0;

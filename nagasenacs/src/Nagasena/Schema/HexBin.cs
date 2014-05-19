@@ -3,6 +3,7 @@ using System.Text;
 
 namespace Nagasena.Schema {
 
+  /// <exclude/>
   public sealed class HexBin {
 
     private const string HEXBIN_ASCIIS = "0123456789ABCDEF";

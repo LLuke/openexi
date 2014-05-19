@@ -2,6 +2,7 @@
 
 namespace Nagasena.Proc.IO {
 
+  /// <exclude/>
   public abstract class BitInputStream {
 
     internal Stream @in;

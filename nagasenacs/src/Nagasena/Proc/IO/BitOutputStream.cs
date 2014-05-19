@@ -2,6 +2,7 @@
 
 namespace Nagasena.Proc.IO {
 
+  /// <exclude/>
   public class BitOutputStream {
 
     private int putCount = 8;

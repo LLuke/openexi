@@ -10,6 +10,7 @@ using EXISchemaConst = Nagasena.Schema.EXISchemaConst;
 
 namespace Nagasena.Proc.Events {
 
+  /// <exclude/>
   public sealed class EXIEventSchemaType : EventDescription {
 
     private readonly EventType m_eventType;

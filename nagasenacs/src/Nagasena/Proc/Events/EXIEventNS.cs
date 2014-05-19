@@ -8,6 +8,7 @@ using Characters = Nagasena.Schema.Characters;
 
 namespace Nagasena.Proc.Events {
 
+  /// <exclude/>
   public sealed class EXIEventNS : EventDescription {
 
     private string m_uri; // "" represents disassociation

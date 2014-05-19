@@ -8,6 +8,7 @@ using Characters = Nagasena.Schema.Characters;
 
 namespace Nagasena.Proc.Events {
 
+  /// <exclude/>
   public sealed class EXIEventProcessingInstruction : EventDescription {
 
     private readonly string m_name;

@@ -4,6 +4,7 @@ using EventTypeList = Nagasena.Proc.Common.EventTypeList;
 
 namespace Nagasena.Proc.Grammars {
 
+  /// <exclude/>
   public sealed class EventTypeSchema : EventType {
 
     public readonly int nd;

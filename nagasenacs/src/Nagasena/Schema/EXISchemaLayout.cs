@@ -1,5 +1,6 @@
 ﻿namespace Nagasena.Schema {
 
+  /// <exclude/>
   public sealed class EXISchemaLayout {
 
     ///////////////////////////////////////////////////////////////////////////

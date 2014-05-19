@@ -8,6 +8,7 @@ namespace Nagasena.Proc.IO {
   /// An implementation of BitInputStream representing the header options
   /// document in an EXI stream. 
   /// </summary>
+  /// <exclude/>
   public sealed class HeaderOptionsInputStream : BitInputStream {
 
     internal HeaderOptionsInputStream(Stream @in) {

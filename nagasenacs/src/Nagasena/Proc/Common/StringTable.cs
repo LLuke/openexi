@@ -8,6 +8,7 @@ using EXISchemaConst = Nagasena.Schema.EXISchemaConst;
 
 namespace Nagasena.Proc.Common {
 
+  /// <exclude/>
   public sealed class StringTable {
 
     public readonly GlobalValuePartition globalValuePartition;

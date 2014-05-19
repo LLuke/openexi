@@ -4,6 +4,7 @@ namespace Nagasena.Sax {
 
   using MessageResolver = Nagasena.Util.MessageResolver;
 
+  /// <exclude/>
   public class TransmogrifierRuntimeException : Exception {
 
     private const long serialVersionUID = -3795226789155748241L;

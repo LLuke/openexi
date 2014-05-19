@@ -8,6 +8,7 @@ using IGrammar = Nagasena.Proc.Common.IGrammar;
 
 namespace Nagasena.Proc.Grammars {
 
+  /// <exclude/>
   public abstract class BuiltinGrammar : Grammar {
 
     public const sbyte ELEMENT_STATE_IN_TAG = 0;

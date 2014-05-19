@@ -1,5 +1,6 @@
 ﻿namespace Nagasena.Proc.Grammars {
 
+  /// <exclude/>
   public sealed class GrammarState {
 
     public Grammar targetGrammar;

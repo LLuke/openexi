@@ -2,6 +2,7 @@
 
 namespace Nagasena.Proc.Grammars {
 
+  /// <exclude/>
   public abstract class ValueApparatus {
 
     public abstract QName Name { get; }

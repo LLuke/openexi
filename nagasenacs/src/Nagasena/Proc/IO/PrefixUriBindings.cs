@@ -4,6 +4,7 @@ using XmlUriConst = Nagasena.Proc.Common.XmlUriConst;
 
 namespace Nagasena.Proc.IO {
 
+  /// <exclude/>
   public sealed class PrefixUriBindings {
 
     private readonly string[] prefixes;

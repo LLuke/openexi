@@ -8,6 +8,7 @@ using EXISchema = Nagasena.Schema.EXISchema;
 
 namespace Nagasena.Proc.IO {
 
+  /// <exclude/>
   public sealed class ValueScriberLexical : ValueScriber {
 
     private readonly ValueScriber m_baseValueScriber;

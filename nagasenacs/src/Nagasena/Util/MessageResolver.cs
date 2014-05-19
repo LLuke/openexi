@@ -9,6 +9,7 @@ using System.Globalization;
 
 namespace Nagasena.Util {
 
+  /// <exclude/>
   public abstract class MessageResolver {
 
     private const String REPLACEMENT_TEXT_NULL = "<null/>";

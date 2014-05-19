@@ -4,6 +4,7 @@ using Characters = Nagasena.Schema.Characters;
 
 namespace Nagasena.Proc.IO {
 
+  /// <exclude/>
   public abstract class ValueScanner : ValueApparatus {
 
     protected internal Stream m_istream;

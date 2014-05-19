@@ -4,6 +4,7 @@
   using GrammarCache = Nagasena.Proc.Grammars.GrammarCache;
   using GrammarSchema = Nagasena.Schema.GrammarSchema;
 
+  /// <exclude/>
   public sealed class GrammarCache4Grammar {
 
     public static readonly GrammarCache m_grammarCache;

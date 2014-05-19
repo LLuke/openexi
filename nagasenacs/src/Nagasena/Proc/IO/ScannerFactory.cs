@@ -6,7 +6,7 @@ using AlignmentType = Nagasena.Proc.Common.AlignmentType;
 
 namespace Nagasena.Proc.IO {
 
-
+  /// <exclude/>
   public sealed class ScannerFactory {
 
     private static readonly ConstructorInfo m_channellingScannerConstructor;

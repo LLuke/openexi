@@ -8,6 +8,7 @@ namespace Nagasena.Proc.IO {
   /// This class is not intended for public use though it is qualified
   /// as 'public'.
   /// </summary>
+  /// <exclude/>
   public sealed class ScriberRuntimeExceptionMessages : MessageResolver {
 
     protected override String FileName {

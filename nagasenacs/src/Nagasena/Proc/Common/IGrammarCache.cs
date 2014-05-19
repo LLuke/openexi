@@ -2,6 +2,7 @@
 
 namespace Nagasena.Proc.Common {
 
+  /// <exclude/>
   public interface IGrammarCache {
 
     EXISchema EXISchema { get; }

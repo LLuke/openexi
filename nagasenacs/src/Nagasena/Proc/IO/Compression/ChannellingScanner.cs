@@ -22,6 +22,7 @@ using EXISchemaConst = Nagasena.Schema.EXISchemaConst;
 
 namespace Nagasena.Proc.IO.Compression {
 
+  /// <exclude/>
   public sealed class ChannellingScanner : Scanner {
 
     private readonly ChannelKeeper m_channelKeeper;

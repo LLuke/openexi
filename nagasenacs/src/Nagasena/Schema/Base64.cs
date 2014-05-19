@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace Nagasena.Schema {
 
+  /// <exclude/>
   public sealed class Base64 {
 
     private static readonly char[] BASE64_ASCIIS;

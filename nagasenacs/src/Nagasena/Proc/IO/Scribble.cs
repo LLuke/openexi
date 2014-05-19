@@ -4,6 +4,7 @@ using XSDateTime = Nagasena.Schema.XSDateTime;
 
 namespace Nagasena.Proc.IO {
 
+  /// <exclude/>
   public sealed class Scribble {
 
     public int intValue1;

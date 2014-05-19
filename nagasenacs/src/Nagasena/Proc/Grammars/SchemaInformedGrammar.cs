@@ -12,6 +12,7 @@ using EXISchemaConst = Nagasena.Schema.EXISchemaConst;
 
 namespace Nagasena.Proc.Grammars {
 
+  /// <exclude/>
   public abstract class SchemaInformedGrammar : Grammar {
 
     protected internal const sbyte ELEMENT_FRAGMENT_STATE_BASE = DOCUMENT_STATE_END + 1;

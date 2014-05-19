@@ -5,6 +5,7 @@ using EXISchema = Nagasena.Schema.EXISchema;
 
 namespace Nagasena.Proc.IO {
 
+  /// <exclude/>
   public abstract class ValueScriber : ValueApparatus {
 
     public abstract int getBuiltinRCS(int simpleType, Scriber scriber);

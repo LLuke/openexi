@@ -1,5 +1,6 @@
 ﻿namespace Nagasena.Proc.Util {
 
+  /// <exclude/>
   public sealed class ExiUriConst {
 
     public const string W3C_2009_EXI_URI = "http://www.w3.org/2009/exi";

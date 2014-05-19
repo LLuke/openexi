@@ -1,5 +1,6 @@
 ﻿namespace Nagasena.Proc.Common {
 
+  /// <exclude/>
   public sealed class XmlUriConst {
 
     public const string W3C_2001_XMLSCHEMA_URI = "http://www.w3.org/2001/XMLSchema";

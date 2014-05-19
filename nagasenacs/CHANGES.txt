@@ -2,6 +2,66 @@
 
 0000.0002.0040.2
 
+- Worked on the initial documentation.
+
+A       4.0_doc.sh
+M       src/Nagasena/Schema/EXISchemaConst.cs
+M       src/Nagasena/Schema/HexBin.cs
+M       src/Nagasena/Schema/Base64.cs
+M       src/Nagasena/Schema/EXISchemaLayout.cs
+M       src/Nagasena/Schema/HeaderOptionsSchema.cs
+M       src/Nagasena/Schema/GrammarSchema.cs
+M       src/Nagasena/Schema/XSDateTime.cs
+M       src/Nagasena/Schema/EXISchemaRuntimeException.cs
+M       src/Nagasena/Scomp/EXISchemaStruct.cs
+M       src/Nagasena/Scomp/GrammarCache4Grammar.cs
+M       src/Nagasena/Proc/Events/EXIEventSchemaNil.cs
+M       src/Nagasena/Proc/Events/EXIEventDTD.cs
+M       src/Nagasena/Proc/Events/EXIEventEntityReference.cs
+M       src/Nagasena/Proc/Events/EXIEventProcessingInstruction.cs
+M       src/Nagasena/Proc/Events/EXIEventNS.cs
+M       src/Nagasena/Proc/Events/EXIEventWildcardStartElement.cs
+M       src/Nagasena/Proc/Events/EXIEventComment.cs
+M       src/Nagasena/Proc/Events/EXIEventSchemaType.cs
+M       src/Nagasena/Proc/IO/ScriberRuntimeException.cs
+M       src/Nagasena/Proc/IO/ScriberFactory.cs
+M       src/Nagasena/Proc/IO/ByteAlignedCommons.cs
+M       src/Nagasena/Proc/IO/ValueScriber.cs
+M       src/Nagasena/Proc/IO/BodyBitInputStream.cs
+M       src/Nagasena/Proc/IO/ValueScriberLexical.cs
+M       src/Nagasena/Proc/IO/Scriber.cs
+M       src/Nagasena/Proc/IO/Compression/ChannellingScriber.cs
+M       src/Nagasena/Proc/IO/Compression/ChannellingScanner.cs
+M       src/Nagasena/Proc/IO/Compression/EXIEventValueReference.cs
+M       src/Nagasena/Proc/IO/BitOutputStream.cs
+M       src/Nagasena/Proc/IO/ScannerFactory.cs
+M       src/Nagasena/Proc/IO/Scribble.cs
+M       src/Nagasena/Proc/IO/ValueScanner.cs
+M       src/Nagasena/Proc/IO/PrefixUriBindings.cs
+M       src/Nagasena/Proc/IO/HeaderOptionsInputStream.cs
+M       src/Nagasena/Proc/IO/ScriberRuntimeExceptionMessages.cs
+M       src/Nagasena/Proc/IO/OctetBuffer.cs
+M       src/Nagasena/Proc/IO/BitInputStream.cs
+M       src/Nagasena/Proc/Common/StringTable.cs
+M       src/Nagasena/Proc/Common/IGrammarCache.cs
+M       src/Nagasena/Proc/Common/XmlUriConst.cs
+M       src/Nagasena/Proc/Common/IGrammar.cs
+M       src/Nagasena/Proc/Common/IBinaryValueScanner.cs
+M       src/Nagasena/Proc/Grammars/BuiltinGrammar.cs
+M       src/Nagasena/Proc/Grammars/Grammar.cs
+M       src/Nagasena/Proc/Grammars/EventCodeTuple.cs
+M       src/Nagasena/Proc/Grammars/OptionsGrammarCache.cs
+M       src/Nagasena/Proc/Grammars/GrammarState.cs
+M       src/Nagasena/Proc/Grammars/SchemaInformedGrammar.cs
+M       src/Nagasena/Proc/Grammars/ValueApparatus.cs
+M       src/Nagasena/Proc/Grammars/Apparatus.cs
+M       src/Nagasena/Proc/Grammars/EventTypeSchema.cs
+M       src/Nagasena/Proc/Util/ExiUriConst.cs
+M       src/Nagasena/Sax/TransmogrifierRuntimeException.cs
+M       src/Nagasena/Util/MessageResolver.cs
+
+0000.0002.0040.2
+
 - Preparing documentation.
 
 M       src/AssemblyInfo.cs

@@ -11,6 +11,7 @@ using EXISchemaConst = Nagasena.Schema.EXISchemaConst;
 
 namespace Nagasena.Proc.Grammars {
 
+  /// <exclude/>
   public abstract class Apparatus {
 
     private const short INIT_GRAMMARS_DEPTH = 32;

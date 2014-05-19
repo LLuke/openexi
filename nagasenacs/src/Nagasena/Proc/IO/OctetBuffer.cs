@@ -2,6 +2,7 @@
 
 namespace Nagasena.Proc.IO {
 
+  /// <exclude/>
   public sealed class OctetBuffer {
 
     internal byte[] octets;

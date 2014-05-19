@@ -13,6 +13,7 @@ namespace Nagasena.Scomp {
   /// <summary>
   /// SchemaStruct provides functions to manipulate on the schema arrays.
   /// </summary>
+  /// <exclude/>
   public abstract class EXISchemaStruct {
 
     // The sole purpose of SchemaStruct is to populate these arrays.

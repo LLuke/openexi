@@ -22,6 +22,7 @@ using EXISchemaLayout = Nagasena.Schema.EXISchemaLayout;
 
 namespace Nagasena.Proc.IO {
 
+  /// <exclude/>
   public abstract class Scriber : Apparatus {
 
     internal static readonly BigInteger BIGINTEGER_0x007F = new BigInteger(0x007F);
