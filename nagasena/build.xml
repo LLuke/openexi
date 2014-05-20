@@ -607,6 +607,7 @@
       <include name="org/openexi/proc/common/GrammarOptions.java"/>
       <include name="org/openexi/proc/common/QName.java"/>
       <include name="org/openexi/proc/common/EventType.java"/>
+      <include name="org/openexi/proc/common/SchemaId.java"/>
     </fileset>
     <fileset dir="${build.grammars.src}">
       <include name="**/*.html"/>

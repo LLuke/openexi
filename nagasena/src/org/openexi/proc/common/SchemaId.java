@@ -1,5 +1,9 @@
 package org.openexi.proc.common;
 
+/**
+ * SchemaId represents the <a href="http://www.w3.org/TR/exi/#key-schemaIdOption">schemaId</a> 
+ * property of an EXI stream.
+ */
 public final class SchemaId {
 
   private String m_value;
