@@ -1,3 +1,14 @@
+2014-05-20 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0040.3
+
+- m_smallChannelList is now a LinkedList instead of a List in ChannelKeeper.
+
+M       src/AssemblyInfo.cs
+M       src/Nagasena/Proc/IO/Compression/ChannellingScriber.cs
+M       src/Nagasena/Proc/IO/Compression/ChannelKeeper.cs
+M       src/Nagasena/Proc/Common/Channel.cs
+
 2014-05-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0040.2

@@ -5,8 +5,8 @@ namespace Nagasena.Proc.Common {
   /// <exclude/>
   public abstract class Channel : IComparable<Channel> {
 
-    private int firstPos;
-    public int blockNum;
+    internal int firstPos;
+    internal int blockNum;
 
     public int valueCount;
 

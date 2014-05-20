@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Channel = Nagasena.Proc.Common.Channel;
 using EXIOptions = Nagasena.Proc.Common.EXIOptions;
@@ -11,7 +13,7 @@ namespace Nagasena.Proc.IO.Compression {
 
     private int m_totalValueCount;
 
-    private readonly List<Channel> m_smallChannelList;
+    private readonly LinkedList<Channel> m_smallChannelList;
     private readonly List<Channel> m_largeChannelList;
 
     private readonly ChannelFactory m_channelFactory;
@@ -22,7 +24,7 @@ namespace Nagasena.Proc.IO.Compression {
 
     internal ChannelKeeper(ChannelFactory channelFactory) {
       m_totalValueCount = 0;
-      m_smallChannelList = new List<Channel>();
+      m_smallChannelList = new LinkedList<Channel>();
       m_largeChannelList = new List<Channel>();
       m_channelFactory = channelFactory;
       m_blockSize = EXIOptions.BLOCKSIZE_DEFAULT;
@@ -42,7 +44,6 @@ namespace Nagasena.Proc.IO.Compression {
     }
 
     public void finish() {
-      m_smallChannelList.Sort();
       m_largeChannelList.Sort();
     }
 
@@ -55,10 +56,9 @@ namespace Nagasena.Proc.IO.Compression {
       }
     }
 
-
-    internal IList<Channel> SmallChannels {
+    internal IOrderedEnumerable<Channel> SmallChannels {
       get {
-        return m_smallChannelList;
+        return Enumerable.OrderBy<Channel,int>(m_smallChannelList, delegate(Channel c) { return c.firstPos; });
       }
     }
 
@@ -89,13 +89,12 @@ namespace Nagasena.Proc.IO.Compression {
         channel = m_channelFactory.createChannel(m_totalValueCount, m_blockNum);
         localNamePartition.setChannel(name, channel);
       }
-      m_smallChannelList.Add(channel);
+      m_smallChannelList.AddLast(channel);
       return channel;
     }
 
     internal bool incrementValueCount(Channel channel) {
       if (++channel.valueCount == 101) {
-        // REVISIT: Avoid Remove on List
         m_smallChannelList.Remove(channel);
         m_largeChannelList.Add(channel);
       }

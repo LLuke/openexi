@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 
 using ICSharpCode.SharpZipLib.Zip.Compression;
@@ -344,27 +345,25 @@ namespace Nagasena.Proc.IO.Compression {
         }
       }
       m_channelKeeper.finish();
-      IList<Channel> smallChannels, largeChannels;
-      int n_smallChannels, n_largeChannels;
+      IOrderedEnumerable<Channel> smallChannels;
       ScriberChannel channel;
       smallChannels = m_channelKeeper.SmallChannels;
-      if ((n_smallChannels = smallChannels.Count) != 0) {
-        int i = 0;
-        do {
-          channel = (ScriberChannel)smallChannels[i];
+      if (smallChannels.Count() != 0) {
+        IEnumerator<Channel> channelEnumeraor = smallChannels.GetEnumerator();
+        while (channelEnumeraor.MoveNext()) {
+          channel = (ScriberChannel)channelEnumeraor.Current;
           List<ScriberValueHolder> textProviderList = channel.values;
           int len = textProviderList.Count;
           for (int j = 0; j < len; j++) {
             textProviderList[j].scribeValue(m_outputStream, this);
           }
         }
-        while (++i < n_smallChannels);
         if (m_compressed && moreValues) {
           deflaterStream.resetDeflater();
         }
       }
-      largeChannels = m_channelKeeper.LargeChannels;
-      n_largeChannels = largeChannels.Count;
+      IList<Channel> largeChannels = m_channelKeeper.LargeChannels;
+      int n_largeChannels = largeChannels.Count;
       for (int i = 0; i < n_largeChannels; i++) {
         channel = (ScriberChannel)largeChannels[i];
         List<ScriberValueHolder> textProviderList = channel.values;
