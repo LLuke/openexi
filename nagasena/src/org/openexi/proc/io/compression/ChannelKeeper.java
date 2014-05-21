@@ -2,6 +2,7 @@ package org.openexi.proc.io.compression;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.openexi.proc.common.Channel;
@@ -14,7 +15,7 @@ final class ChannelKeeper {
   private int m_totalValueCount;
   
   private final LinkedList<Channel> m_smallChannelList;
-  private final LinkedList<Channel> m_largeChannelList;
+  private final ArrayList<Channel> m_largeChannelList;
   
   private final ChannelFactory m_channelFactory;
   
@@ -25,7 +26,7 @@ final class ChannelKeeper {
   ChannelKeeper(ChannelFactory channelFactory) {
     m_totalValueCount = 0;
     m_smallChannelList = new LinkedList<Channel>();
-    m_largeChannelList = new LinkedList<Channel>();
+    m_largeChannelList = new ArrayList<Channel>();
     m_channelFactory = channelFactory;
     m_blockSize = EXIOptions.BLOCKSIZE_DEFAULT;
     m_blockNum = -1; 
