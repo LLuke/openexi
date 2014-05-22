@@ -2,7 +2,7 @@
 
 0000.0002.0040.2
 
-- Added file.txt (a dummy file) for serializing empty schema for testing.
+- Added file.txt (a dummy file) for serializing empty schema for testing. 
 
 M       fixture/org/openexi/scomp/EXISchemaFactoryTestUtil.java
 A       testdata/file.txt
