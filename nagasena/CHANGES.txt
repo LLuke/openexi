@@ -1,3 +1,12 @@
+2014-05-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0040.2
+
+- Added file.txt (a dummy file) for serializing empty schema for testing.
+
+M       fixture/org/openexi/scomp/EXISchemaFactoryTestUtil.java
+A       testdata/file.txt
+
 2014-05-20 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0040.2

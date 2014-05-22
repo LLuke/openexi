@@ -55,6 +55,8 @@ public class EXISchemaFactoryTestUtil {
       else
         throw new RuntimeException("File '" + fileName + "' not found.");
     }
+    if (url == null)
+      url = cls.getResource("/file.txt");
     
     EXISchema compiled;
     if ((compiled = schemaCompiler.compile(inputSources)) != null) {
