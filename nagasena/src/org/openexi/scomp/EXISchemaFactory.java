@@ -1389,7 +1389,10 @@ public class EXISchemaFactory extends EXISchemaStruct {
   
   private void placeGrammars(ProtoGrammar grammar, Map<ProtoGrammar,GrammarLocation> gMap, 
     List<ProtoGrammar> placedGrammars) {
-    if (gMap.get(grammar) == null) {
+    if (grammar != m_emptyContentGrammar && grammar.isImmutableEnd()) {
+      gMap.put(grammar, gMap.get(m_emptyContentGrammar));
+    }
+    else if (gMap.get(grammar) == null) {
       final Stack<ProtoGrammar> grammarStack = new Stack<ProtoGrammar>();
       final Stack<Integer> indices = new Stack<Integer>();
       
@@ -1417,7 +1420,10 @@ public class EXISchemaFactory extends EXISchemaStruct {
         indices.push(++index);
         if (substance.isProduction()) {
           final ProtoGrammar subsequentGrammar = ((Production)substance).getSubsequentGrammar();
-          if (gMap.get(subsequentGrammar) == null) {
+          if (subsequentGrammar.isImmutableEnd()) {
+            gMap.put(subsequentGrammar, gMap.get(m_emptyContentGrammar));
+          }
+          else if (gMap.get(subsequentGrammar) == null) {
             gram_sz = computeGrammarSize(subsequentGrammar);
             ensureGrammar(gram_sz);
             gram = m_n_grammars;
@@ -1427,7 +1433,6 @@ public class EXISchemaFactory extends EXISchemaStruct {
 
             grammarStack.push(subsequentGrammar);
             indices.push(0);
-            continue;
           }
         }
       }

@@ -1,3 +1,14 @@
+2014-06-10 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0041.0
+
+- ProtoGrammar now has isImmutableEnd() method. When its value is true, that
+  grammar is now replaced by the singleton m_emptyContentGrammar.
+
+M       src/org/openexi/scomp/ProtoGrammar.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
 2014-05-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0040.2

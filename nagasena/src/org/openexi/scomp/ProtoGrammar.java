@@ -84,6 +84,13 @@ class ProtoGrammar extends RightHandSide implements Comparable<ProtoGrammar> {
     return false;
   }
 
+  public boolean isImmutableEnd() {
+    assert linkedGrammars.size() == 0;
+    // ones with index of NO_INDEX are immutable. 
+    // Preceding ones are subject to attribute production insertions. 
+    return m_index == NO_INDEX && sortedSubstances.size() == 1 && hasGoal();
+  }
+  
   final void normalize(Set<ProtoGrammar> visitedGrammars, ArrayList<ProtoGrammar> syntheticGrammarRegistry) {
     if (visitedGrammars.contains(this))
       return;
