@@ -136,8 +136,11 @@ public class EXISchemaFactory extends EXISchemaStruct {
     m_emptyContentGrammar = new ProtoGrammar(serialNumber++, (EXISchemaFactory)null);
     m_emptyContentGrammar.addSubstance(new Goal(m_emptyContentGrammar), null);
     
-    m_simpleTypeContentGrammar = createSimpleTypeContentGrammar(serialNumber);
-    ++serialNumber;
+    m_simpleTypeContentGrammar = new ProtoGrammar(serialNumber++, (EXISchemaFactory)null);
+    m_simpleTypeContentGrammar.addSubstance(new Production(
+        EventTypeCache.eventCharactersTyped, m_emptyContentGrammar), null);
+    m_simpleTypeContentGrammar.importGoals(m_emptyContentGrammar);
+
     m_simpleTypeGrammar = new ProtoGrammar(serialNumber++, (EXISchemaFactory)null);
     m_simpleTypeGrammar.setIndex(0);
     Substance[] contentSubstances = m_simpleTypeContentGrammar.getSubstances();
@@ -157,20 +160,6 @@ public class EXISchemaFactory extends EXISchemaStruct {
     m_simpleTypeEmptyGrammar.importGoals(m_emptyContentGrammar);
     
     m_startSerialNumber = serialNumber;
-  }
-
-  private static ProtoGrammar createSimpleTypeContentGrammar(int startSerialNumber) {
-    int serialNumber = startSerialNumber;
-    final ProtoGrammar protoGrammar;
-    
-    protoGrammar = new ProtoGrammar(serialNumber++, (EXISchemaFactory)null);
-    protoGrammar.addSubstance(new Production(
-        EventTypeCache.eventCharactersTyped, m_emptyContentGrammar), null);
-    protoGrammar.importGoals(m_emptyContentGrammar);
-
-    assert startSerialNumber + 1 == serialNumber;
-    // Make sure to increment m_serialNumber by 1 upon exit.
-    return protoGrammar;
   }
 
   private static final String W3C_2001_XMLSCHEMA_URI = "http://www.w3.org/2001/XMLSchema";
@@ -1052,12 +1041,6 @@ public class EXISchemaFactory extends EXISchemaStruct {
     return protoGrammar0;
   }
   
-  private ProtoGrammar createSimpleTypeContentGrammar() {
-    ProtoGrammar protoGrammar = createSimpleTypeContentGrammar(protoGrammarSerial);
-    ++protoGrammarSerial;
-    return protoGrammar;
-  }
-  
   private ProtoGrammar createAllGroupGrammar(XSModelGroup group, boolean mixed, IntHolder particleNumber) {
     final int n_particles;
     XSObjectList particles;
@@ -1459,7 +1442,7 @@ public class EXISchemaFactory extends EXISchemaStruct {
       final short contentType;
       switch (contentType = complexType.getContentType()) {
         case XSComplexTypeDefinition.CONTENTTYPE_SIMPLE:
-          contentGrammar = createSimpleTypeContentGrammar();
+          contentGrammar = m_simpleTypeContentGrammar; 
           break;
         case XSComplexTypeDefinition.CONTENTTYPE_MIXED:
         case XSComplexTypeDefinition.CONTENTTYPE_ELEMENT:

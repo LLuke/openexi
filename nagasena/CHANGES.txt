@@ -1,3 +1,13 @@
+2014-06-11 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0042.0
+
+- Use singleton m_simpleTypeContentGrammar for complex type with simple-type
+  content models.
+
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       build.xml
+
 2014-06-10 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0041.0
