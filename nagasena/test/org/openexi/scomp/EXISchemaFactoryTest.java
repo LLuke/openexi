@@ -6165,4 +6165,30 @@ public class EXISchemaFactoryTest extends TestCase {
     Assert.assertTrue(spe.getMessage().startsWith("sch-props-correct.2:"));
   }
 
+  /**
+   * Complex types with empty content model share the same content grammar.
+   */
+  public void testEmptyContent01() throws Exception {
+    EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema(
+        "/emptyContent.xsd", getClass(), m_compilerErrorHandler);
+    Assert.assertEquals(0, m_compilerErrorHandler.getTotalCount());
+    
+    Assert.assertEquals(2, EXISchemaUtil.countTypesOfSchema(corpus, true) - EXISchemaConst.N_BUILTIN_TYPES);
+    
+    int emptyContent1 = corpus.getTypeOfSchema("urn:foo", "emptyContent1");
+    Assert.assertTrue(EXISchema.NIL_NODE != emptyContent1);
+    int gramEmptyContent1 = corpus.getGrammarOfType(emptyContent1);
+    int contentGrammar1 = corpus.getContentGrammarOfGrammar(gramEmptyContent1);
+    Assert.assertTrue(EXISchema.NIL_GRAM != contentGrammar1);
+
+    int emptyContent2 = corpus.getTypeOfSchema("urn:foo", "emptyContent2");
+    Assert.assertTrue(EXISchema.NIL_NODE != emptyContent2);
+    int gramEmptyContent2 = corpus.getGrammarOfType(emptyContent2);
+    int contentGrammar2 = corpus.getContentGrammarOfGrammar(gramEmptyContent2);
+    Assert.assertTrue(EXISchema.NIL_GRAM != contentGrammar2);
+
+    Assert.assertEquals(contentGrammar1, contentGrammar2);
+  }
+
+  
 }

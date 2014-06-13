@@ -2458,6 +2458,7 @@ public final class EXISchema {
     for (gram = 0, serial = 0; gram < m_grammars.length; gram += getSizeOfGrammar(gram, m_grammars), ++serial) {
       if (serial < 7) // Grammars at indices 0 through 6 are fixtures.
         continue;
+      writer.write("<!-- Grammar# " + serial + " -->");
       writer.write("<Grammar>");
       writer.write("<Productions>");
       boolean needEndElem = hasEndElement(gram);

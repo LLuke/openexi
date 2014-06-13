@@ -1,3 +1,15 @@
+2014-06-13 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0042.1
+
+- Added a test case that verifies that complex types with empty content model 
+  share the same content grammar.
+
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/schema/EXISchema.java
+A       testdata/emptyContent.xsd
+M       build.xml
+
 2014-06-11 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0042.0
