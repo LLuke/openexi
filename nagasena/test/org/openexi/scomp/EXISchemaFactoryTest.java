@@ -6168,7 +6168,7 @@ public class EXISchemaFactoryTest extends TestCase {
   /**
    * Complex types with empty content model share the same content grammar.
    */
-  public void testEmptyContent01() throws Exception {
+  public void testEmptyContentGrammar01() throws Exception {
     EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema(
         "/emptyContent.xsd", getClass(), m_compilerErrorHandler);
     Assert.assertEquals(0, m_compilerErrorHandler.getTotalCount());
@@ -6190,5 +6190,29 @@ public class EXISchemaFactoryTest extends TestCase {
     Assert.assertEquals(contentGrammar1, contentGrammar2);
   }
 
+  /**
+   * Complex types with simple content model share the same content grammar.
+   */
+  public void testSimpleContentGrammar01() throws Exception {
+    EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema(
+        "/simpleContent.xsd", getClass(), m_compilerErrorHandler);
+    Assert.assertEquals(0, m_compilerErrorHandler.getTotalCount());
+    
+    Assert.assertEquals(2, EXISchemaUtil.countTypesOfSchema(corpus, true) - EXISchemaConst.N_BUILTIN_TYPES);
+    
+    int simpleContent1 = corpus.getTypeOfSchema("urn:foo", "simpleContent1");
+    Assert.assertTrue(EXISchema.NIL_NODE != simpleContent1);
+    int gramSimpleContent1 = corpus.getGrammarOfType(simpleContent1);
+    int contentGrammar1 = corpus.getContentGrammarOfGrammar(gramSimpleContent1);
+    Assert.assertTrue(EXISchema.NIL_GRAM != contentGrammar1);
+
+    int simpleContent2 = corpus.getTypeOfSchema("urn:foo", "simpleContent2");
+    Assert.assertTrue(EXISchema.NIL_NODE != simpleContent2);
+    int gramSimpleContent2 = corpus.getGrammarOfType(simpleContent2);
+    int contentGrammar2 = corpus.getContentGrammarOfGrammar(gramSimpleContent2);
+    Assert.assertTrue(EXISchema.NIL_GRAM != contentGrammar2);
+
+    Assert.assertEquals(contentGrammar1, contentGrammar2);
+  }
   
 }

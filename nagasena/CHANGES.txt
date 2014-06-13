@@ -2,6 +2,14 @@
 
 0000.0002.0042.1
 
+- Added a test case that verifies that complex types with simple content 
+  model share the same content grammar.
+
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+A       testdata/simpleContent.xsd
+
+0000.0002.0042.1
+
 - Added a test case that verifies that complex types with empty content model 
   share the same content grammar.
 

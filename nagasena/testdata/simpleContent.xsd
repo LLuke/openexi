@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<xsd:schema targetNamespace="urn:foo"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:complexType name="simpleContent1">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute name="a" type="xsd:string"/>
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<xsd:complexType name="simpleContent2">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute name="b" type="xsd:string"/>
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+</xsd:schema>
