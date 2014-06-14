@@ -1,3 +1,12 @@
+2014-06-13 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0042.0
+
+- Output grammar serial number before <Grammar> tag.
+
+M       src/AssemblyInfo.cs
+M       src/Nagasena/Schema/EXISchema.cs
+
 2014-05-20 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0040.3

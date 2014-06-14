@@ -2547,6 +2547,7 @@ namespace Nagasena.Schema {
         if (serial < 7) { // Grammars at indices 0 through 6 are fixtures.
           continue;
         }
+        writer.Write("<!-- Grammar# " + serial + " -->");
         writer.Write("<Grammar>");
         writer.Write("<Productions>");
         bool needEndElem = hasEndElement(gram);
