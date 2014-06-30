@@ -1,3 +1,14 @@
+2014-06-30 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0043.0
+
+- Element particle grammar optimization.
+
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+A       testdata/elementParticleUnbounded.xsd
+M       build.xml
+
 2014-06-13 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0042.1

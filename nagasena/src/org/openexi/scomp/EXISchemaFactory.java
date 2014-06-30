@@ -1181,14 +1181,9 @@ public class EXISchemaFactory extends EXISchemaStruct {
     return n_productions;
   }
   
-  
-  private ProtoGrammar createElementTermGrammar(XSElementDeclaration elem, boolean mixed, IntHolder particleNumber) {
-    ProtoGrammar protoGrammar1 = new ProtoGrammar(protoGrammarSerial++, this);
-    protoGrammar1.addSubstance(new Goal(protoGrammar1), m_syntheticGrammarRegistry);
-    if (mixed)
-      protoGrammar1.addSubstance(new Production(EventTypeCache.eventCharactersUntyped, protoGrammar1), m_syntheticGrammarRegistry);
-
+  private ProtoGrammar createElementTermGrammarLooping(XSElementDeclaration elem, boolean mixed, IntHolder particleNumber) {
     ProtoGrammar protoGrammar0 = new ProtoGrammar(protoGrammarSerial++, this);
+    
     if (mixed)
       protoGrammar0.addSubstance(new Production(EventTypeCache.eventCharactersUntyped, protoGrammar0), m_syntheticGrammarRegistry);
     Set<XSElementDeclaration> setOfElems, substitutablesSorted;
@@ -1203,22 +1198,56 @@ public class EXISchemaFactory extends EXISchemaStruct {
     do {
       XSElementDeclaration elem_i = iter.next();
       protoGrammar0.addSubstance(new Production(
-          m_eventTypeCache.getEventSE(elem_i), protoGrammar1, particleNumber.value), m_syntheticGrammarRegistry);
+          m_eventTypeCache.getEventSE(elem_i), protoGrammar0, particleNumber.value), m_syntheticGrammarRegistry);
       if (hasNext = iter.hasNext())
         ++particleNumber.value;
     } while (hasNext);
-
-    protoGrammar0.importGoals(protoGrammar1);
+  
     return protoGrammar0;
   }
+
+  private ProtoGrammar createElementTermGrammar(XSElementDeclaration elem, boolean mixed, ProtoGrammar trailingGrammar, IntHolder particleNumber) {
+    if (trailingGrammar == null) {
+      trailingGrammar = new ProtoGrammar(protoGrammarSerial++, this);
+      trailingGrammar.addSubstance(new Goal(trailingGrammar), m_syntheticGrammarRegistry);
+      if (mixed) {
+        trailingGrammar.addSubstance(new Production(EventTypeCache.eventCharactersUntyped, trailingGrammar), m_syntheticGrammarRegistry);
+      }
+    }
+    
+    ProtoGrammar protoGrammar0 = new ProtoGrammar(protoGrammarSerial++, this);
+    if (mixed) {
+      protoGrammar0.addSubstance(new Production(EventTypeCache.eventCharactersUntyped, protoGrammar0), m_syntheticGrammarRegistry);
+    }
+    Set<XSElementDeclaration> setOfElems, substitutablesSorted;
+    substitutablesSorted = new TreeSet<XSElementDeclaration>(new XSElementDeclarationComparator());
+    if ((setOfElems = m_mapSubst.get(elem)) != null) {
+      substitutablesSorted.addAll(setOfElems);
+    }
+    substitutablesSorted.add(elem);
+    
+    Iterator<XSElementDeclaration> iter = substitutablesSorted.iterator();
+    boolean hasNext;
+    do {
+      XSElementDeclaration elem_i = iter.next();
+      protoGrammar0.addSubstance(new Production(
+          m_eventTypeCache.getEventSE(elem_i), trailingGrammar, particleNumber.value), m_syntheticGrammarRegistry);
+      if (hasNext = iter.hasNext())
+        ++particleNumber.value;
+    } while (hasNext);
   
+    protoGrammar0.importGoals(trailingGrammar);
+    //return new ProtoGrammar[] { protoGrammar0, trailingGrammar };
+    return protoGrammar0;
+  }
+
   private ProtoGrammar createTermGrammar(XSTerm term, boolean mixed, IntHolder particleNumber) {
     if (term instanceof XSModelGroup)
       return createGroupGrammar((XSModelGroup)term, mixed, particleNumber);
     else if (term instanceof XSWildcard)
       return createWildcardGrammar((XSWildcard)term, mixed, particleNumber);
     else if (term instanceof XSElementDeclaration)
-      return createElementTermGrammar((XSElementDeclaration)term, mixed, particleNumber);
+      return createElementTermGrammar((XSElementDeclaration)term, mixed, (ProtoGrammar)null, particleNumber);
     else {
       assert false;
       return null;
@@ -1230,20 +1259,24 @@ public class EXISchemaFactory extends EXISchemaStruct {
     int epn = -1;
     
     final XSTerm term = particle.getTerm();
+    short termType = term.getType();
 
     int i;
+    final boolean maxOccursUnbounded = particle.getMaxOccursUnbounded(); 
     final int minOccurs = particle.getMinOccurs();
     
     ProtoGrammar tailGrammar = null;
-    if (particle.getMaxOccursUnbounded()) {
+    if (maxOccursUnbounded) {
       particleNumber.value = spn;
-      // REVISIT: Do Similar for element terms.
-      if (term instanceof XSWildcard) {
+      if (termType == XSConstants.WILDCARD) {
         tailGrammar = new ProtoGrammar(protoGrammarSerial++, this);
         if (mixed) {
           tailGrammar.addSubstance(new Production(EventTypeCache.eventCharactersUntyped, tailGrammar), m_syntheticGrammarRegistry);
         }
         addWildcardProductions((XSWildcard)term, tailGrammar, tailGrammar, particleNumber);
+      }
+      else if (termType == XSConstants.ELEMENT_DECLARATION) {
+        tailGrammar = createElementTermGrammarLooping((XSElementDeclaration)term, mixed, particleNumber);
       }
       else {
         tailGrammar = createTermGrammar(term, mixed, particleNumber);
@@ -1278,11 +1311,19 @@ public class EXISchemaFactory extends EXISchemaStruct {
     ProtoGrammar particleGrammar = tailGrammar;
     for (i = 0; i < minOccurs; i++) {
       particleNumber.value = spn;
-      final ProtoGrammar termGrammar = createTermGrammar(term, mixed, particleNumber);
-      epn = particleNumber.value;
-      if (particleGrammar != null)
-        termGrammar.entail(particleGrammar);
-      particleGrammar = termGrammar;
+      final ProtoGrammar termGrammar;
+      if (maxOccursUnbounded && termType == XSConstants.ELEMENT_DECLARATION) {
+        // avoid duplicate grammars by directly appending particleGrammar
+        particleGrammar = createElementTermGrammar((XSElementDeclaration)term, mixed, particleGrammar, particleNumber);
+      }
+      else {
+        termGrammar = createTermGrammar(term, mixed, particleNumber);
+        epn = particleNumber.value;
+        if (particleGrammar != null) {
+          termGrammar.entail(particleGrammar);
+        }
+        particleGrammar = termGrammar;
+      }
     }
     assert epn != -1;
     return particleGrammar;
