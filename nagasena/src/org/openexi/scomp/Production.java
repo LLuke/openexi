@@ -3,7 +3,7 @@ package org.openexi.scomp;
 final class Production extends Substance {
   
   private final Event m_event;
-  private final ProtoGrammar m_subsequentGrammar;
+  private ProtoGrammar m_subsequentGrammar;
   
   private final int m_particleNumber;
   
@@ -33,6 +33,10 @@ final class Production extends Substance {
   
   public ProtoGrammar getSubsequentGrammar() {
     return m_subsequentGrammar;
+  }
+  
+  void setSubsequentGrammar(ProtoGrammar protoGrammar) {
+    m_subsequentGrammar = protoGrammar;
   }
 
   public int getParticleNumber() {

@@ -1,3 +1,16 @@
+2014-07-01 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0044.0
+
+- Grammar optimization by eliminating proxy grammars during grammar
+  normalization.
+
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/scomp/ProtoGrammar.java
+M       src/org/openexi/scomp/Production.java
+A       testdata/sequenceParticleUnbounded.xsd
+M       build.xml
+
 2014-06-30 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0043.0

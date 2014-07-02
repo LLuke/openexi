@@ -6242,4 +6242,31 @@ public class EXISchemaFactoryTest extends TestCase {
     Assert.assertEquals(gram_tA_2, corpus.getGrammarOfProduction(prod1_tA_2));
   }
 
+  /**
+   * Grammar optimization by eliminating proxy grammars.
+   */
+  public void testProxyGrammarElimination01() throws Exception {
+    EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema(
+        "/sequenceParticleUnbounded.xsd", getClass(), m_compilerErrorHandler);
+    Assert.assertEquals(0, m_compilerErrorHandler.getTotalCount());
+    
+    int tA = corpus.getTypeOfSchema("", "A");
+    Assert.assertTrue(EXISchema.NIL_NODE != tA);
+    int gram_tA_0 = corpus.getGrammarOfType(tA);
+    int prod1_tA_0 = corpus.getProductionOfGrammar(gram_tA_0, 0);
+    Assert.assertEquals(EXISchema.EVENT_TYPE_AT, corpus.getEventOfProduction(prod1_tA_0));
+
+    // minOccurs is 1
+    int gram_tA_1 = corpus.getGrammarOfProduction(prod1_tA_0);
+    int prod1_tA_1 = corpus.getProductionOfGrammar(gram_tA_1, 0);
+    Assert.assertEquals(EXISchema.EVENT_TYPE_SE, corpus.getEventOfProduction(prod1_tA_1));
+    
+    // maxOccurs is unbounded
+    int gram_tA_2 = corpus.getGrammarOfProduction(prod1_tA_1);
+    int prod1_tA_2 = corpus.getProductionOfGrammar(gram_tA_2, 0);
+    Assert.assertEquals(EXISchema.EVENT_TYPE_SE, corpus.getEventOfProduction(prod1_tA_2));
+    // Make sure it comes back to itself.
+    Assert.assertEquals(gram_tA_2, corpus.getGrammarOfProduction(prod1_tA_2));
+  }
+  
 }

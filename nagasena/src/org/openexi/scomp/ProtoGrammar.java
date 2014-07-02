@@ -91,6 +91,10 @@ class ProtoGrammar extends RightHandSide implements Comparable<ProtoGrammar> {
     return m_index == NO_INDEX && sortedSubstances.size() == 1 && hasGoal();
   }
   
+  private boolean isProxy() {
+    return sortedSubstances.size() == 0 && linkedGrammars.size() == 1;
+  }
+  
   final void normalize(Set<ProtoGrammar> visitedGrammars, ArrayList<ProtoGrammar> syntheticGrammarRegistry) {
     if (visitedGrammars.contains(this))
       return;
@@ -120,7 +124,15 @@ class ProtoGrammar extends RightHandSide implements Comparable<ProtoGrammar> {
     while (iterSubstances.hasNext()) {
       Substance substance = (Substance)iterSubstances.next();
       if (substance.getRHSType() == RHSType.PROD) {
-        ((Production)substance).getSubsequentGrammar().normalize(visitedGrammars, syntheticGrammarRegistry);
+        final Production production = (Production)substance;
+        ProtoGrammar subsequentGrammar = production.getSubsequentGrammar();
+        while (subsequentGrammar.isProxy()) {
+          subsequentGrammar = subsequentGrammar.linkedGrammars.get(0);
+        }
+        if (subsequentGrammar != production.getSubsequentGrammar()) {
+          production.setSubsequentGrammar(subsequentGrammar);
+        }
+        subsequentGrammar.normalize(visitedGrammars, syntheticGrammarRegistry);
       }
     }
   }
