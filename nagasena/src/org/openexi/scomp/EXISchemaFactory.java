@@ -1478,7 +1478,7 @@ public class EXISchemaFactory extends EXISchemaStruct {
       final XSComplexTypeDefinition complexType = (XSComplexTypeDefinition)typeDefinition;
       final XSAttributeUse[] attributeUses = sortAttributeUses(complexType);
       final XSWildcard attributeWildcard = complexType.getAttributeWildcard();
-      contentIndex = attributeWildcard != null ? attributeUses.length + 2 : attributeUses.length + 1;
+      contentIndex = attributeUses.length + 1;
 
       final short contentType;
       switch (contentType = complexType.getContentType()) {
@@ -1514,7 +1514,7 @@ public class EXISchemaFactory extends EXISchemaStruct {
   private ProtoGrammar processAttributeUses(ProtoGrammar contentGrammar, int contentIndex, 
       XSAttributeUse[] attributeUses, XSWildcard attributeWildcard) {
     int indexNumber = contentIndex - 1;
-
+    
     ProtoGrammar attributeUseGrammar;
     attributeUseGrammar = new ProtoGrammar(protoGrammarSerial++, this);
     attributeUseGrammar.setIndex(indexNumber--);
@@ -1546,14 +1546,6 @@ public class EXISchemaFactory extends EXISchemaStruct {
           assert false;
           break;
       }
-      attributeUseGrammar = new ProtoGrammar(protoGrammarSerial++, this);
-      attributeUseGrammar.setIndex(indexNumber--);
-      Substance[] subsequentGrammarSubstances = subsequentGrammar.getSubstances();
-      final int n_subsequentGrammarSubstances = subsequentGrammarSubstances.length;
-      for (int i = 0; i < n_subsequentGrammarSubstances; i++) {
-        attributeUseGrammar.addSubstance(subsequentGrammarSubstances[i], m_syntheticGrammarRegistry);
-      }
-      attributeUseGrammar.importGoals(subsequentGrammar);
       for (int i = 0; i < wildcardEvents.length; i++) {
         attributeUseGrammar.addSubstance(new Production(wildcardEvents[i], attributeUseGrammar), m_syntheticGrammarRegistry);
       }

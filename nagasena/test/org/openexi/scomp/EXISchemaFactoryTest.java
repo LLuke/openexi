@@ -6225,21 +6225,24 @@ public class EXISchemaFactoryTest extends TestCase {
     
     int tA = corpus.getTypeOfSchema("", "A");
     Assert.assertTrue(EXISchema.NIL_NODE != tA);
-    int gram_tA_0 = corpus.getGrammarOfType(tA);
-    int prod1_tA_0 = corpus.getProductionOfGrammar(gram_tA_0, 0);
-    Assert.assertEquals(EXISchema.EVENT_TYPE_AT, corpus.getEventOfProduction(prod1_tA_0));
+    int g0 = corpus.getGrammarOfType(tA);
+    int p0_g0 = corpus.getProductionOfGrammar(g0, 0);
+    int event_p0_g0 = corpus.getEventOfProduction(p0_g0);
+    Assert.assertEquals(EXISchema.EVENT_TYPE_AT, corpus.getEventType(event_p0_g0));
 
     // minOccurs is 1
-    int gram_tA_1 = corpus.getGrammarOfProduction(prod1_tA_0);
-    int prod1_tA_1 = corpus.getProductionOfGrammar(gram_tA_1, 0);
-    Assert.assertEquals(EXISchema.EVENT_TYPE_SE, corpus.getEventOfProduction(prod1_tA_1));
+    int g1 = corpus.getGrammarOfProduction(p0_g0);
+    int p0_g1 = corpus.getProductionOfGrammar(g1, 0);
+    int event_p0_g1 = corpus.getEventOfProduction(p0_g1);
+    Assert.assertEquals(EXISchema.EVENT_TYPE_SE, corpus.getEventType(event_p0_g1));
     
     // maxOccurs is unbounded
-    int gram_tA_2 = corpus.getGrammarOfProduction(prod1_tA_1);
-    int prod1_tA_2 = corpus.getProductionOfGrammar(gram_tA_2, 0);
-    Assert.assertEquals(EXISchema.EVENT_TYPE_SE, corpus.getEventOfProduction(prod1_tA_2));
+    int g2 = corpus.getGrammarOfProduction(p0_g1);
+    int p0_g2 = corpus.getProductionOfGrammar(g2, 0);
+    int event_p0_g2 = corpus.getEventOfProduction(p0_g1);
+    Assert.assertEquals(EXISchema.EVENT_TYPE_SE, corpus.getEventType(event_p0_g2));
     // Make sure it comes back to itself.
-    Assert.assertEquals(gram_tA_2, corpus.getGrammarOfProduction(prod1_tA_2));
+    Assert.assertEquals(g2, corpus.getGrammarOfProduction(p0_g2));
   }
 
   /**
@@ -6252,21 +6255,24 @@ public class EXISchemaFactoryTest extends TestCase {
     
     int tA = corpus.getTypeOfSchema("", "A");
     Assert.assertTrue(EXISchema.NIL_NODE != tA);
-    int gram_tA_0 = corpus.getGrammarOfType(tA);
-    int prod1_tA_0 = corpus.getProductionOfGrammar(gram_tA_0, 0);
-    Assert.assertEquals(EXISchema.EVENT_TYPE_AT, corpus.getEventOfProduction(prod1_tA_0));
+    int g0 = corpus.getGrammarOfType(tA);
+    int p0_g0 = corpus.getProductionOfGrammar(g0, 0);
+    int event_p0_g0 = corpus.getEventOfProduction(p0_g0);
+    Assert.assertEquals(EXISchema.EVENT_TYPE_AT, corpus.getEventType(event_p0_g0));
 
     // minOccurs is 1
-    int gram_tA_1 = corpus.getGrammarOfProduction(prod1_tA_0);
-    int prod1_tA_1 = corpus.getProductionOfGrammar(gram_tA_1, 0);
-    Assert.assertEquals(EXISchema.EVENT_TYPE_SE, corpus.getEventOfProduction(prod1_tA_1));
+    int g1 = corpus.getGrammarOfProduction(p0_g0);
+    int p0_g1 = corpus.getProductionOfGrammar(g1, 0);
+    int event_p0_g1 = corpus.getEventOfProduction(p0_g1);
+    Assert.assertEquals(EXISchema.EVENT_TYPE_SE, corpus.getEventType(event_p0_g1));
     
     // maxOccurs is unbounded
-    int gram_tA_2 = corpus.getGrammarOfProduction(prod1_tA_1);
-    int prod1_tA_2 = corpus.getProductionOfGrammar(gram_tA_2, 0);
-    Assert.assertEquals(EXISchema.EVENT_TYPE_SE, corpus.getEventOfProduction(prod1_tA_2));
+    int g2 = corpus.getGrammarOfProduction(p0_g1);
+    int p0_g2 = corpus.getProductionOfGrammar(g2, 0);
+    int event_p0_g2 = corpus.getEventOfProduction(p0_g2);
+    Assert.assertEquals(EXISchema.EVENT_TYPE_SE, corpus.getEventType(event_p0_g2));
     // Make sure it comes back to itself.
-    Assert.assertEquals(gram_tA_2, corpus.getGrammarOfProduction(prod1_tA_2));
+    Assert.assertEquals(g2, corpus.getGrammarOfProduction(p0_g2));
   }
-  
+
 }
