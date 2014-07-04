@@ -75,23 +75,16 @@ public abstract class SchemaInformedGrammar extends Grammar {
       final ArrayList<EventType> invalidAttributes, EventTypeList eventTypeList, 
       final boolean atZero, final int nd, boolean isElem, int gramTypeEmpty, int gramContent) {
     final int gram, elem;
-    final boolean isEmptyGrammar;
     if (isElem) {
       elem = nd; // nd represents an elem when isElem is true
       assert elem != EXISchema.NIL_NODE;
       final int tp = schema.getTypeOfElem(nd);
       gram = schema.getGrammarOfType(tp);
       assert gram != EXISchema.NIL_GRAM;
-      isEmptyGrammar = false;
     }
     else {
       elem = EXISchema.NIL_NODE;
       gram = nd; // nd represents a gram when isElem is false;
-      final boolean isTypeGrammar = gram != EXISchema.NIL_GRAM;
-      if (isTypeGrammar)
-        isEmptyGrammar = gram == gramTypeEmpty;
-      else
-        isEmptyGrammar = false;
     }
     if (gramContent == EXISchema.NIL_GRAM) {
       gramContent = gram;
@@ -146,7 +139,6 @@ public abstract class SchemaInformedGrammar extends Grammar {
     boolean addTupleL3a = false;
     boolean addTupleL3b = false;
     int n_itemsL2 = 0;
-    int n_itemsL2Null = 0; // To count how many items in tupleL2 are null.
     int n_itemsL3b = 0;
     int i,  len;
     len = schemaEventTypes.size();
@@ -175,18 +167,12 @@ public abstract class SchemaInformedGrammar extends Grammar {
       addTupleL2 = true;
     }
     if (typable) {
-      if (!isEmptyGrammar)
-        eventTypeSchemaType = createEventTypeXsiType(eventTypeList); 
-      else
-        ++n_itemsL2Null;
+      eventTypeSchemaType = createEventTypeXsiType(eventTypeList); 
       ++n_itemsL2;
       addTupleL2 = true;
     }
     if (nillable) {
-      if (!isEmptyGrammar)
-        eventTypeSchemaNil = createEventTypeXsiNil(eventTypeList, retrieveEXIGrammar(gramTypeEmpty));
-      else
-        ++n_itemsL2Null;
+      eventTypeSchemaNil = createEventTypeXsiNil(eventTypeList, retrieveEXIGrammar(gramTypeEmpty));
       ++n_itemsL2;
       addTupleL2 = true;
     }
@@ -231,7 +217,7 @@ public abstract class SchemaInformedGrammar extends Grammar {
     ArrayEventCodeTuple tupleL3a = null;
     ArrayEventCodeTuple tupleL3b = null;
     final int totalLen = n_itemsL3b != 0 ? 
-        len + ((n_itemsL2 - n_itemsL2Null) - 1) + n_itemsL3b + n_invalidAttributes: len + (n_itemsL2  - n_itemsL2Null) + n_invalidAttributes;
+        len + (n_itemsL2 - 1) + n_itemsL3b + n_invalidAttributes : len + n_itemsL2 + n_invalidAttributes;
     eventCodes = new ArrayEventCodeTuple(); 
     EventType[] eventTypes = new EventType[totalLen];
     eventCodeItems = new EventCode[addTupleL2 ? len + 1 : len];

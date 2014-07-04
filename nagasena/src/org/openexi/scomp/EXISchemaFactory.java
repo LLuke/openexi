@@ -1501,7 +1501,12 @@ public class EXISchemaFactory extends EXISchemaStruct {
     
       typeGrammar = processAttributeUses(contentGrammar, contentIndex, attributeUses, attributeWildcard);
       
-      emptyTypeGrammar = processAttributeUses(m_emptyContentGrammar, contentIndex, attributeUses, attributeWildcard);
+      if (contentType == XSComplexTypeDefinition.CONTENTTYPE_EMPTY) {
+        // The empty type grammar is the same as type grammar for empty-content types.
+        emptyTypeGrammar = typeGrammar;
+      }
+      else
+        emptyTypeGrammar = processAttributeUses(m_emptyContentGrammar, contentIndex, attributeUses, attributeWildcard);
 
       gram = doWholeGrammar(typeGrammar, contentGrammar, emptyTypeGrammar, globalGMap);
       

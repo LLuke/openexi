@@ -1275,28 +1275,22 @@ public class GrammarXsiTypeTest extends TestBase {
           Assert.assertEquals("\n", exiEvent.getCharacters().makeString());
           eventType = exiEvent.getEventType();
           Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
-          Assert.assertEquals(4, eventType.getIndex());
+          Assert.assertEquals(6, eventType.getIndex());
           eventTypeList = eventType.getEventTypeList();
-          Assert.assertEquals(5, eventTypeList.getLength());
-          /**
-           * ITEM_SCHEMA_TYPE no longer participates in TypeEmpty grammars.
-           * eventType = eventTypeList.item(0);
-           * Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
-           */
-          /**
-           * ITEM_SCHEMA_NIL no longer participates in TypeEmpty grammars.
-           * eventType = eventTypeList.item(1);
-           * Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
-           */
+          Assert.assertEquals(7, eventTypeList.getLength());
           eventType = eventTypeList.item(0);
-          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
           eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(3);
           Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
           Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
-          eventType = eventTypeList.item(2);
+          eventType = eventTypeList.item(4);
           Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
           Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
-          eventType = eventTypeList.item(3);
+          eventType = eventTypeList.item(5);
           Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
         }
     
@@ -1451,28 +1445,22 @@ public class GrammarXsiTypeTest extends TestBase {
           Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
           eventType = exiEvent.getEventType();
           Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
-          Assert.assertEquals(4, eventType.getIndex());
+          Assert.assertEquals(6, eventType.getIndex());
           eventTypeList = eventType.getEventTypeList();
-          Assert.assertEquals(5, eventTypeList.getLength());
-          /**
-           * ITEM_SCHEMA_TYPE no longer participates in TypeEmpty grammars.
-           * eventType = eventTypeList.item(0);
-           * Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
-           */
-          /**
-           * ITEM_SCHEMA_NIL no longer participates in TypeEmpty grammars.
-           * eventType = eventTypeList.item(1);
-           * Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
-           */
+          Assert.assertEquals(7, eventTypeList.getLength());
           eventType = eventTypeList.item(0);
-          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
           eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(3);
           Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
           Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
-          eventType = eventTypeList.item(2);
+          eventType = eventTypeList.item(4);
           Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
           Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
-          eventType = eventTypeList.item(3);
+          eventType = eventTypeList.item(5);
           Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
         }
     

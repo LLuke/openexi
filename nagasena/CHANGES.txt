@@ -1,5 +1,16 @@
 2014-07-03 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+0000.0002.0046.0
+
+- The empty type grammar is the same as type grammar for empty-content types.
+
+M       test/org/openexi/sax/GrammarXsiTypeTest.java
+M       test/org/openexi/sax/GrammarSchemaInformedTest.java
+M       test/org/openexi/sax/GrammarAttributeWildcardTest.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+M       src/org/openexi/proc/grammars/SchemaInformedGrammar.java
+M       build.xml
+
 0000.0002.0045.0
 
 - Removed an extraneous grammar that was inserted when attribute wildcard was

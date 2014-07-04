@@ -1981,49 +1981,43 @@ public class GrammarAttributeWildcardTest extends TestBase {
       Assert.assertEquals(EventType.ITEM_SCHEMA_AT, eventType.itemType);
       Assert.assertEquals("aB", eventType.name);
       Assert.assertEquals("urn:foo", eventType.uri);
-      Assert.assertEquals(0, eventType.getIndex());
+      Assert.assertEquals(2, eventType.getIndex());
       eventTypeList = eventType.getEventTypeList();
-      Assert.assertEquals(10, eventTypeList.getLength());
-      /**
-       * ITEM_SCHEMA_TYPE no longer participates in TypeEmpty grammars.
-       * eventType = eventTypeList.item(0);
-       * Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
-       */
-      /**
-       * ITEM_SCHEMA_NIL no longer participates in TypeEmpty grammars.
-       * eventType = eventTypeList.item(1);
-       * Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
-       */
+      Assert.assertEquals(12, eventTypeList.getLength());
+      eventType = eventTypeList.item(0);
+      Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
       eventType = eventTypeList.item(1);
+      Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+      eventType = eventTypeList.item(3);
       Assert.assertEquals(EventType.ITEM_SCHEMA_AT, eventType.itemType);
       Assert.assertEquals("aD", eventType.name);
       Assert.assertEquals("urn:foo", eventType.uri);
-      eventType = eventTypeList.item(2);
+      eventType = eventTypeList.item(4);
       Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
       Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_ONE, eventType.getDepth());
       Assert.assertNull(eventType.uri);
       Assert.assertNull(eventType.name);
-      eventType = eventTypeList.item(3);
+      eventType = eventTypeList.item(5);
       Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
       Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
       Assert.assertSame(eventType, eventTypeList.getEE());
-      eventType = eventTypeList.item(4);
+      eventType = eventTypeList.item(6);
       Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
       Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
-      eventType = eventTypeList.item(5);
+      eventType = eventTypeList.item(7);
       Assert.assertEquals(EventType.ITEM_SCHEMA_AT_INVALID_VALUE, eventType.itemType);
       Assert.assertEquals("aB", eventType.name);
       Assert.assertEquals("urn:foo", eventType.uri);
-      eventType = eventTypeList.item(6);
+      eventType = eventTypeList.item(8);
       Assert.assertEquals(EventType.ITEM_SCHEMA_AT_INVALID_VALUE, eventType.itemType);
       Assert.assertEquals("aD", eventType.name);
       Assert.assertEquals("urn:foo", eventType.uri);
-      eventType = eventTypeList.item(7);
+      eventType = eventTypeList.item(9);
       Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
       Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
-      eventType = eventTypeList.item(8);
+      eventType = eventTypeList.item(10);
       Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
-      eventType = eventTypeList.item(9);
+      eventType = eventTypeList.item(11);
       Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
       ++n_events;
 
