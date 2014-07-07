@@ -1,3 +1,58 @@
+2014-07-07 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0046.0
+
+- Treat empty and non-empty grammars in the same manner.
+
+M       test/Nagasena/Sax/GrammarAttributeWildcardTest.cs
+M       test/Nagasena/Sax/GrammarXsiTypeTest.cs
+M       test/Nagasena/Sax/GrammarSchemaInformedTest.cs
+M       src/AssemblyInfo.cs
+M       src/Nagasena/Proc/Grammars/SchemaInformedGrammar.cs
+M       testdata/int.gram
+M       testdata/interop/schemaInformedGrammar/undeclaredProductions/union.gram
+M       testdata/interop/schemaInformedGrammar/acceptance.gram
+M       testdata/interop/schemaInformedGrammar/declaredProductions/elementFragment.gram
+M       testdata/interop/schemaInformedGrammar/declaredProductions/fragment-b.gram
+M       testdata/interop/schemaInformedGrammar/declaredProductions/fragment-c.gram
+M       testdata/interop/datatypes/enumeration/enumeration.gram
+M       testdata/interop/datatypes/nbitInteger/nbitInteger.gram
+M       testdata/dateTime.gram
+M       testdata/verySimple.gram
+M       testdata/exi/LocationSightings/LocationSightings.gram
+M       testdata/exi/qname-invalid.gram
+M       testdata/patterns.gram
+M       testdata/DataStore/DataStore.gram
+M       testdata/float.gram
+M       testdata/iso15118/V2G_CI_MsgDef.gram
+M       testdata/opengis/openGis.gram
+M       testdata/token.gram
+M       testdata/nillable01.gram
+M       testdata/ambiguousParticleContext01.gram
+M       testdata/enumeration.gram
+M       testdata/ambiguousParticleContext03.gram
+M       testdata/base64Binary.gram
+M       testdata/substitutionGroup.gram
+M       testdata/decimal.gram
+M       testdata/NLM/nlmcatalogrecord_060101.gram
+M       testdata/fragment_01.gram
+M       testdata/verySimpleDefault.gram
+M       testdata/fpml-4.0/fpml-main-4-0.gram
+M       testdata/list.gram
+M       testdata/compression/emptyBlock_01.gram
+M       testdata/optionsSchema.gram
+M       testdata/reader/attributeLocal_01.gram
+M       testdata/reader/attributeGlobal_01.gram
+M       testdata/reader/contentDatatype_01.gram
+M       testdata/reader/attributeGlobal_02.gram
+M       testdata/testStates/acceptance.gram
+M       testdata/testStates/choiceGroup.gram
+M       testdata/boolean.gram
+M       testdata/JTLM/schemas/TLMComposite.gram
+M       testdata/ambiguousParticleContext02.gram
+M       testdata/attributes.gram
+M       testdata/union.gram
+
 2014-06-13 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0042.0

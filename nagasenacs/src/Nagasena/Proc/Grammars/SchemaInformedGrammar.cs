@@ -62,27 +62,21 @@ namespace Nagasena.Proc.Grammars {
       createEventCodeTuple(schemaEventTypes, grammarOptions, @out, (List<EventType>)null, eventTypeList, false, EXISchema.NIL_GRAM, false, -1, -1);
     }
 
-    internal void createEventCodeTuple(List<EventType> schemaEventTypes, short grammarOptions, EventCodeTupleSink @out, List<EventType> invalidAttributes, EventTypeList eventTypeList, bool atZero, int nd, bool isElem, int gramTypeEmpty, int gramContent) {
+    internal void createEventCodeTuple(List<EventType> schemaEventTypes, 
+      short grammarOptions, EventCodeTupleSink @out, 
+      List<EventType> invalidAttributes, EventTypeList eventTypeList, 
+      bool atZero, int nd, bool isElem, int gramTypeEmpty, int gramContent) {
       int gram, elem;
-      bool isEmptyGrammar;
       if (isElem) {
         elem = nd; // nd represents an elem when isElem is true
         Debug.Assert(elem != EXISchema.NIL_NODE);
         int tp = schema.getTypeOfElem(nd);
         gram = schema.getGrammarOfType(tp);
         Debug.Assert(gram != EXISchema.NIL_GRAM);
-        isEmptyGrammar = false;
       }
       else {
         elem = EXISchema.NIL_NODE;
         gram = nd; // nd represents a gram when isElem is false;
-        bool isTypeGrammar = gram != EXISchema.NIL_GRAM;
-        if (isTypeGrammar) {
-          isEmptyGrammar = gram == gramTypeEmpty;
-        }
-        else {
-          isEmptyGrammar = false;
-        }
       }
       if (gramContent == EXISchema.NIL_GRAM) {
         gramContent = gram;
@@ -137,7 +131,6 @@ namespace Nagasena.Proc.Grammars {
       bool addTupleL3a = false;
       bool addTupleL3b = false;
       int n_itemsL2 = 0;
-      int n_itemsL2Null = 0; // To count how many items in tupleL2 are null.
       int n_itemsL3b = 0;
       int i, len;
       len = schemaEventTypes.Count;
@@ -165,22 +158,12 @@ namespace Nagasena.Proc.Grammars {
         addTupleL2 = true;
       }
       if (typable) {
-        if (!isEmptyGrammar) {
-          eventTypeSchemaType = createEventTypeXsiType(eventTypeList);
-        }
-        else {
-          ++n_itemsL2Null;
-        }
+        eventTypeSchemaType = createEventTypeXsiType(eventTypeList);
         ++n_itemsL2;
         addTupleL2 = true;
       }
       if (nillable) {
-        if (!isEmptyGrammar) {
-          eventTypeSchemaNil = createEventTypeXsiNil(eventTypeList, retrieveEXIGrammar(gramTypeEmpty));
-        }
-        else {
-          ++n_itemsL2Null;
-        }
+        eventTypeSchemaNil = createEventTypeXsiNil(eventTypeList, retrieveEXIGrammar(gramTypeEmpty));
         ++n_itemsL2;
         addTupleL2 = true;
       }
@@ -221,7 +204,8 @@ namespace Nagasena.Proc.Grammars {
       ArrayEventCodeTuple tupleL2 = null;
       ArrayEventCodeTuple tupleL3a = null;
       ArrayEventCodeTuple tupleL3b = null;
-      int totalLen = n_itemsL3b != 0 ? len + ((n_itemsL2 - n_itemsL2Null) - 1) + n_itemsL3b + n_invalidAttributes: len + (n_itemsL2 - n_itemsL2Null) + n_invalidAttributes;
+      int totalLen = n_itemsL3b != 0 ? 
+        len + (n_itemsL2 - 1) + n_itemsL3b + n_invalidAttributes : len + n_itemsL2 + n_invalidAttributes;
       eventCodes = new ArrayEventCodeTuple();
       EventType[] eventTypes = new EventType[totalLen];
       eventCodeItems = new EventCode[addTupleL2 ? len + 1 : len];

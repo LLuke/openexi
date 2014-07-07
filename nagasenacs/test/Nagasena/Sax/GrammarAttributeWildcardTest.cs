@@ -1959,49 +1959,43 @@ namespace Nagasena.Sax {
         Assert.AreEqual(EventType.ITEM_SCHEMA_AT, eventType.itemType);
         Assert.AreEqual("aB", eventType.name);
         Assert.AreEqual("urn:foo", eventType.uri);
-        Assert.AreEqual(0, eventType.Index);
+        Assert.AreEqual(2, eventType.Index);
         eventTypeList = eventType.EventTypeList;
-        Assert.AreEqual(10, eventTypeList.Length);
-        /// <summary>
-        /// ITEM_SCHEMA_TYPE no longer participates in TypeEmpty grammars.
-        /// eventType = eventTypeList.item(0);
-        /// Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
-        /// </summary>
-        /// <summary>
-        /// ITEM_SCHEMA_NIL no longer participates in TypeEmpty grammars.
-        /// eventType = eventTypeList.item(1);
-        /// Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
-        /// </summary>
+        Assert.AreEqual(12, eventTypeList.Length);
+        eventType = eventTypeList.item(0);
+        Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
         eventType = eventTypeList.item(1);
+        Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        eventType = eventTypeList.item(3);
         Assert.AreEqual(EventType.ITEM_SCHEMA_AT, eventType.itemType);
         Assert.AreEqual("aD", eventType.name);
         Assert.AreEqual("urn:foo", eventType.uri);
-        eventType = eventTypeList.item(2);
+        eventType = eventTypeList.item(4);
         Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
         Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_ONE, eventType.Depth);
         Assert.IsNull(eventType.uri);
         Assert.IsNull(eventType.name);
-        eventType = eventTypeList.item(3);
+        eventType = eventTypeList.item(5);
         Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
         Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
         Assert.AreSame(eventType, eventTypeList.EE);
-        eventType = eventTypeList.item(4);
+        eventType = eventTypeList.item(6);
         Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
         Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
-        eventType = eventTypeList.item(5);
+        eventType = eventTypeList.item(7);
         Assert.AreEqual(EventType.ITEM_SCHEMA_AT_INVALID_VALUE, eventType.itemType);
         Assert.AreEqual("aB", eventType.name);
         Assert.AreEqual("urn:foo", eventType.uri);
-        eventType = eventTypeList.item(6);
+        eventType = eventTypeList.item(8);
         Assert.AreEqual(EventType.ITEM_SCHEMA_AT_INVALID_VALUE, eventType.itemType);
         Assert.AreEqual("aD", eventType.name);
         Assert.AreEqual("urn:foo", eventType.uri);
-        eventType = eventTypeList.item(7);
+        eventType = eventTypeList.item(9);
         Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
         Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_THREE, eventType.Depth);
-        eventType = eventTypeList.item(8);
+        eventType = eventTypeList.item(10);
         Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
-        eventType = eventTypeList.item(9);
+        eventType = eventTypeList.item(11);
         Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
         ++n_events;
 
