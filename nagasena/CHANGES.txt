@@ -1,3 +1,14 @@
+2014-07-08 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0047.0
+
+- Grammar optimization by sharing a step grammar to the empty content grammar.
+
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+A       testdata/emptyGrammarSharing01.xsd
+M       build.xml
+
 2014-07-03 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0046.0

@@ -6275,4 +6275,47 @@ public class EXISchemaFactoryTest extends TestCase {
     Assert.assertEquals(g2, corpus.getGrammarOfProduction(p0_g2));
   }
 
+  /**
+   * Grammar optimization by sharing a step grammar to the empty content grammar.
+   */
+  public void testEmptyGrammarSharing01() throws Exception {
+    EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema(
+        "/emptyGrammarSharing01.xsd", getClass(), m_compilerErrorHandler);
+    Assert.assertEquals(0, m_compilerErrorHandler.getTotalCount());
+
+    int tA = corpus.getTypeOfSchema("", "A");
+    Assert.assertTrue(EXISchema.NIL_NODE != tA);
+    int g0_A = corpus.getGrammarOfType(tA);
+    Assert.assertTrue(corpus.hasEmptyGrammar(g0_A));
+    g0_A = corpus.getTypeEmptyGrammarOfGrammar(g0_A);
+    Assert.assertEquals(1, corpus.getProductionCountOfGrammar(g0_A));
+    int p0_g0_A = corpus.getProductionOfGrammar(g0_A, 0);
+    int event_p0_g0_A = corpus.getEventOfProduction(p0_g0_A);
+    Assert.assertEquals(EXISchema.EVENT_TYPE_AT, corpus.getEventType(event_p0_g0_A));
+
+    int g1_A = corpus.getGrammarOfProduction(p0_g0_A);
+    Assert.assertEquals(0, corpus.getProductionCountOfGrammar(g1_A));
+    Assert.assertTrue(corpus.hasEndElement(g1_A));
+    Assert.assertTrue(corpus.hasContentGrammar(g1_A));
+    Assert.assertEquals(1, corpus.getSerialOfGrammar(corpus.getContentGrammarOfGrammar(g1_A)));
+
+    int tB = corpus.getTypeOfSchema("", "B");
+    Assert.assertTrue(EXISchema.NIL_NODE != tB);
+    int g0_B = corpus.getGrammarOfType(tB);
+    Assert.assertTrue(corpus.hasEmptyGrammar(g0_B));
+    g0_B = corpus.getTypeEmptyGrammarOfGrammar(g0_B);
+    Assert.assertEquals(1, corpus.getProductionCountOfGrammar(g0_B));
+    int p0_g0_B = corpus.getProductionOfGrammar(g0_B, 0);
+    int event_p0_g0_B = corpus.getEventOfProduction(p0_g0_B);
+    Assert.assertEquals(EXISchema.EVENT_TYPE_AT, corpus.getEventType(event_p0_g0_B));
+
+    int g1_B = corpus.getGrammarOfProduction(p0_g0_B);
+    Assert.assertEquals(0, corpus.getProductionCountOfGrammar(g1_B));
+    Assert.assertTrue(corpus.hasEndElement(g1_B));
+    Assert.assertTrue(corpus.hasContentGrammar(g1_B));
+    Assert.assertEquals(1, corpus.getSerialOfGrammar(corpus.getContentGrammarOfGrammar(g1_B)));
+    
+    Assert.assertTrue(g1_A == g1_B);
+  }
+
 }

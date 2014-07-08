@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:complexType name="A">
+    <xsd:sequence>
+      <xsd:element name="B">
+        <xsd:complexType/>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="a" use="required"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="B">
+    <xsd:sequence>
+      <xsd:element name="D">
+        <xsd:complexType/>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="b" use="required"/>
+  </xsd:complexType>
+
+</xsd:schema>

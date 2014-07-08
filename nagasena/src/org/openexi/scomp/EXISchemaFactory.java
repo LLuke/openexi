@@ -127,6 +127,9 @@ public class EXISchemaFactory extends EXISchemaStruct {
   private static ProtoGrammar m_simpleTypeGrammar, m_simpleTypeContentGrammar; 
   private static ProtoGrammar m_simpleTypeEmptyGrammar, m_emptyContentGrammar;
   
+  private final ProtoGrammar m_headStepEmptyContentGrammar;
+  private final ProtoGrammar m_nonHeadStepEmptyContentGrammar;
+  
   private final ArrayList<ProtoGrammar> m_syntheticGrammarRegistry = new ArrayList<ProtoGrammar>();
   int protoGrammarSerial; // proto-grammar serial number (should start with m_startSerialNumber)
   private static final int m_startSerialNumber;
@@ -196,6 +199,9 @@ public class EXISchemaFactory extends EXISchemaStruct {
     }
     m_domImplementationLS = (DOMImplementationLS)domImplRegistry.getDOMImplementation("LS");
     m_scribble = new Scribble();
+    
+    m_headStepEmptyContentGrammar = prependStepGrammar(0, m_emptyContentGrammar);
+    m_nonHeadStepEmptyContentGrammar = prependStepGrammar(1, m_emptyContentGrammar);
   }
 
   /**
@@ -1471,14 +1477,12 @@ public class EXISchemaFactory extends EXISchemaStruct {
     else {
       final ProtoGrammar typeGrammar, contentGrammar;
       final ProtoGrammar emptyTypeGrammar;
-      final int contentIndex;
       
       m_syntheticGrammarRegistry.clear();
       assert typeDefinition.getTypeCategory() == XSTypeDefinition.COMPLEX_TYPE;
       final XSComplexTypeDefinition complexType = (XSComplexTypeDefinition)typeDefinition;
       final XSAttributeUse[] attributeUses = sortAttributeUses(complexType);
       final XSWildcard attributeWildcard = complexType.getAttributeWildcard();
-      contentIndex = attributeUses.length + 1;
 
       final short contentType;
       switch (contentType = complexType.getContentType()) {
@@ -1498,15 +1502,30 @@ public class EXISchemaFactory extends EXISchemaStruct {
           contentGrammar = m_emptyContentGrammar;
           break;
       }
-    
-      typeGrammar = processAttributeUses(contentGrammar, contentIndex, attributeUses, attributeWildcard);
+
+      final int contentIndex = attributeUses.length + 1;
+
+      typeGrammar = processAttributeUses(contentIndex - 2, prependStepGrammar(contentIndex - 1, contentGrammar), attributeUses, attributeWildcard);
       
       if (contentType == XSComplexTypeDefinition.CONTENTTYPE_EMPTY) {
         // The empty type grammar is the same as type grammar for empty-content types.
         emptyTypeGrammar = typeGrammar;
       }
-      else
-        emptyTypeGrammar = processAttributeUses(m_emptyContentGrammar, contentIndex, attributeUses, attributeWildcard);
+      else {
+        if (attributeWildcard == null) {
+          if (contentIndex - 1 == 0) {
+            // the step grammar is the head
+            emptyTypeGrammar = processAttributeUses(-1, m_headStepEmptyContentGrammar, attributeUses, attributeWildcard);
+          }
+          else {
+            // the step grammar is *not* the head
+            emptyTypeGrammar = processAttributeUses(contentIndex - 2, m_nonHeadStepEmptyContentGrammar, attributeUses, attributeWildcard);
+          }
+        }
+        else {
+          emptyTypeGrammar = processAttributeUses(contentIndex - 2, prependStepGrammar(contentIndex - 1, m_emptyContentGrammar), attributeUses, attributeWildcard);
+        }
+      }
 
       gram = doWholeGrammar(typeGrammar, contentGrammar, emptyTypeGrammar, globalGMap);
       
@@ -1516,20 +1535,24 @@ public class EXISchemaFactory extends EXISchemaStruct {
     m_types[tp + EXISchemaLayout.TYPE_GRAMMAR] = gram;
   }
   
-  private ProtoGrammar processAttributeUses(ProtoGrammar contentGrammar, int contentIndex, 
-      XSAttributeUse[] attributeUses, XSWildcard attributeWildcard) {
-    int indexNumber = contentIndex - 1;
-    
-    ProtoGrammar attributeUseGrammar;
-    attributeUseGrammar = new ProtoGrammar(protoGrammarSerial++, this);
-    attributeUseGrammar.setIndex(indexNumber--);
-    Substance[] contentSubstances = contentGrammar.getSubstances();
-    final int n_contentSubstances = contentSubstances.length;
+  private ProtoGrammar prependStepGrammar(int indexNumber, ProtoGrammar grammar) {
+    final ProtoGrammar stepGrammar;
+    stepGrammar = new ProtoGrammar(protoGrammarSerial++, this);
+    stepGrammar.setIndex(indexNumber);
+    Substance[] contentSubstances = grammar.getSubstances();
+    int n_contentSubstances = contentSubstances.length;
     for (int i = 0; i < n_contentSubstances; i++) {
-      attributeUseGrammar.addSubstance(contentSubstances[i], m_syntheticGrammarRegistry);
+      stepGrammar.addSubstance(contentSubstances[i], m_syntheticGrammarRegistry);
     }
-    attributeUseGrammar.importGoals(contentGrammar);
-
+    stepGrammar.importGoals(grammar);
+    
+    return stepGrammar;
+  }
+  
+  private ProtoGrammar processAttributeUses(int attributeUseGrammarIndexNumber, 
+      ProtoGrammar stepContentGrammar, XSAttributeUse[] attributeUses, XSWildcard attributeWildcard) {
+    
+    ProtoGrammar attributeUseGrammar = stepContentGrammar;
     ProtoGrammar subsequentGrammar = attributeUseGrammar;
     
     Event[] wildcardEvents = null;
@@ -1558,10 +1581,10 @@ public class EXISchemaFactory extends EXISchemaStruct {
     }
     
     for (int i = attributeUses.length - 1; i >= 0; i--) {
-      attributeUseGrammar = createAttributeUseGrammar(attributeUses[i], indexNumber--, wildcardEvents, subsequentGrammar);
+      attributeUseGrammar = createAttributeUseGrammar(attributeUses[i], attributeUseGrammarIndexNumber--, wildcardEvents, subsequentGrammar);
       subsequentGrammar = attributeUseGrammar;
     }
-    assert indexNumber == -1;
+    assert attributeUseGrammarIndexNumber == -1;
     return subsequentGrammar;
   }
   
