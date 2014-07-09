@@ -1,3 +1,15 @@
+2014-07-09 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0047.0
+
+- Added a test that confirms that complex type of empty content has its type
+  empty grammar equal to its type grammar.
+
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+A  +    testdata/emptyContent01.xsd
+A       testdata/emptyContent02.xsd
+D       testdata/emptyContent.xsd
+
 2014-07-08 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0047.0
