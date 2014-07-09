@@ -1,0 +1,15 @@
+<Root>
+  <msg id="2">Found a warning at line {1} in "{0}".</msg>
+  <msg id="3">Found an error at line {1} in "{0}".</msg>
+  <msg id="4">Found a fatal error at line {1} in "{0}".</msg>
+  <msg id="5">Error position could not be located.</msg>
+  <msg id="6">{0} is not a valid XML document.</msg>
+  <msg id="7">Invalid URI: "{0}"</msg>
+  <msg id="8">XML Schema was loaded successfully.</msg>
+  <msg id="9">XML ({0} bytes) was encoded into EXI ({1} bytes) successfully.</msg>
+  <msg id="10">{0} errors found. Double click on an item to view the file.</msg>
+  <msg id="11">Failed to read "{0}".</msg>
+  <msg id="12">Successfully saved as {0}.</msg>
+  <msg id="13">Are you OK to overwrite {0} ?</msg>
+  <msg id="14"><![CDATA[<html><p>XML of size {0} bytes was converted to EXI of size {1} bytes.</p><p>({2}% of the original XML)</p><p>You can save the result to a file from File menu.</p></html>]]></msg>
+</Root>

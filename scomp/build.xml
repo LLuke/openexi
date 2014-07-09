@@ -1,0 +1,110 @@
+<!DOCTYPE project [
+  <!ENTITY properties.xml SYSTEM "./properties.xml" >
+]>
+<project name="schema-compiler" default="dist" basedir=".">
+
+<property name="debug" value="off"/>
+
+<property name="nagasena.jar" value="lib/nagasena.jar"/>
+<property name="nagasena-rta.jar" value="lib/nagasena-rta.jar"/>
+<property name="xercesImpl.jar" value="lib/apache/xerces/2.11.0/xercesImpl.jar"/>
+<property name="xml-apis.jar" value="lib/apache/xerces/2.11.0/xml-apis.jar"/>
+
+<property environment="env"/>
+
+<property name="app.jar" value="${ant.project.name}.jar"/>
+
+<property name="src.dir" value="./src"/>
+
+<property name="build.dir" value="build"/>
+<property name="build.src" value="${build.dir}/src"/>
+<property name="build.dest" value="${build.dir}/classes"/>
+
+<property name="dist.dir" value="dist"/>
+
+<available property="libraryFound" file="lib/nagasena.jar"/>
+
+<path id="openexi.class.path">
+  <pathelement location="${nagasena.jar}"/>
+  <pathelement location="${nagasena-rta.jar}"/>
+  <pathelement location="${xercesImpl.jar}"/>
+</path>
+
+<path id="compile.class.path">
+  <path refid="openexi.class.path"/>
+</path>
+
+<!-- =================================================================== -->
+<!-- Cleans everything                                                   -->
+<!-- =================================================================== -->
+<target name="clean">
+  <delete dir="${dist.dir}"/>
+  <delete dir="${build.dir}"/>
+</target>
+
+<!-- =================================================================== -->
+<!-- Prepares the build directory                                        -->
+<!-- =================================================================== -->
+<target name="prepare">
+  <mkdir dir="${build.dir}"/>
+</target>
+
+<!-- =================================================================== -->
+<!-- directory creation and file copying common to all configurations    -->
+<!-- =================================================================== -->
+<target name="prepare-common" depends="prepare">
+  <!-- create directories -->
+  <mkdir dir="${build.src}"/>
+  <mkdir dir="${build.dest}"/>
+  <mkdir dir="${dist.dir}"/>
+  <mkdir dir="${dist.dir}/src"/>
+</target>
+
+<!-- =================================================================== -->
+<!-- Prepares the source code                                            -->
+<!-- =================================================================== -->
+<target name="prepare-src" depends="prepare-common">
+  <!-- copy src files -->
+  <copy todir="${build.src}">
+    <fileset dir="${src.dir}"/>
+  </copy>
+
+  <!-- Remove templates -->
+  <replaceregexp byline="true">
+    <regexp pattern="([^ \t])&lt;[.a-zA-Z0-9]+&gt;"/>
+    <substitution expression="\1"/>
+    <fileset dir="${build.src}" includes="**/*.java"/>
+  </replaceregexp>
+</target>
+
+<target name="compile" depends="prepare-src" if="libraryFound">
+  <javac srcdir="${build.src}" destdir="${build.dir}/classes" debug="${debug}" optimize="on" includeantruntime="false">
+    <classpath refid="compile.class.path"/>
+  </javac>
+  <copy todir="${build.dir}/classes">
+    <fileset dir="src" includes="**/*.xml" />
+    <fileset dir="src" includes="**/*.png" />
+  </copy>
+</target>
+
+<target name="dist" depends="compile">
+  <delete file="${dist.dir}/${app.jar}"/>
+  <jar jarfile="${dist.dir}/${app.jar}" basedir="${build.dir}/classes">
+    <manifest>
+      <attribute name="Main-Class" value="org.openexi.tryout.SchemaCompiler"/>
+      <attribute name="Class-Path" value="
+        nagasena.jar nagasena-rta.jar xercesImpl.jar xml-apis.jar 
+        lib/nagasena.jar lib/nagasena-rta.jar lib/xercesImpl.jar lib/xml-apis.jar"/>
+    </manifest>
+  </jar>
+  <copy todir="${dist.dir}" file="${xml-apis.jar}"/>
+  <copy todir="${dist.dir}" file="${xercesImpl.jar}"/>
+  <copy todir="${dist.dir}" file="${nagasena.jar}"/>
+  <copy todir="${dist.dir}" file="${nagasena-rta.jar}"/>
+  <copy todir="${dist.dir}/src">
+    <fileset dir="src" includes="**/*" />
+  </copy>
+  <copy todir="${dist.dir}" file="${ant.project.name}.bat"/>
+</target>
+
+</project>
