@@ -1,4 +1,5 @@
 <Dummy xmlns="urn:publicid:nagasena">
+  <!-- Grammar# 0 -->
   <Fixture>
     <Productions>
       <AttributeWildcard/>
@@ -8,11 +9,13 @@
     <ContentGrammar>1</ContentGrammar>
     <EmptyGrammar>0</EmptyGrammar>
   </Fixture>
+  <!-- Grammar# 1 -->
   <Fixture>
     <Productions>
       <EndElement/>
     </Productions>
   </Fixture>
+  <!-- Grammar# 2 -->
   <Fixture>
     <Productions>
       <AttributeWildcard/>
@@ -26,6 +29,7 @@
     <ContentGrammar>3</ContentGrammar>
     <EmptyGrammar>0</EmptyGrammar>
   </Fixture>
+  <!-- Grammar# 3 -->
   <Fixture>
     <Productions>
       <ElementWildcard/>
@@ -35,6 +39,7 @@
       <Grammar>3</Grammar>
     </Productions>
   </Fixture>
+  <!-- Grammar# 4 -->
   <Fixture>
     <Productions>
       <EndElement/>
@@ -42,6 +47,7 @@
     <ContentGrammar>1</ContentGrammar>
     <EmptyGrammar>4</EmptyGrammar>
   </Fixture>
+  <!-- Grammar# 5 -->
   <Fixture>
     <Productions>
       <CharactersTyped/>
@@ -50,6 +56,7 @@
     <ContentGrammar>6</ContentGrammar>
     <EmptyGrammar>4</EmptyGrammar>
   </Fixture>
+  <!-- Grammar# 6 -->
   <Fixture>
     <Productions>
       <CharactersTyped/>

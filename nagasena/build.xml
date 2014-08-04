@@ -34,6 +34,7 @@
 <property name="build.proc.dir" value="${build.dir}/proc"/>
 <property name="build.sax.dir" value="${build.dir}/sax"/>
 <property name="build.scomp.dir" value="${build.dir}/scomp"/>
+<property name="build.cli.dir" value="${build.dir}/cli"/>
 
 <property name="build.ttf.fixture" value="${build.ttf.dir}/fixture"/>
 
@@ -80,6 +81,9 @@
 <property name="build.scomp.test" value="${build.scomp.dir}/test"/>
 <property name="build.scomp.fixture" value="${build.scomp.dir}/fixture"/>
 <property name="build.scomp.dest" value="${build.scomp.dir}/dest"/>
+
+<property name="build.cli.src" value="${build.cli.dir}/src"/>
+<property name="build.cli.dest" value="${build.cli.dir}/dest"/>
 
 <path id="regexi.class.path">
   <pathelement location="${regexi.classes}"/>
@@ -182,6 +186,16 @@
   <pathelement location="${build.io.dest}"/>
   <pathelement location="${build.proc.dest}"/>
   <pathelement location="${build.sax.dest}"/>
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="cli.src.compile.class.path">
+  <pathelement location="${commons-cli-1.2.jar}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.sax.dest}"/>
+  <pathelement location="${build.scomp.dest}"/>
 </path>
 
 <!-- =================================================================== -->
@@ -488,6 +502,10 @@
   <mkdir dir="${build.scomp.test}"/>
   <mkdir dir="${build.scomp.dest}"/>
 
+  <mkdir dir="${build.cli.dir}"/>
+  <mkdir dir="${build.cli.src}"/>
+  <mkdir dir="${build.cli.dest}"/>
+
   <mkdir dir="${build.testdata.dir}"/>
 
   <mkdir dir="${build.docsrc}"/>
@@ -571,6 +589,9 @@
   </copy>
   <copy todir="${build.scomp.test}">
     <fileset dir="${test.dir}" includes="**/openexi/scomp/**/*" />
+  </copy>
+  <copy todir="${build.cli.src}">
+    <fileset dir="${src.dir}" includes="**/openexi/cli/**/*" />
   </copy>
 
   <copy todir="${build.testdata.dir}">
@@ -727,6 +748,10 @@
     </fileset>
   </copy>
 
+  <javac srcdir="${build.cli.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.cli.dest}" classpathref="cli.src.compile.class.path"/>
+
   <!-- Build fixtures -->
   <javac srcdir="${build.ttf.fixture}" debug="on" optimize="off" encoding="utf-8"
          fork="true" includeAntRuntime="no"
@@ -844,6 +869,27 @@
     <fileset dir="${build.scomp.dest}" />
     <!-- regexi -->
     <fileset dir="${regexi.classes}" />
+  </jar>
+
+  <delete file="${build.dir}/MANIFEST-CLI.MF"/>
+  <manifest file="${build.dir}/MANIFEST-CLI.MF">
+      <attribute name="Main-Class" value="org.openexi.cli.MainClass"/>
+      <attribute name="Class-Path" value="xercesImpl.jar xml-apis.jar commons-cli-1.2.jar 
+        nagasena.jar nagasena-rta.jar lib/xercesImpl.jar lib/xml-apis.jar lib/commons-cli-1.2.jar 
+        lib/nagasena.jar lib/nagasena-rta.jar"/>
+      <attribute name="Software-Name" value="${name}"/>
+      <attribute name="Software-Version" value="${version}"/>
+      <attribute name="Specification-Title" value="Efficient XML Interchange Format 1.0"/>
+      <attribute name="Specification-Vendor" value="World Wide Web Consortium"/>
+      <attribute name="Specification-URL" value="http://www.w3.org/TR/2011/REC-exi-20110310/"/>
+      <attribute name="Implementation-Title" value="org.openexi"/>
+      <attribute name="Implementation-Version" value="${version} ${TODAY} ${hourMinute}"/>
+      <attribute name="Implementation-Vendor" value="${vendor}"/>
+  </manifest>
+
+  <delete file="${build.dir}/nagasena-cli.jar"/>
+  <jar destfile="${build.dir}/nagasena-cli.jar" manifest="${build.dir}/MANIFEST-CLI.MF">
+    <fileset dir="${build.cli.dest}" />
   </jar>
 </target>
 

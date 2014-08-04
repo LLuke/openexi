@@ -1,3 +1,21 @@
+2014-08-04 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0047.0
+
+- Added command-line interface developed by Bruce Hill.
+
+M       fixture/org/openexi/scomp/FixtureGrammars.xml
+A       lib/apache/commons-cli
+A       lib/apache/commons-cli/1.2
+A       lib/apache/commons-cli/1.2/commons-cli-1.2.jar
+A       src/org/openexi/cli
+A       src/org/openexi/cli/CLI.java
+A       src/org/openexi/cli/CLIEncoder.java
+A       src/org/openexi/cli/MainClass.java
+A       src/org/openexi/cli/CLIDecoder.java
+M       properties.xml
+M       build.xml
+
 2014-07-09 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0047.0
