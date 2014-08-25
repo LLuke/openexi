@@ -12,7 +12,12 @@ import org.openexi.schema.EXISchema;
 
 public final class StringValueScriber extends ValueScriberBase {
   
-  public StringValueScriber() {
+  public static final StringValueScriber instance;
+  static {
+    instance = new StringValueScriber();
+  }
+  
+  private StringValueScriber() {
     super(new QName("exi:string", ExiUriConst.W3C_2009_EXI_URI));
   }
   

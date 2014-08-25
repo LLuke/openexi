@@ -27,8 +27,8 @@ class EventTypeFactory {
   }
 
   static EventTypeElement createStartElement(int uriId,int localNameId, String uri, String localName,
-      EventTypeList eventTypeList, EXIGrammarUse ensuingGrammar, EXIGrammar subsequentGrammar) {
-      return new EventTypeElement(uriId, uri, localNameId, localName, eventTypeList, ensuingGrammar, subsequentGrammar);
-    }
+      EventTypeList eventTypeList, EXIGrammarUse ensuingGrammar) {
+    return new EventTypeElement(uriId, uri, localNameId, localName, eventTypeList, ensuingGrammar, (EXIGrammar)null);
+  }
 
 }

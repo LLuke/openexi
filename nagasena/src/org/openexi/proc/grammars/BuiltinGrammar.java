@@ -9,7 +9,6 @@ public abstract class BuiltinGrammar extends Grammar {
 
   public static final byte ELEMENT_STATE_IN_TAG     = 0;
   public static final byte ELEMENT_STATE_IN_CONTENT = 1;
-  static final byte ELEMENT_STATE_DELEGATED  = 2;
   
   // N_NONSCHEMA_ITEMS must be ITEM_EE plus 1
   static final short N_NONSCHEMA_ITEMS = EventType.ITEM_EE + 1; 

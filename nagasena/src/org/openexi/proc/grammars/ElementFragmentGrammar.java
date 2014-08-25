@@ -73,7 +73,7 @@ final class ElementFragmentGrammar extends SchemaInformedGrammar {
       final int localNameId = schema.getLocalNameOfElem(elem); 
       EventTypeElement eventType2 = EventTypeFactory.createStartElement(
           uriId, localNameId, schema.uris[uriId], schema.localNames[uriId][localNameId],
-          m_eventTypeLists[0], subsequentGrammar, (EXIGrammar)null);
+          m_eventTypeLists[0], subsequentGrammar);
       eventTypeList.add(eventType2);
     }
     eventTypeList.add(new EventType(EventCode.EVENT_CODE_DEPTH_ONE, m_eventTypeLists[0], EventType.ITEM_SE_WC, (IGrammar)null));
@@ -103,7 +103,7 @@ final class ElementFragmentGrammar extends SchemaInformedGrammar {
       final int localNameId = schema.getLocalNameOfElem(elem);
       EventTypeElement eventType2 = EventTypeFactory.createStartElement(
           uriId, localNameId, schema.uris[uriId], schema.localNames[uriId][localNameId],
-          m_eventTypeLists[1], ensuingGrammar, (EXIGrammar)null);
+          m_eventTypeLists[1], ensuingGrammar);
       eventTypeList.add(eventType2);
     }
     eventTypeList.add(new EventType(EventCode.EVENT_CODE_DEPTH_ONE, m_eventTypeLists[1], EventType.ITEM_SE_WC, (IGrammar)null));

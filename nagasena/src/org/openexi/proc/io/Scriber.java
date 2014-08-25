@@ -36,6 +36,7 @@ public abstract class Scriber extends Apparatus {
 
   protected final ValueScriber[] m_valueScriberTable; // codec id -> valueScriber
 
+  protected static final StringValueScriber m_stringValueScriberInherent;
   protected static final BinaryValueScriber m_base64BinaryValueScriberInherent;
   protected static final ValueScriber m_booleanValueScriberInherent;
   protected static final ValueScriber m_floatValueScriberInherent;
@@ -51,6 +52,7 @@ public abstract class Scriber extends Apparatus {
   protected static final GMonthValueScriber m_gMonthValueScriberInherent;
   protected static final GDayValueScriber m_gDayValueScriberInherent;
   static {
+    m_stringValueScriberInherent = StringValueScriber.instance;
     m_base64BinaryValueScriberInherent = Base64BinaryValueScriber.instance; 
     m_booleanValueScriberInherent = BooleanValueScriber.instance;
     m_decimalValueScriberInherent = DecimalValueScriber.instance;
@@ -67,7 +69,6 @@ public abstract class Scriber extends Apparatus {
     m_gDayValueScriberInherent = GDayValueScriber.instance;
   }
 
-  protected final StringValueScriber m_stringValueScriberInherent;
   protected final ValueScriber m_enumerationValueScriberInherent;
   protected final ValueScriber m_listValueScriberInherent;
   
@@ -127,7 +128,7 @@ public abstract class Scriber extends Apparatus {
     m_datatypeFactory = datatypeFactory;
     
     final ArrayList<ValueScriber> valueScribers = new ArrayList<ValueScriber>();
-    valueScribers.add(m_stringValueScriberInherent = new StringValueScriber());
+    valueScribers.add(m_stringValueScriberInherent);
     valueScribers.add(m_booleanValueScriberInherent);
     valueScribers.add(m_decimalValueScriberInherent);
     valueScribers.add(m_floatValueScriberInherent);
@@ -358,10 +359,10 @@ public abstract class Scriber extends Apparatus {
 
   protected final void writeLiteralCharacters(Characters str, final int length, int lengthOffset, 
     int simpleType, OutputStream ostream) throws IOException {
-    final int n_chars, escapeIndex, startIndex, width;
+    final int escapeIndex, startIndex, width;
     final int[] rcs;  
     if (simpleType >= 0) {
-      n_chars = m_restrictedCharacterCountTable[m_types[simpleType + EXISchemaLayout.TYPE_NUMBER]]; 
+      final int n_chars = m_restrictedCharacterCountTable[m_types[simpleType + EXISchemaLayout.TYPE_NUMBER]]; 
       if (n_chars != 0) {
         rcs = m_types;
         startIndex = schema.getRestrictedCharacterOfSimpleType(simpleType);
@@ -410,10 +411,10 @@ public abstract class Scriber extends Apparatus {
           rcs = null;
           break;
       }
-      escapeIndex = n_chars = rcs.length;
+      escapeIndex = rcs.length;
     }
     else { // simpleType == EXISchema.NIL_NODE
-      n_chars = startIndex = width = escapeIndex = -1;
+      startIndex = width = escapeIndex = -1;
       rcs = null;
     }
     final int n_ucsCount = str.ucsCount;

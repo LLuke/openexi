@@ -1,3 +1,19 @@
+2014-08-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0048.0
+
+- Minor refactoring.
+
+M       src/org/openexi/proc/io/StringValueScriber.java
+M       src/org/openexi/proc/io/Scriber.java
+M       src/org/openexi/proc/grammars/FragmentGrammar.java
+M       src/org/openexi/proc/grammars/EventTypeFactory.java
+M       src/org/openexi/proc/grammars/BuiltinGrammar.java
+M       src/org/openexi/proc/grammars/ElementFragmentGrammar.java
+M       src/org/openexi/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/proc/grammars/EXIGrammar.java
+M       build.xml
+
 2014-08-04 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0047.0

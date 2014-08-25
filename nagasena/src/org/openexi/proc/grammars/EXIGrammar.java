@@ -110,7 +110,7 @@ final class EXIGrammar extends SchemaInformedGrammar implements IGrammar {
             final int elem = schema.getNodeOfEventType(event);
             uriId = schema.getUriOfElem(elem);
             localNameId = schema.getLocalNameOfElem(elem);
-            final EXIGrammarUse ensuingGrammarUse = m_grammarCache.exiGrammarUses[schema.getSerialOfElem(elem)]; 
+            final EXIGrammarUse ensuingGrammarUse = m_grammarCache.exiGrammarUses[schema.getSerialOfElem(elem)];
             return new EventTypeElement(uriId, schema.uris[uriId], localNameId, schema.localNames[uriId][localNameId], 
                 eventTypeList, ensuingGrammarUse, subsequentGrammar);
           case EXISchema.EVENT_TYPE_AT_WILDCARD_NS:
