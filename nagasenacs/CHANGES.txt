@@ -1,3 +1,18 @@
+2014-08-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0048.0
+
+- Minor refactoring.
+
+M       src/AssemblyInfo.cs
+M       src/Nagasena/Proc/IO/StringValueScriber.cs
+M       src/Nagasena/Proc/IO/Scriber.cs
+M       src/Nagasena/Proc/Grammars/EventTypeFactory.cs
+M       src/Nagasena/Proc/Grammars/BuiltinGrammar.cs
+M       src/Nagasena/Proc/Grammars/ElementFragmentGrammar.cs
+M       src/Nagasena/Proc/Grammars/DocumentGrammar.cs
+M       src/Nagasena/Proc/Grammars/FragmentGrammar.cs
+
 2014-07-07 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0046.0

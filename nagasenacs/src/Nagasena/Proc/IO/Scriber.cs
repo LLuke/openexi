@@ -36,6 +36,7 @@ namespace Nagasena.Proc.IO {
 
     protected internal readonly ValueScriber[] m_valueScriberTable; // codec id -> valueScriber
 
+    internal static readonly StringValueScriber m_stringValueScriberInherent;
     internal static readonly BinaryValueScriber m_base64BinaryValueScriberInherent;
     protected internal static readonly ValueScriber m_booleanValueScriberInherent;
     protected internal static readonly ValueScriber m_floatValueScriberInherent;
@@ -52,6 +53,7 @@ namespace Nagasena.Proc.IO {
     internal static readonly GDayValueScriber m_gDayValueScriberInherent;
 
     static Scriber() {
+      m_stringValueScriberInherent = StringValueScriber.instance;
       m_base64BinaryValueScriberInherent = Base64BinaryValueScriber.instance;
       m_booleanValueScriberInherent = BooleanValueScriber.instance;
       m_decimalValueScriberInherent = DecimalValueScriber.instance;
@@ -68,7 +70,6 @@ namespace Nagasena.Proc.IO {
       m_gDayValueScriberInherent = GDayValueScriber.instance;
     }
 
-    internal readonly StringValueScriber m_stringValueScriberInherent;
     protected internal readonly ValueScriber m_enumerationValueScriberInherent;
     protected internal readonly ValueScriber m_listValueScriberInherent;
 
@@ -118,7 +119,7 @@ namespace Nagasena.Proc.IO {
       m_preserveLexicalValues = false;
 
       List<ValueScriber> valueScribers = new List<ValueScriber>();
-      valueScribers.Add(m_stringValueScriberInherent = new StringValueScriber());
+      valueScribers.Add(m_stringValueScriberInherent);
       valueScribers.Add(m_booleanValueScriberInherent);
       valueScribers.Add(m_decimalValueScriberInherent);
       valueScribers.Add(m_floatValueScriberInherent);
@@ -354,10 +355,10 @@ namespace Nagasena.Proc.IO {
     protected internal abstract void writeUnsignedInteger(BigInteger @uint, Stream ostream);
 
     protected internal void writeLiteralCharacters(Characters str, int length, int lengthOffset, int simpleType, Stream ostream) {
-      int n_chars, escapeIndex, startIndex, width;
+      int escapeIndex, startIndex, width;
       int[] rcs;
       if (simpleType >= 0) {
-        n_chars = m_restrictedCharacterCountTable[m_types[simpleType + EXISchemaLayout.TYPE_NUMBER]];
+        int n_chars = m_restrictedCharacterCountTable[m_types[simpleType + EXISchemaLayout.TYPE_NUMBER]];
         if (n_chars != 0) {
           rcs = m_types;
           startIndex = schema.getRestrictedCharacterOfSimpleType(simpleType);
@@ -406,10 +407,10 @@ namespace Nagasena.Proc.IO {
             rcs = null;
             break;
         }
-        escapeIndex = n_chars = rcs.Length;
+        escapeIndex = rcs.Length;
       }
       else { // simpleType == EXISchema.NIL_NODE
-        n_chars = startIndex = width = escapeIndex = -1;
+        startIndex = width = escapeIndex = -1;
         rcs = null;
       }
       int n_ucsCount = str.ucsCount;

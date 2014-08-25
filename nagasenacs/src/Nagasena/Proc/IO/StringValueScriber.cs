@@ -11,7 +11,12 @@ namespace Nagasena.Proc.IO {
 
   internal sealed class StringValueScriber : ValueScriberBase {
 
-    public StringValueScriber() : base(new QName("exi:string", ExiUriConst.W3C_2009_EXI_URI)) {
+    public static readonly StringValueScriber instance;
+    static StringValueScriber() {
+      instance = new StringValueScriber();
+    }
+
+    private StringValueScriber() : base(new QName("exi:string", ExiUriConst.W3C_2009_EXI_URI)) {
     }
 
     public override short CodecID {

@@ -13,7 +13,6 @@ namespace Nagasena.Proc.Grammars {
 
     public const sbyte ELEMENT_STATE_IN_TAG = 0;
     public const sbyte ELEMENT_STATE_IN_CONTENT = 1;
-    internal const sbyte ELEMENT_STATE_DELEGATED = 2;
 
     // N_NONSCHEMA_ITEMS must be ITEM_EE plus 1
     internal static readonly short N_NONSCHEMA_ITEMS = EventType.ITEM_EE + 1;

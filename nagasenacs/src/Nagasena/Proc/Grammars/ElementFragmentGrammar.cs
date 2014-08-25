@@ -75,7 +75,8 @@ namespace Nagasena.Proc.Grammars {
         }
         int uriId = schema.getUriOfElem(elem);
         int localNameId = schema.getLocalNameOfElem(elem);
-        EventTypeElement eventType2 = EventTypeFactory.createStartElement(uriId, localNameId, schema.uris[uriId], schema.localNames[uriId][localNameId], m_eventTypeLists[0], subsequentGrammar, (EXIGrammar)null);
+        EventTypeElement eventType2 = EventTypeFactory.createStartElement(uriId, localNameId, schema.uris[uriId], schema.localNames[uriId][localNameId], 
+          m_eventTypeLists[0], subsequentGrammar);
         eventTypeList.Add(eventType2);
       }
       eventTypeList.Add(new EventType(EventCode.EVENT_CODE_DEPTH_ONE, m_eventTypeLists[0], EventType.ITEM_SE_WC, (IGrammar)null));
@@ -103,7 +104,8 @@ namespace Nagasena.Proc.Grammars {
         }
         int uriId = schema.getUriOfElem(elem);
         int localNameId = schema.getLocalNameOfElem(elem);
-        EventTypeElement eventType2 = EventTypeFactory.createStartElement(uriId, localNameId, schema.uris[uriId], schema.localNames[uriId][localNameId], m_eventTypeLists[1], ensuingGrammar, (EXIGrammar)null);
+        EventTypeElement eventType2 = EventTypeFactory.createStartElement(uriId, localNameId, schema.uris[uriId], schema.localNames[uriId][localNameId], 
+          m_eventTypeLists[1], ensuingGrammar);
         eventTypeList.Add(eventType2);
       }
       eventTypeList.Add(new EventType(EventCode.EVENT_CODE_DEPTH_ONE, m_eventTypeLists[1], EventType.ITEM_SE_WC, (IGrammar)null));

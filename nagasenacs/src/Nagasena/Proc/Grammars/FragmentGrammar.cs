@@ -90,7 +90,8 @@ namespace Nagasena.Proc.Grammars {
         }
         int uriId = schema.getUriOfElem(fragmentElem);
         int localNameId = schema.getLocalNameOfElem(fragmentElem);
-        EventType @event = EventTypeFactory.createStartElement(uriId, localNameId, schema.uris[uriId], schema.localNames[uriId][localNameId], m_eventTypeLists[1], ensuingGrammar, (EXIGrammar)null);
+        EventType @event = EventTypeFactory.createStartElement(uriId, localNameId, schema.uris[uriId], schema.localNames[uriId][localNameId], 
+          m_eventTypeLists[1], ensuingGrammar);
         eventCodeItems[n] = eventTypes[n] = @event;
       }
       eventCodeItems[n] = eventTypes[n] = new EventType(EventCode.EVENT_CODE_DEPTH_ONE, m_eventTypeLists[1], EventType.ITEM_SE_WC, (IGrammar)null);

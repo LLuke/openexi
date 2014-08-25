@@ -24,8 +24,9 @@ namespace Nagasena.Proc.Grammars {
       return new EventType((string)null, (string)null, -1, -1, EventCode.EVENT_CODE_DEPTH_ONE, eventTypeList, EventType.ITEM_SD, EventDescription_Fields.EVENT_SD, (IGrammar)null);
     }
 
-    internal static EventTypeElement createStartElement(int uriId, int localNameId, string uri, string localName, EventTypeList eventTypeList, EXIGrammarUse ensuingGrammar, EXIGrammar subsequentGrammar) {
-        return new EventTypeElement(uriId, uri, localNameId, localName, eventTypeList, ensuingGrammar, subsequentGrammar);
+    internal static EventTypeElement createStartElement(int uriId, int localNameId, string uri, string localName, 
+      EventTypeList eventTypeList, EXIGrammarUse ensuingGrammar) {
+        return new EventTypeElement(uriId, uri, localNameId, localName, eventTypeList, ensuingGrammar, (EXIGrammar)null);
     }
 
   }
