@@ -7,7 +7,7 @@
 <property name="debug" value="off"/>
 
 <property name="name" value="Nagasena"/>
-<property name="version" value="0000.0002.0048.0"/>
+<property name="version" value="0000.0002.0049.0"/>
 <property name="vendor" value="OpenEXI"/>
 
 &properties.xml;
@@ -832,7 +832,7 @@
       <attribute name="Software-Version" value="${version}"/>
       <attribute name="Specification-Title" value="Efficient XML Interchange Format 1.0"/>
       <attribute name="Specification-Vendor" value="World Wide Web Consortium"/>
-      <attribute name="Specification-URL" value="http://www.w3.org/TR/2011/REC-exi-20110310/"/>
+      <attribute name="Specification-URL" value="http://www.w3.org/TR/2014/REC-exi-20140211/"/>
       <attribute name="Implementation-Title" value="org.openexi"/>
       <attribute name="Implementation-Version" value="${version} ${TODAY} ${hourMinute}"/>
       <attribute name="Implementation-Vendor" value="${vendor}"/>
@@ -881,7 +881,7 @@
       <attribute name="Software-Version" value="${version}"/>
       <attribute name="Specification-Title" value="Efficient XML Interchange Format 1.0"/>
       <attribute name="Specification-Vendor" value="World Wide Web Consortium"/>
-      <attribute name="Specification-URL" value="http://www.w3.org/TR/2011/REC-exi-20110310/"/>
+      <attribute name="Specification-URL" value="http://www.w3.org/TR/2014/REC-exi-20140211/"/>
       <attribute name="Implementation-Title" value="org.openexi"/>
       <attribute name="Implementation-Version" value="${version} ${TODAY} ${hourMinute}"/>
       <attribute name="Implementation-Vendor" value="${vendor}"/>
