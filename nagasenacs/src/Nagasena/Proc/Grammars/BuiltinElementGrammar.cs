@@ -483,8 +483,10 @@ namespace Nagasena.Proc.Grammars {
         untypedCharacters = new EventType(EventCode.EVENT_CODE_DEPTH_ONE, eventTypeList, EventType.ITEM_CH, (IGrammar)null);
         eventTypeList.add(untypedCharacters);
         eventCodes.addItem(untypedCharacters);
-        dirty = true;
-        localNamePartition.addTouchedBuiltinElementGrammars(this);
+        if (!dirty) {
+          localNamePartition.addTouchedBuiltinElementGrammars(this);
+          dirty = true;
+        }
         Debug.Assert(eventTypeList.hasDepthOneCH);
       }
       stateVariables.phase = ELEMENT_STATE_IN_CONTENT;
@@ -496,8 +498,10 @@ namespace Nagasena.Proc.Grammars {
         undeclaredEE = EventTypeFactory.creatEndElement(EventCode.EVENT_CODE_DEPTH_ONE, m_eventTypeListTag);
         m_eventTypeListTag.add(undeclaredEE);
         m_eventCodesTag.addItem(undeclaredEE);
-        dirty = true;
-        localNamePartition.addTouchedBuiltinElementGrammars(this);
+        if (!dirty) {
+          localNamePartition.addTouchedBuiltinElementGrammars(this);
+          dirty = true;
+        }
         Debug.Assert(m_eventTypeListTag.hasDepthOneEE);
       }
     }
@@ -540,8 +544,10 @@ namespace Nagasena.Proc.Grammars {
       EventTypeElement eventTypeElement = new EventTypeElement(uriId, uri, localNameId, name, eventTypeList, ensuingGrammar, (IGrammar)null);
       eventTypeList.add(eventTypeElement);
       eventCodes.addItem(eventTypeElement);
-      dirty = true;
-      localNamePartition.addTouchedBuiltinElementGrammars(this);
+      if (!dirty) {
+        localNamePartition.addTouchedBuiltinElementGrammars(this);
+        dirty = true;
+      }
       return ensuingGrammar;
     }
 
@@ -555,8 +561,10 @@ namespace Nagasena.Proc.Grammars {
         EventType eventTypeAttribute = new EventType(uri, name, uriId, localNameId, EventCode.EVENT_CODE_DEPTH_ONE, m_eventTypeListTag, EventType.ITEM_AT, (IGrammar)null);
         m_eventTypeListTag.add(eventTypeAttribute);
         m_eventCodesTag.addItem(eventTypeAttribute);
-        dirty = true;
-        localNamePartition.addTouchedBuiltinElementGrammars(this);
+        if (!dirty) {
+          localNamePartition.addTouchedBuiltinElementGrammars(this);
+          dirty = true;
+        }
         if (isXsiType) {
           m_xsiTypeAvailable = true;
         }
