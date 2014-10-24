@@ -2133,28 +2133,30 @@ public class EXISchemaFactoryTest extends TestCase {
    * It is testing whether the imported schema is resolved successfully.
    */
   public void testWindowsRelativePath() throws Exception {
-    EXISchemaFactory schemaCompiler = new EXISchemaFactory();
-    schemaCompiler.setCompilerErrorHandler(m_compilerErrorHandler);
-
-    String origCurDir = System.getProperty("user.dir");
-    try {
-      final String relativePath = "opengis\\openGis.xsd";
-      
-      URL url = getClass().getResource(("\\" + relativePath).replace('\\', '/'));
-      String dirPath = new File(url.getFile()).getParentFile().getParent();
-
-      System.setProperty("user.dir", dirPath);
-
-      InputSource inputSource = new InputSource(relativePath);
-
-      EXISchema corpus = schemaCompiler.compile(inputSource);
-      Assert.assertEquals(0, m_compilerErrorHandler.getTotalCount());
-      
-      Assert.assertEquals(XMLSCHEMA_URI, corpus.uris[3]); 
-    }
-    finally {
-      // restore "user.dir" system property
-      System.setProperty("user.dir", origCurDir);
+    if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+      EXISchemaFactory schemaCompiler = new EXISchemaFactory();
+      schemaCompiler.setCompilerErrorHandler(m_compilerErrorHandler);
+  
+      String origCurDir = System.getProperty("user.dir");
+      try {
+        final String relativePath = "opengis\\openGis.xsd";
+        
+        URL url = getClass().getResource(("\\" + relativePath).replace('\\', '/'));
+        String dirPath = new File(url.getFile()).getParentFile().getParent();
+  
+        System.setProperty("user.dir", dirPath);
+  
+        InputSource inputSource = new InputSource(relativePath);
+  
+        EXISchema corpus = schemaCompiler.compile(inputSource);
+        Assert.assertEquals(0, m_compilerErrorHandler.getTotalCount());
+        
+        Assert.assertEquals(XMLSCHEMA_URI, corpus.uris[3]); 
+      }
+      finally {
+        // restore "user.dir" system property
+        System.setProperty("user.dir", origCurDir);
+      }
     }
   }
 
