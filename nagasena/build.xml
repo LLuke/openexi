@@ -876,7 +876,7 @@
       <attribute name="Main-Class" value="org.openexi.cli.MainClass"/>
       <attribute name="Class-Path" value="xercesImpl.jar xml-apis.jar commons-cli-1.2.jar 
         nagasena.jar nagasena-rta.jar lib/xercesImpl.jar lib/xml-apis.jar lib/commons-cli-1.2.jar 
-        lib/nagasena.jar lib/nagasena-rta.jar"/>
+        lib/nagasena.jar lib/nagasena-rta.jar ../lib/apache/commons-cli/1.2/commons-cli-1.2.jar"/>
       <attribute name="Software-Name" value="${name}"/>
       <attribute name="Software-Version" value="${version}"/>
       <attribute name="Specification-Title" value="Efficient XML Interchange Format 1.0"/>
