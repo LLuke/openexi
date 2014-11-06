@@ -1,3 +1,9 @@
+2014-11-06 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Added main function for supporting command-line invocation.
+
+M       src/com/sumerogi/proc/EJSONEncoder.java
+
 2014-11-05 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - Supported null values inside objects.

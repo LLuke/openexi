@@ -1,8 +1,12 @@
 package com.sumerogi.proc;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -420,8 +424,6 @@ public final class EJSONEncoder {
   
   private void encodeFloat() throws IOException {
     
-   
-    
       final char[] characters = m_parser.getTextCharacters();
       final int offset = m_parser.getTextOffset();
       final int length = m_parser.getTextLength();
@@ -504,6 +506,98 @@ public final class EJSONEncoder {
     
       Scriber.numberValueScriber.scribe((String)null, m_scribble, m_scriber.currentState.name, m_scriber);
     
+  }
+  
+  /**
+   * Resolve a string representing an uri into an absolute URI given a base URI.
+   * Null is returned if the uri is null or the uri seems to be a relative one
+   * with baseURI being null.
+   * @param uri
+   * @param baseURI
+   * @return absolute URI
+   * @throws URISyntaxException
+   */
+  private static URI resolveURI(String uri, URI baseURI)
+      throws URISyntaxException {
+    URI resolved = null;
+    if (uri != null) {
+      int pos;
+      if ((pos = uri.indexOf(':')) <= 1) {
+        if (pos == 1) {
+          char firstChar = uri.charAt(0);
+          if ('A' <= firstChar && firstChar <= 'Z' ||
+              'a' <= firstChar && firstChar <= 'z') {
+            resolved = new File(uri).toURI();
+          }
+        }
+        else { // relative URI
+          if (baseURI != null)
+            resolved = baseURI.resolve(uri);
+          else
+            return null;
+        }
+      }
+      if (resolved == null)
+        resolved = new URI(uri); // cross your fingers
+    }
+    return resolved;
+  }
+  
+  public static void main(String args[]) throws IOException {
+    
+    if (args.length != 2) {
+      System.err.println("USAGE: " + EJSONEncoder.class.getName() +
+                         " [JSON File] [Output File]");
+      System.exit(1);
+      return;
+    }
+
+    URI baseURI = new File(System.getProperty("user.dir")).toURI().resolve("whatever");
+
+    URI jsonUri;
+    try {
+      jsonUri = resolveURI(args[0], baseURI);
+    }
+    catch (URISyntaxException use) {
+      System.err.println("'" + args[0] + "' is not a valid URI.");
+      System.exit(1);
+      return;
+    }
+    assert jsonUri != null;
+
+    URI outputUri;
+    try {
+      outputUri = resolveURI(args[1], baseURI);
+    }
+    catch (URISyntaxException use) {
+      System.err.println("'" + args[1] + "' is not a valid URI.");
+      System.exit(1);
+      return;
+    }
+    assert outputUri != null;
+
+    EJSONEncoder encoder = new EJSONEncoder();
+
+    FileOutputStream outputStream;
+    outputStream = new FileOutputStream(outputUri.toURL().getFile());
+    encoder.setOutputStream(outputStream);
+    
+    InputStream inputStream;
+    try {
+      inputStream = jsonUri.toURL().openStream();
+    }
+    catch (IOException e) {
+      outputStream.close();
+      throw e;
+    }
+
+    try {
+      encoder.encode(inputStream);
+    }
+    finally {
+      inputStream.close();
+      outputStream.close();
+    }
   }
   
 }
