@@ -1,0 +1,23 @@
+2014-11-05 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Supported null values inside objects.
+
+A       test/com/sumerogi/proc/OwmTest.java
+M       test/com/sumerogi/proc/BuiltinObjectGrammarTest.java
+M       src/com/sumerogi/schema/Characters.java
+M       src/com/sumerogi/proc/io/SimpleScriber.java
+M       src/com/sumerogi/proc/io/SimpleScanner.java
+M       src/com/sumerogi/proc/common/EventTypeList.java
+M       src/com/sumerogi/proc/common/EventType.java
+M       src/com/sumerogi/proc/grammars/Apparatus.java
+M       src/com/sumerogi/proc/grammars/BuiltinObjectGrammar.java
+A       src/com/sumerogi/proc/grammars/EventTypeNull.java
+M       src/com/sumerogi/proc/grammars/ArrayEventTypeList.java
+M       src/com/sumerogi/proc/grammars/ReversedEventTypeList.java
+M       src/com/sumerogi/proc/EJSONEncoder.java
+A       testdata/null_02.json
+A       testdata/null_03.json
+A       testdata/owm
+A       testdata/owm/owm-1-1cities.json
+A       testdata/owm/owm-1-2cities.json
+

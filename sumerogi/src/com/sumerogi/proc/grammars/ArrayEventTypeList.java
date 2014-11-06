@@ -150,6 +150,11 @@ final class ArrayEventTypeList extends EventTypeList {
   }
 
   @Override
+  public final EventType getNullValueWildcard() {
+    return null;
+  }
+  
+  @Override
   public final EventType getBooleanValueAnonymous() {
     return m_booleanValueAnonymous;
   }

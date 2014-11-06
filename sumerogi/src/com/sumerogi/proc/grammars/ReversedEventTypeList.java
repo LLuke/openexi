@@ -27,6 +27,7 @@ final class ReversedEventTypeList extends EventTypeList {
   
   private EventType m_eventNumberValueWildcard;
   private EventType m_eventBooleanValueWildcard;
+  private EventType m_eventNullValueWildcard;
 
 //  boolean hasDepthOneCH;
 //  private EventType m_eventTypeCharacters;
@@ -61,6 +62,7 @@ final class ReversedEventTypeList extends EventTypeList {
     m_eventStringValueAnonymous = null;
     m_eventNumberValueWildcard = null;
     m_eventBooleanValueWildcard = null;
+    m_eventNullValueWildcard = null;
     
 //    hasDepthOneCH = false;
 //    m_eventTypeCharacters = null;
@@ -163,6 +165,11 @@ final class ReversedEventTypeList extends EventTypeList {
     assert false;
     return null;
   }
+  
+  @Override
+  public final EventType getNullValueWildcard() {
+    return m_eventNullValueWildcard;
+  }
 
   @Override
   public final EventType getBooleanValueAnonymous() {
@@ -251,6 +258,9 @@ final class ReversedEventTypeList extends EventTypeList {
         break;
       case EventType.ITEM_BOOLEAN_VALUE_WILDCARD:
         m_eventBooleanValueWildcard = eventType;
+        break;
+      case EventType.ITEM_NULL_WILDCARD:
+        m_eventNullValueWildcard = eventType;
         break;
 //      case EventType.ITEM_CH:
 //        m_eventTypeCharacters = eventType;

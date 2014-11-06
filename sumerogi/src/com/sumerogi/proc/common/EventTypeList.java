@@ -33,7 +33,7 @@ public abstract class EventTypeList {
   public abstract EventType getStartArrayWildcard();
   public abstract EventType getEndArray();
 
-  public final EventType getValueNamed(String name, byte itemType) {
+  public final EventType getEventType(byte itemType, String name) {
     final int length = getLength();
     for (int i = 0; i < length; i++) {
       final EventType eventType = item(i);
@@ -79,6 +79,7 @@ public abstract class EventTypeList {
   public abstract EventType getNumberValueWildcard();
 
   public abstract EventType getNullValueAnonymous();
+  public abstract EventType getNullValueWildcard();
 
   public abstract EventType getBooleanValueAnonymous();
   public abstract EventType getBooleanValueWildcard();

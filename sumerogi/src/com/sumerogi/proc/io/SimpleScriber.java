@@ -46,7 +46,7 @@ abstract class SimpleScriber extends Scriber {
       case EventType.ITEM_STRING_VALUE_WILDCARD:
       case EventType.ITEM_NUMBER_VALUE_WILDCARD:
       case EventType.ITEM_BOOLEAN_VALUE_WILDCARD:
-      case EventType.ITEM_NL_WC:
+      case EventType.ITEM_NULL_WILDCARD:
       case EventType.ITEM_START_ARRAY_WILDCARD:
       case EventType.ITEM_START_OBJECT_WILDCARD:
         localNameId = writeLocalName(name, stringTable, (OutputStream)null);
@@ -54,7 +54,7 @@ abstract class SimpleScriber extends Scriber {
       case EventType.ITEM_STRING_VALUE_NAMED:
       case EventType.ITEM_NUMBER_VALUE_NAMED:
       case EventType.ITEM_BOOLEAN_VALUE_NAMED:
-      case EventType.ITEM_NL_NAMED:
+      case EventType.ITEM_NULL_NAMED:
       case EventType.ITEM_START_OBJECT_NAMED:
       case EventType.ITEM_START_ARRAY_NAMED:
         localNameId = eventType.getNameId();

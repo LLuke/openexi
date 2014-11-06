@@ -11,8 +11,10 @@ public final class Characters {
   private final int m_hashCode;
 
   public static final Characters CHARACTERS_EMPTY;
+  public static final Characters CHARACTERS_NULL;
   static {
     CHARACTERS_EMPTY = new Characters("".toCharArray(), 0, 0, false);
+    CHARACTERS_NULL = new Characters("null".toCharArray(), 0, 4, false);
   }
   
   public Characters(char[] characters, int startIndex, int length, boolean isVolatile) {

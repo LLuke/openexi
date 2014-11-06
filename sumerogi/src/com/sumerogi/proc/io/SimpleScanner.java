@@ -104,7 +104,10 @@ abstract class SimpleScanner extends Scanner {
       case EventType.ITEM_NULL_ANONYMOUS:
         anonymousNullValue(eventType);
         return eventType.asEventDescription();
-        
+      case EventType.ITEM_NULL_WILDCARD:
+        return doNullValueWildcard(eventType);
+      case EventType.ITEM_NULL_NAMED:
+        return eventType.asEventDescription();
                 
         
 //      case EventType.ITEM_DTD:
@@ -228,6 +231,13 @@ abstract class SimpleScanner extends Scanner {
     final int nameId = eventType.getNameId();
     text = m_booleanValueScannerInherent.scan(nameId);
     return new EXIEventBooleanValue(text, eventType);
+  }
+
+  private EventDescription doNullValueWildcard(EventType eventType) throws IOException {
+    final int nameId = readName(stringTable);
+    wildcardNullValue(eventType.getIndex(), nameId);
+    final String nameString = stringTable.localNameEntries[nameId].localName;
+    return new EXIEventWildcardValue(EventDescription.EVENT_NULL, nameString, nameId, Characters.CHARACTERS_NULL, eventType);
   }
 
   private EventDescription doStartObjectWildcard(EventType eventType) throws IOException {

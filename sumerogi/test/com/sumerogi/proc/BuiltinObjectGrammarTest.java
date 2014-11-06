@@ -398,5 +398,137 @@ public class BuiltinObjectGrammarTest extends TestCase {
     eventType = event.getEventType();
     Assert.assertEquals(EventType.ITEM_END_DOCUMENT, eventType.itemType);
   }
+
+  /**
+   */
+  public void testNull_02() throws Exception {
+  
+    EJSONEncoder encoder = new EJSONEncoder();
+    
+    ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
+    
+    
+    InputStream inputStream = getClass().getResource("/null_02.json").openStream();
+    
+    encoder.setOutputStream(baos);
+    
+    
+    encoder.encode(inputStream);
+    inputStream.close();
+    
+    byte[] bts = baos.toByteArray();
+    
+    System.out.println(bts.length);
+    
+    ByteArrayInputStream bais = new ByteArrayInputStream(bts);
+    
+    GrammarCache grammarCache = new GrammarCache();
+
+    EJSONDecoder decoder = new EJSONDecoder();
+    decoder.setGrammarCache(grammarCache);
+    
+    decoder.setInputStream(bais);
+    
+    Scanner scanner = decoder.processHeader();
+    
+    EventDescription event;
+    EventType eventType;
+    
+    event = scanner.nextEvent();
+    eventType = event.getEventType();
+    Assert.assertEquals(EventType.ITEM_START_DOCUMENT, eventType.itemType);
+    Assert.assertEquals(EventDescription.EVENT_START_DOCUMENT, event.getEventKind());
+    
+    event = scanner.nextEvent();
+    eventType = event.getEventType();
+    Assert.assertEquals(EventType.ITEM_START_OBJECT_ANONYMOUS, eventType.itemType);
+    Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+
+    event = scanner.nextEvent();
+    eventType = event.getEventType();
+    Assert.assertEquals(EventType.ITEM_NULL_WILDCARD, eventType.itemType);
+    Assert.assertNull(eventType.getName());
+    Assert.assertEquals(EventDescription.EVENT_NULL, event.getEventKind());
+    Assert.assertEquals("qianlu", event.getName());
+    Assert.assertEquals("null", event.getCharacters().makeString());
+
+    event = scanner.nextEvent();
+    eventType = event.getEventType();
+    Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+
+    event = scanner.nextEvent();
+    eventType = event.getEventType();
+    Assert.assertEquals(EventType.ITEM_END_DOCUMENT, eventType.itemType);
+  }
+
+  /**
+   */
+  public void testNull_03() throws Exception {
+  
+    EJSONEncoder encoder = new EJSONEncoder();
+    
+    ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
+    
+    
+    InputStream inputStream = getClass().getResource("/null_03.json").openStream();
+    
+    encoder.setOutputStream(baos);
+    
+    
+    encoder.encode(inputStream);
+    inputStream.close();
+    
+    byte[] bts = baos.toByteArray();
+    
+    System.out.println(bts.length);
+    
+    ByteArrayInputStream bais = new ByteArrayInputStream(bts);
+    
+    GrammarCache grammarCache = new GrammarCache();
+
+    EJSONDecoder decoder = new EJSONDecoder();
+    decoder.setGrammarCache(grammarCache);
+    
+    decoder.setInputStream(bais);
+    
+    Scanner scanner = decoder.processHeader();
+    
+    EventDescription event;
+    EventType eventType;
+    
+    event = scanner.nextEvent();
+    eventType = event.getEventType();
+    Assert.assertEquals(EventType.ITEM_START_DOCUMENT, eventType.itemType);
+    Assert.assertEquals(EventDescription.EVENT_START_DOCUMENT, event.getEventKind());
+    
+    event = scanner.nextEvent();
+    eventType = event.getEventType();
+    Assert.assertEquals(EventType.ITEM_START_OBJECT_ANONYMOUS, eventType.itemType);
+    Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+
+    event = scanner.nextEvent();
+    eventType = event.getEventType();
+    Assert.assertEquals(EventType.ITEM_NULL_WILDCARD, eventType.itemType);
+    Assert.assertNull(eventType.getName());
+    Assert.assertEquals(EventDescription.EVENT_NULL, event.getEventKind());
+    Assert.assertEquals("qianlu", event.getName());
+    Assert.assertEquals("null", event.getCharacters().makeString());
+
+    event = scanner.nextEvent();
+    eventType = event.getEventType();
+    Assert.assertEquals(EventType.ITEM_NULL_NAMED, eventType.itemType);
+    Assert.assertEquals("qianlu", eventType.getName());
+    Assert.assertEquals(EventDescription.EVENT_NULL, event.getEventKind());
+    Assert.assertEquals("qianlu", event.getName());
+    Assert.assertEquals("null", event.getCharacters().makeString());
+
+    event = scanner.nextEvent();
+    eventType = event.getEventType();
+    Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+
+    event = scanner.nextEvent();
+    eventType = event.getEventType();
+    Assert.assertEquals(EventType.ITEM_END_DOCUMENT, eventType.itemType);
+  }
   
 }

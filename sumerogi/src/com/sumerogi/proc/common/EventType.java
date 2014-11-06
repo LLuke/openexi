@@ -52,9 +52,9 @@ public class EventType extends EventCode implements EventDescription {
   /** Event type for anonymous Null Value */
   public static final byte ITEM_NULL_ANONYMOUS                            = 19;
   /** Event type for wildcard Null Value */
-  public static final byte ITEM_NL_WC                                     = 20;
+  public static final byte ITEM_NULL_WILDCARD                             = 20;
   /** Event type for named Null Value */
-  public static final byte ITEM_NL_NAMED                                  = 21;
+  public static final byte ITEM_NULL_NAMED                                = 21;
 
   /** @y.exclude */
   public final byte depth;

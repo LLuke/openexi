@@ -54,7 +54,7 @@ final class BuiltinObjectGrammar extends BuiltinGrammar implements IGrammar {
     
     int n_itemsL3 = 0;
 
-    nullValueWildcard = new EventType(EventCode.EVENT_CODE_DEPTH_THREE, m_eventTypeList, EventType.ITEM_NL_WC);
+    nullValueWildcard = new EventType(EventCode.EVENT_CODE_DEPTH_THREE, m_eventTypeList, EventType.ITEM_NULL_WILDCARD, EventDescription.EVENT_NULL);
     m_eventTypeList.add(nullValueWildcard);
     arrayWildcard = new EventType(EventCode.EVENT_CODE_DEPTH_THREE, m_eventTypeList, EventType.ITEM_START_ARRAY_WILDCARD); 
     m_eventTypeList.add(arrayWildcard);
@@ -223,9 +223,12 @@ final class BuiltinObjectGrammar extends BuiltinGrammar implements IGrammar {
   private void wildcardValue(int eventTypeIndex, int nameId, byte itemType, byte eventKind) {
     assert m_eventTypeList.item(eventTypeIndex).getDepth() > EventCode.EVENT_CODE_DEPTH_ONE;
     final String name = stringTable.localNameEntries[nameId].localName;
-    final EventType eventTypeStringValue = new EventType(name, nameId, EventCode.EVENT_CODE_DEPTH_ONE, m_eventTypeList, itemType, eventKind);
-    m_eventTypeList.add(eventTypeStringValue);
-    m_eventCodes.addItem(eventTypeStringValue);
+    addEventType(new EventType(name, nameId, EventCode.EVENT_CODE_DEPTH_ONE, m_eventTypeList, itemType, eventKind));
+  }
+  
+  private void addEventType(EventType eventType) {
+    m_eventTypeList.add(eventType);
+    m_eventCodes.addItem(eventType);
     if (!dirty) {
       stringTable.addTouchedBuiltinGrammars(this);
       dirty = true;
@@ -269,8 +272,7 @@ final class BuiltinObjectGrammar extends BuiltinGrammar implements IGrammar {
   
   @Override
   public void wildcardNullValue(int eventTypeIndex, int nameId) {
-    wildcardValue(eventTypeIndex, nameId, EventType.ITEM_NL_NAMED, EventDescription.EVENT_NULL);
+    addEventType(new EventTypeNull(nameId, stringTable.localNameEntries[nameId].localName, m_eventTypeList));
   }
-
   
 }

@@ -212,6 +212,10 @@ public abstract class Apparatus {
     currentState.targetGrammar.anonymousNullValue(eventType, currentState);
   }
 
+  public void wildcardNullValue(int eventTypeIndex, int nameId) {
+    currentState.targetGrammar.wildcardNullValue(eventTypeIndex, nameId);
+  }
+
   public void wildcardNullValue(int eventTypeIndex, int nameId, GrammarState stateVariables) {
     currentState.targetGrammar.wildcardNullValue(eventTypeIndex, nameId);
   }

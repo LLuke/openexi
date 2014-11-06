@@ -187,7 +187,7 @@ public final class EJSONEncoder {
         if (token == JsonToken.VALUE_STRING) {
           final String stringValue = m_parser.getText();
           eventTypes = m_scriber.getNextEventTypes();
-          if ((eventType = eventTypes.getValueNamed(name, EventType.ITEM_STRING_VALUE_NAMED)) != null) {
+          if ((eventType = eventTypes.getEventType(EventType.ITEM_STRING_VALUE_NAMED, name)) != null) {
             m_scriber.writeEventType(eventType);
             final int nameId = eventType.getNameId();
             Scriber.stringValueScriber.scribe(stringValue, m_scribble, nameId, m_scriber);
@@ -203,7 +203,7 @@ public final class EJSONEncoder {
         }
         else if (token == JsonToken.VALUE_NUMBER_INT) {
           eventTypes = m_scriber.getNextEventTypes();
-          if ((eventType = eventTypes.getValueNamed(name, EventType.ITEM_NUMBER_VALUE_NAMED)) != null) {
+          if ((eventType = eventTypes.getEventType(EventType.ITEM_NUMBER_VALUE_NAMED, name)) != null) {
             m_scriber.writeEventType(eventType);
             encodeInteger();
           }
@@ -219,7 +219,7 @@ public final class EJSONEncoder {
         }
         else if (token == JsonToken.VALUE_NUMBER_FLOAT) { 
           eventTypes = m_scriber.getNextEventTypes();
-          if ((eventType = eventTypes.getValueNamed(name, EventType.ITEM_NUMBER_VALUE_NAMED)) != null) {
+          if ((eventType = eventTypes.getEventType(EventType.ITEM_NUMBER_VALUE_NAMED, name)) != null) {
             m_scriber.writeEventType(eventType);
             encodeFloat();
           }
@@ -234,7 +234,7 @@ public final class EJSONEncoder {
         }
         else if (token == JsonToken.VALUE_TRUE || token == JsonToken.VALUE_FALSE) {
           eventTypes = m_scriber.getNextEventTypes();
-          if ((eventType = eventTypes.getValueNamed(name, EventType.ITEM_BOOLEAN_VALUE_NAMED)) != null) {
+          if ((eventType = eventTypes.getEventType(EventType.ITEM_BOOLEAN_VALUE_NAMED, name)) != null) {
             m_scriber.writeEventType(eventType);
           }
           else if ((eventType = eventTypes.getBooleanValueWildcard()) != null) {
@@ -284,6 +284,19 @@ public final class EJSONEncoder {
             m_scriber.startArrayWildcard(nameId);
           }
           encodeArray();
+        }
+        else if (token == JsonToken.VALUE_NULL) { 
+          eventTypes = m_scriber.getNextEventTypes();
+          if ((eventType = eventTypes.getEventType(EventType.ITEM_NULL_NAMED, name)) != null) {
+            m_scriber.writeEventType(eventType);
+          }
+          else if ((eventType = eventTypes.getNullValueWildcard()) != null) {
+            m_scriber.writeEventType(eventType);
+            final int nameId = m_scriber.writeName(name, eventType);
+            m_scriber.wildcardNullValue(eventType.getIndex(), nameId); 
+          }
+          else
+            assert false;
         }
         
       }
