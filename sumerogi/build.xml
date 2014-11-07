@@ -1,0 +1,320 @@
+<!DOCTYPE project [
+  <!ENTITY properties.xml SYSTEM "./properties.xml" >
+]>
+
+<project name="Sumerogi" default="test" basedir=".">
+
+<property name="debug" value="off"/>
+
+<property name="name" value="Sumerogi"/>
+<property name="version" value="0000.0000.0001.0"/>
+<property name="vendor" value="OpenEXI"/>
+
+&properties.xml;
+
+<property name="src.dir" value="./src"/>
+<property name="test.dir" value="./test"/>
+<property name="testdata.dir" value="./testdata"/>
+
+<property name="build.dir" value="./build"/>
+<property name="build.testdata.dir" value="${build.dir}/testdata"/>
+
+<property name="build.util.dir" value="${build.dir}/util"/>
+<property name="build.schema.dir" value="${build.dir}/schema"/>
+<property name="build.common.dir" value="${build.dir}/common"/>
+<property name="build.grammars.dir" value="${build.dir}/grammars"/>
+<property name="build.io.dir" value="${build.dir}/io"/>
+<property name="build.proc.dir" value="${build.dir}/proc"/>
+
+<property name="build.util.src" value="${build.util.dir}/src"/>
+<property name="build.util.dest" value="${build.util.dir}/dest"/>
+
+<property name="build.schema.src" value="${build.schema.dir}/src"/>
+<property name="build.schema.dest" value="${build.schema.dir}/dest"/>
+
+<property name="build.common.src" value="${build.common.dir}/src"/>
+<property name="build.common.test" value="${build.common.dir}/test"/>
+<property name="build.common.dest" value="${build.common.dir}/dest"/>
+
+<property name="build.grammars.src" value="${build.grammars.dir}/src"/>
+<property name="build.grammars.dest" value="${build.grammars.dir}/dest"/>
+
+<property name="build.io.src" value="${build.io.dir}/src"/>
+<property name="build.io.dest" value="${build.io.dir}/dest"/>
+
+<property name="build.proc.src" value="${build.proc.dir}/src"/>
+<property name="build.proc.test" value="${build.proc.dir}/test"/>
+<property name="build.proc.dest" value="${build.proc.dir}/dest"/>
+
+<path id="jackson.class.path">
+  <pathelement location="${jackson.jar}"/>
+</path>
+
+<!-- =================================================================== -->
+<!-- Source Compilation Classpathes                                      -->
+<!-- =================================================================== -->
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="schema.src.compile.class.path">
+  <pathelement location="${build.util.dest}"/>
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="common.src.compile.class.path">
+  <pathelement location="${build.schema.dest}"/>
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="grammars.src.compile.class.path">
+  <pathelement location="${build.util.dest}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="io.src.compile.class.path">
+  <pathelement location="${build.util.dest}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.putil.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="proc.src.compile.class.path">
+  <path refid="jackson.class.path"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.putil.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.io.dest}"/>
+</path>
+
+<!-- =================================================================== -->
+<!-- Test Compilation Classpathes                                        -->
+<!-- =================================================================== -->
+
+<path id="common.test.compile.class.path">
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+</path>
+
+<path id="proc.test.compile.class.path">
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.schema.fixture}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.putil.dest}"/>
+  <pathelement location="${build.events.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.io.dest}"/>
+  <pathelement location="${build.compression.dest}"/>
+  <pathelement location="${build.proc.dest}"/>
+  <pathelement location="${build.scomp.dest}"/>
+  <pathelement location="${build.scomp.fixture}"/>
+</path>
+
+<!-- =================================================================== -->
+<!-- Test Run Classpathes                                                -->
+<!-- =================================================================== -->
+
+<path id="common.test.run.class.path">
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.dir}/sumerogi.jar"/>
+  <pathelement location="${build.common.test}"/>
+</path>
+
+<path id="proc.test.run.class.path">
+  <path refid="jackson.class.path"/>
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.dir}/sumerogi.jar"/>
+  <pathelement location="${build.dir}/nagasena-rta.jar"/>
+  <pathelement location="${build.testdata.dir}"/>
+  <pathelement location="${build.schema.fixture}"/>
+  <pathelement location="${build.scomp.fixture}"/>
+  <pathelement location="${build.proc.test}"/>
+</path>
+
+<!-- =================================================================== -->
+<!-- Cleans everything                                                   -->
+<!-- =================================================================== -->
+<target name="clean">
+  <delete dir="${build.dir}"/>
+</target>
+
+<!-- =================================================================== -->
+<!-- Prepares the build directory                                        -->
+<!-- =================================================================== -->
+<target name="prepare">
+  <mkdir dir="${build.dir}"/>
+</target>
+
+<!-- =================================================================== -->
+<!-- directory creation and file copying common to all configurations    -->
+<!-- =================================================================== -->
+<target name="prepare-common" depends="prepare">
+  <!-- create directories -->
+  <mkdir dir="${build.util.dir}"/>
+  <mkdir dir="${build.util.src}"/>
+  <mkdir dir="${build.util.dest}"/>
+
+  <mkdir dir="${build.schema.dir}"/>
+  <mkdir dir="${build.schema.src}"/>
+  <mkdir dir="${build.schema.dest}"/>
+
+  <mkdir dir="${build.common.dir}"/>
+  <mkdir dir="${build.common.src}"/>
+  <mkdir dir="${build.common.test}"/>
+  <mkdir dir="${build.common.dest}"/>
+
+  <mkdir dir="${build.grammars.dir}"/>
+  <mkdir dir="${build.grammars.src}"/>
+  <mkdir dir="${build.grammars.dest}"/>
+
+  <mkdir dir="${build.io.dir}"/>
+  <mkdir dir="${build.io.src}"/>
+  <mkdir dir="${build.io.dest}"/>
+
+  <mkdir dir="${build.proc.dir}"/>
+  <mkdir dir="${build.proc.src}"/>
+  <mkdir dir="${build.proc.test}"/>
+  <mkdir dir="${build.proc.dest}"/>
+
+  <mkdir dir="${build.testdata.dir}"/>
+
+</target>
+
+<!-- =================================================================== -->
+<!-- Prepares the source code                                            -->
+<!-- =================================================================== -->
+<target name="prepare-src" depends="prepare-common">
+
+  <copy todir="${build.util.src}">
+    <fileset dir="${src.dir}" includes="**/sumerogi/util/**/*" />
+  </copy>
+  <copy todir="${build.schema.src}">
+    <fileset dir="${src.dir}" includes="**/sumerogi/schema/**/*" />
+  </copy>
+  <copy todir="${build.common.src}">
+    <fileset dir="${src.dir}" includes="**/sumerogi/proc/common/**/*" />
+  </copy>
+  <copy todir="${build.common.test}">
+    <fileset dir="${test.dir}" includes="**/sumerogi/proc/common/**/*" />
+  </copy>
+  <copy todir="${build.grammars.src}">
+    <fileset dir="${src.dir}" includes="**/sumerogi/proc/grammars/**/*" />
+  </copy>
+  <copy todir="${build.io.src}">
+    <fileset dir="${src.dir}" includes="**/sumerogi/proc/io/**/*" 
+      excludes="**/sumerogi/proc/io/compression/**/*" />
+  </copy>
+  <copy todir="${build.proc.src}">
+    <fileset dir="${src.dir}" includes="**/sumerogi/proc/*" />
+  </copy>
+  <copy todir="${build.proc.test}">
+    <fileset dir="${test.dir}" includes="**/sumerogi/proc/*" />
+  </copy>
+
+  <copy todir="${build.testdata.dir}">
+    <fileset dir="${testdata.dir}" includes="**/*/" />
+  </copy>
+
+</target>
+
+<!-- =================================================================== -->
+<!-- Compiles the source directory                                       -->
+<!-- =================================================================== -->
+<target name="compile" description="compilation" depends="prepare-src">
+
+  <!-- Build sources -->
+  <javac srcdir="${build.util.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.util.dest}"/>
+
+  <javac srcdir="${build.schema.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.schema.dest}" classpathref="schema.src.compile.class.path"/>
+
+  <javac srcdir="${build.common.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.common.dest}" classpathref="common.src.compile.class.path"/>
+
+  <javac srcdir="${build.grammars.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.grammars.dest}" classpathref="grammars.src.compile.class.path"/>
+
+  <javac srcdir="${build.io.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.io.dest}" classpathref="io.src.compile.class.path"/>
+
+  <javac srcdir="${build.proc.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.proc.dest}" classpathref="proc.src.compile.class.path"/>
+
+  <!-- Build tests -->
+  <javac srcdir="${build.common.test}" debug="on" optimize="off" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         classpathref="common.test.compile.class.path"/>
+
+  <javac srcdir="${build.proc.test}" debug="on" optimize="off" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         classpathref="proc.test.compile.class.path"/>
+
+</target>
+
+<!-- =================================================================== -->
+<!-- Creates the package                                                 -->
+<!-- =================================================================== -->
+<target name="jar" description="packaging">
+  <tstamp>
+    <format property="hourMinute" pattern="HH:mm z"/>
+  </tstamp>
+  <delete file="${build.dir}/MANIFEST.MF"/>
+  <manifest file="${build.dir}/MANIFEST.MF">
+    <section name="org/sumerogi/">
+      <attribute name="Software-Name" value="${name}"/>
+      <attribute name="Software-Version" value="${version}"/>
+      <attribute name="Implementation-Title" value="org.sumerogi"/>
+      <attribute name="Implementation-Version" value="${version} ${TODAY} ${hourMinute}"/>
+      <attribute name="Implementation-Vendor" value="${vendor}"/>
+    </section>
+  </manifest>
+  <delete file="${build.dir}/sumerogi.jar"/>
+  <jar destfile="${build.dir}/sumerogi.jar" manifest="${build.dir}/MANIFEST.MF">
+    <!-- xmlResourceBundle -->
+    <fileset dir="${build.util.dest}" />
+    <!-- exiGrammars -->
+    <fileset dir="${build.common.dest}" />
+    <fileset dir="${build.schema.dest}" />
+    <fileset dir="${build.grammars.dest}" />
+    <!-- exiProc -->
+    <fileset dir="${build.io.dest}" />
+    <fileset dir="${build.proc.dest}" />
+  </jar>
+
+</target>
+
+<target name="test" description="unit test" depends="compile, jar">
+
+  <junit printsummary="false" haltonfailure="true" fork="yes">
+    <formatter type="brief" usefile="false" />
+    <classpath refid="common.test.run.class.path"/>
+    <batchtest>
+      <fileset dir="${build.common.test}" includes="**/*Test.class" />
+    </batchtest>
+    <assertions><enable/></assertions>
+  </junit>
+
+  <junit printsummary="false" haltonfailure="true" fork="yes" maxmemory="256M">
+    <formatter type="brief" usefile="false" />
+    <classpath refid="proc.test.run.class.path"/>
+    <batchtest>
+      <fileset dir="${build.proc.test}" includes="**/*Test.class" />
+    </batchtest>
+    <assertions><enable/></assertions>
+  </junit>
+
+</target>
+
+</project>
