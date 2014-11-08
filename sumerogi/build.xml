@@ -46,6 +46,8 @@
 <property name="build.proc.test" value="${build.proc.dir}/test"/>
 <property name="build.proc.dest" value="${build.proc.dir}/dest"/>
 
+<property name="dist.dir" value="./dist"/>
+
 <path id="jackson.class.path">
   <pathelement location="${jackson.jar}"/>
 </path>
@@ -141,6 +143,7 @@
 <!-- =================================================================== -->
 <target name="clean">
   <delete dir="${build.dir}"/>
+  <delete dir="${dist.dir}"/>
 </target>
 
 <!-- =================================================================== -->
@@ -292,7 +295,6 @@
     <fileset dir="${build.io.dest}" />
     <fileset dir="${build.proc.dest}" />
   </jar>
-
 </target>
 
 <target name="test" description="unit test" depends="compile, jar">
@@ -316,5 +318,34 @@
   </junit>
 
 </target>
+
+<target name="dist" description="set up for distribution" depends="jar">
+  
+  <!-- Clean and rebuild the distribution directory -->
+  <delete dir="${dist.dir}"/>
+  <mkdir dir="${dist.dir}/lib"/>
+  
+  <!-- Copy Sumerogi JAR(s) to distribution directory -->
+  <copy todir="${dist.dir}">
+    <fileset dir="${build.dir}">
+      <include name="*.jar"/>
+    </fileset>
+  </copy>
+
+  <!-- Update the distribution JAR with entry class and dependencies -->
+  <jar update="true" file="${dist.dir}/sumerogi.jar">
+    <manifest>
+      <attribute name="Main-Class" value="com.sumerogi.proc.EJSONEncoder"/>
+      <attribute name="Class-Path" value="lib/junit.jar lib/jackson-core-2.4.2.jar"/>
+    </manifest>
+  </jar>
+  
+  <!-- Copy all dependencies to distribution lib/ directory -->
+  <copy todir="${dist.dir}/lib" flatten="true">
+    <filelist refid="dependencies"/>
+  </copy>
+
+</target>
+
 
 </project>
