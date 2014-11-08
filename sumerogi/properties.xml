@@ -1,6 +1,9 @@
-
 <property name="junit.jar" value="lib/junit/3.8.1/junit.jar"/>
 
 <!-- Jackson JSON Parser -->
 <property name="jackson.jar" value="lib/jackson-core-2.4.2.jar"/>
 
+<filelist id="dependencies" dir=".">
+    <file name="${junit.jar}"/>
+    <file name="${jackson.jar}"/>
+</filelist>
