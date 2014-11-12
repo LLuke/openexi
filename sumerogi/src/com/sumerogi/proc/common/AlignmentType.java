@@ -1,4 +1,5 @@
 package com.sumerogi.proc.common;
+
 /**
  * AlignmentType represents one of the following bit alignment 
  * styles so as to provide an extra degree of control over the
@@ -27,7 +28,31 @@ package com.sumerogi.proc.common;
  */
 public enum AlignmentType {
   
-  bitPacked,
-  compress;
+  bitPacked(155),
+  byteAligned(156);
+//  preCompress(157),
+//  compress(158);
   
+  public int headerValue;
+  
+  public static AlignmentType getAlignmentType(int headerValue) {
+    switch (headerValue) {
+      case 155:
+        return bitPacked;
+      case 156:
+        return byteAligned;
+//      case 157:
+//        return preCompress;
+//      case 158:
+//        return compress;
+      default:
+        assert false;
+        return null;
+    }
+  }
+
+  private AlignmentType(int headerValue) {
+    this.headerValue = headerValue;
+  }
+
 }

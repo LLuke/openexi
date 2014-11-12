@@ -3,11 +3,12 @@ package com.sumerogi.proc;
 import java.io.InputStream;
 import java.io.IOException;
 
+import com.sumerogi.proc.common.AlignmentType;
 import com.sumerogi.proc.common.EXIOptions;
 import com.sumerogi.proc.common.EXIOptionsException;
 import com.sumerogi.proc.grammars.GrammarCache;
-import com.sumerogi.proc.io.BitPackedScanner;
 import com.sumerogi.proc.io.Scanner;
+import com.sumerogi.proc.io.ScannerFactory;
 
 /**
  * EXIDecoder provides methods to configure and 
@@ -48,7 +49,7 @@ public class EJSONDecoder {
     //m_inflatorBufSize = inflatorBufSize;
     m_exiOptions = new EXIOptions();
     m_grammarCache = null;
-    m_scanner = new BitPackedScanner();
+    m_scanner = ScannerFactory.createScanner(AlignmentType.bitPacked);
     m_scanner.setStringTable(Scanner.createStringTable());
   }
 
@@ -60,24 +61,12 @@ public class EJSONDecoder {
     m_inputStream = istream;
   }
   
-  /**
-   * Set the bit alignment style of the stream to be decoded.
-   * 
-   * @param alignmentType {@link com.sumerogi.proc.common.AlignmentType} object
-   * @throws EXIOptionsException
-   */
-  /*
-  public final void setAlignmentType(AlignmentType alignmentType) throws EXIOptionsException {
-    m_exiOptions.setAlignmentType(alignmentType);
+  private final void setAlignmentType(AlignmentType alignmentType) {
     if (m_scanner.getAlignmentType() != alignmentType) {
-      m_scanner = ScannerFactory.createScanner(alignmentType, m_inflatorBufSize, m_useThreadedInflater);
-      m_scanner.setSchema(m_schema, m_exiOptions.getDatatypeRepresentationMap(), m_exiOptions.getDatatypeRepresentationMapBindingsCount());
-      m_scanner.setStringTable(Scanner.createStringTable(m_grammarCache));
-      m_scanner.setValueMaxLength(m_exiOptions.getValueMaxLength());
-      m_scanner.setPreserveLexicalValues(m_exiOptions.getPreserveLexicalValues());
+      m_scanner = ScannerFactory.createScanner(alignmentType);
+      m_scanner.setStringTable(Scanner.createStringTable());
     }
   }
-  */
   
   /**
    * Set the GrammarCache used in decoding EXI streams. 
@@ -113,7 +102,11 @@ public class EJSONDecoder {
    * @throws EXIOptionsException
    */
   public Scanner processHeader() throws IOException, EXIOptionsException {
-    //int val = m_inputStream.read();
+    final AlignmentType alignmentType;
+    alignmentType = AlignmentType.getAlignmentType(m_inputStream.read());
+    
+    setAlignmentType(alignmentType);
+    
     final Scanner scanner;
     final GrammarCache grammarCache;
     scanner = m_scanner;

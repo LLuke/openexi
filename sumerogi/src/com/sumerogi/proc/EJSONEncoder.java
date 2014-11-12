@@ -11,13 +11,13 @@ import java.net.URISyntaxException;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.sumerogi.proc.common.AlignmentType;
 import com.sumerogi.proc.common.EventType;
 import com.sumerogi.proc.common.EventTypeList;
-import com.sumerogi.proc.common.StringTable;
 import com.sumerogi.proc.grammars.GrammarCache;
-import com.sumerogi.proc.io.BitPackedScriber;
 import com.sumerogi.proc.io.Scribble;
 import com.sumerogi.proc.io.Scriber;
+import com.sumerogi.proc.io.ScriberFactory;
 
 public final class EJSONEncoder {
   
@@ -32,11 +32,10 @@ public final class EJSONEncoder {
 
   public EJSONEncoder() {
     m_outputStream = null;
-    m_scriber = new BitPackedScriber();
     m_scribble = new Scribble();
     m_grammarCache = new GrammarCache();
-    
-    setStringTable(Scriber.createStringTable(m_grammarCache));
+    m_scriber = ScriberFactory.createScriber(AlignmentType.bitPacked); 
+    m_scriber.setStringTable(Scriber.createStringTable(m_grammarCache));
   }
   
   private void reset() {
@@ -44,8 +43,11 @@ public final class EJSONEncoder {
     m_parser = null;
   }
   
-  private void setStringTable(StringTable stringTable) {
-    m_scriber.setStringTable(stringTable);
+  public final void setAlignmentType(AlignmentType alignmentType) {
+    if (m_scriber.getAlignmentType() != alignmentType) {
+      m_scriber = ScriberFactory.createScriber(alignmentType);
+      m_scriber.setStringTable(Scriber.createStringTable(m_grammarCache));
+    }
   }
 
   public final void setOutputStream(OutputStream ostream) {
@@ -77,6 +79,7 @@ public final class EJSONEncoder {
       // REVISIT: Throw an exception
       assert false;
     }
+    m_scriber.writeHeaderPreamble();
     m_scriber.writeEventType(eventType);
 
     JsonToken token;

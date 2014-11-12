@@ -1,3 +1,29 @@
+2014-11-11 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0002.0
+
+- Implemented byte-aligned mode
+
+M       test/com/sumerogi/proc/OwmTest.java
+M       test/com/sumerogi/proc/BuiltinObjectGrammarTest.java
+M       test/com/sumerogi/proc/DocumentGrammarTest.java
+M       test/com/sumerogi/proc/AisTest.java
+M       test/com/sumerogi/proc/BuiltinArrayGrammarTest.java
+M       src/com/sumerogi/proc/EJSONDecoder.java
+M       src/com/sumerogi/proc/io/BitPackedScanner.java
+M       src/com/sumerogi/proc/io/BitPackedScriber.java
+A       src/com/sumerogi/proc/io/ByteAlignedScriber.java
+A       src/com/sumerogi/proc/io/ByteAlignedScanner.java
+A       src/com/sumerogi/proc/io/ScannerFactory.java
+A       src/com/sumerogi/proc/io/ScriberFactory.java
+A       src/com/sumerogi/proc/io/ByteAlignedCommons.java
+M       src/com/sumerogi/proc/io/Scriber.java
+M       src/com/sumerogi/proc/io/Scanner.java
+M       src/com/sumerogi/proc/common/AlignmentType.java
+M       src/com/sumerogi/proc/grammars/Apparatus.java
+M       src/com/sumerogi/proc/EJSONEncoder.java
+M       build.xml
+
 2014-11-06 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 - Added main function for supporting command-line invocation.

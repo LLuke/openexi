@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import com.sumerogi.proc.common.AlignmentType;
 
-public final class BitPackedScanner extends SimpleScanner {
+final class BitPackedScanner extends SimpleScanner {
 
   /**
    * Either an instance of EXIOptionsInputStream or BufferedBitInputStream.
@@ -27,17 +27,6 @@ public final class BitPackedScanner extends SimpleScanner {
     m_bitInputStream = m_bodyBitInputStream;
     super.setInputStream((InputStream)null);
   }
-
-//  public void setEXIOptionsInputStream(InputStream istream) {
-//    m_bitInputStream = new HeaderOptionsInputStream(istream);
-//    super.setInputStream((InputStream)null);
-//  }
-
-//  public void takeover(HeaderOptionsInputStream istream) {
-//    m_bodyBitInputStream.inheritResidue(istream);
-//    m_bitInputStream = m_bodyBitInputStream;
-//    super.setInputStream((InputStream)null);
-//  }
 
   public BitInputStream getBitInputStream() {
     return m_bitInputStream;

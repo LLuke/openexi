@@ -3,14 +3,16 @@ package com.sumerogi.proc.grammars;
 import com.sumerogi.proc.common.AlignmentType;
 import com.sumerogi.proc.common.EventType;
 import com.sumerogi.proc.common.EventTypeList;
-//import com.sumerogi.proc.common.QName;
 import com.sumerogi.proc.common.StringTable;
-//import com.sumerogi.schema.EXISchema;
-//import com.sumerogi.schema.EXISchemaConst;
 
 public abstract class Apparatus {
 
   private static final short INIT_GRAMMARS_DEPTH = 32;
+
+//  public static final short BITPACKED_HEADER = 155; // 10011011
+//  public static final short BYTEALIGNED_HEADER = 156; // 10011100
+//  public static final short PRECOMPRESSION_HEADER = 157; // 10011101
+//  public static final short COMPRESSION_HEADER = 158; // 10011110
   
   ///////////////////////////////////////////////////////////////////////////
   /// variables
@@ -116,17 +118,6 @@ public abstract class Apparatus {
   
   public abstract AlignmentType getAlignmentType();
 
-//  public void setSchema(EXISchema schema, QName[] dtrm, int n_bindings) {
-//    if ((this.schema = schema) != null) {
-//      m_types = schema.getTypes();
-//      updateCodecTable(dtrm, n_bindings);
-//      updateSimpleTypeData();
-//    }
-//    else {
-//      m_types = null;
-//    }
-//  }
-  
   public void setStringTable(StringTable stringTable) {
     this.stringTable = stringTable;
   }

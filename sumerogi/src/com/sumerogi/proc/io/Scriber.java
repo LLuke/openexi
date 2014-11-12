@@ -75,13 +75,8 @@ public abstract class Scriber extends Apparatus {
     }
     return characterBuffer;
   }
-
-//  public static void writeHeaderPreamble(OutputStream ostream, boolean outputCookie, boolean outputOptions) throws IOException {
-//    if (outputCookie)
-//      ostream.write(COOKIE);
-//    // write 10 1 00000 if outputOptions is true, otherwise write 10 0 00000 
-//    ostream.write(outputOptions ? 160 : 128);
-//  }
+  
+  public abstract void writeHeaderPreamble() throws IOException;
 
   /**
    * Set an output stream to which encoded streams are written out.

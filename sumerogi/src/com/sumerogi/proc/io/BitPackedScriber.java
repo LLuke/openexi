@@ -6,14 +6,19 @@ import java.math.BigInteger;
 
 import com.sumerogi.proc.common.AlignmentType;
 
-public final class BitPackedScriber extends SimpleScriber {
+final class BitPackedScriber extends SimpleScriber {
 
   private BitOutputStream m_dataStream;
 
   public BitPackedScriber() {
     m_dataStream = null;
   }
-  
+
+  @Override
+  public void writeHeaderPreamble() throws IOException {
+    m_outputStream.write(AlignmentType.bitPacked.headerValue);    
+  }
+
   @Override
   public AlignmentType getAlignmentType() {
     return AlignmentType.bitPacked;
@@ -25,7 +30,7 @@ public final class BitPackedScriber extends SimpleScriber {
    */
   @Override
   public void setOutputStream(OutputStream dataStream) {
-    m_dataStream = new BitOutputStream(dataStream); 
+    m_dataStream = new BitOutputStream(m_outputStream = dataStream); 
   }
 
   public void setBitOutputStream(BitOutputStream dataStream) {
