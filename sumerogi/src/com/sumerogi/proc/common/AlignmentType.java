@@ -29,9 +29,9 @@ package com.sumerogi.proc.common;
 public enum AlignmentType {
   
   bitPacked(155),
-  byteAligned(156);
-//  preCompress(157),
-//  compress(158);
+  byteAligned(156),
+  preCompress(157),
+  compress(158);
   
   public int headerValue;
   
@@ -41,10 +41,10 @@ public enum AlignmentType {
         return bitPacked;
       case 156:
         return byteAligned;
-//      case 157:
-//        return preCompress;
-//      case 158:
-//        return compress;
+      case 157:
+        return preCompress;
+      case 158:
+        return compress;
       default:
         assert false;
         return null;

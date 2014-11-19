@@ -17,6 +17,18 @@ abstract class SimpleScriber extends Scriber {
     // Do nothing.
   }
 
+  public final ValueScriber getStringValueScriber() {
+    return stringValueScriber;
+  }
+  
+  public final ValueScriber getBooleanValueScriber() {
+    return booleanValueScriber;
+  }
+  
+  public final ValueScriber getNumberValueScriber() {
+    return numberValueScriber;
+  }
+
   ///////////////////////////////////////////////////////////////////////////
   /// Structure Scriber Functions
   ///////////////////////////////////////////////////////////////////////////

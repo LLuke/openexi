@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.sumerogi.proc.common.EventDescription;
 import com.sumerogi.proc.common.EventCode;
 import com.sumerogi.proc.common.EventType;
+import com.sumerogi.proc.events.EXIEventWildcardStartContainer;
 import com.sumerogi.proc.grammars.EventCodeTuple;
 import com.sumerogi.schema.Characters;
 
@@ -108,58 +109,6 @@ abstract class SimpleScanner extends Scanner {
         return doNullValueWildcard(eventType);
       case EventType.ITEM_NULL_NAMED:
         return eventType.asEventDescription();
-                
-        
-//      case EventType.ITEM_DTD:
-//        return doDocumentTypeDefinition(eventType);
-//      case EventType.ITEM_SE:
-//        return doElement(eventType);
-//      case EventType.ITEM_SCHEMA_AT:
-//      case EventType.ITEM_AT:
-//        return doAttribute(eventType);
-//      case EventType.ITEM_SCHEMA_AT_INVALID_VALUE:
-//        return doAttributeInvalid(eventType);
-//      case EventType.ITEM_SCHEMA_CH:
-//        return doCharactersTyped(eventType);
-//      case EventType.ITEM_SCHEMA_CH_MIXED:
-//        return doCharactersMixed(eventType);
-//      case EventType.ITEM_CH:
-//        return doCharactersUntyped(eventType);
-//      case EventType.ITEM_EE:
-//        if (eventType.depth != EventCode.EVENT_CODE_DEPTH_ONE)
-//          currentState.targetGrammar.end(currentState);
-//        currentState = m_statesStack[--m_n_stackedStates - 1];
-//        m_nameLocusLastDepth -= 2;
-//        if (m_preserveNS)
-//          --m_prefixUriBindingsLocusLastDepth;
-//        return eventType.asEventDescription();
-//      case EventType.ITEM_ED:
-//        currentState.targetGrammar.endDocument(currentState);
-//        return eventType.asEventDescription();
-//      case EventType.ITEM_SCHEMA_WC_NS: 
-//        return doElementWildcardNS(eventType);
-//      case EventType.ITEM_SCHEMA_WC_ANY:
-//      case EventType.ITEM_SE_WC:
-//        return doElementWildcardAny(eventType);        
-//      case EventType.ITEM_SCHEMA_AT_WC_NS: 
-//        return doAttributeWildcardNS(eventType);
-//      case EventType.ITEM_SCHEMA_AT_WC_ANY:
-//      case EventType.ITEM_AT_WC_ANY_UNTYPED:
-//        return doAttributeWildcardAny(eventType);
-//      case EventType.ITEM_SCHEMA_NIL:
-//        return doXsiNil(eventType);
-//      case EventType.ITEM_SCHEMA_TYPE:
-//        return doXsiType(eventType);
-//      case EventType.ITEM_NS:
-//        return readNS(eventType);
-//      case EventType.ITEM_SC:
-//        throw new UnsupportedOperationException("Event type SC is not supported yet.");
-//      case EventType.ITEM_PI:
-//        return doProcessingInstruction(eventType);
-//      case EventType.ITEM_CM:
-//        return doComment(eventType);
-//      case EventType.ITEM_ER:
-//        return doEntityReferemce(eventType);
       default:
         assert false;
         break;
@@ -212,7 +161,7 @@ abstract class SimpleScanner extends Scanner {
   }
 
   private EventDescription doBooleanValueAnonymous(EventType eventType) throws IOException {
-    anonymousNumberValue(eventType);
+    anonymousBooleanValue(eventType);
     final int name = currentState.name;
     final Characters text = m_booleanValueScannerInherent.scan(name);
     return new EXIEventBooleanValue(text, eventType);
@@ -394,43 +343,42 @@ abstract class SimpleScanner extends Scanner {
 //    }
 //  }
 
-  private static final class EXIEventWildcardStartContainer implements EventDescription {
-
-    private final EventType m_eventType;
-
-    private final String m_name;
-    private final int m_nameId;
-    
-    private final byte m_eventKind;
-
-    public EXIEventWildcardStartContainer(String name, int nameId, EventType eventType, byte eventKind) {
-      m_eventType = eventType;
-      m_name = name;
-      m_nameId = nameId;
-      m_eventKind = eventKind;
-    }
-    
-    public byte getEventKind() {
-      return m_eventKind; 
-//          EventDescription.EVENT_START_OBJECT;
-    }
-
-    public int getNameId() {
-      return m_nameId;
-    }
-
-    public Characters getCharacters() {
-      return null;
-    }
-    
-    public EventType getEventType() {
-      return m_eventType;
-    }
-    
-    public String getName() {
-      return m_name;
-    }
-  }
+//  private static final class EXIEventWildcardStartContainer implements EventDescription {
+//
+//    private final EventType m_eventType;
+//
+//    private final String m_name;
+//    private final int m_nameId;
+//    
+//    private final byte m_eventKind;
+//
+//    public EXIEventWildcardStartContainer(String name, int nameId, EventType eventType, byte eventKind) {
+//      m_eventType = eventType;
+//      m_name = name;
+//      m_nameId = nameId;
+//      m_eventKind = eventKind;
+//    }
+//    
+//    public byte getEventKind() {
+//      return m_eventKind; 
+//    }
+//
+//    public int getNameId() {
+//      return m_nameId;
+//    }
+//
+//    public Characters getCharacters() {
+//      return null;
+//    }
+//    
+//    public EventType getEventType() {
+//      return m_eventType;
+//    }
+//    
+//    public String getName() {
+//      return m_name;
+//    }
+//  }
 
 
   ///////////////////////////////////////////////////////////////////////////

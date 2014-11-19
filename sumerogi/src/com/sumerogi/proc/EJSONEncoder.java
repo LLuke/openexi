@@ -116,7 +116,7 @@ public final class EJSONEncoder {
         if ((eventType = eventTypes.getStringValueAnonymous()) != null) {
           m_scriber.writeEventType(eventType);
           m_scriber.anonymousStringValue(eventType);
-          Scriber.stringValueScriber.scribe(stringValue, m_scribble, m_scriber.currentState.name, m_scriber);
+          m_scriber.getStringValueScriber().scribe(stringValue, m_scribble, m_scriber.currentState.name, m_scriber);
         }
         else {
           assert false;
@@ -156,8 +156,8 @@ public final class EJSONEncoder {
         if ((eventType = eventTypes.getBooleanValueAnonymous()) != null) {
           m_scriber.writeEventType(eventType);
           m_scriber.anonymousBooleanValue(eventType);
-          if (Scriber.booleanValueScriber.process(m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), m_scribble, m_scriber)) {
-            Scriber.booleanValueScriber.scribe((String)null, m_scribble, m_scriber.currentState.name, m_scriber);
+          if (m_scriber.getBooleanValueScriber().process(m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), m_scribble, m_scriber)) {
+            m_scriber.getBooleanValueScriber().scribe((String)null, m_scribble, m_scriber.currentState.name, m_scriber);
           }
           else
             assert false;
@@ -197,14 +197,14 @@ public final class EJSONEncoder {
           if ((eventType = eventTypes.getEventType(EventType.ITEM_STRING_VALUE_NAMED, name)) != null) {
             m_scriber.writeEventType(eventType);
             final int nameId = eventType.getNameId();
-            Scriber.stringValueScriber.scribe(stringValue, m_scribble, nameId, m_scriber);
+            m_scriber.getStringValueScriber().scribe(stringValue, m_scribble, nameId, m_scriber);
           }
           else {
             eventType = eventTypes.getStringValueWildcard();
             assert eventType != null;
             m_scriber.writeEventType(eventType);
             final int nameId = m_scriber.writeName(name, eventType);
-            Scriber.stringValueScriber.scribe(stringValue, m_scribble, nameId, m_scriber);
+            m_scriber.getStringValueScriber().scribe(stringValue, m_scribble, nameId, m_scriber);
             m_scriber.wildcardStringValue(eventType.getIndex(), nameId);
           }
         }
@@ -255,8 +255,8 @@ public final class EJSONEncoder {
           final char[] characters = m_parser.getTextCharacters();
           final int offset = m_parser.getTextOffset();
           final int length = m_parser.getTextLength();
-          if (Scriber.booleanValueScriber.process(characters, offset, length, m_scribble, m_scriber)) {
-            Scriber.booleanValueScriber.scribe((String)null, m_scribble, m_scriber.currentState.name, m_scriber);
+          if (m_scriber.getBooleanValueScriber().process(characters, offset, length, m_scribble, m_scriber)) {
+            m_scriber.getBooleanValueScriber().scribe((String)null, m_scribble, m_scriber.currentState.name, m_scriber);
           }
           else
             assert false;
@@ -333,7 +333,7 @@ public final class EJSONEncoder {
         if ((eventType = eventTypes.getStringValueAnonymous()) != null) {
           m_scriber.writeEventType(eventType);
           m_scriber.anonymousStringValue(eventType);
-          Scriber.stringValueScriber.scribe(stringValue, m_scribble, m_scriber.currentState.name, m_scriber);
+          m_scriber.getStringValueScriber().scribe(stringValue, m_scribble, m_scriber.currentState.name, m_scriber);
         }
         else {
           assert false;
@@ -420,8 +420,7 @@ public final class EJSONEncoder {
     final int offset = m_parser.getTextOffset();
     final int length = m_parser.getTextLength();
     Scriber.numberValueScriber.processInteger(characters, offset, length, m_scribble, m_scriber);
-    Scriber.numberValueScriber.scribe((String)null, m_scribble, m_scriber.currentState.name, m_scriber);
-
+    m_scriber.getNumberValueScriber().scribe((String)null, m_scribble, m_scriber.currentState.name, m_scriber);
   }
   
   
@@ -507,7 +506,7 @@ public final class EJSONEncoder {
 //      else
 //        assert false;
     
-      Scriber.numberValueScriber.scribe((String)null, m_scribble, m_scriber.currentState.name, m_scriber);
+      m_scriber.getNumberValueScriber().scribe((String)null, m_scribble, m_scriber.currentState.name, m_scriber);
     
   }
   

@@ -16,8 +16,8 @@ public abstract class Scriber extends Apparatus {
 
 //  private static final byte[] COOKIE = { 36, 69, 88, 73 }; // "$", "E", "X", "I"
 
-  public static final ValueScriber stringValueScriber;
-  public static final ValueScriber booleanValueScriber;
+  protected static final ValueScriber stringValueScriber;
+  protected static final ValueScriber booleanValueScriber;
   public static final NumberValueScriber numberValueScriber;
   static {
     stringValueScriber = StringValueScriber.instance;
@@ -60,6 +60,10 @@ public abstract class Scriber extends Apparatus {
     m_outputStream = null;
   }
   
+  public abstract ValueScriber getStringValueScriber();
+  public abstract ValueScriber getBooleanValueScriber();
+  public abstract ValueScriber getNumberValueScriber();
+  
   protected final CharacterBuffer ensureCharacters(final int length) {
     CharacterBuffer characterBuffer = m_characterBuffer;
     final int availability;
@@ -101,14 +105,6 @@ public abstract class Scriber extends Apparatus {
   public abstract void writeEventType(EventType eventType) throws IOException;
 
   public abstract int writeName(String name, EventType eventType) throws IOException;
-
-//  /**
-//   * Write a name content item.
-//   * Name content items are used in PI, DT, ER. 
-//   */
-//  public final void writeName(String name) throws IOException {
-//    writeLiteralString(name, 0, m_outputStream);
-//  }
 
   /**
    * Write a text content item. 

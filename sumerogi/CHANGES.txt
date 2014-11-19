@@ -1,3 +1,31 @@
+2014-11-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0003.0
+
+- Wrote some codes for supporting compression.
+
+A       src/com/sumerogi/proc/events/EXIEventWildcardStartContainer.java
+M       src/com/sumerogi/proc/io/SimpleScanner.java
+M       src/com/sumerogi/proc/io/SimpleScriber.java
+A       src/com/sumerogi/proc/io/compression/ChannelFactory.java
+A       src/com/sumerogi/proc/io/compression/ScannerChannel.java
+A       src/com/sumerogi/proc/io/compression/ScriberChannel.java
+A       src/com/sumerogi/proc/io/compression/EXIEventValueReference.java
+A       src/com/sumerogi/proc/io/compression/ChannelKeeper.java
+A       src/com/sumerogi/proc/io/compression/ScriberValueHolder.java
+A       src/com/sumerogi/proc/io/compression/EXIInflaterInputStream.java
+A       src/com/sumerogi/proc/io/compression/EXIDeflaterOutputStream.java
+A       src/com/sumerogi/proc/io/compression/ScannerChannelFactory.java
+A       src/com/sumerogi/proc/io/compression/ScriberChannelFactory.java
+A       src/com/sumerogi/proc/io/compression/ChannellingValueScriberProxy.java
+A       src/com/sumerogi/proc/io/compression/ChannellingScanner.java
+A       src/com/sumerogi/proc/io/compression/ChannellingScriber.java
+M       src/com/sumerogi/proc/io/Scriber.java
+M       src/com/sumerogi/proc/io/Scanner.java
+M       src/com/sumerogi/proc/common/AlignmentType.java
+M       src/com/sumerogi/proc/EJSONEncoder.java
+M       build.xml
+
 2014-11-11 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0000.0002.0

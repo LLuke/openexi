@@ -19,14 +19,6 @@ import com.sumerogi.schema.Characters;
  */
 public abstract class Scanner extends Apparatus {
 
-  /**
-   * Pairs of (elementURI, elementLocalName)
-   * @y.exclude 
-   **/
-  protected final int[] m_nameLocusStack;
-  /** @y.exclude */
-  protected int m_nameLocusLastDepth;
-  
   /** @y.exclude */
   protected final StringValueScanner m_stringValueScannerInherent;
   /** @y.exclude */
@@ -74,8 +66,8 @@ public abstract class Scanner extends Apparatus {
   ///////////////////////////////////////////////////////////////////////////
 
   protected Scanner() {
-    m_nameLocusStack = new int[128];
-    m_nameLocusLastDepth = -2;
+//    m_nameLocusStack = new int[128];
+//    m_nameLocusLastDepth = -2;
     
     m_characterBuffer = new CharacterBuffer(true);
     
@@ -108,15 +100,14 @@ public abstract class Scanner extends Apparatus {
     m_numberValueScannerInherent.setInputStream(istream);
   }
 
-  /**
-   * Not for public use.
-   * @y.exclude
-   */
-  @Override
-  public void reset() {
-    super.reset();
-    m_nameLocusLastDepth = -2;
-  }
+//  /**
+//   * Not for public use.
+//   * @y.exclude
+//   */
+//  @Override
+//  public void reset() {
+//    super.reset();
+//  }
   
   /**
    * Gets the next event from the EXI stream.

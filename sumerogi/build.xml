@@ -7,7 +7,7 @@
 <property name="debug" value="off"/>
 
 <property name="name" value="Sumerogi"/>
-<property name="version" value="0000.0000.0002.0"/>
+<property name="version" value="0000.0000.0003.0"/>
 <property name="vendor" value="OpenEXI"/>
 
 &properties.xml;
@@ -22,6 +22,7 @@
 <property name="build.util.dir" value="${build.dir}/util"/>
 <property name="build.schema.dir" value="${build.dir}/schema"/>
 <property name="build.common.dir" value="${build.dir}/common"/>
+<property name="build.events.dir" value="${build.dir}/events"/>
 <property name="build.grammars.dir" value="${build.dir}/grammars"/>
 <property name="build.io.dir" value="${build.dir}/io"/>
 <property name="build.proc.dir" value="${build.dir}/proc"/>
@@ -35,6 +36,9 @@
 <property name="build.common.src" value="${build.common.dir}/src"/>
 <property name="build.common.test" value="${build.common.dir}/test"/>
 <property name="build.common.dest" value="${build.common.dir}/dest"/>
+
+<property name="build.events.src" value="${build.events.dir}/src"/>
+<property name="build.events.dest" value="${build.events.dir}/dest"/>
 
 <property name="build.grammars.src" value="${build.grammars.dir}/src"/>
 <property name="build.grammars.dest" value="${build.grammars.dir}/dest"/>
@@ -67,6 +71,12 @@
 </path>
 
 <!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="events.src.compile.class.path">
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
 <path id="grammars.src.compile.class.path">
   <pathelement location="${build.util.dest}"/>
   <pathelement location="${build.schema.dest}"/>
@@ -79,6 +89,7 @@
   <pathelement location="${build.schema.dest}"/>
   <pathelement location="${build.common.dest}"/>
   <pathelement location="${build.putil.dest}"/>
+  <pathelement location="${build.events.dest}"/>
   <pathelement location="${build.grammars.dest}"/>
 </path>
 
@@ -171,6 +182,10 @@
   <mkdir dir="${build.common.test}"/>
   <mkdir dir="${build.common.dest}"/>
 
+  <mkdir dir="${build.events.dir}"/>
+  <mkdir dir="${build.events.src}"/>
+  <mkdir dir="${build.events.dest}"/>
+
   <mkdir dir="${build.grammars.dir}"/>
   <mkdir dir="${build.grammars.src}"/>
   <mkdir dir="${build.grammars.dest}"/>
@@ -204,6 +219,9 @@
   </copy>
   <copy todir="${build.common.test}">
     <fileset dir="${test.dir}" includes="**/sumerogi/proc/common/**/*" />
+  </copy>
+  <copy todir="${build.events.src}">
+    <fileset dir="${src.dir}" includes="**/sumerogi/proc/events/**/*" />
   </copy>
   <copy todir="${build.grammars.src}">
     <fileset dir="${src.dir}" includes="**/sumerogi/proc/grammars/**/*" />
@@ -242,6 +260,10 @@
   <javac srcdir="${build.common.src}" debug="${debug}" optimize="on" encoding="utf-8"
          fork="true" includeAntRuntime="no"
          destdir="${build.common.dest}" classpathref="common.src.compile.class.path"/>
+
+  <javac srcdir="${build.events.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.events.dest}" classpathref="events.src.compile.class.path"/>
 
   <javac srcdir="${build.grammars.src}" debug="${debug}" optimize="on" encoding="utf-8"
          fork="true" includeAntRuntime="no"
@@ -290,6 +312,7 @@
     <!-- exiGrammars -->
     <fileset dir="${build.common.dest}" />
     <fileset dir="${build.schema.dest}" />
+    <fileset dir="${build.events.dest}" />
     <fileset dir="${build.grammars.dest}" />
     <!-- exiProc -->
     <fileset dir="${build.io.dest}" />
