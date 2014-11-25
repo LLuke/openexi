@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.sumerogi.proc.common.AlignmentType;
 import com.sumerogi.proc.common.EventType;
 import com.sumerogi.proc.common.EventTypeList;
+import com.sumerogi.proc.common.StringTable;
 import com.sumerogi.proc.grammars.GrammarCache;
 import com.sumerogi.proc.io.Scribble;
 import com.sumerogi.proc.io.Scriber;
@@ -127,7 +128,7 @@ public final class EJSONEncoder {
         if ((eventType = eventTypes.getNumberValueAnonymous()) != null) {
           m_scriber.writeEventType(eventType);
           m_scriber.anonymousNumberValue(eventType);
-          encodeInteger();
+          encodeInteger(StringTable.NAME_DOCUMENT);
         }
         else {
           assert false;
@@ -212,13 +213,13 @@ public final class EJSONEncoder {
           eventTypes = m_scriber.getNextEventTypes();
           if ((eventType = eventTypes.getEventType(EventType.ITEM_NUMBER_VALUE_NAMED, name)) != null) {
             m_scriber.writeEventType(eventType);
-            encodeInteger();
+            encodeInteger(eventType.getNameId());
           }
           else if ((eventType = eventTypes.getNumberValueWildcard()) != null) {
             m_scriber.writeEventType(eventType);
             final int nameId = m_scriber.writeName(name, eventType);
             m_scriber.wildcardNumberValue(eventType.getIndex(), nameId); 
-            encodeInteger();
+            encodeInteger(nameId);
           }
           else {
             assert false;
@@ -413,17 +414,17 @@ public final class EJSONEncoder {
     
     
   }
-  
-  private void encodeInteger() throws IOException {
-  
+
+  private void encodeInteger(int name) throws IOException {
+    
     final char[] characters = m_parser.getTextCharacters();
     final int offset = m_parser.getTextOffset();
     final int length = m_parser.getTextLength();
     Scriber.numberValueScriber.processInteger(characters, offset, length, m_scribble, m_scriber);
-    m_scriber.getNumberValueScriber().scribe((String)null, m_scribble, m_scriber.currentState.name, m_scriber);
+    m_scriber.getNumberValueScriber().scribe((String)null, m_scribble, name, m_scriber);
   }
   
-  
+
   private void encodeFloat() throws IOException {
     
       final char[] characters = m_parser.getTextCharacters();

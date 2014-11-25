@@ -19,9 +19,11 @@ public class OwmTest extends TestCase {
     super(name);
   }
 
-  private static final AlignmentType[] Alignments = new AlignmentType[] { 
+  private static final AlignmentType[] Alignments = new AlignmentType[] {
     AlignmentType.bitPacked, 
-    AlignmentType.byteAligned 
+    AlignmentType.byteAligned, 
+    //AlignmentType.preCompress,
+    //AlignmentType.compress
   };
 
   ///////////////////////////////////////////////////////////////////////////

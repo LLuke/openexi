@@ -13,6 +13,7 @@ import com.sumerogi.proc.common.EventDescription;
 import com.sumerogi.proc.common.EventCode;
 import com.sumerogi.proc.common.EventType;
 import com.sumerogi.proc.common.EventTypeList;
+import com.sumerogi.proc.common.StringTable;
 import com.sumerogi.proc.events.*;
 import com.sumerogi.proc.grammars.EventCodeTuple;
 import com.sumerogi.proc.io.ByteAlignedCommons;
@@ -213,7 +214,6 @@ public final class ChannellingScanner extends Scanner {
           reached = doBooleanValueNamed(eventType, n_values++);
           break;
         case EventType.ITEM_NULL_ANONYMOUS:
-          anonymousNullValue(eventType);
           reached = doNullValueAnonymous(eventType, n_values++);
           break;
         case EventType.ITEM_NULL_WILDCARD:
@@ -304,18 +304,19 @@ public final class ChannellingScanner extends Scanner {
     addEvent(new EXIEventWildcardStartContainer(nameString, name, eventType, EventDescription.EVENT_START_ARRAY));
   }
 
-  private boolean doValueCommon(int name, EventType eventType, int n_values, byte eventKind) {
+  private boolean doValueCommon(int channelName, int name, EventType eventType, int n_values, byte eventKind) {
     EXIEventValueReference event;
     if ((event = m_valueEvents[n_values]) == null) {
       m_valueEvents[n_values] = event = new EXIEventValueReference();
     }
-    final ScannerChannel channel = (ScannerChannel)m_channelKeeper.getChannel(name, stringTable);
+    final ScannerChannel channel = (ScannerChannel)m_channelKeeper.getChannel(channelName, stringTable);
     final boolean reached = m_channelKeeper.incrementValueCount(channel);
     channel.values.add(event);
+    event.channelName = channelName;
     event.nameId = name;
     event.eventKind = eventKind; 
     event.eventType = eventType;
-    event.name = stringTable.localNameEntries[name].localName;
+    event.name = name != StringTable.NAME_NONE ? stringTable.localNameEntries[name].localName : null;
     event.text = null;
     addEvent(event);
     return reached;
@@ -323,63 +324,66 @@ public final class ChannellingScanner extends Scanner {
   
   private boolean doStringValueAnonymous(EventType eventType, int n_values) throws IOException {
     anonymousStringValue(eventType);
-    return doValueCommon(currentState.name, eventType, n_values, EventDescription.EVENT_STRING_VALUE);
+    return doValueCommon(currentState.name, StringTable.NAME_NONE, eventType, n_values, EventDescription.EVENT_STRING_VALUE);
   }
 
   private boolean doStringValueWildcard(EventType eventType, int n_values) throws IOException {
     final int name = readName(stringTable);
     wildcardStringValue(eventType.getIndex(), name);
-    return doValueCommon(name, eventType, n_values, EventDescription.EVENT_STRING_VALUE);
+    return doValueCommon(name, name, eventType, n_values, EventDescription.EVENT_STRING_VALUE);
   }
 
   private boolean doStringValueNamed(EventType eventType, int n_values) throws IOException {
     final int name = eventType.getNameId();
-    return doValueCommon(name, eventType, n_values, EventDescription.EVENT_STRING_VALUE);
+    return doValueCommon(name, name, eventType, n_values, EventDescription.EVENT_STRING_VALUE);
   }
   
   private boolean doNumberValueAnonymous(EventType eventType, int n_values) throws IOException {
     anonymousNumberValue(eventType);
-    return doValueCommon(currentState.name, eventType, n_values, EventDescription.EVENT_NUMBER_VALUE);
+    return doValueCommon(currentState.name, StringTable.NAME_NONE, eventType, n_values, EventDescription.EVENT_NUMBER_VALUE);
   }
 
   private boolean doNumberValueWildcard(EventType eventType, int n_values) throws IOException {
     final int name = readName(stringTable);
     wildcardNumberValue(eventType.getIndex(), name);
-    return doValueCommon(name, eventType, n_values, EventDescription.EVENT_NUMBER_VALUE);
+    return doValueCommon(name, name, eventType, n_values, EventDescription.EVENT_NUMBER_VALUE);
   }
 
   private boolean doNumberValueNamed(EventType eventType, int n_values) throws IOException {
-    return doValueCommon(eventType.getNameId(), eventType, n_values, EventDescription.EVENT_NUMBER_VALUE);
+    final int name = eventType.getNameId();
+    return doValueCommon(name, name, eventType, n_values, EventDescription.EVENT_NUMBER_VALUE);
   }
 
   private boolean doBooleanValueAnonymous(EventType eventType, int n_values) throws IOException {
     anonymousBooleanValue(eventType);
-    return doValueCommon(currentState.name, eventType, n_values, EventDescription.EVENT_BOOLEAN_VALUE);
+    return doValueCommon(currentState.name, StringTable.NAME_NONE, eventType, n_values, EventDescription.EVENT_BOOLEAN_VALUE);
   }
 
   private boolean doBooleanValueWildcard(EventType eventType, int n_values) throws IOException {
     final int name = readName(stringTable);
     wildcardBooleanValue(eventType.getIndex(), name);
-    return doValueCommon(name, eventType, n_values, EventDescription.EVENT_BOOLEAN_VALUE);
+    return doValueCommon(name, name, eventType, n_values, EventDescription.EVENT_BOOLEAN_VALUE);
   }
 
   private boolean doBooleanValueNamed(EventType eventType, int n_values) throws IOException {
-    return doValueCommon(eventType.getNameId(), eventType, n_values, EventDescription.EVENT_BOOLEAN_VALUE);
+    final int name = eventType.getNameId();
+    return doValueCommon(name, name, eventType, n_values, EventDescription.EVENT_BOOLEAN_VALUE);
   }
 
   private boolean doNullValueAnonymous(EventType eventType, int n_values) throws IOException {
     anonymousNullValue(eventType);
-    return doValueCommon(currentState.name, eventType, n_values, EventDescription.EVENT_NULL);
+    return doValueCommon(currentState.name, StringTable.NAME_NONE, eventType, n_values, EventDescription.EVENT_NULL);
   }
 
   private boolean doNullValueWildcard(EventType eventType, int n_values) throws IOException {
     final int name = readName(stringTable);
     wildcardNullValue(eventType.getIndex(), name);
-    return doValueCommon(name, eventType, n_values, EventDescription.EVENT_NULL);
+    return doValueCommon(name, name, eventType, n_values, EventDescription.EVENT_NULL);
   }
 
   private boolean doNullValueNamed(EventType eventType, int n_values) throws IOException {
-    return doValueCommon(eventType.getNameId(), eventType, n_values, EventDescription.EVENT_NULL);
+    final int name = eventType.getNameId();
+    return doValueCommon(name, name, eventType, n_values, EventDescription.EVENT_NULL);
   }
   
   ///////////////////////////////////////////////////////////////////////////

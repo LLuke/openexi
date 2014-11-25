@@ -49,7 +49,7 @@ public class EJSONDecoder {
     //m_inflatorBufSize = inflatorBufSize;
     m_exiOptions = new EXIOptions();
     m_grammarCache = null;
-    m_scanner = ScannerFactory.createScanner(AlignmentType.bitPacked);
+    m_scanner = ScannerFactory.createScanner(AlignmentType.bitPacked, DEFAULT_INFLATOR_BUF_SIZE);
     m_scanner.setStringTable(Scanner.createStringTable());
   }
 
@@ -63,7 +63,7 @@ public class EJSONDecoder {
   
   private final void setAlignmentType(AlignmentType alignmentType) {
     if (m_scanner.getAlignmentType() != alignmentType) {
-      m_scanner = ScannerFactory.createScanner(alignmentType);
+      m_scanner = ScannerFactory.createScanner(alignmentType, DEFAULT_INFLATOR_BUF_SIZE);
       m_scanner.setStringTable(Scanner.createStringTable());
     }
   }

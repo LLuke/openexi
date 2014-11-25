@@ -1,3 +1,27 @@
+2014-11-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0004.0
+
+- Some compression support.
+
+M       test/com/sumerogi/proc/OwmTest.java
+M       test/com/sumerogi/proc/BuiltinObjectGrammarTest.java
+M       test/com/sumerogi/proc/DocumentGrammarTest.java
+M       test/com/sumerogi/proc/AisTest.java
+M       test/com/sumerogi/proc/BuiltinArrayGrammarTest.java
+M       src/com/sumerogi/proc/EJSONDecoder.java
+M       src/com/sumerogi/proc/io/SimpleScanner.java
+M       src/com/sumerogi/proc/io/compression/EXIEventValueReference.java
+M       src/com/sumerogi/proc/io/compression/ChannelKeeper.java
+M       src/com/sumerogi/proc/io/compression/ChannellingScanner.java
+M       src/com/sumerogi/proc/io/compression/ChannellingScriber.java
+M       src/com/sumerogi/proc/io/ScannerFactory.java
+M       src/com/sumerogi/proc/io/ScriberFactory.java
+M       src/com/sumerogi/proc/io/Scanner.java
+M       src/com/sumerogi/proc/common/StringTable.java
+M       src/com/sumerogi/proc/EJSONEncoder.java
+M       build.xml
+
 2014-11-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0000.0003.0

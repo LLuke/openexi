@@ -20,11 +20,11 @@ import com.sumerogi.schema.Characters;
 public abstract class Scanner extends Apparatus {
 
   /** @y.exclude */
-  protected final StringValueScanner m_stringValueScannerInherent;
+  public final StringValueScanner stringValueScanner;
   /** @y.exclude */
-  protected final ValueScanner m_booleanValueScannerInherent;
-  
-  protected final NumberValueScanner m_numberValueScannerInherent;
+  public final ValueScanner booleanValueScanner;
+  /** @y.exclude */
+  public final NumberValueScanner numberValueScanner;
   
   /** @y.exclude */
   protected final FloatValueScanner m_floatValueScannerInherent;
@@ -71,13 +71,13 @@ public abstract class Scanner extends Apparatus {
     
     m_characterBuffer = new CharacterBuffer(true);
     
-    m_stringValueScannerInherent = new StringValueScanner(this);
-    m_booleanValueScannerInherent = new BooleanValueScanner();
+    stringValueScanner = new StringValueScanner(this);
+    booleanValueScanner = new BooleanValueScanner();
     m_integerValueScannerInherent = new IntegerValueScanner();
     m_decimalValueScannerInherent = new DecimalValueScanner();
     m_floatValueScannerInherent = new FloatValueScanner();
     
-    m_numberValueScannerInherent = new NumberValueScanner();
+    numberValueScanner = new NumberValueScanner();
   }
   
   /**
@@ -92,12 +92,12 @@ public abstract class Scanner extends Apparatus {
    * @y.exclude
    */  
   private void initValueScanners(InputStream istream) {
-    m_stringValueScannerInherent.setInputStream(istream);
-    m_booleanValueScannerInherent.setInputStream(istream);
+    stringValueScanner.setInputStream(istream);
+    booleanValueScanner.setInputStream(istream);
     m_integerValueScannerInherent.setInputStream(istream);
     m_decimalValueScannerInherent.setInputStream(istream);
     m_floatValueScannerInherent.setInputStream(istream);
-    m_numberValueScannerInherent.setInputStream(istream);
+    numberValueScanner.setInputStream(istream);
   }
 
 //  /**
@@ -153,7 +153,7 @@ public abstract class Scanner extends Apparatus {
   @Override
   public final void setStringTable(StringTable stringTable) {
     super.setStringTable(stringTable);
-    m_stringValueScannerInherent.setStringTable(stringTable);
+    stringValueScanner.setStringTable(stringTable);
   }
   
   /**

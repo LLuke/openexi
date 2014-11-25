@@ -21,7 +21,9 @@ public class BuiltinObjectGrammarTest extends TestCase {
 
   private static final AlignmentType[] Alignments = new AlignmentType[] { 
     AlignmentType.bitPacked, 
-    AlignmentType.byteAligned 
+    AlignmentType.byteAligned, 
+    AlignmentType.preCompress,
+    AlignmentType.compress
   };
 
   ///////////////////////////////////////////////////////////////////////////

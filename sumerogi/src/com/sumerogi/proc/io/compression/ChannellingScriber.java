@@ -78,7 +78,7 @@ public final class ChannellingScriber extends Scriber {
   
   @Override
   public void writeHeaderPreamble() throws IOException {
-    m_outputStream.write(m_compressed ? AlignmentType.compress.headerValue : AlignmentType.preCompress.headerValue);
+    m_baseDataStream.write(m_compressed ? AlignmentType.compress.headerValue : AlignmentType.preCompress.headerValue);
   }
 
   @Override

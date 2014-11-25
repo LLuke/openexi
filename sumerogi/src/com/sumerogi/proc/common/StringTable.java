@@ -145,10 +145,18 @@ public final class StringTable {
         documentLocalNameEntry : localNameEntries[i];
     localNameEntry.arrayGrammars[distance] = grammar;
   }
+  
+  public Channel getChannel(int i) {
+    final LocalNameEntry localNameEntry = i == NAME_DOCUMENT ?  
+        documentLocalNameEntry : localNameEntries[i];
+    return localNameEntry.channel;
+  }
 
   public void setChannel(int i, Channel channel) {
-    assert localNameEntries[i].channel == null;
-    localNameEntries[i].channel = channel;
+    final LocalNameEntry localNameEntry = i == NAME_DOCUMENT ?  
+        documentLocalNameEntry : localNameEntries[i];
+    assert localNameEntry.channel == null;
+    localNameEntry.channel = channel;
     channels.add(channel);
     ++n_channels;
   }

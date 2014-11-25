@@ -119,7 +119,7 @@ abstract class SimpleScanner extends Scanner {
   private EventDescription doStringValueAnonymous(EventType eventType) throws IOException {
     anonymousStringValue(eventType);
     final int name = currentState.name;
-    final Characters text = m_stringValueScannerInherent.scan(name);
+    final Characters text = stringValueScanner.scan(name);
     return new EXIEventAnonymousStringValue(text, eventType);
   }
 
@@ -127,21 +127,21 @@ abstract class SimpleScanner extends Scanner {
     final int nameId = readName(stringTable);
     wildcardStringValue(eventType.getIndex(), nameId);
     final String nameString = stringTable.localNameEntries[nameId].localName;
-    final Characters text = m_stringValueScannerInherent.scan(nameId);
+    final Characters text = stringValueScanner.scan(nameId);
     return new EXIEventWildcardValue(EventDescription.EVENT_STRING_VALUE, nameString, nameId, text, eventType);
   }
 
   private EventDescription doStringValue(EventType eventType) throws IOException {
     final Characters text;    
     final int nameId = eventType.getNameId();
-    text = m_stringValueScannerInherent.scan(nameId);
+    text = stringValueScanner.scan(nameId);
     return new EXIEventStringValue(text, eventType);
   }
 
   private EventDescription doNumberValueAnonymous(EventType eventType) throws IOException {
     anonymousNumberValue(eventType);
     final int name = currentState.name;
-    final Characters text = m_numberValueScannerInherent.scan(name);
+    final Characters text = numberValueScanner.scan(name);
     return new EXIEventNumberValue(text, eventType);
   }
   
@@ -149,21 +149,21 @@ abstract class SimpleScanner extends Scanner {
     final int nameId = readName(stringTable);
     wildcardNumberValue(eventType.getIndex(), nameId);
     final String nameString = stringTable.localNameEntries[nameId].localName;
-    final Characters text = m_numberValueScannerInherent.scan(nameId);
+    final Characters text = numberValueScanner.scan(nameId);
     return new EXIEventWildcardValue(EventDescription.EVENT_NUMBER_VALUE, nameString, nameId, text, eventType);
   }
 
   private EventDescription doNumberValue(EventType eventType) throws IOException {
     final Characters text;    
     final int nameId = eventType.getNameId();
-    text = m_numberValueScannerInherent.scan(nameId);
+    text = numberValueScanner.scan(nameId);
     return new EXIEventNumberValue(text, eventType);
   }
 
   private EventDescription doBooleanValueAnonymous(EventType eventType) throws IOException {
     anonymousBooleanValue(eventType);
     final int name = currentState.name;
-    final Characters text = m_booleanValueScannerInherent.scan(name);
+    final Characters text = booleanValueScanner.scan(name);
     return new EXIEventBooleanValue(text, eventType);
   }
 
@@ -171,14 +171,14 @@ abstract class SimpleScanner extends Scanner {
     final int nameId = readName(stringTable);
     wildcardBooleanValue(eventType.getIndex(), nameId);
     final String nameString = stringTable.localNameEntries[nameId].localName;
-    final Characters text = m_booleanValueScannerInherent.scan(nameId);
+    final Characters text = booleanValueScanner.scan(nameId);
     return new EXIEventWildcardValue(EventDescription.EVENT_BOOLEAN_VALUE, nameString, nameId, text, eventType);
   }
 
   private EventDescription doBooleanValue(EventType eventType) throws IOException {
     final Characters text;    
     final int nameId = eventType.getNameId();
-    text = m_booleanValueScannerInherent.scan(nameId);
+    text = booleanValueScanner.scan(nameId);
     return new EXIEventBooleanValue(text, eventType);
   }
 

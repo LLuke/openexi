@@ -70,7 +70,7 @@ final class ChannelKeeper {
   
   Channel getChannel(int name, StringTable stringTable) {
     Channel channel;
-    if ((channel = stringTable.localNameEntries[name].channel) != null) {
+    if ((channel = stringTable.getChannel(name)) != null) {
       if (channel.blockNum != m_blockNum)
         channel.reset(m_totalValueCount, m_blockNum); // reuse
       else

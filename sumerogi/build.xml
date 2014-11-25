@@ -7,7 +7,7 @@
 <property name="debug" value="off"/>
 
 <property name="name" value="Sumerogi"/>
-<property name="version" value="0000.0000.0003.0"/>
+<property name="version" value="0000.0000.0004.0"/>
 <property name="vendor" value="OpenEXI"/>
 
 &properties.xml;
@@ -25,6 +25,7 @@
 <property name="build.events.dir" value="${build.dir}/events"/>
 <property name="build.grammars.dir" value="${build.dir}/grammars"/>
 <property name="build.io.dir" value="${build.dir}/io"/>
+<property name="build.compression.dir" value="${build.dir}/compression"/>
 <property name="build.proc.dir" value="${build.dir}/proc"/>
 
 <property name="build.util.src" value="${build.util.dir}/src"/>
@@ -45,6 +46,9 @@
 
 <property name="build.io.src" value="${build.io.dir}/src"/>
 <property name="build.io.dest" value="${build.io.dir}/dest"/>
+
+<property name="build.compression.src" value="${build.compression.dir}/src"/>
+<property name="build.compression.dest" value="${build.compression.dir}/dest"/>
 
 <property name="build.proc.src" value="${build.proc.dir}/src"/>
 <property name="build.proc.test" value="${build.proc.dir}/test"/>
@@ -91,6 +95,15 @@
   <pathelement location="${build.putil.dest}"/>
   <pathelement location="${build.events.dest}"/>
   <pathelement location="${build.grammars.dest}"/>
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="compression.src.compile.class.path">
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.events.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.io.dest}"/>
 </path>
 
 <!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
@@ -194,6 +207,10 @@
   <mkdir dir="${build.io.src}"/>
   <mkdir dir="${build.io.dest}"/>
 
+  <mkdir dir="${build.compression.dir}"/>
+  <mkdir dir="${build.compression.src}"/>
+  <mkdir dir="${build.compression.dest}"/>
+
   <mkdir dir="${build.proc.dir}"/>
   <mkdir dir="${build.proc.src}"/>
   <mkdir dir="${build.proc.test}"/>
@@ -229,6 +246,9 @@
   <copy todir="${build.io.src}">
     <fileset dir="${src.dir}" includes="**/sumerogi/proc/io/**/*" 
       excludes="**/sumerogi/proc/io/compression/**/*" />
+  </copy>
+  <copy todir="${build.compression.src}">
+    <fileset dir="${src.dir}" includes="**/sumerogi/proc/io/compression/**/*" />
   </copy>
   <copy todir="${build.proc.src}">
     <fileset dir="${src.dir}" includes="**/sumerogi/proc/*" />
@@ -273,6 +293,10 @@
          fork="true" includeAntRuntime="no"
          destdir="${build.io.dest}" classpathref="io.src.compile.class.path"/>
 
+  <javac srcdir="${build.compression.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.compression.dest}" classpathref="compression.src.compile.class.path"/>
+
   <javac srcdir="${build.proc.src}" debug="${debug}" optimize="on" encoding="utf-8"
          fork="true" includeAntRuntime="no"
          destdir="${build.proc.dest}" classpathref="proc.src.compile.class.path"/>
@@ -314,6 +338,8 @@
     <fileset dir="${build.schema.dest}" />
     <fileset dir="${build.events.dest}" />
     <fileset dir="${build.grammars.dest}" />
+    <!-- exiCompression -->
+    <fileset dir="${build.compression.dest}" />
     <!-- exiProc -->
     <fileset dir="${build.io.dest}" />
     <fileset dir="${build.proc.dest}" />
