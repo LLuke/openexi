@@ -22,8 +22,8 @@ public class AisTest extends TestCase {
   private static final AlignmentType[] Alignments = new AlignmentType[] { 
     AlignmentType.bitPacked, 
     AlignmentType.byteAligned, 
-    //AlignmentType.preCompress,
-    //AlignmentType.compress
+    AlignmentType.preCompress,
+    AlignmentType.compress
   };
 
   ///////////////////////////////////////////////////////////////////////////
