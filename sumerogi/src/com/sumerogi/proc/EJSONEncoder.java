@@ -543,39 +543,63 @@ public final class EJSONEncoder {
   }
   
   public static void main(String args[]) throws IOException {
-    
-    if (args.length != 2) {
-      System.err.println("USAGE: " + EJSONEncoder.class.getName() +
-                         " [JSON File] [Output File]");
+
+    int pos = 0;
+    AlignmentType alignment = AlignmentType.bitPacked;
+    if (args.length == 3) {
+      String alignmentString = args[0];
+      if (alignmentString.charAt(0) == '-') {
+        alignmentString = alignmentString.substring(1);
+        if ("c".equals(alignmentString)) {
+          alignment = AlignmentType.compress;
+        }
+        else if ("p".equals(alignmentString)) {
+          alignment = AlignmentType.preCompress;
+        }
+        else if (!"b".equals(alignmentString)) {
+          printSynopsis();
+          System.exit(1);
+        }
+        ++pos;
+      }
+      else {
+        printSynopsis();
+        System.exit(1);
+      }
+    }
+    else if (args.length != 2) {
+      printSynopsis();
       System.exit(1);
       return;
     }
 
-    URI baseURI = new File(System.getProperty("user.dir")).toURI().resolve("whatever");
+    final URI baseURI = new File(System.getProperty("user.dir")).toURI().resolve("whatever");
 
     URI jsonUri;
     try {
-      jsonUri = resolveURI(args[0], baseURI);
+      jsonUri = resolveURI(args[pos], baseURI);
     }
     catch (URISyntaxException use) {
-      System.err.println("'" + args[0] + "' is not a valid URI.");
+      System.err.println("'" + args[pos] + "' is not a valid URI.");
       System.exit(1);
       return;
     }
     assert jsonUri != null;
-
+    
+    ++pos;
     URI outputUri;
     try {
-      outputUri = resolveURI(args[1], baseURI);
+      outputUri = resolveURI(args[pos], baseURI);
     }
     catch (URISyntaxException use) {
-      System.err.println("'" + args[1] + "' is not a valid URI.");
+      System.err.println("'" + args[pos] + "' is not a valid URI.");
       System.exit(1);
       return;
     }
     assert outputUri != null;
 
     EJSONEncoder encoder = new EJSONEncoder();
+    encoder.setAlignmentType(alignment);
 
     FileOutputStream outputStream;
     outputStream = new FileOutputStream(outputUri.toURL().getFile());
@@ -597,6 +621,11 @@ public final class EJSONEncoder {
       inputStream.close();
       outputStream.close();
     }
+  }
+  
+  private static void printSynopsis() {
+    System.err.println("USAGE: " + EJSONEncoder.class.getName() +
+        " [-b|-c|-p] JSON_File Output_File");
   }
   
 }

@@ -7,7 +7,7 @@
 <property name="debug" value="off"/>
 
 <property name="name" value="Sumerogi"/>
-<property name="version" value="0000.0000.0005.0"/>
+<property name="version" value="0000.0000.0006.0"/>
 <property name="vendor" value="OpenEXI"/>
 
 &properties.xml;
@@ -321,13 +321,13 @@
   </tstamp>
   <delete file="${build.dir}/MANIFEST.MF"/>
   <manifest file="${build.dir}/MANIFEST.MF">
-    <section name="org/sumerogi/">
-      <attribute name="Software-Name" value="${name}"/>
-      <attribute name="Software-Version" value="${version}"/>
-      <attribute name="Implementation-Title" value="org.sumerogi"/>
-      <attribute name="Implementation-Version" value="${version} ${TODAY} ${hourMinute}"/>
-      <attribute name="Implementation-Vendor" value="${vendor}"/>
-    </section>
+    <attribute name="Main-Class" value="com.sumerogi.proc.EJSONEncoder"/>
+    <attribute name="Class-Path" value="jackson-core-2.4.2.jar"/>
+    <attribute name="Software-Name" value="${name}"/>
+    <attribute name="Software-Version" value="${version}"/>
+    <attribute name="Implementation-Title" value="org.sumerogi"/>
+    <attribute name="Implementation-Version" value="${version} ${TODAY} ${hourMinute}"/>
+    <attribute name="Implementation-Vendor" value="${vendor}"/>
   </manifest>
   <delete file="${build.dir}/sumerogi.jar"/>
   <jar destfile="${build.dir}/sumerogi.jar" manifest="${build.dir}/MANIFEST.MF">
@@ -382,12 +382,12 @@
   </copy>
 
   <!-- Update the distribution JAR with entry class and dependencies -->
-  <jar update="true" file="${dist.dir}/sumerogi.jar">
+  <!-- jar update="true" file="${dist.dir}/sumerogi.jar">
     <manifest>
       <attribute name="Main-Class" value="com.sumerogi.proc.EJSONEncoder"/>
       <attribute name="Class-Path" value="lib/junit.jar lib/jackson-core-2.4.2.jar"/>
     </manifest>
-  </jar>
+  </jar -->
   
   <!-- Copy all dependencies to distribution lib/ directory -->
   <copy todir="${dist.dir}/lib" flatten="true">
