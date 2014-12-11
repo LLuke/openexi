@@ -1,0 +1,181 @@
+---
+title: "XML/JSON Analysis Template"
+output: 
+  html_document:
+    number_section: true
+---
+# Documentation
+
+This is a generic, adaptable template for visually comparing various encodings derived from equivalent XML and JSON formats.
+
+## Input Format
+
+The input format is a CSV file with the following general format -- the first row is a header and doesn't change, the rest can be adapted as necessary:
+
+```
+file, variable, value
+filename1, encoding-A, size-in-bytes
+filename1, encoding-B, size-in-bytes
+filename2, encoding-A, size-in-bytes
+filename2, encoding-B, size-in-bytes
+```
+
+file       | variable | value
+---------- | -------- | -----
+gpx-file-1 | json     | 303
+gpx-file-1 | json.gz  | 246
+gpx-file-1 | json.bz2 | 241
+
+## Parameters
+
+Use this chunk to set the parameters for a test run. `input.file` is the path to an input file in the above CSV format. `util.file` is the path to util.R, the plotting functions for graphing. Leave it alone unless you've changed the directory structure. _Beware OS path separators (`\` vs. `/`)_
+
+```{r}
+input.file = "../sample_inputs/sample-gpx-results.csv"
+```
+
+```{r cache=FALSE, include=FALSE}
+library(knitr)
+library(ggplot2)
+library(reshape2)
+library(scales)
+library(plyr)
+library(grid)
+
+source("../utilities/filesize-vs-compaction.R")
+
+opts_chunk$set(fig.width=8, fig.height=4) # Quick adjustment for landscape figures - only affects knitr output
+options(warn = -1) # Prevent ggplot2 from dumping warnings to knitr output
+
+df <- read.csv(input.file)
+```
+
+# Tests
+
+Each test below is organized by general category, and seeks to answer a specific _focus question_ about different formats. Following a _focus question_ is a visualization that helps answer it. If you're adding tests, it may be helpful to use Markdown headings (`#`, `##`, etc.) to block each one out - in RStudio, code folding works for headers and simplifies navigation. Also, each test is fenced in its own code _chunk_, so it can be run on its own directly in R or RStudio to generate the plot.
+
+## Plaintext-comparisons
+
+How do JSON and XML compare when plaintext encoded?
+
+```{r, echo=FALSE}
+s <- c("json")
+p <- filesize.vs.compaction(df=df, baseline="xml", series=s)
+print(p)
+```
+
+How do JSON and XML compare when compressed with conventional compression algorithms?
+
+```{r, echo=FALSE}
+s <- c("json.gz",
+       "json.bz2",
+       "xml.gz",
+       "xml.bz2")
+p <- filesize.vs.compaction(df=df, baseline="xml", series=s)
+print(p)
+```
+
+## JSON-specific
+
+Which binary encoding of JSON is most compact - BSON or CBOR? 
+
+```{r, echo=FALSE}
+s <- c("json.bson",
+       "json.cbor")
+p <- filesize.vs.compaction(df=df, baseline="json", series=s)
+print(p)
+```
+
+For binary JSON formats, does post-compression improve compactness?
+
+```{r, echo=FALSE}
+s <- c("json.bson",
+       "json.bson.gz",
+       "json.bson.bz2",
+       "json.cbor",
+       "json.cbor.gz",
+       "json.cbor.bz2")
+p <- filesize.vs.compaction(df=df, baseline="json", series=s, x.range="log")
+print(p)
+```
+
+## XML-specific
+
+How do the primary EXI ‘modes’ compare for no-schema encodings?
+
+```{r, echo=FALSE}
+s <- c("xml.bitpacked_exi",
+       "xml.precompress_exi",
+       "xml.compress_exi")
+p <- filesize.vs.compaction(df=df, baseline="xml", series=s)
+print(p)
+```
+
+How do the primary EXI ‘modes’ compare for schema-informed encodings?
+
+```{r, echo=FALSE}
+s <- c("xml.schema_bitpacked_exi",
+       "xml.schema_precompress_exi",
+       "xml.schema_compress_exi")
+p <- filesize.vs.compaction(df=df, baseline="xml", series=s)
+print(p)
+```
+
+Does the ‘strict’ option significantly improve compaction for schema-informed encodings?
+
+```{r, echo=FALSE}
+s <- c("xml.schema_bitpacked_exi",
+       "xml.strict_bitpacked_exi",
+       "xml.schema_compress_exi",
+       "xml.strict_compress_exi")
+p <- filesize.vs.compaction(df=df, baseline="xml", series=s)
+print(p)
+```
+
+Do any of the tested compression algorithms perform better on a schemaless, precompress EXI document than the standard DEFLATE?
+
+```{r, echo=FALSE}
+s <- c("xml.precompress_exi.zip",
+       "xml.precompress_exi.gz",
+       "xml.precompress_exi.bz2")
+p <- filesize.vs.compaction(df=df, baseline="xml.compress_exi", series=s)
+print(p)
+```
+
+Do any of the tested compression algorithms perform better on a schema-informed, precompress EXI document than the standard DEFLATE?
+
+```{r, echo=FALSE}
+s <- c("xml.schema_precompress_exi.zip",
+       "xml.schema_precompress_exi.gz",
+       "xml.schema_precompress_exi.bz2")
+p <- filesize.vs.compaction(df=df, baseline="xml.schema_compress_exi", series=s)
+print(p)
+```
+
+## Binary-comparisons
+
+Which binary format is the smallest overall?
+
+```{r, echo=FALSE}
+s <- c("xml.strict_compress_exi",
+            "xml.strict_bitpacked_exi",
+            "xml.compress_exi",
+            "json.gz",
+            "json.cbor.gz",
+            "json.bson.gz")
+p <- filesize.vs.compaction(df=df, baseline="xml", series=s, x.range="auto")
+print(p)
+```
+
+For a network already using gzip, do any of the binary formats offer improvements?
+
+```{r, echo=FALSE}
+s <- c("xml.strict_compress_exi",
+            "xml.strict_bitpacked_exi",
+            "xml.compress_exi",
+            "json.gz",
+            "json.cbor.gz",
+            "json.bson.gz")
+p <- filesize.vs.compaction(df=df, baseline="xml.gz", series=s, x.range="auto")
+print(p)
+```
