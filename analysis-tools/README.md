@@ -26,7 +26,22 @@ Directory Layout
 
 `sample-inputs` - examples of the CSV input format
 
-Tutorial
---------
+Getting Started
+---------------
 
-Under construction.
+_Note: These steps are aimed at users running RStudio._
+
+1. If you don't have RStudio installed, grab it from the RStudio [site](http://www.rstudio.com/products/RStudio/)
+
+2. Make sure you have the `ggplot2` and `reshape2` packages installed. 
+
+3. Download/checkout the `analysis-tools` directory:
+
+~~~
+$ svn checkout svn://svn.code.sf.net/p/openexi/code/trunk/analysis-tools analysis-tools
+~~~
+
+4. Open the `xml_json.Rmd` file located in  `analysis-tools/templates/` in RStudio.
+
+5. Run the 'Knit HTML' command to generate the report.
+
