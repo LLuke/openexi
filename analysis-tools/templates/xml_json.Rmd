@@ -28,10 +28,10 @@ gpx-file-1 | json.bz2 | 241
 
 ## Parameters
 
-Use this chunk to set the parameters for a test run. `input.file` is the path to an input file in the above CSV format. `util.file` is the path to util.R, the plotting functions for graphing. Leave it alone unless you've changed the directory structure. _Beware OS path separators (`\` vs. `/`)_
+Use this chunk to set the parameters for a test run. `input.file` is the path to an input file in the above CSV format (using the OS-independent `file.path()` function.
 
 ```{r}
-input.file = "../sample_inputs/sample-gpx-results.csv"
+input.file = file.path("..", "sample_inputs", "sample-gpx-results.csv")
 ```
 
 ```{r cache=FALSE, include=FALSE}
@@ -42,7 +42,8 @@ library(scales)
 library(plyr)
 library(grid)
 
-source("../utilities/filesize-vs-compaction.R")
+
+source(file.path("..", "utilities", "filesize-vs-compaction.R"))
 
 opts_chunk$set(fig.width=8, fig.height=4) # Quick adjustment for landscape figures - only affects knitr output
 options(warn = -1) # Prevent ggplot2 from dumping warnings to knitr output
