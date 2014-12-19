@@ -260,61 +260,7 @@ final class DocumentGrammar extends Grammar {
       case DOCUMENT_STATE_COMPLETED:
         return m_eventTypeLists[2];
       case DOCUMENT_STATE_END:
-        return new EventTypeList(false) {
-          @Override
-          public final int getLength() {
-            return 0;
-          }
-          @Override
-          public final EventType item(int i) {
-            assert false;
-            return null;
-          }
-          @Override
-          public final EventType getSD() {
-            return null;
-          }
-          @Override
-          public final EventType getEE() {
-            return null;
-          }
-          @Override
-          public final EventTypeSchema getSchemaAttribute(String uri, String name) {
-            return null;
-          }
-          @Override
-          public final EventTypeSchema getSchemaAttributeInvalid(String uri, String name) {
-            return null;
-          }
-          @Override
-          public final EventType getLearnedAttribute(String uri, String name) {
-            return null;
-          }
-          @Override
-          public final EventType getSchemaAttributeWildcardAny() {
-            return null;
-          }
-          @Override
-          public final EventType getAttributeWildcardAnyUntyped() {
-            return null;
-          }
-          @Override
-          public final EventType getSchemaAttributeWildcardNS(String uri) {
-            return null;
-          }
-          @Override
-          public final EventType getSchemaCharacters() {
-            return (EventType)null; 
-          }
-          @Override
-          public final EventType getCharacters() {
-            return (EventType)null; 
-          }
-          @Override
-          public final EventType getNamespaceDeclaration() {
-            return (EventType)null; 
-          }
-        };
+        return EventTypeList.EMPTY; 
       default:
         assert false;
         break;

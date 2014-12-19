@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import org.openexi.proc.common.AlignmentType;
 
-public final class ByteAlignedScanner extends SimpleScanner {
+final class ByteAlignedScanner extends SimpleScanner {
 
   /*
    * Constructor is intentionally non-public.

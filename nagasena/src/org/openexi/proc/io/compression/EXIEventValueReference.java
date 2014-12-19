@@ -8,7 +8,6 @@ import org.openexi.proc.common.EventDescription;
 import org.openexi.proc.common.EventType;
 import org.openexi.proc.grammars.Apparatus;
 import org.openexi.proc.io.BinaryValueScanner;
-import org.openexi.proc.io.Scanner;
 import org.openexi.proc.io.ValueScanner;
 import org.openexi.schema.Characters;
 import org.openexi.schema.EXISchema;
@@ -43,7 +42,7 @@ public final class EXIEventValueReference implements EventDescription {
     binaryData = null;
   }
   
-  void scanText(Scanner scanner, boolean binaryDataEnabled, InputStream istream) throws IOException {
+  void scanText(ChannellingScanner scanner, boolean binaryDataEnabled, InputStream istream) throws IOException {
     final ValueScanner valueScanner = scanner.getValueScanner(tp);
     if (binaryDataEnabled) {
       final short codecId = valueScanner.getCodecID();

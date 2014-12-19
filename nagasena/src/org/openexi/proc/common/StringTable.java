@@ -257,7 +257,6 @@ public final class StringTable {
     int number;
     LocalValuePartition localValuePartition;
     public IGrammar grammar;
-    boolean isGrammarBuiltin;
     public Channel channel;
     /**
      * Constructs a LocalNameEntry.   
@@ -267,7 +266,7 @@ public final class StringTable {
       this.localName = localName;
       this.number = number;
       this.localValuePartition = null;
-      isGrammarBuiltin = (this.grammar = grammar) == null; 
+      this.grammar = grammar; 
       channel = null;
     }
     @Override

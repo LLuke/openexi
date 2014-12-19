@@ -15,12 +15,6 @@ public final class DecimalValueScriber extends ValueScriberBase {
     instance = new DecimalValueScriber();
   }
   
-  private static final int DECIMAL_MODE_MAYBE_SIGN     = 0;
-  private static final int DECIMAL_MODE_MAYBE_INTEGRAL = 1;
-  private static final int DECIMAL_MODE_IS_INTEGRAL    = 2;
-  private static final int DECIMAL_MODE_IS_FRACTION    = 3;
-  private static final int DECIMAL_MODE_MAYBE_TRAILING_ZEROS = 4;
-  
   private DecimalValueScriber() {
     super(new QName("exi:decimal", ExiUriConst.W3C_2009_EXI_URI));
   }

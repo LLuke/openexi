@@ -1,3 +1,19 @@
+2014-12-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0050.0
+
+- Minor code-cleaning.
+
+M       src/org/openexi/proc/io/FloatValueScriber.java
+M       src/org/openexi/proc/io/ByteAlignedScanner.java
+M       src/org/openexi/proc/io/DecimalValueScriber.java
+M       src/org/openexi/proc/io/compression/ChannelFactory.java
+M       src/org/openexi/proc/io/compression/EXIEventValueReference.java
+M       src/org/openexi/proc/io/ValueScriberBase.java
+M       src/org/openexi/proc/common/StringTable.java
+M       src/org/openexi/proc/grammars/DocumentGrammar.java
+M       build.xml
+
 2014-10-24 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0049.0

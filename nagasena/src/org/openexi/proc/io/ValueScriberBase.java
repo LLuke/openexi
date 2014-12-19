@@ -7,7 +7,13 @@ import org.openexi.proc.common.QName;
 import org.openexi.schema.EXISchema;
 
 abstract class ValueScriberBase extends ValueScriber {
-  
+
+  protected static final int DECIMAL_MODE_MAYBE_SIGN     = 0;
+  protected static final int DECIMAL_MODE_MAYBE_INTEGRAL = 1;
+  protected static final int DECIMAL_MODE_IS_INTEGRAL    = 2;
+  protected static final int DECIMAL_MODE_IS_FRACTION    = 3;
+  protected static final int DECIMAL_MODE_MAYBE_TRAILING_ZEROS = 4;
+
   private final QName m_name;
 
   protected ValueScriberBase(QName name) {
