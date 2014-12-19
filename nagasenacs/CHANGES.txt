@@ -1,3 +1,21 @@
+2014-12-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0050.0
+
+- Minor code-cleaning.
+
+M       src/AssemblyInfo.cs
+M       src/Nagasena/Proc/IO/ValueScriberBase.cs
+M       src/Nagasena/Proc/IO/Compression/ChannelFactory.cs
+M       src/Nagasena/Proc/IO/Compression/EXIEventValueReference.cs
+M       src/Nagasena/Proc/IO/Compression/ScriberChannelFactory.cs
+M       src/Nagasena/Proc/IO/Compression/ScannerChannelFactory.cs
+M       src/Nagasena/Proc/IO/FloatValueScriber.cs
+M       src/Nagasena/Proc/IO/DecimalValueScriber.cs
+M       src/Nagasena/Proc/Common/StringTable.cs
+M       src/Nagasena/Proc/Grammars/DocumentGrammar.cs
+M       src/Nagasena/Proc/Grammars/BuiltinElementGrammar.cs
+
 2014-08-27 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0049.0

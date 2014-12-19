@@ -4,7 +4,7 @@ namespace Nagasena.Proc.IO.Compression {
 
   internal sealed class ScannerChannelFactory : ChannelFactory {
 
-    public override Channel createChannel(int firstPos, int blockNum) {
+    internal override Channel createChannel(int firstPos, int blockNum) {
       return new ScannerChannel(firstPos, blockNum);
     }
 

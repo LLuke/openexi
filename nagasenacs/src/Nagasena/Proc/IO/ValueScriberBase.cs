@@ -7,6 +7,12 @@ namespace Nagasena.Proc.IO {
 
   internal abstract class ValueScriberBase : ValueScriber {
 
+    protected const int DECIMAL_MODE_MAYBE_SIGN = 0;
+    protected const int DECIMAL_MODE_MAYBE_INTEGRAL = 1;
+    protected const int DECIMAL_MODE_IS_INTEGRAL = 2;
+    protected const int DECIMAL_MODE_IS_FRACTION = 3;
+    protected const int DECIMAL_MODE_MAYBE_TRAILING_ZEROS = 4;
+
     private readonly QName m_name;
 
     protected internal ValueScriberBase(QName name) {

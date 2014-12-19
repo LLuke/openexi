@@ -258,77 +258,12 @@ namespace Nagasena.Proc.Grammars {
         case DOCUMENT_STATE_COMPLETED:
           return m_eventTypeLists[2];
         case DOCUMENT_STATE_END:
-          return new EventTypeListAnonymousInnerClassHelper(this);
+          return EventTypeList.EMPTY;
         default:
           Debug.Assert(false);
           break;
       }
       return null;
-    }
-
-    private class EventTypeListAnonymousInnerClassHelper : EventTypeList {
-      private readonly DocumentGrammar outerInstance;
-
-      public EventTypeListAnonymousInnerClassHelper(DocumentGrammar outerInstance) : base(false) {
-        this.outerInstance = outerInstance;
-      }
-
-      public override int Length {
-        get {
-          return 0;
-        }
-      }
-      public override EventType item(int i) {
-        Debug.Assert(false);
-        return null;
-      }
-      public override EventType SD {
-        get {
-          return null;
-        }
-      }
-      public override EventType EE {
-        get {
-          return null;
-        }
-      }
-      public override EventType getSchemaAttribute(string uri, string name) {
-        return null;
-      }
-      public override EventType getSchemaAttributeInvalid(string uri, string name) {
-        return null;
-      }
-      public override EventType getLearnedAttribute(string uri, string name) {
-        return null;
-      }
-      public override EventType SchemaAttributeWildcardAny {
-        get {
-          return null;
-        }
-      }
-      public override EventType AttributeWildcardAnyUntyped {
-        get {
-          return null;
-        }
-      }
-      public override EventType getSchemaAttributeWildcardNS(string uri) {
-        return null;
-      }
-      public override EventType SchemaCharacters {
-        get {
-          return (EventType)null;
-        }
-      }
-      public override EventType Characters {
-        get {
-          return (EventType)null;
-        }
-      }
-      public override EventType NamespaceDeclaration {
-        get {
-          return (EventType)null;
-        }
-      }
     }
 
     internal override EventCodeTuple getNextEventCodes(GrammarState stateVariables) {

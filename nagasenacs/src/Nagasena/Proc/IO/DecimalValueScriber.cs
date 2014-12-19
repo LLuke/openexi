@@ -18,12 +18,6 @@ namespace Nagasena.Proc.IO {
       instance = new DecimalValueScriber();
     }
 
-    private const int DECIMAL_MODE_MAYBE_SIGN = 0;
-    private const int DECIMAL_MODE_MAYBE_INTEGRAL = 1;
-    private const int DECIMAL_MODE_IS_INTEGRAL = 2;
-    private const int DECIMAL_MODE_IS_FRACTION = 3;
-    private const int DECIMAL_MODE_MAYBE_TRAILING_ZEROS = 4;
-
     private DecimalValueScriber() : base(new QName("exi:decimal", ExiUriConst.W3C_2009_EXI_URI)) {
     }
 

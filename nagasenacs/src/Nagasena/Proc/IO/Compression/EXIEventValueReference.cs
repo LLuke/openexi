@@ -41,7 +41,7 @@ namespace Nagasena.Proc.IO.Compression {
       binaryData = null;
     }
 
-    internal void scanText(Scanner scanner, bool binaryDataEnabled, Stream istream) {
+    internal void scanText(ChannellingScanner scanner, bool binaryDataEnabled, Stream istream) {
       ValueScanner valueScanner = scanner.getValueScanner(tp);
       if (binaryDataEnabled) {
         short codecId = valueScanner.CodecID;

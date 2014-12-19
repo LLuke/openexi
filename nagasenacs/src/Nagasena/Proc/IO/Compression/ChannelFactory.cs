@@ -4,7 +4,7 @@ namespace Nagasena.Proc.IO.Compression {
 
   internal abstract class ChannelFactory {
 
-    public abstract Channel createChannel(int firstPos, int blockNum);
+    internal abstract Channel createChannel(int firstPos, int blockNum);
 
   }
 

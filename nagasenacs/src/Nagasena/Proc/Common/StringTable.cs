@@ -267,7 +267,6 @@ namespace Nagasena.Proc.Common {
       internal int number;
       internal LocalValuePartition localValuePartition;
       public IGrammar grammar;
-      internal bool isGrammarBuiltin;
       public Channel channel;
       /// <summary>
       /// Constructs a LocalNameEntry. </summary>
@@ -276,7 +275,7 @@ namespace Nagasena.Proc.Common {
         this.localName = localName;
         this.number = number;
         this.localValuePartition = null;
-        isGrammarBuiltin = (this.grammar = grammar) == null;
+        this.grammar = grammar; 
         channel = null;
       }
       public override int GetHashCode() {
