@@ -5,35 +5,17 @@ import com.sumerogi.proc.common.EventDescription;
 import com.sumerogi.proc.common.EventType;
 import com.sumerogi.proc.common.EventTypeList;
 import com.sumerogi.proc.common.IGrammar;
-import com.sumerogi.proc.common.StringTable;
 
-final class BuiltinObjectGrammar extends BuiltinGrammar implements IGrammar {
-
-  private final ReversedEventTypeList m_eventTypeList;
-  private final ReverseEventCodeTuple m_eventCodes;
-  
-  private boolean dirty;
-  StringTable stringTable;
+final class BuiltinObjectGrammar extends BuiltinGrammar {
 
   /**
    */
   BuiltinObjectGrammar(final GrammarCache grammarCache) {
-    super(BUILTIN_GRAMMAR_OBJECT, grammarCache);
-    
-    m_eventTypeList = new ReversedEventTypeList();
-    m_eventCodes = new ReverseEventCodeTuple();
-    populateContentGrammar();
-    
-    m_eventTypeList.checkPoint();
-    m_eventCodes.checkPoint();
+    super(grammarCache);
   }
   
   @Override
-  public void init(GrammarState stateVariables) {
-    stateVariables.targetGrammar = this;
-  }
-
-  private void populateContentGrammar() {
+  protected void populateContentGrammar() {
     /*
      * ObjectContent : 
      *   EO                    0      End Object
@@ -97,18 +79,6 @@ final class BuiltinObjectGrammar extends BuiltinGrammar implements IGrammar {
     
     tupleL2.setItems(eventCodeItemsL2);
     tupleL3.setItems(eventCodeItemsL3);
-  }
-
-  ///////////////////////////////////////////////////////////////////////////
-  /// Implementation of IGrammar (used by StringTable)
-  ///////////////////////////////////////////////////////////////////////////
-
-  public void reset() {
-    if (dirty) {
-      m_eventTypeList.reset();
-      m_eventCodes.reset();
-      dirty = false;
-    }
   }
 
   ///////////////////////////////////////////////////////////////////////////

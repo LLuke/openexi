@@ -5,35 +5,17 @@ import com.sumerogi.proc.common.EventDescription;
 import com.sumerogi.proc.common.EventType;
 import com.sumerogi.proc.common.EventTypeList;
 import com.sumerogi.proc.common.IGrammar;
-import com.sumerogi.proc.common.StringTable;
 
-final class BuiltinArrayGrammar extends BuiltinGrammar implements IGrammar {
-
-  private final ReversedEventTypeList m_eventTypeList;
-  private final ReverseEventCodeTuple m_eventCodes;
-  
-  private boolean dirty;
-  StringTable stringTable;
+final class BuiltinArrayGrammar extends BuiltinGrammar {
 
   /**
    */
   BuiltinArrayGrammar(final GrammarCache grammarCache) {
-    super(BUILTIN_GRAMMAR_ARRAY, grammarCache);
-    
-    m_eventTypeList = new ReversedEventTypeList();
-    m_eventCodes = new ReverseEventCodeTuple();
-    populateContentGrammar();
-    
-    m_eventTypeList.checkPoint();
-    m_eventCodes.checkPoint();
+    super(grammarCache);
   }
   
   @Override
-  public void init(GrammarState stateVariables) {
-    stateVariables.targetGrammar = this;
-  }
-
-  private void populateContentGrammar() {
+  protected void populateContentGrammar() {
     /*
      * ArrayContent : 
      *   EA               0      End Array
@@ -100,30 +82,12 @@ final class BuiltinArrayGrammar extends BuiltinGrammar implements IGrammar {
   }
 
   ///////////////////////////////////////////////////////////////////////////
-  /// Implementation of IGrammar (used by StringTable)
-  ///////////////////////////////////////////////////////////////////////////
-
-  public void reset() {
-    if (dirty) {
-      m_eventTypeList.reset();
-      m_eventCodes.reset();
-      dirty = false;
-    }
-  }
-
-  ///////////////////////////////////////////////////////////////////////////
   /// Method implementations for event processing
   ///////////////////////////////////////////////////////////////////////////
 
   @Override
   public void startObjectNamed(EventType eventType, GrammarState stateVariables) {
     throw new IllegalStateException();
-//    assert eventType.itemType == EventType.ITEM_START_OBJECT_NAMED;
-//    final Grammar ensuingGrammar = ((EventTypeObject)eventType).ensuingGrammar;
-//    final GrammarState kid = stateVariables.apparatus.pushState();
-//    ensuingGrammar.init(kid);
-//    kid.name = eventType.getNameId();
-//    kid.distance = 0;
   }
 
   @Override
@@ -228,18 +192,17 @@ final class BuiltinArrayGrammar extends BuiltinGrammar implements IGrammar {
   
   @Override
   public void wildcardNumberValue(int eventTypeIndex, int nameId) {
-//    wildcardValue(eventTypeIndex, nameId, EventType.ITEM_NV_NAMED, EventDescription.EVENT_NV);
+    throw new IllegalStateException();
   }
   
   @Override
   public void wildcardBooleanValue(int eventTypeIndex, int nameId) {
-//    wildcardValue(eventTypeIndex, nameId, EventType.ITEM_BV_NAMED, EventDescription.EVENT_BV);
+    throw new IllegalStateException();
   }
 
   @Override
   public void wildcardNullValue(int eventTypeIndex, int nameId) {
-//    wildcardValue(eventTypeIndex, nameId, EventType.ITEM_NL_NAMED, EventDescription.EVENT_NL);
+    throw new IllegalStateException();
   }
-
   
 }

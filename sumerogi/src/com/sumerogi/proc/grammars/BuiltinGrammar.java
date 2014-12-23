@@ -1,33 +1,48 @@
 package com.sumerogi.proc.grammars;
 
-//import com.sumerogi.proc.common.EventType;
+import com.sumerogi.proc.common.IGrammar;
+import com.sumerogi.proc.common.StringTable;
 
-public abstract class BuiltinGrammar extends Grammar {
+public abstract class BuiltinGrammar extends Grammar implements IGrammar {
 
-  // N_NONSCHEMA_ITEMS must be ITEM_EO plus 1
-//  static final short N_NONSCHEMA_ITEMS = EventType.ITEM_EO + 1; 
+  StringTable stringTable;
+
+  protected final ReversedEventTypeList m_eventTypeList;
+  protected final ReverseEventCodeTuple m_eventCodes;
+
+  protected boolean dirty;
+
+  protected BuiltinGrammar(GrammarCache grammarCache) {
+    super(grammarCache);
+    
+    m_eventTypeList = new ReversedEventTypeList();
+    m_eventCodes = new ReverseEventCodeTuple();
+    
+    dirty = false;
+    
+    populateContentGrammar();
+    
+    m_eventTypeList.checkPoint();
+    m_eventCodes.checkPoint();
+  }
   
-  protected BuiltinGrammar(byte grammarType, GrammarCache grammarCache) {
-    super(grammarType, grammarCache);
+  @Override
+  public final void init(GrammarState stateVariables) {
+    stateVariables.targetGrammar = this;
   }
 
-/*  
-  public final EventType duplicate(EventType eventType, EventTypeList eventTypeList) {
-    switch (eventType.itemType) {
-//      case EventType.ITEM_AT_WC_ANY_UNTYPED:
-//        return new EventType(eventType.depth, eventTypeList, EventType.ITEM_AT_WC_ANY_UNTYPED, (IGrammar)null);
-//      case EventType.ITEM_CH:
-//        return new EventType(eventType.depth, eventTypeList, EventType.ITEM_CH, eventType.subsequentGrammar);
-      case EventType.ITEM_EO:
-        //assert eventType.depth == EventCode.EVENT_CODE_DEPTH_TWO;
-        //return EventTypeFactory.creatEndElement(EventCode.EVENT_CODE_DEPTH_TWO, eventTypeList);
-        throw new UnsupportedOperationException();
-      case EventType.ITEM_SO_WC:
-        return new EventType(eventType.depth, eventTypeList, EventType.ITEM_SO_WC, eventType.subsequentGrammar);
-      default:
-        throw new UnsupportedOperationException();
+  protected abstract void populateContentGrammar();
+
+  ///////////////////////////////////////////////////////////////////////////
+  /// Implementation of IGrammar (used by StringTable)
+  ///////////////////////////////////////////////////////////////////////////
+  
+  public final void reset() {
+    if (dirty) {
+      m_eventTypeList.reset();
+      m_eventCodes.reset();
+      dirty = false;
     }
   }
-*/  
 
 }

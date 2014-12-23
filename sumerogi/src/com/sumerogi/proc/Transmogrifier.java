@@ -20,7 +20,7 @@ import com.sumerogi.proc.io.Scribble;
 import com.sumerogi.proc.io.Scriber;
 import com.sumerogi.proc.io.ScriberFactory;
 
-public final class EJSONEncoder {
+public final class Transmogrifier {
   
   private final GrammarCache m_grammarCache;
 
@@ -31,7 +31,7 @@ public final class EJSONEncoder {
   private Scriber m_scriber;
   private Scribble m_scribble;
 
-  public EJSONEncoder() {
+  public Transmogrifier() {
     m_outputStream = null;
     m_scribble = new Scribble();
     m_grammarCache = new GrammarCache();
@@ -598,7 +598,7 @@ public final class EJSONEncoder {
     }
     assert outputUri != null;
 
-    EJSONEncoder encoder = new EJSONEncoder();
+    Transmogrifier encoder = new Transmogrifier();
     encoder.setAlignmentType(alignment);
 
     FileOutputStream outputStream;
@@ -624,7 +624,7 @@ public final class EJSONEncoder {
   }
   
   private static void printSynopsis() {
-    System.err.println("USAGE: " + EJSONEncoder.class.getName() +
+    System.err.println("USAGE: " + Transmogrifier.class.getName() +
         " [-b|-c|-p] JSON_File Output_File");
   }
   

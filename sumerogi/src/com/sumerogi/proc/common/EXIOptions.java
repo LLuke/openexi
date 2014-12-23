@@ -52,7 +52,6 @@ public final class EXIOptions {
   /**
    * Set the bit alignment for the EXI stream. Default is <i>bit-packed</i>.
    * @param alignmentType {@link org.openexi.proc.common.AlignmentType}
-   * @throws EXIOptionsException
    * @y.exclude
    */
   public void setAlignmentType(AlignmentType alignmentType) {

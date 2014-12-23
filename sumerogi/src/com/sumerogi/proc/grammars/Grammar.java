@@ -11,21 +11,9 @@ import com.sumerogi.proc.common.StringTable.LocalNameEntry;
  */
 public abstract class Grammar {
 
-  public static final byte BUILTIN_GRAMMAR_OBJECT                 = 0;
-  public static final byte BUILTIN_GRAMMAR_ARRAY                  = 1;
-  public static final byte SCHEMA_GRAMMAR_DOCUMENT                = 2;
-
-//  private static final byte DOCUMENT_STATE_BASE = 0;
-//  protected static final byte DOCUMENT_STATE_CREATED     = DOCUMENT_STATE_BASE;
-//  protected static final byte DOCUMENT_STATE_DEPLETE     = DOCUMENT_STATE_CREATED + 1;
-//  public static final byte DOCUMENT_STATE_COMPLETED      = DOCUMENT_STATE_DEPLETE + 1;
-//  public static final byte DOCUMENT_STATE_END            = DOCUMENT_STATE_COMPLETED + 1;
-
   ///////////////////////////////////////////////////////////////////////////
   /// immutables (Do not reset immutables!)
   ///////////////////////////////////////////////////////////////////////////
-
-  public final byte grammarType;
 
   protected final GrammarCache m_grammarCache;
 
@@ -35,9 +23,8 @@ public abstract class Grammar {
 
   /**
    */
-  protected Grammar(byte grammarType, GrammarCache grammarCache) {
+  protected Grammar(GrammarCache grammarCache) {
     // immutables
-    this.grammarType = grammarType;
     m_grammarCache = grammarCache;
   }
 

@@ -34,8 +34,8 @@ public class BuiltinArrayGrammarTest extends TestCase {
    */
   public void testRootArrayGrammar_01() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/rootArrayGrammar_01.json").openStream();
@@ -133,8 +133,8 @@ public class BuiltinArrayGrammarTest extends TestCase {
    */
   public void testRootArrayGrammar_02() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/rootArrayGrammar_02.json").openStream();
@@ -254,8 +254,8 @@ public class BuiltinArrayGrammarTest extends TestCase {
    */
   public void testRootArrayGrammar_03() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/rootArrayGrammar_03.json").openStream();

@@ -23,7 +23,7 @@ final class DocumentGrammar extends Grammar {
   private final ArrayEventTypeList[] m_eventTypeLists;
 
   DocumentGrammar(GrammarCache grammarCache) {
-    super(SCHEMA_GRAMMAR_DOCUMENT, grammarCache);
+    super(grammarCache);
     
     m_eventTypes = new EventType[3][];
     m_eventCodes = new EventCodeTuple[3];

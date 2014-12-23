@@ -34,8 +34,8 @@ public class BuiltinObjectGrammarTest extends TestCase {
    */
   public void testRootObjectGrammar_01() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/rootObjectGrammar_01.json").openStream();
@@ -182,8 +182,8 @@ public class BuiltinObjectGrammarTest extends TestCase {
    */
   public void testRootObjectGrammar_02() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/rootObjectGrammar_02.json").openStream();
@@ -332,8 +332,8 @@ public class BuiltinObjectGrammarTest extends TestCase {
    */
   public void testRootObjectGrammar_03() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/rootObjectGrammar_03.json").openStream();
@@ -410,8 +410,8 @@ public class BuiltinObjectGrammarTest extends TestCase {
    */
   public void testNull_02() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/null_02.json").openStream();
@@ -472,8 +472,8 @@ public class BuiltinObjectGrammarTest extends TestCase {
    */
   public void testNull_03() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/null_03.json").openStream();

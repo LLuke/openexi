@@ -34,8 +34,8 @@ public class DocumentGrammarTest extends TestCase {
    */
   public void testString_01() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/string_01.json").openStream();
@@ -87,8 +87,8 @@ public class DocumentGrammarTest extends TestCase {
    */
   public void testInteger_01() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/integer_01.json").openStream();
@@ -140,8 +140,8 @@ public class DocumentGrammarTest extends TestCase {
    */
   public void testDecimal_01() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/decimal_01.json").openStream();
@@ -193,8 +193,8 @@ public class DocumentGrammarTest extends TestCase {
    */
   public void testFloat_01() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/float_01.json").openStream();
@@ -246,8 +246,8 @@ public class DocumentGrammarTest extends TestCase {
    */
   public void testNull_01() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/null_01.json").openStream();
@@ -299,8 +299,8 @@ public class DocumentGrammarTest extends TestCase {
    */
   public void testTrue_01() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/true_01.json").openStream();
@@ -352,8 +352,8 @@ public class DocumentGrammarTest extends TestCase {
    */
   public void testFalse_01() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/false_01.json").openStream();

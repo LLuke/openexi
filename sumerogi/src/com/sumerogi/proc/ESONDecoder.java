@@ -11,11 +11,11 @@ import com.sumerogi.proc.io.Scanner;
 import com.sumerogi.proc.io.ScannerFactory;
 
 /**
- * EXIDecoder provides methods to configure and 
+ * ESONDecoder provides methods to configure and 
  * instantiate a {@link com.sumerogi.proc.io.Scanner} object
- * you can use to parse the contents of an EXI stream. 
+ * you can use to parse the contents of an ESON stream. 
  */
-public class EJSONDecoder {
+public class ESONDecoder {
 
   private Scanner m_scanner; 
   
@@ -33,7 +33,7 @@ public class EJSONDecoder {
    * buffer size of 8192 bytes.  Buffer size is only used when
    * the EXI stream is encoded with EXI compression.
    */
-  public EJSONDecoder() {
+  public ESONDecoder() {
     this(DEFAULT_INFLATOR_BUF_SIZE);
   }
 
@@ -45,7 +45,7 @@ public class EJSONDecoder {
    * @param inflatorBufSize size of the buffer, in bytes.
    * @param useThreadedInflater Inflater will be run in its own thread if true
    */
-  public EJSONDecoder(int inflatorBufSize) {
+  public ESONDecoder(int inflatorBufSize) {
     //m_inflatorBufSize = inflatorBufSize;
     m_exiOptions = new EXIOptions();
     m_grammarCache = null;
@@ -71,9 +71,8 @@ public class EJSONDecoder {
   /**
    * Set the GrammarCache used in decoding EXI streams. 
    * @param grammarCache {@link com.sumerogi.proc.grammars.GrammarCache}
-   * @throws EXIOptionsException
    */
-  public final void setGrammarCache(GrammarCache grammarCache) throws EXIOptionsException {
+  public final void setGrammarCache(GrammarCache grammarCache) {
     if (m_grammarCache != grammarCache) {
       m_grammarCache = grammarCache;
     }
@@ -99,9 +98,8 @@ public class EJSONDecoder {
    * object you can use to parse the values from the EXI stream.  
    * @return Scanner parsable object with header options applied.
    * @throws IOException
-   * @throws EXIOptionsException
    */
-  public Scanner processHeader() throws IOException, EXIOptionsException {
+  public Scanner processHeader() throws IOException {
     final AlignmentType alignmentType;
     alignmentType = AlignmentType.getAlignmentType(m_inputStream.read());
     

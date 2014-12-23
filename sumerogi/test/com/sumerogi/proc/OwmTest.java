@@ -34,8 +34,8 @@ public class OwmTest extends TestCase {
    */
   public void testData_01() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/owm/owm-1-1cities.json").openStream();
@@ -479,8 +479,8 @@ public class OwmTest extends TestCase {
    */
   public void testData_02() throws Exception {
   
-    EJSONEncoder encoder = new EJSONEncoder();
-    EJSONDecoder decoder = new EJSONDecoder();
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/owm/owm-1-2cities.json").openStream();
