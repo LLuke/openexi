@@ -7,12 +7,13 @@
 <property name="debug" value="off"/>
 
 <property name="name" value="Sumerogi"/>
-<property name="version" value="0000.0000.0007.0"/>
+<property name="version" value="0000.0000.0008.0"/>
 <property name="vendor" value="OpenEXI"/>
 
 &properties.xml;
 
 <property name="src.dir" value="./src"/>
+<property name="fixture.dir" value="./fixture"/>
 <property name="test.dir" value="./test"/>
 <property name="testdata.dir" value="./testdata"/>
 
@@ -51,6 +52,7 @@
 <property name="build.compression.dest" value="${build.compression.dir}/dest"/>
 
 <property name="build.proc.src" value="${build.proc.dir}/src"/>
+<property name="build.proc.fixture" value="${build.proc.dir}/fixture"/>
 <property name="build.proc.test" value="${build.proc.dir}/test"/>
 <property name="build.proc.dest" value="${build.proc.dir}/dest"/>
 
@@ -137,6 +139,7 @@
   <pathelement location="${build.io.dest}"/>
   <pathelement location="${build.compression.dest}"/>
   <pathelement location="${build.proc.dest}"/>
+  <pathelement location="${build.proc.fixture}"/>
   <pathelement location="${build.scomp.dest}"/>
   <pathelement location="${build.scomp.fixture}"/>
 </path>
@@ -159,6 +162,7 @@
   <pathelement location="${build.testdata.dir}"/>
   <pathelement location="${build.schema.fixture}"/>
   <pathelement location="${build.scomp.fixture}"/>
+  <pathelement location="${build.proc.fixture}"/>
   <pathelement location="${build.proc.test}"/>
 </path>
 
@@ -213,6 +217,7 @@
 
   <mkdir dir="${build.proc.dir}"/>
   <mkdir dir="${build.proc.src}"/>
+  <mkdir dir="${build.proc.fixture}"/>
   <mkdir dir="${build.proc.test}"/>
   <mkdir dir="${build.proc.dest}"/>
 
@@ -252,6 +257,9 @@
   </copy>
   <copy todir="${build.proc.src}">
     <fileset dir="${src.dir}" includes="**/sumerogi/proc/*" />
+  </copy>
+  <copy todir="${build.proc.fixture}">
+    <fileset dir="${fixture.dir}" includes="**/sumerogi/proc/*" />
   </copy>
   <copy todir="${build.proc.test}">
     <fileset dir="${test.dir}" includes="**/sumerogi/proc/*" />
@@ -300,6 +308,9 @@
   <javac srcdir="${build.proc.src}" debug="${debug}" optimize="on" encoding="utf-8"
          fork="true" includeAntRuntime="no"
          destdir="${build.proc.dest}" classpathref="proc.src.compile.class.path"/>
+
+  <javac srcdir="${build.proc.fixture}" debug="on" optimize="off" encoding="utf-8"
+         fork="true" includeAntRuntime="no" destdir="${build.proc.fixture}" />
 
   <!-- Build tests -->
   <javac srcdir="${build.common.test}" debug="on" optimize="off" encoding="utf-8"

@@ -7,7 +7,6 @@ import java.io.InputStream;
 import com.sumerogi.proc.common.AlignmentType;
 import com.sumerogi.proc.common.EventDescription;
 import com.sumerogi.proc.common.EventType;
-import com.sumerogi.proc.grammars.GrammarCache;
 import com.sumerogi.proc.io.Scanner;
 
 import junit.framework.Assert;
@@ -47,17 +46,7 @@ public class OwmTest extends TestCase {
       encoder.encode(inputStream);
       inputStream.close();
       
-      byte[] bts = baos.toByteArray();
-      
-      System.out.println(bts.length);
-      
-      ByteArrayInputStream bais = new ByteArrayInputStream(bts);
-      
-      GrammarCache grammarCache = new GrammarCache();
-  
-      decoder.setGrammarCache(grammarCache);
-      
-      decoder.setInputStream(bais);
+      decoder.setInputStream(new ByteArrayInputStream(baos.toByteArray()));
       
       Scanner scanner = decoder.processHeader();
       
@@ -492,17 +481,7 @@ public class OwmTest extends TestCase {
       encoder.encode(inputStream);
       inputStream.close();
       
-      byte[] bts = baos.toByteArray();
-      
-      System.out.println(bts.length);
-      
-      ByteArrayInputStream bais = new ByteArrayInputStream(bts);
-      
-      GrammarCache grammarCache = new GrammarCache();
-  
-      decoder.setGrammarCache(grammarCache);
-      
-      decoder.setInputStream(bais);
+      decoder.setInputStream(new ByteArrayInputStream(baos.toByteArray()));
       
       Scanner scanner = decoder.processHeader();
       

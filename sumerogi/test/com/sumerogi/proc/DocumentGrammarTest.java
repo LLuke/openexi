@@ -7,7 +7,6 @@ import java.io.InputStream;
 import com.sumerogi.proc.common.AlignmentType;
 import com.sumerogi.proc.common.EventDescription;
 import com.sumerogi.proc.common.EventType;
-import com.sumerogi.proc.grammars.GrammarCache;
 import com.sumerogi.proc.io.Scanner;
 
 import junit.framework.Assert;
@@ -38,26 +37,15 @@ public class DocumentGrammarTest extends TestCase {
     ESONDecoder decoder = new ESONDecoder();
     
     for (AlignmentType alignment : Alignments) {
-      InputStream inputStream = getClass().getResource("/string_01.json").openStream();
+      String json = "  \"wenhua\"";
       
       ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
       encoder.setOutputStream(baos);
 
       encoder.setAlignmentType(alignment);
-      encoder.encode(inputStream);
-      inputStream.close();
+      encoder.encode(json);
       
-      byte[] bts = baos.toByteArray();
-      
-      System.out.println(bts.length);
-      
-      ByteArrayInputStream bais = new ByteArrayInputStream(bts);
-      
-      GrammarCache grammarCache = new GrammarCache();
-  
-      decoder.setGrammarCache(grammarCache);
-      
-      decoder.setInputStream(bais);
+      decoder.setInputStream(new ByteArrayInputStream(baos.toByteArray()));
       
       Scanner scanner = decoder.processHeader();
       
@@ -83,6 +71,32 @@ public class DocumentGrammarTest extends TestCase {
     }
   }
   
+  public void testStringJSONify_01() throws Exception {
+    String json = "  \"wenhua\"";
+
+    Transmogrifier encoder = new Transmogrifier();
+    JSONifier decoder = new JSONifier();
+    
+    for (AlignmentType alignment : Alignments) {
+      ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
+      encoder.setOutputStream(baos);
+      
+      encoder.setAlignmentType(alignment);
+      encoder.encode(json);
+      
+      byte[] eson = baos.toByteArray();
+      
+      baos = new ByteArrayOutputStream(); 
+      
+      decoder.setOutputStream(baos);
+      decoder.decode(new ByteArrayInputStream(eson));
+      
+      String decodedJSON = new String(baos.toByteArray(), "UTF-8");
+      
+      Assert.assertEquals("\"wenhua\"", decodedJSON);
+    }
+  }
+  
   /**
    */
   public void testInteger_01() throws Exception {
@@ -100,17 +114,7 @@ public class DocumentGrammarTest extends TestCase {
       encoder.encode(inputStream);
       inputStream.close();
       
-      byte[] bts = baos.toByteArray();
-      
-      System.out.println(bts.length);
-      
-      ByteArrayInputStream bais = new ByteArrayInputStream(bts);
-      
-      GrammarCache grammarCache = new GrammarCache();
-  
-      decoder.setGrammarCache(grammarCache);
-      
-      decoder.setInputStream(bais);
+      decoder.setInputStream(new ByteArrayInputStream(baos.toByteArray()));
       
       Scanner scanner = decoder.processHeader();
       
@@ -153,17 +157,7 @@ public class DocumentGrammarTest extends TestCase {
       encoder.encode(inputStream);
       inputStream.close();
       
-      byte[] bts = baos.toByteArray();
-      
-      System.out.println(bts.length);
-      
-      ByteArrayInputStream bais = new ByteArrayInputStream(bts);
-      
-      GrammarCache grammarCache = new GrammarCache();
-  
-      decoder.setGrammarCache(grammarCache);
-      
-      decoder.setInputStream(bais);
+      decoder.setInputStream(new ByteArrayInputStream(baos.toByteArray()));
       
       Scanner scanner = decoder.processHeader();
       
@@ -206,17 +200,7 @@ public class DocumentGrammarTest extends TestCase {
       encoder.encode(inputStream);
       inputStream.close();
       
-      byte[] bts = baos.toByteArray();
-      
-      System.out.println(bts.length);
-      
-      ByteArrayInputStream bais = new ByteArrayInputStream(bts);
-      
-      GrammarCache grammarCache = new GrammarCache();
-  
-      decoder.setGrammarCache(grammarCache);
-      
-      decoder.setInputStream(bais);
+      decoder.setInputStream(new ByteArrayInputStream(baos.toByteArray()));
       
       Scanner scanner = decoder.processHeader();
       
@@ -259,17 +243,7 @@ public class DocumentGrammarTest extends TestCase {
       encoder.encode(inputStream);
       inputStream.close();
       
-      byte[] bts = baos.toByteArray();
-      
-      System.out.println(bts.length);
-      
-      ByteArrayInputStream bais = new ByteArrayInputStream(bts);
-      
-      GrammarCache grammarCache = new GrammarCache();
-  
-      decoder.setGrammarCache(grammarCache);
-      
-      decoder.setInputStream(bais);
+      decoder.setInputStream(new ByteArrayInputStream(baos.toByteArray()));
       
       Scanner scanner = decoder.processHeader();
       
@@ -295,6 +269,32 @@ public class DocumentGrammarTest extends TestCase {
     }
   }
 
+  public void testNullJSONify_01() throws Exception {
+    String json = " null";
+
+    Transmogrifier encoder = new Transmogrifier();
+    JSONifier decoder = new JSONifier();
+    
+    for (AlignmentType alignment : Alignments) {
+      ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
+      encoder.setOutputStream(baos);
+      
+      encoder.setAlignmentType(alignment);
+      encoder.encode(json);
+      
+      byte[] eson = baos.toByteArray();
+      
+      baos = new ByteArrayOutputStream(); 
+      
+      decoder.setOutputStream(baos);
+      decoder.decode(new ByteArrayInputStream(eson));
+      
+      String decodedJSON = new String(baos.toByteArray(), "UTF-8");
+      
+      Assert.assertEquals("null", decodedJSON);
+    }
+  }
+  
   /**
    */
   public void testTrue_01() throws Exception {
@@ -312,17 +312,7 @@ public class DocumentGrammarTest extends TestCase {
       encoder.encode(inputStream);
       inputStream.close();
       
-      byte[] bts = baos.toByteArray();
-      
-      System.out.println(bts.length);
-      
-      ByteArrayInputStream bais = new ByteArrayInputStream(bts);
-      
-      GrammarCache grammarCache = new GrammarCache();
-  
-      decoder.setGrammarCache(grammarCache);
-      
-      decoder.setInputStream(bais);
+      decoder.setInputStream(new ByteArrayInputStream(baos.toByteArray()));
       
       Scanner scanner = decoder.processHeader();
       
@@ -365,17 +355,7 @@ public class DocumentGrammarTest extends TestCase {
       encoder.encode(inputStream);
       inputStream.close();
       
-      byte[] bts = baos.toByteArray();
-      
-      System.out.println(bts.length);
-      
-      ByteArrayInputStream bais = new ByteArrayInputStream(bts);
-      
-      GrammarCache grammarCache = new GrammarCache();
-  
-      decoder.setGrammarCache(grammarCache);
-      
-      decoder.setInputStream(bais);
+      decoder.setInputStream(new ByteArrayInputStream(baos.toByteArray()));
       
       Scanner scanner = decoder.processHeader();
       

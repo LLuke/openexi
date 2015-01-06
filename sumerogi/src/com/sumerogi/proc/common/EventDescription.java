@@ -12,7 +12,7 @@ import com.sumerogi.schema.Characters;
  */
 public interface EventDescription {
   /** @y.exclude */
-  public static final byte NOT_AN_EVENT = -1;
+  public static final byte NOT_AN_EVENT = Byte.MAX_VALUE;
   /**
    * Start Document event.
    */
@@ -53,30 +53,6 @@ public interface EventDescription {
    * Null-value event.
    */
   public static final byte EVENT_NULL  = 9;
-//  /**
-//   * Namespace declaration event.
-//   */
-//  public static final byte EVENT_NS  = 10;
-//  /**
-//   * Processing Instruction event.
-//   */
-//  public static final byte EVENT_PI  = 11;
-//  /**
-//   * Comment event.
-//   */
-//  public static final byte EVENT_CM  = 12;
-//  /**
-//   * Entity Reference event.
-//   */
-//  public static final byte EVENT_ER  = 13;
-//  /**
-//   * Document Type Definition event.
-//   */
-//  public static final byte EVENT_DTD = 14;
-//  /**
-//   * BLOB event (content of an element).
-//   */
-//  public static final byte EVENT_BLOB  = 15;
   
   /**
    * Gets the event kind of which instance data this EventDescription is describing.  

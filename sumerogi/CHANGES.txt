@@ -1,3 +1,25 @@
+2015-01-05 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0008.0
+
+- Implemented JSONifier.
+
+M       test/com/sumerogi/proc/OwmTest.java
+M       test/com/sumerogi/proc/BuiltinObjectGrammarTest.java
+M       test/com/sumerogi/proc/DocumentGrammarTest.java
+M       test/com/sumerogi/proc/AisTest.java
+M       test/com/sumerogi/proc/BuiltinArrayGrammarTest.java
+A       fixture/com
+A       fixture/com/sumerogi
+A       fixture/com/sumerogi/proc
+A       fixture/com/sumerogi/proc/Utilities.java
+M       CHANGES.txt
+M       src/com/sumerogi/proc/common/EventDescription.java
+M       src/com/sumerogi/proc/JSONifier.java
+M       src/com/sumerogi/proc/ESONDecoder.java
+D       testdata/string_01.json
+M       build.xml
+
 2014-12-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0000.0007.0

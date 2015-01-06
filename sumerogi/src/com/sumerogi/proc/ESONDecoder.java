@@ -19,7 +19,7 @@ public class ESONDecoder {
 
   private Scanner m_scanner; 
   
-  private GrammarCache m_grammarCache;
+  private final GrammarCache m_grammarCache;
   
   private InputStream m_inputStream;
 
@@ -48,7 +48,7 @@ public class ESONDecoder {
   public ESONDecoder(int inflatorBufSize) {
     //m_inflatorBufSize = inflatorBufSize;
     m_exiOptions = new EXIOptions();
-    m_grammarCache = null;
+    m_grammarCache = new GrammarCache();
     m_scanner = ScannerFactory.createScanner(AlignmentType.bitPacked, DEFAULT_INFLATOR_BUF_SIZE);
     m_scanner.setStringTable(Scanner.createStringTable());
   }
@@ -65,16 +65,6 @@ public class ESONDecoder {
     if (m_scanner.getAlignmentType() != alignmentType) {
       m_scanner = ScannerFactory.createScanner(alignmentType, DEFAULT_INFLATOR_BUF_SIZE);
       m_scanner.setStringTable(Scanner.createStringTable());
-    }
-  }
-  
-  /**
-   * Set the GrammarCache used in decoding EXI streams. 
-   * @param grammarCache {@link com.sumerogi.proc.grammars.GrammarCache}
-   */
-  public final void setGrammarCache(GrammarCache grammarCache) {
-    if (m_grammarCache != grammarCache) {
-      m_grammarCache = grammarCache;
     }
   }
   

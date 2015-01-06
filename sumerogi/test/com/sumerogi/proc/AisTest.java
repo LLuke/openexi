@@ -7,7 +7,6 @@ import java.io.InputStream;
 import com.sumerogi.proc.common.AlignmentType;
 import com.sumerogi.proc.common.EventDescription;
 import com.sumerogi.proc.common.EventType;
-import com.sumerogi.proc.grammars.GrammarCache;
 import com.sumerogi.proc.io.Scanner;
 
 import junit.framework.Assert;
@@ -47,21 +46,11 @@ public class AisTest extends TestCase {
       encoder.encode(inputStream);
       inputStream.close();
       
-      byte[] bts = baos.toByteArray();
-      
-      System.out.println(bts.length);
-      
-      ByteArrayInputStream bais;
+      final byte[] bts = baos.toByteArray();
       
       // Repeat twice to test reset() functions
       for (int i = 0; i < 2; i++) {
-        bais = new ByteArrayInputStream(bts);
-        
-        GrammarCache grammarCache = new GrammarCache();
-    
-        decoder.setGrammarCache(grammarCache);
-        
-        decoder.setInputStream(bais);
+        decoder.setInputStream(new ByteArrayInputStream(bts));
         
         Scanner scanner = decoder.processHeader();
         
@@ -219,12 +208,38 @@ public class AisTest extends TestCase {
 
   /**
    */
+  public void testJSONify_01() throws Exception {
+    String json = Utilities.readTextResource("/ais/ais-1-0001posreps.json", this);
+
+    Transmogrifier encoder = new Transmogrifier();
+    JSONifier decoder = new JSONifier();
+    
+    for (AlignmentType alignment : Alignments) {
+      ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
+      encoder.setOutputStream(baos);
+      
+      encoder.setAlignmentType(alignment);
+      encoder.encode(json);
+      
+      byte[] eson = baos.toByteArray();
+      
+      baos = new ByteArrayOutputStream(); 
+      
+      decoder.setOutputStream(baos);
+      decoder.decode(new ByteArrayInputStream(eson));
+      
+      String decodedJSON = new String(baos.toByteArray(), "UTF-8");
+      
+      Assert.assertEquals(json, decodedJSON);
+    }
+  }
+  
+  /**
+   */
   public void testData_02() throws Exception {
   
     Transmogrifier encoder = new Transmogrifier();
     ESONDecoder decoder = new ESONDecoder();
-    GrammarCache grammarCache = new GrammarCache();
-    decoder.setGrammarCache(grammarCache);
     
     for (AlignmentType alignment : Alignments) {
       InputStream inputStream = getClass().getResource("/ais/ais-1-0002posreps.json").openStream();
@@ -238,15 +253,9 @@ public class AisTest extends TestCase {
       
       byte[] bts = baos.toByteArray();
       
-      System.out.println(bts.length);
-      
-      ByteArrayInputStream bais;
-
       // Repeat twice to test reset() functions
       for (int i = 0; i < 2; i++) {
-        bais = new ByteArrayInputStream(bts);
-        
-        decoder.setInputStream(bais);
+        decoder.setInputStream(new ByteArrayInputStream(bts));
         
         Scanner scanner = decoder.processHeader();
         
@@ -528,6 +537,34 @@ public class AisTest extends TestCase {
         eventType = event.getEventType();
         Assert.assertEquals(EventType.ITEM_END_DOCUMENT, eventType.itemType);
       }
+    }
+  }
+  
+  /**
+   */
+  public void testJSONify_02() throws Exception {
+    String json = Utilities.readTextResource("/ais/ais-1-0002posreps.json", this);
+
+    Transmogrifier encoder = new Transmogrifier();
+    JSONifier decoder = new JSONifier();
+    
+    for (AlignmentType alignment : Alignments) {
+      ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
+      encoder.setOutputStream(baos);
+      
+      encoder.setAlignmentType(alignment);
+      encoder.encode(json);
+      
+      byte[] eson = baos.toByteArray();
+      
+      baos = new ByteArrayOutputStream(); 
+      
+      decoder.setOutputStream(baos);
+      decoder.decode(new ByteArrayInputStream(eson));
+      
+      String decodedJSON = new String(baos.toByteArray(), "UTF-8");
+      
+      Assert.assertEquals(json, decodedJSON);
     }
   }
   
