@@ -2,6 +2,58 @@
 
 0000.0000.0009.0
 
+- Added "doc" target.
+
+A       tools
+A       tools/ydoc
+A       tools/ydoc/README.html
+A       tools/ydoc/3rdPartyLicenses.html
+A       tools/ydoc/doc
+A       tools/ydoc/doc/PathResolver.html
+A       tools/ydoc/doc/PathResolver.png
+A       tools/ydoc/doc/usersguide.html
+A       tools/ydoc/doc/1.gif
+A       tools/ydoc/doc/2.gif
+A       tools/ydoc/doc/new_small.gif
+A       tools/ydoc/doc/3.gif
+A       tools/ydoc/doc/4.gif
+A       tools/ydoc/doc/usersguide.pdf
+A       tools/ydoc/doc/UML.jpg
+A       tools/ydoc/doc/new.gif
+A       tools/ydoc/doc/DocFilter.html
+A       tools/ydoc/doc/DocFilter.png
+A       tools/ydoc/doc/examples
+A       tools/ydoc/doc/examples/SortedVector.java
+A       tools/ydoc/doc/examples/SortedVector.class
+A       tools/ydoc/doc/examples/options.sample.linux
+A       tools/ydoc/doc/examples/options.sample.win32
+A       tools/ydoc/doc/examples/build-sample.xml
+A       tools/ydoc/LICENSE.html
+A       tools/ydoc/lib
+A       tools/ydoc/lib/styleed.jar
+A       tools/ydoc/lib/ydoc.jar
+A       tools/ydoc/resources
+A       tools/ydoc/resources/ydoc.license
+A       tools/ydoc/resources/styles
+A       tools/ydoc/resources/styles/default-style.xml
+A       tools/ydoc/resources/styles/original-style.xml
+A       tools/ydoc/resources/styles/dark-matter-style.xml
+A       tools/ydoc/resources/styles/theBlues-style.xml
+A       tools/ydoc/resources/styles/yFiles-style.xml
+A       tools/ydoc/resources/styles/dotnet-style.xml
+A       tools/ydoc/resources/styles/gradient-style.xml
+A       tools/ydoc/resources/styles/muted-colors-style.xml
+A       tools/ydoc/resources/styles/ydocstyle.xsd
+A       tools/ydoc/resources/taglet_definitions.dtd
+A       tools/ydoc/resources/taglet_templates.dtd
+A       tools/ydoc/resources/taglet_definitions.xml
+A       tools/ydoc/resources/ydoc.cfg
+A       tools/ydoc/resources/taglet_templates.xml
+M       CHANGES.txt
+M       build.xml
+
+0000.0000.0009.0
+
 - Code cleanup.
 
 M       src/com/sumerogi/proc/io/SimpleScanner.java

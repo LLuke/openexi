@@ -18,6 +18,7 @@
 <property name="testdata.dir" value="./testdata"/>
 
 <property name="build.dir" value="./build"/>
+<property name="build.docsrc" value="${build.dir}/docsrc"/>
 <property name="build.testdata.dir" value="${build.dir}/testdata"/>
 
 <property name="build.util.dir" value="${build.dir}/util"/>
@@ -59,6 +60,11 @@
 <property name="dist.dir" value="./dist"/>
 
 <path id="jackson.class.path">
+  <pathelement location="${jackson.jar}"/>
+</path>
+
+<path id="javadoc.class.path">
+  <pathelement location="${build.dir}/sumerogi.jar"/>
   <pathelement location="${jackson.jar}"/>
 </path>
 
@@ -166,6 +172,10 @@
   <pathelement location="${build.proc.test}"/>
 </path>
 
+<path id="javadoc.src.path">
+  <pathelement location="${build.docsrc}"/>
+</path>
+
 <!-- =================================================================== -->
 <!-- Cleans everything                                                   -->
 <!-- =================================================================== -->
@@ -267,6 +277,28 @@
 
   <copy todir="${build.testdata.dir}">
     <fileset dir="${testdata.dir}" includes="**/*/" />
+  </copy>
+
+  <copy todir="${build.docsrc}">
+    <fileset dir="${build.schema.src}">
+      <include name="**/*.html"/>
+      <include name="com/sumerogi/proc/Characters.java"/>
+    </fileset>
+    <fileset dir="${build.common.src}">
+      <include name="**/*.html"/>
+      <include name="com/sumerogi/proc/common/AlignmentType.java"/>
+      <include name="com/sumerogi/proc/common/EventDescription.java"/>
+    </fileset>
+    <fileset dir="${build.io.src}">
+      <include name="**/*.html"/>
+      <include name="com/sumerogi/proc/io/Scanner.java"/>
+    </fileset>
+    <fileset dir="${build.proc.src}">
+      <include name="**/*.html"/>
+      <include name="com/sumerogi/proc/ESONDecoder.java"/>
+      <include name="com/sumerogi/proc/JSONifier.java"/>
+      <include name="com/sumerogi/proc/Transmogrifier.java"/>
+    </fileset>
   </copy>
 
 </target>
@@ -407,5 +439,24 @@
 
 </target>
 
+<target name="doc" description="generate javadoc" depends="prepare-src">
+
+  <mkdir dir="${build.dir}/doc"/>
+  <delete dir="${build.dir}/doc"/>
+  <mkdir dir="${build.dir}/doc"/>
+
+  <javadoc sourcepathref="javadoc.src.path" destdir="${build.dir}/doc"
+     Doctitle="Sumerogi" classpathref="javadoc.class.path"
+     Locale="en_US" docencoding="ISO-8859-1" charset="ISO-8859-1"
+     access="public" breakiterator="yes">
+     <tag name="author"/>
+     <doclet name="ydoc.doclets.YStandard"
+             path="tools/ydoc/lib/ydoc.jar;tools/ydoc/resources">
+       <param name="-filterpath" value="tools/ydoc/lib/ydoc.jar"/>
+       <param name="-filter" value="ydoc.filters.ExcludeFilter"/>
+     </doclet>
+  </javadoc>
+
+</target>
 
 </project>
