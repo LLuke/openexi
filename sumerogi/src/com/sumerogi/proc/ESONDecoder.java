@@ -26,27 +26,11 @@ public class ESONDecoder {
   private final EXIOptions m_exiOptions;
   
   private static final int DEFAULT_INFLATOR_BUF_SIZE = 8192; 
-  //private final int m_inflatorBufSize;
   
   /**
-   * Creates an instance of EXIDecoder with the default inflator 
-   * buffer size of 8192 bytes.  Buffer size is only used when
-   * the EXI stream is encoded with EXI compression.
+   * Creates an instance of ESONDecoder.
    */
   public ESONDecoder() {
-    this(DEFAULT_INFLATOR_BUF_SIZE);
-  }
-
-  /**
-   * Creates an instance of EXIDecoder with the specified inflator buffer 
-   * size. When dynamic memory is limited on the target device, reducing 
-   * the buffer size can improve performance and avoid runtime errors. Buffer 
-   * size is only used when the EXI stream is encoded with EXI compression.
-   * @param inflatorBufSize size of the buffer, in bytes.
-   * @param useThreadedInflater Inflater will be run in its own thread if true
-   */
-  public ESONDecoder(int inflatorBufSize) {
-    //m_inflatorBufSize = inflatorBufSize;
     m_exiOptions = new EXIOptions();
     m_grammarCache = new GrammarCache();
     m_scanner = ScannerFactory.createScanner(AlignmentType.bitPacked, DEFAULT_INFLATOR_BUF_SIZE);

@@ -371,51 +371,7 @@ public final class Transmogrifier {
         }
       }
       
-      
-//      if (token == JsonToken.FIELD_NAME) {
-//        final String name = m_parser.getCurrentName();
-//        token = m_parser.nextToken();
-//        if (token == JsonToken.VALUE_STRING) {
-//          final String stringValue = m_parser.getText();
-//          eventTypes = m_scriber.getNextEventTypes();
-//          if ((eventType = eventTypes.getStringValueNamed(name)) != null) {
-//            m_scriber.writeEventType(eventType);
-//            final int nameId = eventType.getNameId();
-//            Scriber.stringValueScriber.scribe(stringValue, m_scribble, nameId, m_scriber);
-//          }
-//          else {
-//            eventType = eventTypes.getStringValueWildcard();
-//            assert eventType != null;
-//            m_scriber.writeEventType(eventType);
-//            final int nameId = m_scriber.writeName(name, eventType);
-//            Scriber.stringValueScriber.scribe(stringValue, m_scribble, nameId, m_scriber);
-//            m_scriber.wildcardStringValue(eventType.getIndex(), nameId);
-//          }
-//        }
-//        else if (token == JsonToken.START_OBJECT) {
-//          eventTypes = m_scriber.getNextEventTypes();
-//          if ((eventType = eventTypes.getStartObjectNamed(name)) != null) {
-//            m_scriber.writeEventType(eventType);
-//            m_scriber.startObjectNamed(eventType);
-//          }
-//          else {
-//            eventType = eventTypes.getStartObjectWildcard();
-//            assert eventType != null;
-//            m_scriber.writeEventType(eventType);
-//            final int nameId = m_scriber.writeName(name, eventType);
-//            m_scriber.startObjectWildcard(nameId);
-//          }
-//          encodeObject();
-//          
-//        }
-//        
-//      }
-//      else {
-//        // REVISIT: Should never enter here. Throw an exception.
-//        assert false;
-//      }
     }
-    
     
   }
 

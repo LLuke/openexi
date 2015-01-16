@@ -135,14 +135,14 @@ abstract class SimpleScanner extends Scanner {
     final Characters text;    
     final int nameId = eventType.getNameId();
     text = stringValueScanner.scan(nameId);
-    return new EXIEventStringValue(text, eventType);
+    return new EXIEventValue(text, eventType, EventDescription.EVENT_STRING_VALUE);
   }
 
   private EventDescription doNumberValueAnonymous(EventType eventType) throws IOException {
     anonymousNumberValue(eventType);
     final int name = currentState.name;
     final Characters text = numberValueScanner.scan(name);
-    return new EXIEventNumberValue(text, eventType);
+    return new EXIEventValue(text, eventType, EventDescription.EVENT_NUMBER_VALUE);
   }
   
   private EventDescription doNumberValueWildcard(EventType eventType) throws IOException {
@@ -157,14 +157,14 @@ abstract class SimpleScanner extends Scanner {
     final Characters text;    
     final int nameId = eventType.getNameId();
     text = numberValueScanner.scan(nameId);
-    return new EXIEventNumberValue(text, eventType);
+    return new EXIEventValue(text, eventType, EventDescription.EVENT_NUMBER_VALUE);
   }
 
   private EventDescription doBooleanValueAnonymous(EventType eventType) throws IOException {
     anonymousBooleanValue(eventType);
     final int name = currentState.name;
     final Characters text = booleanValueScanner.scan(name);
-    return new EXIEventBooleanValue(text, eventType);
+    return new EXIEventValue(text, eventType, EventDescription.EVENT_BOOLEAN_VALUE);
   }
 
   private EventDescription doBooleanValueWildcard(EventType eventType) throws IOException {
@@ -179,7 +179,7 @@ abstract class SimpleScanner extends Scanner {
     final Characters text;    
     final int nameId = eventType.getNameId();
     text = booleanValueScanner.scan(nameId);
-    return new EXIEventBooleanValue(text, eventType);
+    return new EXIEventValue(text, eventType, EventDescription.EVENT_BOOLEAN_VALUE);
   }
 
   private EventDescription doNullValueWildcard(EventType eventType) throws IOException {

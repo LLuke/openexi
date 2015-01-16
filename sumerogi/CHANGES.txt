@@ -1,3 +1,21 @@
+2015-01-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0009.0
+
+- Code cleanup.
+
+M       src/com/sumerogi/proc/io/SimpleScanner.java
+D       src/com/sumerogi/proc/io/EXIEventStringValue.java
+M       src/com/sumerogi/proc/io/EXIEventValue.java
+D       src/com/sumerogi/proc/io/EXIEventBooleanValue.java
+D       src/com/sumerogi/proc/io/EXIEventNumberValue.java
+M       src/com/sumerogi/proc/common/EventTypeList.java
+M       src/com/sumerogi/proc/common/EventType.java
+M       src/com/sumerogi/proc/common/EventDescription.java
+M       src/com/sumerogi/proc/ESONDecoder.java
+M       src/com/sumerogi/proc/Transmogrifier.java
+M       build.xml
+
 2015-01-05 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0000.0008.0

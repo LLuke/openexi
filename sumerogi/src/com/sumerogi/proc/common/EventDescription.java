@@ -3,12 +3,12 @@ package com.sumerogi.proc.common;
 import com.sumerogi.schema.Characters;
 
 /**
- * <p>EventDescription provides accessors to the current EXI event data
+ * <p>EventDescription provides accessors to the current ESON event data
  * during the decode process.</p>
  * 
  * <p>Note that the content of EventDescription is transient, which means
  * its content may change when the decoder is asked for access to the
- * next EXI event data.</p>
+ * next ESON event data.</p>
  */
 public interface EventDescription {
   /** @y.exclude */
@@ -66,12 +66,6 @@ public interface EventDescription {
    */
   public String getName();
   
-//  /**
-//   * Gets the namespace prefix of the event.
-//   * @return the prefix as a String.
-//   */
-//  public String getPrefix();
-
   /** @y.exclude */
   public int getNameId();
 
@@ -82,12 +76,6 @@ public interface EventDescription {
    * @return a Characters of the corresponding value
    */
   public Characters getCharacters();
-
-  /**
-//   * Gets the value of an EVENT_BLOB. 
-//   * @return a BinaryData of the corresponding value
-//   */
-//  public BinaryDataSource getBinaryDataSource();
 
   /**
    * Returns the EventType from which this event is derived.

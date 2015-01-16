@@ -3,8 +3,7 @@ package com.sumerogi.proc.common;
 import com.sumerogi.schema.Characters;
 
 /**
- * EventType denotes terminal symbols of grammar productions  
- * defined in the EXI 1.0 specification. 
+ * EventType denotes terminal symbols of ESON grammar productions.  
  */
 public class EventType extends EventCode implements EventDescription {
   

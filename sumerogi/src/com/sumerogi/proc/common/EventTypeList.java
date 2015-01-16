@@ -84,19 +84,4 @@ public abstract class EventTypeList {
   public abstract EventType getBooleanValueAnonymous();
   public abstract EventType getBooleanValueWildcard();
 
-//  public abstract EventType getSchemaAttribute(String uri, String name);
-//  public abstract EventType getSchemaAttributeInvalid(String uri, String name);
-//  public abstract EventType getLearnedAttribute(String uri, String name);
-//  public abstract EventType getSchemaAttributeWildcardAny();
-//  public abstract EventType getAttributeWildcardAnyUntyped();
-//  public abstract EventType getSchemaAttributeWildcardNS(String uri); 
-  
-//  public abstract EventType getSchemaCharacters();
-//  /**
-//   * Returns a characters event type that corresponds to either a mixed content or
-//   * schema-deviation characters if any. The one corresponding to a mixed content is
-//   * returned when both are available.
-//   */
-//  public abstract EventType getCharacters();
-  
 }

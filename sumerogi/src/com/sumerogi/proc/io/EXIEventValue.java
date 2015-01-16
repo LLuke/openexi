@@ -4,14 +4,17 @@ import com.sumerogi.proc.common.EventDescription;
 import com.sumerogi.proc.common.EventType;
 import com.sumerogi.schema.Characters;
 
-abstract class EXIEventValue implements EventDescription {
+final class EXIEventValue implements EventDescription {
   
   private final EventType m_eventType;
   private final Characters m_text;
   
-  public EXIEventValue(Characters text, EventType eventType) {
+  private final byte m_eventKind;
+  
+  public EXIEventValue(Characters text, EventType eventType, byte eventKind) {
     m_eventType = eventType;
     m_text = text;
+    m_eventKind = eventKind;
   }
   
   public int getNameId() {
@@ -28,6 +31,10 @@ abstract class EXIEventValue implements EventDescription {
   
   public String getName() {
     return m_eventType.getName();
+  }
+  
+  public byte getEventKind() {
+    return m_eventKind;
   }
 
 }
