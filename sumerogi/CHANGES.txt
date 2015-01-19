@@ -1,3 +1,14 @@
+2015-01-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0010.0
+
+- Added command-line to JSONifier.
+
+M       src/com/sumerogi/proc/JSONifier.java
+M       src/com/sumerogi/proc/Transmogrifier.java
+A       src/com/sumerogi/util/Utils.java
+M       build.xml
+
 2015-01-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0000.0009.0

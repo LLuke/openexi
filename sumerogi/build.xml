@@ -7,7 +7,7 @@
 <property name="debug" value="off"/>
 
 <property name="name" value="Sumerogi"/>
-<property name="version" value="0000.0000.0009.0"/>
+<property name="version" value="0000.0000.0010.0"/>
 <property name="vendor" value="OpenEXI"/>
 
 &properties.xml;
@@ -117,6 +117,7 @@
 <!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
 <path id="proc.src.compile.class.path">
   <path refid="jackson.class.path"/>
+  <pathelement location="${build.util.dest}"/>
   <pathelement location="${build.schema.dest}"/>
   <pathelement location="${build.common.dest}"/>
   <pathelement location="${build.putil.dest}"/>

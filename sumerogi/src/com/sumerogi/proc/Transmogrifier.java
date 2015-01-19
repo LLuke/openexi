@@ -19,6 +19,7 @@ import com.sumerogi.proc.grammars.GrammarCache;
 import com.sumerogi.proc.io.Scribble;
 import com.sumerogi.proc.io.Scriber;
 import com.sumerogi.proc.io.ScriberFactory;
+import com.sumerogi.util.Utils;
 
 public final class Transmogrifier {
   
@@ -463,77 +464,52 @@ public final class Transmogrifier {
       m_scriber.getNumberValueScriber().scribe((String)null, m_scribble, name, m_scriber);
   }
   
-  /**
-   * Resolve a string representing an uri into an absolute URI given a base URI.
-   * Null is returned if the uri is null or the uri seems to be a relative one
-   * with baseURI being null.
-   * @param uri
-   * @param baseURI
-   * @return absolute URI
-   * @throws URISyntaxException
-   */
-  private static URI resolveURI(String uri, URI baseURI)
-      throws URISyntaxException {
-    URI resolved = null;
-    if (uri != null) {
-      int pos;
-      if ((pos = uri.indexOf(':')) <= 1) {
-        if (pos == 1) {
-          char firstChar = uri.charAt(0);
-          if ('A' <= firstChar && firstChar <= 'Z' ||
-              'a' <= firstChar && firstChar <= 'z') {
-            resolved = new File(uri).toURI();
-          }
-        }
-        else { // relative URI
-          if (baseURI != null)
-            resolved = baseURI.resolve(uri);
-          else
-            return null;
-        }
-      }
-      if (resolved == null)
-        resolved = new URI(uri); // cross your fingers
-    }
-    return resolved;
-  }
-  
   public static void main(String args[]) throws IOException {
 
     int pos = 0;
     AlignmentType alignment = AlignmentType.bitPacked;
-    if (args.length == 3) {
-      String alignmentString = args[0];
-      if (alignmentString.charAt(0) == '-') {
-        alignmentString = alignmentString.substring(1);
-        if ("c".equals(alignmentString)) {
-          alignment = AlignmentType.compress;
+    do {
+      if (args.length == 3) {
+        String alignmentString = args[0];
+        // The first argument is [-b|-c|-p]
+        if (alignmentString.charAt(0) == '-') {
+          ++pos;
+          alignmentString = alignmentString.substring(1);
+          if ("c".equals(alignmentString)) {
+            alignment = AlignmentType.compress;
+            break;
+          }
+          else if ("p".equals(alignmentString)) {
+            alignment = AlignmentType.preCompress;
+            break;
+          }
+          else if ("b".equals(alignmentString)) {
+            break;
+          }
+          else
+            System.err.println("Invalid mode \"-" + alignmentString + "\".");
         }
-        else if ("p".equals(alignmentString)) {
-          alignment = AlignmentType.preCompress;
-        }
-        else if (!"b".equals(alignmentString)) {
-          printSynopsis();
-          System.exit(1);
-        }
-        ++pos;
       }
-      else {
-        printSynopsis();
-        System.exit(1);
+      else if (args.length == 2) {
+        break;
       }
-    }
-    else if (args.length != 2) {
+      else if (args.length > 3) {
+        System.err.println("Too many arguments.");
+      }
+      else if (args.length < 2) {
+        System.err.println("Too few arguments.");
+      }
       printSynopsis();
       System.exit(1);
       return;
     }
+    while (false);
 
-    final URI baseURI = new File(System.getProperty("user.dir")).toURI().resolve("whatever");
+    final URI baseURI = new File(System.getProperty("user.dir")).toURI();
 
     URI jsonUri;
     try {
-      jsonUri = resolveURI(args[pos], baseURI);
+      jsonUri = Utils.resolveURI(args[pos++], baseURI);
     }
     catch (URISyntaxException use) {
       System.err.println("'" + args[pos] + "' is not a valid URI.");
@@ -542,36 +518,42 @@ public final class Transmogrifier {
     }
     assert jsonUri != null;
     
-    ++pos;
     URI outputUri;
     try {
-      outputUri = resolveURI(args[pos], baseURI);
+      outputUri = Utils.resolveURI(args[pos++], baseURI);
     }
     catch (URISyntaxException use) {
       System.err.println("'" + args[pos] + "' is not a valid URI.");
       System.exit(1);
       return;
     }
-    assert outputUri != null;
+    assert outputUri != null && pos == args.length;
 
-    Transmogrifier encoder = new Transmogrifier();
-    encoder.setAlignmentType(alignment);
+    // Create an instance of Transmogrifier.
+    Transmogrifier transmogrifier = new Transmogrifier();
+    // Set the mode (i.e. alignment type)
+    transmogrifier.setAlignmentType(alignment);
 
     FileOutputStream outputStream;
     outputStream = new FileOutputStream(outputUri.toURL().getFile());
-    encoder.setOutputStream(outputStream);
+    // Transmogrifier will output ESON document into outputStream.
+    transmogrifier.setOutputStream(outputStream);
     
     InputStream inputStream;
     try {
+      // Open input JSON document. 
       inputStream = jsonUri.toURL().openStream();
     }
     catch (IOException e) {
       outputStream.close();
-      throw e;
+      System.err.println(e.getMessage());
+      System.exit(1);
+      return;
     }
 
     try {
-      encoder.encode(inputStream);
+      // Invoke Transmogrifier to encode JSON into ESON.
+      transmogrifier.encode(inputStream);
     }
     finally {
       inputStream.close();
