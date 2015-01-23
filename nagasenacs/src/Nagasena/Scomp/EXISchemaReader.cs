@@ -1071,10 +1071,10 @@ namespace Nagasena.Scomp {
 
           long productionComposite = (((long)(eventType + (0 - EXISchema.MIN_EVENT_ID)) << 32) | (uint)subsequentGram);
           int prod, _prod;
-          try {
+          if (m_productionMap.ContainsKey(productionComposite)) {
             _prod = m_productionMap[productionComposite];
           }
-          catch (KeyNotFoundException) {
+          else {
             _prod = -1;
           }
           if (_prod != -1) {
