@@ -1,5 +1,15 @@
 2015-02-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+0000.0000.0012.0
+
+- Added support for indentation in JSONifier.
+
+M       test/com/sumerogi/proc/AisTest.java
+M       src/com/sumerogi/proc/JSONifier.java
+A       testdata/ais/ais-1-0001posreps.indented.json
+A       testdata/ais/ais-1-0002posreps.indented.json
+M       build.xml
+
 0000.0000.0011.0
 
 - Avoid using Stack in JSONifier.

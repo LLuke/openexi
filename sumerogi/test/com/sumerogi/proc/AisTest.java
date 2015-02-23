@@ -210,6 +210,7 @@ public class AisTest extends TestCase {
    */
   public void testJSONify_01() throws Exception {
     String json = Utilities.readTextResource("/ais/ais-1-0001posreps.json", this);
+    String indented_json = Utilities.readTextResource("/ais/ais-1-0001posreps.indented.json", this);
 
     Transmogrifier encoder = new Transmogrifier();
     JSONifier decoder = new JSONifier();
@@ -224,12 +225,24 @@ public class AisTest extends TestCase {
       byte[] eson = baos.toByteArray();
       
       baos = new ByteArrayOutputStream(); 
-      
+
+      decoder.setIndentation(null);
       decoder.decode(new ByteArrayInputStream(eson), baos);
       
-      String decodedJSON = new String(baos.toByteArray(), "UTF-8");
+      String decodedJSON;
+      
+      decodedJSON = new String(baos.toByteArray(), "UTF-8");
       
       Assert.assertEquals(json, decodedJSON);
+      
+      baos = new ByteArrayOutputStream(); 
+
+      decoder.setIndentation("  ");
+      decoder.decode(new ByteArrayInputStream(eson), baos);
+      
+      decodedJSON = new String(baos.toByteArray(), "UTF-8");
+      
+      Assert.assertEquals(indented_json, decodedJSON);
     }
   }
   
@@ -543,6 +556,7 @@ public class AisTest extends TestCase {
    */
   public void testJSONify_02() throws Exception {
     String json = Utilities.readTextResource("/ais/ais-1-0002posreps.json", this);
+    String indented_json = Utilities.readTextResource("/ais/ais-1-0002posreps.indented.json", this);
 
     Transmogrifier encoder = new Transmogrifier();
     JSONifier decoder = new JSONifier();
@@ -557,12 +571,24 @@ public class AisTest extends TestCase {
       byte[] eson = baos.toByteArray();
       
       baos = new ByteArrayOutputStream(); 
-      
+
+      decoder.setIndentation(null);
       decoder.decode(new ByteArrayInputStream(eson), baos);
       
-      String decodedJSON = new String(baos.toByteArray(), "UTF-8");
+      String decodedJSON;
+      
+      decodedJSON = new String(baos.toByteArray(), "UTF-8");
       
       Assert.assertEquals(json, decodedJSON);
+      
+      baos = new ByteArrayOutputStream(); 
+
+      decoder.setIndentation("  ");
+      decoder.decode(new ByteArrayInputStream(eson), baos);
+      
+      decodedJSON = new String(baos.toByteArray(), "UTF-8");
+      
+      Assert.assertEquals(indented_json, decodedJSON);
     }
   }
   

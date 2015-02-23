@@ -7,7 +7,7 @@
 <property name="debug" value="off"/>
 
 <property name="name" value="Sumerogi"/>
-<property name="version" value="0000.0000.0011.0"/>
+<property name="version" value="0000.0000.0012.0"/>
 <property name="vendor" value="OpenEXI"/>
 
 &properties.xml;

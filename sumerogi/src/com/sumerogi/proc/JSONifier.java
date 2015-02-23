@@ -20,9 +20,16 @@ public class JSONifier {
   private int[] m_context;
   private int m_contextPosition;
   
+  private String m_indentation;
+  
   public JSONifier() {
     m_decoder = new ESONDecoder();
     m_context = new int[32];
+    m_indentation = null;
+  }
+  
+  public void setIndentation(String str) {
+    m_indentation = str;
   }
 
   private void incrementContext() {
@@ -60,11 +67,15 @@ public class JSONifier {
           int n;
           n = popFromContext();
           assert n == 1 && m_contextPosition == -1;
+          if (m_indentation != null)
+            writer.write('\n');
           break;
         case EventDescription.EVENT_START_OBJECT:
         case EventDescription.EVENT_START_ARRAY:
           if (peekContext() > 0)
             writer.write(',');
+          if (m_indentation != null)
+            writeIndentation(writer);
           if ((name = event.getName()) != null) {
             writer.write("\"" + name + "\"");
             writer.write(':');
@@ -73,12 +84,16 @@ public class JSONifier {
           pushToContext();
           break;
         case EventDescription.EVENT_END_OBJECT:
-          writer.write('}');
           popFromContext();
+          if (m_indentation != null)
+            writeIndentation(writer);
+          writer.write('}');
           break;
         case EventDescription.EVENT_END_ARRAY:
-          writer.write(']');
           popFromContext();
+          if (m_indentation != null)
+            writeIndentation(writer);
+          writer.write(']');
           break;
         case EventDescription.EVENT_NUMBER_VALUE:
         case EventDescription.EVENT_STRING_VALUE:
@@ -87,6 +102,8 @@ public class JSONifier {
           if (peekContext() > 0) {
             writer.write(',');
           }
+          if (m_indentation != null)
+            writeIndentation(writer);
           if ((name = event.getName()) != null) {
             writer.write("\"" + name + "\"");
             writer.write(':');
@@ -99,6 +116,14 @@ public class JSONifier {
         default:
           break;
       }
+    }
+  }
+  
+  private void writeIndentation(OutputStreamWriter writer) throws IOException {
+    if (m_contextPosition != 0 || m_context[m_contextPosition] != 0) {
+      writer.write('\n');
+      for (int i = 0; i < m_contextPosition; i++)
+        writer.write(m_indentation);
     }
   }
   
