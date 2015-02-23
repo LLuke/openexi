@@ -88,8 +88,7 @@ public class DocumentGrammarTest extends TestCase {
       
       baos = new ByteArrayOutputStream(); 
       
-      decoder.setOutputStream(baos);
-      decoder.decode(new ByteArrayInputStream(eson));
+      decoder.decode(new ByteArrayInputStream(eson), baos);
       
       String decodedJSON = new String(baos.toByteArray(), "UTF-8");
       
@@ -286,8 +285,7 @@ public class DocumentGrammarTest extends TestCase {
       
       baos = new ByteArrayOutputStream(); 
       
-      decoder.setOutputStream(baos);
-      decoder.decode(new ByteArrayInputStream(eson));
+      decoder.decode(new ByteArrayInputStream(eson), baos);
       
       String decodedJSON = new String(baos.toByteArray(), "UTF-8");
       

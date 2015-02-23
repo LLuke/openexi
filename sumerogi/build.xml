@@ -7,7 +7,7 @@
 <property name="debug" value="off"/>
 
 <property name="name" value="Sumerogi"/>
-<property name="version" value="0000.0000.0010.0"/>
+<property name="version" value="0000.0000.0011.0"/>
 <property name="vendor" value="OpenEXI"/>
 
 &properties.xml;
@@ -365,7 +365,6 @@
   </tstamp>
   <delete file="${build.dir}/MANIFEST.MF"/>
   <manifest file="${build.dir}/MANIFEST.MF">
-    <attribute name="Main-Class" value="com.sumerogi.proc.EJSONEncoder"/>
     <attribute name="Class-Path" value="jackson-core-2.4.2.jar"/>
     <attribute name="Software-Name" value="${name}"/>
     <attribute name="Software-Version" value="${version}"/>

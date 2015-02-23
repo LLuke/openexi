@@ -8,7 +8,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Stack;
 
 import com.sumerogi.proc.common.EventDescription;
 import com.sumerogi.proc.io.Scanner;
@@ -18,73 +17,74 @@ public class JSONifier {
   
   private final ESONDecoder m_decoder;
   
-  private OutputStream m_outputStream;
+  private int[] m_context;
+  private int m_contextPosition;
   
   public JSONifier() {
     m_decoder = new ESONDecoder();
-    m_outputStream = null;
+    m_context = new int[32];
   }
 
-  public final void setOutputStream(OutputStream ostream) {
-    m_outputStream = ostream;
+  private void incrementContext() {
+    m_context[m_contextPosition]++;
   }
   
-  private void incrementContext(Stack<Integer> context) {
-    int n = context.pop().intValue();
-    context.push(++n);
-  }
-  
-  private void pushToContext(Stack<Integer> context) {
-    incrementContext(context);
-    context.push(0);
+  private void pushToContext() {
+    incrementContext();
+    if (++m_contextPosition == m_context.length) {
+      final int[] context = new int[m_contextPosition << 1];
+      System.arraycopy(m_context, 0, context, 0, m_contextPosition);
+      m_context = context;
+    }
+    m_context[m_contextPosition] = 0;
   }
 
-  private int popFromContext(Stack<Integer> context) {
-    return context.pop().intValue();
+  private int popFromContext() {
+    return m_context[m_contextPosition--];
   }
   
-  private int peekContext(Stack<Integer> context) {
-    return context.peek().intValue();
+  private int peekContext() {
+    return m_context[m_contextPosition];
   }
 
-  private void doDecode(Scanner scanner, OutputStreamWriter writer, Stack<Integer> context) throws IOException {
+  private void doDecode(Scanner scanner, OutputStreamWriter writer) throws IOException {
     EventDescription event;
     while ((event = scanner.nextEvent()) != null) {
       String name;
       byte eventKind;
       switch (eventKind = event.getEventKind()) {
         case EventDescription.EVENT_START_DOCUMENT:
-          pushToContext(context);
+          m_context[m_contextPosition = 0] = 0;
           break;
         case EventDescription.EVENT_END_DOCUMENT:
           int n;
-          n = popFromContext(context);
-          assert n == 1;
+          n = popFromContext();
+          assert n == 1 && m_contextPosition == -1;
           break;
         case EventDescription.EVENT_START_OBJECT:
         case EventDescription.EVENT_START_ARRAY:
-          if (peekContext(context) > 0)
+          if (peekContext() > 0)
             writer.write(',');
           if ((name = event.getName()) != null) {
             writer.write("\"" + name + "\"");
             writer.write(':');
           }
           writer.write(eventKind == EventDescription.EVENT_START_OBJECT ? '{' : '[') ;
-          pushToContext(context);
+          pushToContext();
           break;
         case EventDescription.EVENT_END_OBJECT:
           writer.write('}');
-          popFromContext(context);
+          popFromContext();
           break;
         case EventDescription.EVENT_END_ARRAY:
           writer.write(']');
-          popFromContext(context);
+          popFromContext();
           break;
         case EventDescription.EVENT_NUMBER_VALUE:
         case EventDescription.EVENT_STRING_VALUE:
         case EventDescription.EVENT_BOOLEAN_VALUE:
         case EventDescription.EVENT_NULL:
-          if (peekContext(context) > 0) {
+          if (peekContext() > 0) {
             writer.write(',');
           }
           if ((name = event.getName()) != null) {
@@ -95,22 +95,19 @@ public class JSONifier {
             writer.write("\"" + event.getCharacters().makeString() + "\"");
           else
             writer.write(event.getCharacters().makeString());
-          incrementContext(context);
+          incrementContext();
         default:
           break;
       }
     }
   }
   
-  public void decode(InputStream inputStream) throws IOException {
+  public void decode(InputStream inputStream, OutputStream outputStream) throws IOException {
     m_decoder.setInputStream(inputStream);
     
-    OutputStreamWriter writer = new OutputStreamWriter(m_outputStream, "UTF-8");
+    OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
     
-    Stack<Integer> context = new Stack<Integer>();
-    context.push(0);
-    
-    doDecode(m_decoder.processHeader(), writer, context);
+    doDecode(m_decoder.processHeader(), writer);
     
     writer.flush();
   }
@@ -169,8 +166,6 @@ public class JSONifier {
 
     // Create an instance of JSONifier.
     JSONifier jsonifier = new JSONifier();
-    // JSONifier will output JSON document into outputStream.
-    jsonifier.setOutputStream(outputStream);
     
     InputStream inputStream;
     try {
@@ -186,7 +181,7 @@ public class JSONifier {
 
     try {
       // Invoke JSONifier to decode ESON into JSON.
-      jsonifier.decode(inputStream);
+      jsonifier.decode(inputStream, outputStream);
     }
     finally {
       inputStream.close();
