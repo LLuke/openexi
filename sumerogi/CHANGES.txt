@@ -1,5 +1,12 @@
 2015-02-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+0000.0000.0013.0
+
+- Added support for indentation in JSONifier command-line options.
+
+M       src/com/sumerogi/proc/JSONifier.java
+M       build.xml
+
 0000.0000.0012.0
 
 - Added support for indentation in JSONifier.

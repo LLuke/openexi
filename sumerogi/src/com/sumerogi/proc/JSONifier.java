@@ -138,16 +138,34 @@ public class JSONifier {
   }
   
   public static void main(String args[]) throws IOException {
+    int pos = 0;
     OutputStream outputStream = System.out;
+    String indentation = null;
     do {
-      if (args.length == 2) {
+      if (args.length == 3 || args.length == 4) {
+        String optionString = args[pos];
+        if (optionString.charAt(0) == '-') {
+          ++pos;
+          optionString = optionString.substring(1);
+          if ("indent".equals(optionString)) {
+            indentation = args[pos++];
+            if (args.length == 4)
+              outputStream = null;
+            break;
+          }
+          else {
+            System.err.println("Invalid option \"-" + optionString + "\".");
+          }
+        }
+      }
+      else if (args.length == 2) {
         outputStream = null;
         break;
       }
       else if (args.length == 1) {
         break;
       }
-      else if (args.length > 2) {
+      else if (args.length > 4) {
         System.err.println("Too many arguments.");
       }
       else if (args.length < 1) {
@@ -160,8 +178,6 @@ public class JSONifier {
     while (false);
 
     final URI baseURI = new File(System.getProperty("user.dir")).toURI();
-
-    int pos = 0;
 
     URI esonUri;
     try {
@@ -204,6 +220,7 @@ public class JSONifier {
       return;
     }
 
+    jsonifier.setIndentation(indentation);
     try {
       // Invoke JSONifier to decode ESON into JSON.
       jsonifier.decode(inputStream, outputStream);
@@ -216,7 +233,7 @@ public class JSONifier {
 
   private static void printSynopsis() {
     System.err.println("USAGE: " + JSONifier.class.getName() +
-        " ESON_File [Output_File]");
+        " [-indent Indent_String] ESON_File [Output_File]");
   }
   
 }
