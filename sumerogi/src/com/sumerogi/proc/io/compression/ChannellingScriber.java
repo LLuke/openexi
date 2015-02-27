@@ -25,6 +25,7 @@ public final class ChannellingScriber extends Scriber {
   private final ValueScriber m_stringValueScriberInherentProxy;
   private final ValueScriber m_booleanValueScriberInherentProxy;
   private final ValueScriber m_numberValueScriberInherentProxy;
+  private final ValueScriber m_nullValueScriberInherentProxy;
   
   private final ChannelKeeper m_channelKeeper;
   private final Deflater m_deflator;
@@ -37,8 +38,9 @@ public final class ChannellingScriber extends Scriber {
     m_stringValueScriberInherentProxy = new ChannellingValueScriberProxy(m_channelKeeper, stringValueScriber);
     m_booleanValueScriberInherentProxy = new ChannellingValueScriberProxy(m_channelKeeper, booleanValueScriber);
     m_numberValueScriberInherentProxy = new ChannellingValueScriberProxy(m_channelKeeper, numberValueScriber);
+    m_nullValueScriberInherentProxy = new ChannellingValueScriberProxy(m_channelKeeper, nullValueScriber);
   }
-
+  
   @Override
   public void reset() {
     super.reset();
@@ -64,16 +66,24 @@ public final class ChannellingScriber extends Scriber {
     }
   }
 
+  @Override
   public final ValueScriber getStringValueScriber() {
     return m_stringValueScriberInherentProxy;
   }
   
+  @Override
   public final ValueScriber getBooleanValueScriber() {
     return m_booleanValueScriberInherentProxy;
   }
   
+  @Override
   public final ValueScriber getNumberValueScriber() {
     return m_numberValueScriberInherentProxy;
+  }
+  
+  @Override
+  public final ValueScriber getNullValueScriber() {
+    return m_nullValueScriberInherentProxy;
   }
   
   @Override
@@ -105,7 +115,7 @@ public final class ChannellingScriber extends Scriber {
   public final void writeEventType(EventType eventType) throws IOException {
     EventCode[] path;
     path = eventType.getItemPath();
-
+    
     int i, len;
     EventCode item = path[0].parent;
     for (i = 0, len = path.length; i < len; i++) {
@@ -116,17 +126,6 @@ public final class ChannellingScriber extends Scriber {
         writeNBitUnsigned(parent.reversed ? parent.itemsCount - 1 - item.position : item.position, width, m_outputStream);
     }
   }
-
-//  @Override
-//  public void writeNS(String uri, String prefix, boolean localElementNs) throws IOException {
-//    assert m_preserveNS;
-//    assert m_outputStream != null;
-//    final int uriId = writeURI(uri, m_outputStream);
-//    writePrefixOfNS(prefix, uriId);
-//    writeBoolean(localElementNs, m_outputStream);
-//  }
-
-//  public abstract int writeName(String name, EventType eventType) throws IOException;
 
   @Override
   public int writeName(String name, EventType eventType) throws IOException {

@@ -14,15 +14,15 @@ public abstract class Scriber extends Apparatus {
 
   static final BigInteger BIGINTEGER_0x007F  = BigInteger.valueOf(0x007F);
 
-//  private static final byte[] COOKIE = { 36, 69, 88, 73 }; // "$", "E", "X", "I"
-
   protected static final ValueScriber stringValueScriber;
   protected static final ValueScriber booleanValueScriber;
   public static final NumberValueScriber numberValueScriber;
+  protected static final ValueScriber nullValueScriber;
   static {
     stringValueScriber = StringValueScriber.instance;
     booleanValueScriber = BooleanValueScriber.instance;
     numberValueScriber = NumberValueScriber.instance;
+    nullValueScriber = NullValueScriber.instance;
   }
 
   protected CharacterBuffer m_characterBuffer;
@@ -63,6 +63,7 @@ public abstract class Scriber extends Apparatus {
   public abstract ValueScriber getStringValueScriber();
   public abstract ValueScriber getBooleanValueScriber();
   public abstract ValueScriber getNumberValueScriber();
+  public abstract ValueScriber getNullValueScriber();
   
   protected final CharacterBuffer ensureCharacters(final int length) {
     CharacterBuffer characterBuffer = m_characterBuffer;

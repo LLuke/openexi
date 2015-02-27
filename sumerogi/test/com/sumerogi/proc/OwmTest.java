@@ -1287,5 +1287,466 @@ public class OwmTest extends TestCase {
       Assert.assertEquals(EventType.ITEM_END_DOCUMENT, eventType.itemType);
     }
   }
+
+  /**
+   */
+  public void testData_101() throws Exception {
+  
+    Transmogrifier encoder = new Transmogrifier();
+    ESONDecoder decoder = new ESONDecoder();
+    
+    for (AlignmentType alignment : Alignments) {
+      InputStream inputStream = getClass().getResource("/owm/101.json").openStream();
+      
+      ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
+      encoder.setOutputStream(baos);
+      
+      encoder.setAlignmentType(alignment);
+      encoder.encode(inputStream);
+      inputStream.close();
+      
+      decoder.setInputStream(new ByteArrayInputStream(baos.toByteArray()));
+      
+      Scanner scanner = decoder.processHeader();
+      
+      EventDescription event;
+      EventType eventType;
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_DOCUMENT, eventType.itemType);
+      Assert.assertEquals(EventDescription.EVENT_START_DOCUMENT, event.getEventKind());
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_ANONYMOUS, eventType.itemType);
+      Assert.assertNull(eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertNull(event.getName());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_WILDCARD, eventType.itemType);
+      Assert.assertNull(eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertEquals("group", event.getName());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_ARRAY_WILDCARD, eventType.itemType);
+      Assert.assertNull(eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_ARRAY, event.getEventKind());
+      Assert.assertEquals("current", event.getName());
+
+      int n_records = 0;
+      int depth = 0;
+      while ((event = scanner.nextEvent()) != null) {
+        eventType = event.getEventType();
+        if (event.getEventKind() == EventDescription.EVENT_START_OBJECT) {
+          if (depth++ == 0)
+            ++n_records;
+        }
+        else if (event.getEventKind() == EventDescription.EVENT_END_OBJECT) {
+          if (--depth == 0 && n_records == 100)
+            break;
+        }
+      }
+
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_ANONYMOUS, eventType.itemType);
+      Assert.assertEquals(1, eventType.depth);
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertNull(event.getName());
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_NAMED, eventType.itemType);
+      Assert.assertEquals("city", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertEquals("city", event.getName());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_NUMBER_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("id", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_NUMBER_VALUE, event.getEventKind());
+      Assert.assertEquals("id", event.getName());
+      Assert.assertEquals("4906882", event.getCharacters().makeString());
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_STRING_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("name", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_STRING_VALUE, event.getEventKind());
+      Assert.assertEquals("name", event.getName());
+      Assert.assertEquals("Prospect Heights", event.getCharacters().makeString());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_NAMED, eventType.itemType);
+      Assert.assertEquals("coord", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertEquals("coord", event.getName());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_NUMBER_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("lon", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_NUMBER_VALUE, event.getEventKind());
+      Assert.assertEquals("lon", event.getName());
+      Assert.assertEquals("-87.94", event.getCharacters().makeString());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_NUMBER_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("lat", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_NUMBER_VALUE, event.getEventKind());
+      Assert.assertEquals("lat", event.getName());
+      Assert.assertEquals("42.1", event.getCharacters().makeString());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_STRING_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("country", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_STRING_VALUE, event.getEventKind());
+      Assert.assertEquals("country", event.getName());
+      Assert.assertEquals("US", event.getCharacters().makeString());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_NAMED, eventType.itemType);
+      Assert.assertEquals("sun", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertEquals("sun", event.getName());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_STRING_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("rise", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_STRING_VALUE, event.getEventKind());
+      Assert.assertEquals("rise", event.getName());
+      Assert.assertEquals("2014-09-12T11:29:23", event.getCharacters().makeString());
+
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_STRING_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("set", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_STRING_VALUE, event.getEventKind());
+      Assert.assertEquals("set", event.getName());
+      Assert.assertEquals("2014-09-13T00:06:11", event.getCharacters().makeString());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_NAMED, eventType.itemType);
+      Assert.assertEquals("temperature", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertEquals("temperature", event.getName());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_NUMBER_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("value", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_NUMBER_VALUE, event.getEventKind());
+      Assert.assertEquals("value", event.getName());
+      Assert.assertEquals("283.61", event.getCharacters().makeString());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_NUMBER_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("min", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_NUMBER_VALUE, event.getEventKind());
+      Assert.assertEquals("min", event.getName());
+      Assert.assertEquals("282.59", event.getCharacters().makeString());
+
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_NUMBER_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("max", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_NUMBER_VALUE, event.getEventKind());
+      Assert.assertEquals("max", event.getName());
+      Assert.assertEquals("285.15", event.getCharacters().makeString());
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_STRING_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("unit", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_STRING_VALUE, event.getEventKind());
+      Assert.assertEquals("unit", event.getName());
+      Assert.assertEquals("kelvin", event.getCharacters().makeString());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_NAMED, eventType.itemType);
+      Assert.assertEquals("humidity", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertEquals("humidity", event.getName());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_NUMBER_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("value", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_NUMBER_VALUE, event.getEventKind());
+      Assert.assertEquals("value", event.getName());
+      Assert.assertEquals("71", event.getCharacters().makeString());
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_STRING_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("unit", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_STRING_VALUE, event.getEventKind());
+      Assert.assertEquals("unit", event.getName());
+      Assert.assertEquals("%", event.getCharacters().makeString());
+
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_NAMED, eventType.itemType);
+      Assert.assertEquals("pressure", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertEquals("pressure", event.getName());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_NUMBER_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("value", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_NUMBER_VALUE, event.getEventKind());
+      Assert.assertEquals("value", event.getName());
+      Assert.assertEquals("1026", event.getCharacters().makeString());
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_STRING_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("unit", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_STRING_VALUE, event.getEventKind());
+      Assert.assertEquals("unit", event.getName());
+      Assert.assertEquals("hPa", event.getCharacters().makeString());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_NAMED, eventType.itemType);
+      Assert.assertEquals("wind", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertEquals("wind", event.getName());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_NAMED, eventType.itemType);
+      Assert.assertEquals("speed", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertEquals("speed", event.getName());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_NUMBER_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("value", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_NUMBER_VALUE, event.getEventKind());
+      Assert.assertEquals("value", event.getName());
+      Assert.assertEquals("4.1", event.getCharacters().makeString());
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_STRING_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("name", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_STRING_VALUE, event.getEventKind());
+      Assert.assertEquals("name", event.getName());
+      Assert.assertEquals("Gentle Breeze", event.getCharacters().makeString());
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_NAMED, eventType.itemType);
+      Assert.assertEquals("direction", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertEquals("direction", event.getName());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_NUMBER_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("value", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_NUMBER_VALUE, event.getEventKind());
+      Assert.assertEquals("value", event.getName());
+      Assert.assertEquals("340", event.getCharacters().makeString());
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_STRING_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("code", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_STRING_VALUE, event.getEventKind());
+      Assert.assertEquals("code", event.getName());
+      Assert.assertEquals("NNW", event.getCharacters().makeString());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_STRING_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("name", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_STRING_VALUE, event.getEventKind());
+      Assert.assertEquals("name", event.getName());
+      Assert.assertEquals("North-northwest", event.getCharacters().makeString());
+
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_NAMED, eventType.itemType);
+      Assert.assertEquals("clouds", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertEquals("clouds", event.getName());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_NUMBER_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("value", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_NUMBER_VALUE, event.getEventKind());
+      Assert.assertEquals("value", event.getName());
+      Assert.assertEquals("90", event.getCharacters().makeString());
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_STRING_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("name", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_STRING_VALUE, event.getEventKind());
+      Assert.assertEquals("name", event.getName());
+      Assert.assertEquals("overcast clouds", event.getCharacters().makeString());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_NULL_NAMED, eventType.itemType);
+      Assert.assertEquals("visibility", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_NULL, event.getEventKind());
+      Assert.assertEquals("visibility", event.getName());
+      Assert.assertEquals("null", event.getCharacters().makeString());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_NAMED, eventType.itemType);
+      Assert.assertEquals("precipitation", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertEquals("precipitation", event.getName());
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_STRING_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("mode", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_STRING_VALUE, event.getEventKind());
+      Assert.assertEquals("mode", event.getName());
+      Assert.assertEquals("no", event.getCharacters().makeString());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_NAMED, eventType.itemType);
+      Assert.assertEquals("weather", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertEquals("weather", event.getName());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_NUMBER_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("number", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_NUMBER_VALUE, event.getEventKind());
+      Assert.assertEquals("number", event.getName());
+      Assert.assertEquals("804", event.getCharacters().makeString());
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_STRING_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("value", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_STRING_VALUE, event.getEventKind());
+      Assert.assertEquals("value", event.getName());
+      Assert.assertEquals("overcast clouds", event.getCharacters().makeString());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_STRING_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("icon", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_STRING_VALUE, event.getEventKind());
+      Assert.assertEquals("icon", event.getName());
+      Assert.assertEquals("04n", event.getCharacters().makeString());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_START_OBJECT_NAMED, eventType.itemType);
+      Assert.assertEquals("lastupdate", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_START_OBJECT, event.getEventKind());
+      Assert.assertEquals("lastupdate", event.getName());
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_STRING_VALUE_NAMED, eventType.itemType);
+      Assert.assertEquals("value", eventType.getName());
+      Assert.assertEquals(EventDescription.EVENT_STRING_VALUE, event.getEventKind());
+      Assert.assertEquals("value", event.getName());
+      Assert.assertEquals("2014-09-12T05:09:24", event.getCharacters().makeString());
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_ARRAY, eventType.itemType);
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+  
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_OBJECT, eventType.itemType);
+      
+      event = scanner.nextEvent();
+      eventType = event.getEventType();
+      Assert.assertEquals(EventType.ITEM_END_DOCUMENT, eventType.itemType);
+    }
+  }
   
 }

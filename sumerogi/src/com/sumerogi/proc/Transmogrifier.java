@@ -300,18 +300,22 @@ public final class Transmogrifier {
         }
         else if (token == JsonToken.VALUE_NULL) { 
           eventTypes = m_scriber.getNextEventTypes();
+          final int nameId;
           if ((eventType = eventTypes.getEventType(EventType.ITEM_NULL_NAMED, name)) != null) {
             m_scriber.writeEventType(eventType);
+            nameId = eventType.getNameId();
           }
           else if ((eventType = eventTypes.getNullValueWildcard()) != null) {
             m_scriber.writeEventType(eventType);
-            final int nameId = m_scriber.writeName(name, eventType);
-            m_scriber.wildcardNullValue(eventType.getIndex(), nameId); 
+            nameId = m_scriber.writeName(name, eventType);
+            m_scriber.wildcardNullValue(eventType.getIndex(), nameId);
           }
-          else
+          else {
             assert false;
+            return;
+          }
+          m_scriber.getNullValueScriber().scribe((String)null, m_scribble, nameId, m_scriber);
         }
-        
       }
       else {
         // REVISIT: Should never enter here. Throw an exception.

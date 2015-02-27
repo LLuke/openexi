@@ -1,3 +1,18 @@
+2015-02-26 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0014.0
+
+- Include null value in counting the number of values in a channel.
+
+M       test/com/sumerogi/proc/OwmTest.java
+M       src/com/sumerogi/proc/io/SimpleScriber.java
+M       src/com/sumerogi/proc/io/compression/ChannellingScriber.java
+A       src/com/sumerogi/proc/io/NullValueScriber.java
+M       src/com/sumerogi/proc/io/Scriber.java
+M       src/com/sumerogi/proc/Transmogrifier.java
+A       testdata/owm/101.json
+M       build.xml
+
 2015-02-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0000.0013.0

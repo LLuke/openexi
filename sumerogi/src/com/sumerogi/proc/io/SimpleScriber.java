@@ -17,16 +17,24 @@ abstract class SimpleScriber extends Scriber {
     // Do nothing.
   }
 
+  @Override
   public final ValueScriber getStringValueScriber() {
     return stringValueScriber;
   }
   
+  @Override
   public final ValueScriber getBooleanValueScriber() {
     return booleanValueScriber;
   }
   
+  @Override
   public final ValueScriber getNumberValueScriber() {
     return numberValueScriber;
+  }
+
+  @Override
+  public final ValueScriber getNullValueScriber() {
+    return nullValueScriber;
   }
 
   ///////////////////////////////////////////////////////////////////////////
