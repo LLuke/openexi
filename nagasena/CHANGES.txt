@@ -1,3 +1,19 @@
+2015-03-20 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0050.0
+
+- Added xml-to-exi and xsd-to-gram ant task implementations.
+
+A       lib/apache/ant
+A       lib/apache/ant/1.8.2
+A       lib/apache/ant/1.8.2/ant.jar
+A       src/org/openexi/ant
+A       src/org/openexi/ant/Utils.java
+A       src/org/openexi/ant/Xsd2Gram.java
+A       src/org/openexi/ant/Xml2Exi.java
+M       properties.xml
+M       build.xml
+
 2014-12-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0050.0

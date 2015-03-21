@@ -12,6 +12,9 @@
 <!-- Commons CLI -->
 <property name="commons-cli-1.2.jar" value="${apache_xml}/commons-cli/1.2/commons-cli-1.2.jar"/>
 
+<!-- Ant -->
+<property name="ant.jar" value="${apache_xml}/ant/1.8.2/ant.jar"/>
+
 <!-- Batch Schema Compilation Class -->
 <property name="CompileSchemasClass" value="org.openexi.scomp.CompileSchemas"/>
 

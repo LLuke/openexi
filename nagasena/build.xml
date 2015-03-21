@@ -35,6 +35,7 @@
 <property name="build.sax.dir" value="${build.dir}/sax"/>
 <property name="build.scomp.dir" value="${build.dir}/scomp"/>
 <property name="build.cli.dir" value="${build.dir}/cli"/>
+<property name="build.ant.dir" value="${build.dir}/ant"/>
 
 <property name="build.ttf.fixture" value="${build.ttf.dir}/fixture"/>
 
@@ -84,6 +85,9 @@
 
 <property name="build.cli.src" value="${build.cli.dir}/src"/>
 <property name="build.cli.dest" value="${build.cli.dir}/dest"/>
+
+<property name="build.ant.src" value="${build.ant.dir}/src"/>
+<property name="build.ant.dest" value="${build.ant.dir}/dest"/>
 
 <path id="regexi.class.path">
   <pathelement location="${regexi.classes}"/>
@@ -193,6 +197,17 @@
   <pathelement location="${build.schema.dest}"/>
   <pathelement location="${build.common.dest}"/>
   <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.sax.dest}"/>
+  <pathelement location="${build.scomp.dest}"/>
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="ant.src.compile.class.path">
+  <pathelement location="${ant.jar}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.proc.dest}"/>
   <pathelement location="${build.sax.dest}"/>
   <pathelement location="${build.scomp.dest}"/>
 </path>
@@ -505,6 +520,10 @@
   <mkdir dir="${build.cli.src}"/>
   <mkdir dir="${build.cli.dest}"/>
 
+  <mkdir dir="${build.ant.dir}"/>
+  <mkdir dir="${build.ant.src}"/>
+  <mkdir dir="${build.ant.dest}"/>
+
   <mkdir dir="${build.testdata.dir}"/>
 
   <mkdir dir="${build.docsrc}"/>
@@ -591,6 +610,9 @@
   </copy>
   <copy todir="${build.cli.src}">
     <fileset dir="${src.dir}" includes="**/openexi/cli/**/*" />
+  </copy>
+  <copy todir="${build.ant.src}">
+    <fileset dir="${src.dir}" includes="**/openexi/ant/**/*" />
   </copy>
 
   <copy todir="${build.testdata.dir}">
@@ -746,6 +768,10 @@
          fork="true" includeAntRuntime="no"
          destdir="${build.cli.dest}" classpathref="cli.src.compile.class.path"/>
 
+  <javac srcdir="${build.ant.src}" debug="${debug}" optimize="on" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         destdir="${build.ant.dest}" classpathref="ant.src.compile.class.path"/>
+
   <!-- Build fixtures -->
   <javac srcdir="${build.ttf.fixture}" debug="on" optimize="off" encoding="utf-8"
          fork="true" includeAntRuntime="no"
@@ -884,6 +910,24 @@
   <delete file="${build.dir}/nagasena-cli.jar"/>
   <jar destfile="${build.dir}/nagasena-cli.jar" manifest="${build.dir}/MANIFEST-CLI.MF">
     <fileset dir="${build.cli.dest}" />
+  </jar>
+
+  <delete file="${build.dir}/MANIFEST-CLI.MF"/>
+  <manifest file="${build.dir}/MANIFEST-CLI.MF">
+      <attribute name="Class-Path" value="nagasena.jar ant.jar"/>
+      <attribute name="Software-Name" value="${name}"/>
+      <attribute name="Software-Version" value="${version}"/>
+      <attribute name="Specification-Title" value="Efficient XML Interchange Format 1.0"/>
+      <attribute name="Specification-Vendor" value="World Wide Web Consortium"/>
+      <attribute name="Specification-URL" value="http://www.w3.org/TR/2014/REC-exi-20140211/"/>
+      <attribute name="Implementation-Title" value="org.openexi.ant"/>
+      <attribute name="Implementation-Version" value="${version} ${TODAY} ${hourMinute}"/>
+      <attribute name="Implementation-Vendor" value="${vendor}"/>
+  </manifest>
+
+  <delete file="${build.dir}/ant-nagasena.jar"/>
+  <jar destfile="${build.dir}/ant-nagasena.jar" manifest="${build.dir}/MANIFEST-CLI.MF">
+    <fileset dir="${build.ant.dest}" />
   </jar>
 </target>
 
