@@ -7,9 +7,6 @@ import java.net.URL;
 
 import org.xml.sax.*;
 
-import org.openexi.proc.HeaderOptionsOutputType;
-import org.openexi.proc.common.SchemaId;
-import org.openexi.sax.Transmogrifier;
 import org.openexi.schema.EXISchema;
 
 public class EXISchemaFactoryTestUtil {
@@ -61,7 +58,9 @@ public class EXISchemaFactoryTestUtil {
     EXISchema compiled;
     if ((compiled = schemaCompiler.compile(inputSources)) != null) {
       //saveXsc(compiled, url);
-      byte[] grammarBytes = writeEXIGrammar(compiled, context.stringBuilder);
+      final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+      new EXISchemaWriter().serialize(compiled, byteArrayOutputStream, context.stringBuilder);
+      final byte[] grammarBytes = byteArrayOutputStream.toByteArray();
       //saveGram(grammarBytes, url);
       compiled = readEXIGrammar(grammarBytes, context.schemaReader);
       InputStream serialized = serializeSchema(compiled);
@@ -140,30 +139,6 @@ public class EXISchemaFactoryTestUtil {
     
     fos.write(bts);
     fos.close();
-  }
-  
-  private static byte[] writeEXIGrammar(EXISchema schema, StringBuilder stringBuilder) throws Exception  {
-    ByteArrayOutputStream outputStream;
-    outputStream = new ByteArrayOutputStream();
-    schema.writeXml(outputStream, false);
-    byte[] grammarXml = outputStream.toByteArray();
-    outputStream.close();
-    if (stringBuilder != null) {
-      stringBuilder.delete(0, stringBuilder.length());
-      stringBuilder.append(new String(grammarXml, "UTF-8"));
-      //System.out.println(stringBuilder.toString());
-    }
-    outputStream = new ByteArrayOutputStream();
-    Transmogrifier transmogrifier = new Transmogrifier();
-    transmogrifier.setGrammarCache(GrammarCache4Grammar.getGrammarCache(), new SchemaId("nagasena:grammar"));
-    transmogrifier.setOutputOptions(HeaderOptionsOutputType.all);
-    transmogrifier.setOutputStream(outputStream);
-    ByteArrayInputStream inputStream = new ByteArrayInputStream(grammarXml);
-    transmogrifier.encode(new InputSource(inputStream));
-    inputStream.close();
-    byte[] grammarBytes = outputStream.toByteArray();
-    outputStream.close();
-    return grammarBytes;
   }
   
   private static EXISchema readEXIGrammar(byte[] grammarBytes, EXISchemaReader schemaReader) throws Exception {
