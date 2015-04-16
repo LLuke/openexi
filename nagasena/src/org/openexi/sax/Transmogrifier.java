@@ -59,6 +59,8 @@ public final class Transmogrifier {
   private HeaderOptionsOutputType m_outputOptions;
   private final EXIOptions m_exiOptions;
   
+  private boolean m_divertBuiltinGrammarToAnyType;
+  
   private static final SchemaId SCHEMAID_NO_SCHEMA;
   private static final SchemaId SCHEMAID_EMPTY_SCHEMA;
   static {
@@ -121,6 +123,7 @@ public final class Transmogrifier {
      */
     m_outputOptions = HeaderOptionsOutputType.none;
     m_exiOptions = new EXIOptions();
+    m_divertBuiltinGrammarToAnyType = false;
   }
 
   /**
@@ -217,6 +220,11 @@ public final class Transmogrifier {
   public final void setValuePartitionCapacity(int valuePartitionCapacity) {
     m_exiOptions.setValuePartitionCapacity(valuePartitionCapacity);
   }
+  
+  public final void setDivertBuiltinGrammarToAnyType(boolean divertBuiltinGrammarToAnyType) {
+    m_divertBuiltinGrammarToAnyType = divertBuiltinGrammarToAnyType;
+  }
+  
   /**
    * Set to <i>true</i> to preserve the original string values from the XML
    * stream. For example, a date string might be converted to a different
@@ -700,7 +708,7 @@ public final class Transmogrifier {
       locusItem.prefixUriBindings = m_prefixUriBindings;
       try {
         EventTypeList eventTypes = m_scriber.getNextEventTypes();
-        int i, j, i_len, j_len;
+        int i, i_len;
         EventType eventType = null;
         String eventTypeUri;
         byte itemType = -1; 
@@ -768,6 +776,7 @@ public final class Transmogrifier {
           }
 
           boolean isSchemaInformedGrammar = m_scriber.currentState.targetGrammar.isSchemaInformed();
+          final boolean useATStarForXsiType = m_divertBuiltinGrammarToAnyType && grammarType == Grammar.BUILTIN_GRAMMAR_ELEMENT;
           
           int positionOfNil  = -1; // position of legitimate xsi:nil
           int positionOfType = -1; // position of legitimate xsi:type
@@ -786,37 +795,9 @@ public final class Transmogrifier {
               else if (XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI.equals(instanceUri)) {
                 final String instanceName = attrs.getLocalName(i);
                 if ("type".equals(instanceName)) {
-                  eventTypes = m_scriber.getNextEventTypes();
-                  iterateEventTypes:
-                  for (j = 0, j_len = eventTypes.getLength(); j < j_len; j++) {
-                    eventType = eventTypes.item(j);
-                    switch (itemType = eventType.itemType) {
-                      case EventType.ITEM_SCHEMA_TYPE:
-                        break iterateEventTypes;
-                      case EventType.ITEM_AT_WC_ANY_UNTYPED:
-                        if (!isSchemaInformedGrammar)
-                          break iterateEventTypes;
-                        break;
-                      case EventType.ITEM_AT:
-                        assert !isSchemaInformedGrammar;
-                        if ("type".equals(eventType.name) && 
-                            XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI.equals(eventType.uri)) {
-                          break iterateEventTypes;
-                        }
-                        break;
-                    }
-                  }
-                  if (j != j_len) { // xsi:type had a matching event type
-                    positionOfType = i;
-                    eventTypeForType = eventType;
-                    --n_attrs;
-                    continue;
-                  }
-                  assert isSchemaInformedGrammar;
-                  TransmogrifierException te;
-                  te = new TransmogrifierException(TransmogrifierException.UNEXPECTED_ATTR, 
-                      new String[] { "type", XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, attrs.getValue(i) }, new LocatorImpl(m_locator));
-                  throw new SAXException(te);
+                  positionOfType = i;
+                  --n_attrs;
+                  continue;
                 }
                 else if ("nil".equals(instanceName)) {
                   positionOfNil = i;
@@ -830,14 +811,32 @@ public final class Transmogrifier {
               sortedAttributes.add(comparableAttribute);
             }
           }
+          if (positionOfType != -1 || useATStarForXsiType) {
+            if ((eventTypeForType = matchXsiType(m_scriber.getNextEventTypes(), useATStarForXsiType)) == null) { // xsi:type had no matching event type
+              assert isSchemaInformedGrammar;
+              TransmogrifierException te;
+              te = new TransmogrifierException(TransmogrifierException.UNEXPECTED_ATTR, 
+                  new String[] { "type", XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, attrs.getValue(positionOfType) }, new LocatorImpl(m_locator));
+              throw new SAXException(te);
+            }
+          }
           
           final EXISchema corpus = m_grammarCache.getEXISchema();
-          if (positionOfType != -1) {
+          if (m_divertBuiltinGrammarToAnyType || positionOfType != -1) {
             m_scriber.writeEventType(eventTypeForType);
-            m_scriber.writeQName(qname.setValue(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, "type", 
-                hasNS ? getPrefixOfQualifiedName(attrs.getQName(positionOfType)) : null), eventTypeForType);
-            final String xsiType = attrs.getValue(positionOfType);
-            m_scriber.writeXsiTypeValue(setXsiTypeValue(qname, xsiType, m_prefixUriBindings));
+            final String prefix = hasNS ? (positionOfType != -1 ? getPrefixOfQualifiedName(attrs.getQName(positionOfType)) : "") : null;
+            m_scriber.writeQName(qname.setValue(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, "type", prefix), eventTypeForType);
+            if (positionOfType != -1) {
+              final String xsiType = attrs.getValue(positionOfType);
+              setXsiTypeValue(qname, xsiType, m_prefixUriBindings);
+            }
+            else {
+              qname.qName = "anyType";
+              qname.namespaceName = XmlUriConst.W3C_2001_XMLSCHEMA_URI;
+              qname.localName = "anyType";
+              qname.prefix = "";
+            }
+            m_scriber.writeXsiTypeValue(qname);
             if (!isSchemaInformedGrammar && (itemType = eventTypeForType.itemType) == EventType.ITEM_AT_WC_ANY_UNTYPED) {
               m_scriber.wildcardAttribute(eventTypeForType.getIndex(), XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI_ID, 
                   EXISchemaConst.XSI_LOCALNAME_TYPE_ID);
@@ -1460,6 +1459,32 @@ public final class Transmogrifier {
           throw new SAXException(te);
         }
       }
+    }
+    
+    private EventType matchXsiType(EventTypeList eventTypes, boolean useWildcardAT) {
+      final Grammar targetGrammar = m_scriber.currentState.targetGrammar;
+      final byte grammarType = targetGrammar.grammarType;
+      final boolean isSchemaInformedGrammar = targetGrammar.isSchemaInformed();
+      for (int j = 0, j_len = eventTypes.getLength(); j < j_len; j++) {
+        final EventType eventType = eventTypes.item(j);
+        switch (eventType.itemType) {
+          case EventType.ITEM_SCHEMA_TYPE:
+            assert grammarType != Grammar.BUILTIN_GRAMMAR_ELEMENT;
+            return eventType;
+          case EventType.ITEM_AT_WC_ANY_UNTYPED:
+            if (!isSchemaInformedGrammar)
+              return eventType;
+            break;
+          case EventType.ITEM_AT:
+            assert !isSchemaInformedGrammar;
+            if (!useWildcardAT && "type".equals(eventType.name) && 
+                XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI.equals(eventType.uri)) {
+              return eventType;
+            }
+            break;
+        }
+      }
+      return null;
     }
 
   }

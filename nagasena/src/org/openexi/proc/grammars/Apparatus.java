@@ -211,6 +211,11 @@ public abstract class Apparatus {
   /// Utilities
   ///////////////////////////////////////////////////////////////////////////
 
+  /** @y.exclude */
+  public final GrammarState peekState() {
+    return m_statesStack[m_n_stackedStates - 1];
+  }
+      
   final GrammarState pushState() {
     final int stackLength; 
     if ((stackLength = m_statesStack.length) == m_n_stackedStates) {

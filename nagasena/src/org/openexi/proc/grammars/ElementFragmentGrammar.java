@@ -178,7 +178,7 @@ final class ElementFragmentGrammar extends SchemaInformedGrammar {
   }
   
   @Override
-  EventTypeList getNextEventTypes(GrammarState stateVariables) {
+  public EventTypeList getNextEventTypes(GrammarState stateVariables) {
     return m_eventTypeLists[stateVariables.phase - ELEMENT_FRAGMENT_STATE_BASE];
   }
   

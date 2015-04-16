@@ -1,3 +1,21 @@
+2015-04-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0051.0
+
+- Use Transmogrifier's setDivertBuiltinGrammarToAnyType() API to generate
+  EXI profile streams.
+
+M       test/org/openexi/sax/GrammarBuiltinTest.java
+M       src/org/openexi/proc/grammars/Apparatus.java
+M       src/org/openexi/proc/grammars/EXIGrammarUse.java
+M       src/org/openexi/proc/grammars/FragmentGrammar.java
+M       src/org/openexi/proc/grammars/ElementFragmentGrammar.java
+M       src/org/openexi/proc/grammars/DocumentGrammar.java
+M       src/org/openexi/proc/grammars/Grammar.java
+M       src/org/openexi/proc/grammars/EXIGrammar.java
+M       src/org/openexi/sax/Transmogrifier.java
+M       build.xml
+
 2015-03-27 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0050.1

@@ -251,7 +251,7 @@ final class DocumentGrammar extends Grammar {
   ///////////////////////////////////////////////////////////////////////////
 
   @Override
-  final EventTypeList getNextEventTypes(GrammarState stateVariables) {
+  public final EventTypeList getNextEventTypes(GrammarState stateVariables) {
     switch (stateVariables.phase) {
       case DOCUMENT_STATE_CREATED:
         return m_eventTypeLists[0];

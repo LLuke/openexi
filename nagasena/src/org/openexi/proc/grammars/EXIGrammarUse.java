@@ -44,7 +44,7 @@ final class EXIGrammarUse extends Grammar implements IGrammar {
   }
   
   @Override
-  EventTypeList getNextEventTypes(GrammarState stateVariables) {
+  public EventTypeList getNextEventTypes(GrammarState stateVariables) {
     assert false;
     return null;
   }

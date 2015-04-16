@@ -21,6 +21,7 @@ import org.openexi.proc.common.XmlUriConst;
 import org.openexi.proc.events.EXIEventDTD;
 import org.openexi.proc.events.EXIEventNS;
 import org.openexi.proc.events.EXIEventSchemaType;
+import org.openexi.proc.grammars.Grammar;
 import org.openexi.proc.grammars.GrammarCache;
 import org.openexi.proc.io.Scanner;
 import org.openexi.schema.EXISchema;
@@ -4788,5 +4789,1637 @@ public class GrammarBuiltinTest extends TestBase {
     eventType = exiEvent.getEventType();
     Assert.assertEquals(EventType.ITEM_ED, eventType.itemType);
   }
+  
+  /**
+   * Excercise EXI Profile's grammar usage.
+   */
+  public void testProfile_01() throws Exception {
+    Assert.assertEquals(0, m_compilerErrors.getTotalCount());
 
+    GrammarCache grammarCache = new GrammarCache(EmptySchema.getEXISchema(), GrammarOptions.DEFAULT_OPTIONS);
+    
+    final String xmlString;
+    byte[] bts;
+    
+    xmlString =
+      "<foo:None xmlns:foo='urn:foo'>" +
+        "<foo:None2></foo:None2>" +
+        "<foo:None2></foo:None2>" + 
+      "</foo:None>";
+    
+    for (AlignmentType alignment : Alignments) {
+      Transmogrifier encoder = new Transmogrifier();
+      EXIDecoder decoder = new EXIDecoder();
+      Scanner scanner;
+      
+      encoder.setDivertBuiltinGrammarToAnyType(true);
+      
+      encoder.setAlignmentType(alignment);
+      decoder.setAlignmentType(alignment);
+
+      encoder.setGrammarCache(grammarCache);
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      encoder.setOutputStream(baos);
+      
+      encoder.encode(new InputSource(new StringReader(xmlString)));
+      
+      bts = baos.toByteArray();
+      
+      decoder.setGrammarCache(grammarCache);
+      decoder.setInputStream(new ByteArrayInputStream(bts));
+      scanner = decoder.processHeader();
+      
+      EventDescription exiEvent;
+      
+      EventType eventType;
+      EventTypeList eventTypeList;
+      
+      int n_events = 0;
+      int i;
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertSame(exiEvent, eventType);
+        Assert.assertEquals(0, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertNull(eventTypeList.getEE());
+      }
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+        Assert.assertEquals("None", exiEvent.getName());
+        Assert.assertEquals("urn:foo", exiEvent.getURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = exiEvent.getEventType();
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(eventTypeList.getLength() - 1, eventType.getIndex());
+        Assert.assertNull(eventTypeList.getEE());
+        
+        eventType = eventTypeList.item(0);
+        for (i = 1; i < eventTypeList.getLength() - 1; i++) {
+          EventType ith = eventTypeList.item(i);
+          if (!(eventType.name.compareTo(ith.name) < 0)) {
+            Assert.assertEquals(eventType.name, ith.name);
+            Assert.assertTrue(eventType.uri.compareTo(ith.uri) < 0);
+          }
+          eventType = ith;
+        }
+      }
+  
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_TP, exiEvent.getEventKind());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.getURI());
+        Assert.assertEquals("type", exiEvent.getName());
+        Assert.assertNull(exiEvent.getPrefix());
+        Assert.assertEquals(null, exiEvent.getCharacters());
+        Assert.assertEquals("anyType", ((EXIEventSchemaType)exiEvent).getTypeName());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).getTypeURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(2, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(5, eventTypeList.getLength());
+          Assert.assertNotNull(eventTypeList.getEE());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+      
+      // First None2
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+        Assert.assertEquals("None2", exiEvent.getName());
+        Assert.assertEquals("urn:foo", exiEvent.getURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        Assert.assertEquals(3, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(10, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(5);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(6);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(7);
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
+        eventType = eventTypeList.item(8);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(9);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+          eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.peekState());
+          Assert.assertEquals(4, eventTypeList.getLength());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_TP, exiEvent.getEventKind());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.getURI());
+        Assert.assertEquals("type", exiEvent.getName());
+        Assert.assertNull(exiEvent.getPrefix());
+        Assert.assertEquals(null, exiEvent.getCharacters());
+        Assert.assertEquals("anyType", ((EXIEventSchemaType)exiEvent).getTypeName());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).getTypeURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+          Assert.assertEquals(2, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(5, eventTypeList.getLength());
+          Assert.assertNotNull(eventTypeList.getEE());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_ONE, eventType.getDepth());
+        Assert.assertEquals(4, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(10, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(5);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(6);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(7);
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
+        eventType = eventTypeList.item(8);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(9);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+      }
+
+      // Second None2
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+        Assert.assertEquals("None2", exiEvent.getName());
+        Assert.assertEquals("urn:foo", exiEvent.getURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        Assert.assertEquals(0, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(5, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+          
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+          eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.peekState());
+          Assert.assertEquals(5, eventTypeList.getLength());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_TP, exiEvent.getEventKind());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.getURI());
+        Assert.assertEquals("type", exiEvent.getName());
+        Assert.assertNull(exiEvent.getPrefix());
+        Assert.assertEquals(null, exiEvent.getCharacters());
+        Assert.assertEquals("anyType", ((EXIEventSchemaType)exiEvent).getTypeName());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).getTypeURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+          Assert.assertEquals(2, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(5, eventTypeList.getLength());
+          Assert.assertNotNull(eventTypeList.getEE());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_ONE, eventType.getDepth());
+        Assert.assertEquals(4, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(10, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(5);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(6);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(7);
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
+        eventType = eventTypeList.item(8);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(9);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_ONE, eventType.getDepth());
+        Assert.assertEquals(1, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(5, eventTypeList.getLength());
+        Assert.assertNotNull(eventTypeList.getEE());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_ONE, eventType.getDepth());
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+      }
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertSame(exiEvent, eventType);
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(0, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(1, eventTypeList.getLength());
+        }
+      }
+
+      Assert.assertNull(scanner.nextEvent());
+      
+      Assert.assertEquals(11, n_events);
+    }
+  }
+
+  /**
+   * Exercise NS production with EXI Profile's grammar usage.
+   */
+  public void testProfile_02() throws Exception {
+    Assert.assertEquals(0, m_compilerErrors.getTotalCount());
+
+    GrammarCache grammarCache = new GrammarCache(EmptySchema.getEXISchema(), GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
+    
+    final String xmlString;
+    byte[] bts;
+    
+    xmlString =
+      "<foo:None xmlns:foo='urn:foo'>" +
+        "<foo:None2></foo:None2>" +
+        "<foo:None2></foo:None2>" + 
+      "</foo:None>";
+    
+    for (AlignmentType alignment : Alignments) {
+      Transmogrifier encoder = new Transmogrifier();
+      EXIDecoder decoder = new EXIDecoder();
+      Scanner scanner;
+      
+      encoder.setDivertBuiltinGrammarToAnyType(true);
+      
+      encoder.setAlignmentType(alignment);
+      decoder.setAlignmentType(alignment);
+
+      encoder.setGrammarCache(grammarCache);
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      encoder.setOutputStream(baos);
+      
+      encoder.encode(new InputSource(new StringReader(xmlString)));
+      
+      bts = baos.toByteArray();
+      
+      decoder.setGrammarCache(grammarCache);
+      decoder.setInputStream(new ByteArrayInputStream(bts));
+      scanner = decoder.processHeader();
+      
+      EventDescription exiEvent;
+      
+      EventType eventType;
+      EventTypeList eventTypeList;
+      
+      int n_events = 0;
+      int i;
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertSame(exiEvent, eventType);
+        Assert.assertEquals(0, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertNull(eventTypeList.getEE());
+      }
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+        Assert.assertEquals("None", exiEvent.getName());
+        Assert.assertEquals("urn:foo", exiEvent.getURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = exiEvent.getEventType();
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(eventTypeList.getLength() - 1, eventType.getIndex());
+        Assert.assertNull(eventTypeList.getEE());
+        
+        eventType = eventTypeList.item(0);
+        for (i = 1; i < eventTypeList.getLength() - 1; i++) {
+          EventType ith = eventTypeList.item(i);
+          if (!(eventType.name.compareTo(ith.name) < 0)) {
+            Assert.assertEquals(eventType.name, ith.name);
+            Assert.assertTrue(eventType.uri.compareTo(ith.uri) < 0);
+          }
+          eventType = ith;
+        }
+      }
+  
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_NS, exiEvent.getEventKind());
+        Assert.assertEquals("urn:foo", exiEvent.getURI());
+        Assert.assertEquals("foo", exiEvent.getPrefix());
+        Assert.assertNull(exiEvent.getName());
+        Assert.assertEquals(null, exiEvent.getCharacters());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_NS, eventType.itemType);
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(2, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(5, eventTypeList.getLength());
+          Assert.assertNotNull(eventTypeList.getEE());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_NS, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_TP, exiEvent.getEventKind());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.getURI());
+        Assert.assertEquals("type", exiEvent.getName());
+        Assert.assertEquals("xsi", exiEvent.getPrefix());
+        Assert.assertEquals(null, exiEvent.getCharacters());
+        Assert.assertEquals("anyType", ((EXIEventSchemaType)exiEvent).getTypeName());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).getTypeURI());
+        Assert.assertNull(((EXIEventSchemaType)exiEvent).getTypePrefix());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(2, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(6, eventTypeList.getLength());
+          Assert.assertNotNull(eventTypeList.getEE());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_NS, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(5);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+      
+      // First None2
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+        Assert.assertEquals("None2", exiEvent.getName());
+        Assert.assertEquals("urn:foo", exiEvent.getURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        Assert.assertEquals(3, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(11, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(5);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(6);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(7);
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
+        eventType = eventTypeList.item(8);
+        Assert.assertEquals(EventType.ITEM_NS, eventType.itemType);
+        eventType = eventTypeList.item(9);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(10);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+          eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.peekState());
+          Assert.assertEquals(5, eventTypeList.getLength());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_NS, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_TP, exiEvent.getEventKind());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.getURI());
+        Assert.assertEquals("type", exiEvent.getName());
+        Assert.assertEquals("xsi", exiEvent.getPrefix());
+        Assert.assertEquals(null, exiEvent.getCharacters());
+        Assert.assertEquals("anyType", ((EXIEventSchemaType)exiEvent).getTypeName());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).getTypeURI());
+        Assert.assertNull(((EXIEventSchemaType)exiEvent).getTypePrefix());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+          Assert.assertEquals(2, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(6, eventTypeList.getLength());
+          Assert.assertNotNull(eventTypeList.getEE());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_NS, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(5);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_ONE, eventType.getDepth());
+        Assert.assertEquals(4, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(11, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(5);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(6);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(7);
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
+        eventType = eventTypeList.item(8);
+        Assert.assertEquals(EventType.ITEM_NS, eventType.itemType);
+        eventType = eventTypeList.item(9);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(10);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+      }
+
+      // Second None2
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+        Assert.assertEquals("None2", exiEvent.getName());
+        Assert.assertEquals("urn:foo", exiEvent.getURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        Assert.assertEquals(0, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(5, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+          
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+          eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.peekState());
+          Assert.assertEquals(6, eventTypeList.getLength());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_NS, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(5);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_TP, exiEvent.getEventKind());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.getURI());
+        Assert.assertEquals("type", exiEvent.getName());
+        Assert.assertEquals("xsi", exiEvent.getPrefix());
+        Assert.assertEquals(null, exiEvent.getCharacters());
+        Assert.assertEquals("anyType", ((EXIEventSchemaType)exiEvent).getTypeName());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).getTypeURI());
+        Assert.assertNull(((EXIEventSchemaType)exiEvent).getTypePrefix());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+          Assert.assertEquals(2, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(6, eventTypeList.getLength());
+          Assert.assertNotNull(eventTypeList.getEE());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_NS, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(5);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_ONE, eventType.getDepth());
+        Assert.assertEquals(4, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(11, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(5);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(6);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(7);
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
+        eventType = eventTypeList.item(8);
+        Assert.assertEquals(EventType.ITEM_NS, eventType.itemType);
+        eventType = eventTypeList.item(9);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(10);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_ONE, eventType.getDepth());
+        Assert.assertEquals(1, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(5, eventTypeList.getLength());
+        Assert.assertNotNull(eventTypeList.getEE());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_ONE, eventType.getDepth());
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+      }
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertSame(exiEvent, eventType);
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(0, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(1, eventTypeList.getLength());
+        }
+      }
+
+      Assert.assertNull(scanner.nextEvent());
+      
+      Assert.assertEquals(12, n_events);
+    }
+  }
+
+  /**
+   * Excercise EXI Profile's grammar usage where type-cast is explicitly specified.
+   */
+  public void testProfile_03() throws Exception {
+    Assert.assertEquals(0, m_compilerErrors.getTotalCount());
+
+    GrammarCache grammarCache = new GrammarCache(EmptySchema.getEXISchema(), GrammarOptions.DEFAULT_OPTIONS);
+    
+    final String xmlString;
+    byte[] bts;
+    
+    xmlString =
+      "<foo:None xmlns:foo='urn:foo' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' " +
+        "xmlns:xsd='http://www.w3.org/2001/XMLSchema'>" +
+        "<foo:None2 xsi:type='xsd:int'></foo:None2>" +
+        "<foo:None2 xsi:type='xsd:boolean'></foo:None2>" + 
+      "</foo:None>";
+    
+    for (AlignmentType alignment : Alignments) {
+      Transmogrifier encoder = new Transmogrifier();
+      EXIDecoder decoder = new EXIDecoder();
+      Scanner scanner;
+      
+      encoder.setDivertBuiltinGrammarToAnyType(true);
+      
+      encoder.setAlignmentType(alignment);
+      decoder.setAlignmentType(alignment);
+
+      encoder.setGrammarCache(grammarCache);
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      encoder.setOutputStream(baos);
+      
+      encoder.encode(new InputSource(new StringReader(xmlString)));
+      
+      bts = baos.toByteArray();
+      
+      decoder.setGrammarCache(grammarCache);
+      decoder.setInputStream(new ByteArrayInputStream(bts));
+      scanner = decoder.processHeader();
+      
+      EventDescription exiEvent;
+      
+      EventType eventType;
+      EventTypeList eventTypeList;
+      
+      int n_events = 0;
+      int i;
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertSame(exiEvent, eventType);
+        Assert.assertEquals(0, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertNull(eventTypeList.getEE());
+      }
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+        Assert.assertEquals("None", exiEvent.getName());
+        Assert.assertEquals("urn:foo", exiEvent.getURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = exiEvent.getEventType();
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(eventTypeList.getLength() - 1, eventType.getIndex());
+        Assert.assertNull(eventTypeList.getEE());
+        
+        eventType = eventTypeList.item(0);
+        for (i = 1; i < eventTypeList.getLength() - 1; i++) {
+          EventType ith = eventTypeList.item(i);
+          if (!(eventType.name.compareTo(ith.name) < 0)) {
+            Assert.assertEquals(eventType.name, ith.name);
+            Assert.assertTrue(eventType.uri.compareTo(ith.uri) < 0);
+          }
+          eventType = ith;
+        }
+      }
+  
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_TP, exiEvent.getEventKind());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.getURI());
+        Assert.assertEquals("type", exiEvent.getName());
+        Assert.assertNull(exiEvent.getPrefix());
+        Assert.assertEquals(null, exiEvent.getCharacters());
+        Assert.assertEquals("anyType", ((EXIEventSchemaType)exiEvent).getTypeName());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).getTypeURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(2, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(5, eventTypeList.getLength());
+          Assert.assertNotNull(eventTypeList.getEE());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+      
+      // First None2
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+        Assert.assertEquals("None2", exiEvent.getName());
+        Assert.assertEquals("urn:foo", exiEvent.getURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        Assert.assertEquals(3, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(10, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(5);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(6);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(7);
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
+        eventType = eventTypeList.item(8);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(9);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+          eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.peekState());
+          Assert.assertEquals(4, eventTypeList.getLength());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_TP, exiEvent.getEventKind());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.getURI());
+        Assert.assertEquals("type", exiEvent.getName());
+        Assert.assertNull(exiEvent.getPrefix());
+        Assert.assertEquals(null, exiEvent.getCharacters());
+        Assert.assertEquals("int", ((EXIEventSchemaType)exiEvent).getTypeName());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).getTypeURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+          Assert.assertEquals(2, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(5, eventTypeList.getLength());
+          Assert.assertNotNull(eventTypeList.getEE());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        Assert.assertEquals(3, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(8, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(5);
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
+        eventType = eventTypeList.item(6);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(7);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+      }
+
+      // Second None2
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+        Assert.assertEquals("None2", exiEvent.getName());
+        Assert.assertEquals("urn:foo", exiEvent.getURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        Assert.assertEquals(0, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(5, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+          
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+          eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.peekState());
+          Assert.assertEquals(5, eventTypeList.getLength());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_TP, exiEvent.getEventKind());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.getURI());
+        Assert.assertEquals("type", exiEvent.getName());
+        Assert.assertNull(exiEvent.getPrefix());
+        Assert.assertEquals(null, exiEvent.getCharacters());
+        Assert.assertEquals("boolean", ((EXIEventSchemaType)exiEvent).getTypeName());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).getTypeURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+          Assert.assertEquals(2, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(5, eventTypeList.getLength());
+          Assert.assertNotNull(eventTypeList.getEE());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        Assert.assertEquals(3, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(8, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(5);
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
+        eventType = eventTypeList.item(6);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(7);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_ONE, eventType.getDepth());
+        Assert.assertEquals(1, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(5, eventTypeList.getLength());
+        Assert.assertNotNull(eventTypeList.getEE());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_ONE, eventType.getDepth());
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+      }
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertSame(exiEvent, eventType);
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(0, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(1, eventTypeList.getLength());
+        }
+      }
+
+      Assert.assertNull(scanner.nextEvent());
+      
+      Assert.assertEquals(11, n_events);
+    }
+  }
+
+  /**
+   * Excercise xsi:nil with EXI Profile's grammar usage.
+   */
+  public void testProfile_04() throws Exception {
+    Assert.assertEquals(0, m_compilerErrors.getTotalCount());
+
+    GrammarCache grammarCache = new GrammarCache(EmptySchema.getEXISchema(), GrammarOptions.DEFAULT_OPTIONS);
+    
+    final String xmlString;
+    byte[] bts;
+    
+    xmlString =
+      "<foo:None xmlns:foo='urn:foo' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>" +
+        "<foo:None2 xsi:nil='true'></foo:None2>" +
+        "<foo:None2 xsi:nil='true'></foo:None2>" + 
+      "</foo:None>";
+    
+    for (AlignmentType alignment : Alignments) {
+      Transmogrifier encoder = new Transmogrifier();
+      EXIDecoder decoder = new EXIDecoder();
+      Scanner scanner;
+      
+      encoder.setDivertBuiltinGrammarToAnyType(true);
+      
+      encoder.setAlignmentType(alignment);
+      decoder.setAlignmentType(alignment);
+
+      encoder.setGrammarCache(grammarCache);
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      encoder.setOutputStream(baos);
+      
+      encoder.encode(new InputSource(new StringReader(xmlString)));
+      
+      bts = baos.toByteArray();
+      
+      decoder.setGrammarCache(grammarCache);
+      decoder.setInputStream(new ByteArrayInputStream(bts));
+      scanner = decoder.processHeader();
+      
+      EventDescription exiEvent;
+      
+      EventType eventType;
+      EventTypeList eventTypeList;
+      
+      int n_events = 0;
+      int i;
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertSame(exiEvent, eventType);
+        Assert.assertEquals(0, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertNull(eventTypeList.getEE());
+      }
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+        Assert.assertEquals("None", exiEvent.getName());
+        Assert.assertEquals("urn:foo", exiEvent.getURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = exiEvent.getEventType();
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(eventTypeList.getLength() - 1, eventType.getIndex());
+        Assert.assertNull(eventTypeList.getEE());
+        
+        eventType = eventTypeList.item(0);
+        for (i = 1; i < eventTypeList.getLength() - 1; i++) {
+          EventType ith = eventTypeList.item(i);
+          if (!(eventType.name.compareTo(ith.name) < 0)) {
+            Assert.assertEquals(eventType.name, ith.name);
+            Assert.assertTrue(eventType.uri.compareTo(ith.uri) < 0);
+          }
+          eventType = ith;
+        }
+      }
+  
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_TP, exiEvent.getEventKind());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.getURI());
+        Assert.assertEquals("type", exiEvent.getName());
+        Assert.assertNull(exiEvent.getPrefix());
+        Assert.assertEquals(null, exiEvent.getCharacters());
+        Assert.assertEquals("anyType", ((EXIEventSchemaType)exiEvent).getTypeName());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).getTypeURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(2, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(5, eventTypeList.getLength());
+          Assert.assertNotNull(eventTypeList.getEE());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+      
+      // First None2
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+        Assert.assertEquals("None2", exiEvent.getName());
+        Assert.assertEquals("urn:foo", exiEvent.getURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        Assert.assertEquals(3, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(10, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(5);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(6);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(7);
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
+        eventType = eventTypeList.item(8);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(9);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+          eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.peekState());
+          Assert.assertEquals(4, eventTypeList.getLength());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_TP, exiEvent.getEventKind());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.getURI());
+        Assert.assertEquals("type", exiEvent.getName());
+        Assert.assertNull(exiEvent.getPrefix());
+        Assert.assertEquals(null, exiEvent.getCharacters());
+        Assert.assertEquals("anyType", ((EXIEventSchemaType)exiEvent).getTypeName());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).getTypeURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+          Assert.assertEquals(2, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(5, eventTypeList.getLength());
+          Assert.assertNotNull(eventTypeList.getEE());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_NL, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        Assert.assertEquals(1, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(10, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(5);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(6);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(7);
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
+        eventType = eventTypeList.item(8);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(9);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+      }
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_ONE, eventType.getDepth());
+        Assert.assertEquals(3, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(8, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(5);
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
+        eventType = eventTypeList.item(6);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(7);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+      }
+
+      // Second None2
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+        Assert.assertEquals("None2", exiEvent.getName());
+        Assert.assertEquals("urn:foo", exiEvent.getURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        Assert.assertEquals(0, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(5, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+          
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+          eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.peekState());
+          Assert.assertEquals(5, eventTypeList.getLength());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_TP, exiEvent.getEventKind());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.getURI());
+        Assert.assertEquals("type", exiEvent.getName());
+        Assert.assertNull(exiEvent.getPrefix());
+        Assert.assertEquals(null, exiEvent.getCharacters());
+        Assert.assertEquals("anyType", ((EXIEventSchemaType)exiEvent).getTypeName());
+        Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).getTypeURI());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+          Assert.assertEquals(2, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(5, eventTypeList.getLength());
+          Assert.assertNotNull(eventTypeList.getEE());
+          eventType = eventTypeList.item(0);
+          Assert.assertEquals(EventType.ITEM_AT, eventType.itemType);
+          Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+          Assert.assertEquals("type", eventType.name);
+          eventType = eventTypeList.item(1);
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(2);
+          Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+          eventType = eventTypeList.item(3);
+          Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+        }
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_NL, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        Assert.assertEquals(1, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(10, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(5);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(6);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(7);
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
+        eventType = eventTypeList.item(8);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(9);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+      }
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_ONE, eventType.getDepth());
+        Assert.assertEquals(3, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(8, eventTypeList.getLength());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_TWO, eventType.getDepth());
+        eventType = eventTypeList.item(5);
+        Assert.assertEquals(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_THREE, eventType.getDepth());
+        eventType = eventTypeList.item(6);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(7);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+      }
+
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_ONE, eventType.getDepth());
+        Assert.assertEquals(1, eventType.getIndex());
+        eventTypeList = eventType.getEventTypeList();
+        Assert.assertEquals(5, eventTypeList.getLength());
+        Assert.assertNotNull(eventTypeList.getEE());
+        eventType = eventTypeList.item(0);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+        eventType = eventTypeList.item(1);
+        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+        Assert.assertEquals(EventCode.EVENT_CODE_DEPTH_ONE, eventType.getDepth());
+        eventType = eventTypeList.item(2);
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+        eventType = eventTypeList.item(3);
+        Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+        eventType = eventTypeList.item(4);
+        Assert.assertEquals(EventType.ITEM_CH, eventType.itemType);
+      }
+      
+      if ((exiEvent = scanner.nextEvent()) != null) {
+        ++n_events;
+        Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertSame(exiEvent, eventType);
+        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+          Assert.assertEquals(0, eventType.getIndex());
+          eventTypeList = eventType.getEventTypeList();
+          Assert.assertEquals(1, eventTypeList.getLength());
+        }
+      }
+
+      Assert.assertNull(scanner.nextEvent());
+      
+      Assert.assertEquals(13, n_events);
+    }
+  }
+  
 }

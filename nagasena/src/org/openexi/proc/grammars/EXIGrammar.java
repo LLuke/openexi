@@ -146,7 +146,7 @@ final class EXIGrammar extends SchemaInformedGrammar implements IGrammar {
   }
 
   @Override
-  EventTypeList getNextEventTypes(GrammarState stateVariables) {
+  public EventTypeList getNextEventTypes(GrammarState stateVariables) {
     return m_eventTypeList;
   }
 

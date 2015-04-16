@@ -59,7 +59,8 @@ public abstract class Grammar {
   /// Method declarations for event processing
   ///////////////////////////////////////////////////////////////////////////
 
-  abstract EventTypeList getNextEventTypes(GrammarState stateVariables);
+  /** @y.exclude */  
+  public abstract EventTypeList getNextEventTypes(GrammarState stateVariables);
   
   abstract EventCodeTuple getNextEventCodes(GrammarState stateVariables);
 
