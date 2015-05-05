@@ -3,7 +3,7 @@
 
 <property name="junit.jar" value="lib/junit/3.8.1/junit.jar"/>
 
-<property name="regexi.classes" value="lib/regexi/2012-06-08/classes"/>
+<property name="regexi.classes" value="lib/regexi/2015-05-05/classes"/>
 
 <!-- Xerces XML Parser -->
 <property name="xercesImpl.jar" value="${apache_xml}/xerces/2.11.0/xercesImpl.jar"/>
