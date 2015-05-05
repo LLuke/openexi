@@ -1,9 +1,12 @@
 2015-05-05 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+0000.0002.0051.1
+
 - Use updated regexi.
 
 A       lib/regexi/2015-05-05
 A       lib/regexi/2015-05-05.zip
+M       build.xml
 M       properties.xml
 
 2015-04-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
