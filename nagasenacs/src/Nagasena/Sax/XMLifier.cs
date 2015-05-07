@@ -17,7 +17,10 @@ namespace Nagasena.Sax {
       m_exiReader = new EXIReader();
     }
 
-    public void decode(Stream inputStream, Stream outputStream) {
+    /// <summary>
+    /// Convert EXI stream into XML stream.
+    /// </summary>
+    public void Convert(Stream inputStream, Stream outputStream) {
       m_exiReader.ContentHandler = new XMLifierContentHandler(outputStream);
       m_exiReader.Parse(inputStream);
     }

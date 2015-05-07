@@ -2,6 +2,8 @@
 
 0000.0002.0050.2
 
+- XMLifier's decode is now named 'Convert'.
+
 - Added preliminary implementation of XMLifier.
 
 A       test/Nagasena/Sax/XMLifierTest.cs

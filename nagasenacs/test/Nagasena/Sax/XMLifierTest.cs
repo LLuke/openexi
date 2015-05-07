@@ -79,7 +79,7 @@ namespace Nagasena.Sax {
           decoder.GrammarCache = grammarCache;
 
           baos = new MemoryStream();
-          decoder.decode(new MemoryStream(bts), baos);
+          decoder.Convert(new MemoryStream(bts), baos);
 
           String str = bytesToString(baos.ToArray());
           //System.Console.WriteLine(str);
@@ -129,7 +129,7 @@ namespace Nagasena.Sax {
             decoder.GrammarCache = grammarCache;
 
             baos = new MemoryStream();
-            decoder.decode(new MemoryStream(bts), baos);
+            decoder.Convert(new MemoryStream(bts), baos);
 
             String str = bytesToString(baos.ToArray());
             //System.Console.WriteLine(str);
@@ -185,7 +185,7 @@ namespace Nagasena.Sax {
           decoder.GrammarCache = grammarCache;
 
           baos = new MemoryStream();
-          decoder.decode(new MemoryStream(bts), baos);
+          decoder.Convert(new MemoryStream(bts), baos);
 
           String str = bytesToString(baos.ToArray());
           //System.Console.WriteLine(str);
@@ -243,7 +243,7 @@ namespace Nagasena.Sax {
           decoder.GrammarCache = grammarCache;
 
           baos = new MemoryStream();
-          decoder.decode(new MemoryStream(bts), baos);
+          decoder.Convert(new MemoryStream(bts), baos);
 
           String str = bytesToString(baos.ToArray());
           //System.Console.WriteLine(str);
