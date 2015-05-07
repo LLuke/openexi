@@ -90,7 +90,7 @@ namespace Nagasena.Sax {
           SAXRecorder saxRecorder = new SAXRecorder(exiEventList, true);
           decoder.ContentHandler = saxRecorder;
           decoder.LexicalHandler = saxRecorder;
-          decoder.Parse(new InputSource<Stream>(new MemoryStream(bts)));
+          decoder.Parse(new MemoryStream(bts));
 
           Assert.AreEqual(10, exiEventList.Count);
 
@@ -196,7 +196,7 @@ namespace Nagasena.Sax {
             SAXRecorder saxRecorder = new SAXRecorder(exiEventList, true);
             decoder.ContentHandler = saxRecorder;
             decoder.LexicalHandler = saxRecorder;
-            decoder.Parse(new InputSource<Stream>(new MemoryStream(bts)));
+            decoder.Parse(new MemoryStream(bts));
 
             Assert.AreEqual(11, exiEventList.Count);
 
@@ -397,7 +397,7 @@ namespace Nagasena.Sax {
           SAXRecorder saxRecorder = new SAXRecorder(exiEventList, true);
           decoder.ContentHandler = saxRecorder;
           decoder.LexicalHandler = saxRecorder;
-          decoder.Parse(new InputSource<Stream>(new MemoryStream(bts)));
+          decoder.Parse(new MemoryStream(bts));
 
           Assert.AreEqual(11, exiEventList.Count);
 
@@ -510,7 +510,7 @@ namespace Nagasena.Sax {
           SAXRecorder saxRecorder = new SAXRecorder(exiEventList, true);
           decoder.ContentHandler = saxRecorder;
           decoder.LexicalHandler = saxRecorder;
-          decoder.Parse(new InputSource<Stream>(new MemoryStream(bts)));
+          decoder.Parse(new MemoryStream(bts));
 
           Assert.AreEqual(preserveLexicalValues ? 21 : 23, exiEventList.Count);
 
@@ -697,7 +697,7 @@ namespace Nagasena.Sax {
           SAXRecorder saxRecorder = new SAXRecorder(exiEventList, true);
           decoder.ContentHandler = saxRecorder;
           decoder.LexicalHandler = saxRecorder;
-          decoder.Parse(new InputSource<Stream>(new MemoryStream(bts)));
+          decoder.Parse(new MemoryStream(bts));
 
           Assert.AreEqual(7, exiEventList.Count);
 
@@ -794,7 +794,7 @@ namespace Nagasena.Sax {
         decoder.ContentHandler = saxRecorder;
         decoder.LexicalHandler = saxRecorder;
 
-        decoder.Parse(new InputSource<Stream>(new MemoryStream(bts)));
+        decoder.Parse(new MemoryStream(bts));
 
         Assert.AreEqual(24, exiEventList.Count);
 
@@ -963,7 +963,7 @@ namespace Nagasena.Sax {
         decoder.ContentHandler = saxRecorder;
         decoder.LexicalHandler = saxRecorder;
 
-        decoder.Parse(new InputSource<Stream>(new MemoryStream(bts)));
+        decoder.Parse(new MemoryStream(bts));
 
         Assert.AreEqual(22, exiEventList.Count);
 
@@ -1108,7 +1108,7 @@ namespace Nagasena.Sax {
         decoder.ContentHandler = saxRecorder;
 
         try {
-          decoder.Parse(new InputSource<Stream>(new MemoryStream(bts)));
+          decoder.Parse(new MemoryStream(bts));
         }
         catch (Exception) {
           continue;
@@ -1145,7 +1145,7 @@ namespace Nagasena.Sax {
         SAXRecorder saxRecorder = new SAXRecorder(exiEventList, true);
         decoder.ContentHandler = saxRecorder;
 
-        decoder.Parse(new InputSource<Stream>(new MemoryStream(bts)));
+        decoder.Parse(new MemoryStream(bts));
 
         Assert.AreEqual(306, exiEventList.Count);
 
@@ -1239,7 +1239,7 @@ namespace Nagasena.Sax {
           SAXRecorder saxRecorder = new SAXRecorder(exiEventList, false);
           decoder.ContentHandler = saxRecorder;
           decoder.LexicalHandler = saxRecorder;
-          decoder.Parse(new InputSource<Stream>(new MemoryStream(bts)));
+          decoder.Parse(new MemoryStream(bts));
 
           Assert.AreEqual(16, exiEventList.Count);
 

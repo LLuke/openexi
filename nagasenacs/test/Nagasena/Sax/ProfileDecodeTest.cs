@@ -68,13 +68,12 @@ namespace Nagasena.Sax {
         Uri url = resolveSystemIdAsURL(exiFiles[i]);
         FileStream inputStream = new FileStream(url.LocalPath, FileMode.Open);
         try {
-          InputSource inputSource = new InputSource<Stream>(inputStream, url.ToString());
           List<Event> exiEventList = new List<Event>();
           SAXRecorder saxRecorder = new SAXRecorder(exiEventList, true);
           decoder.ContentHandler = saxRecorder;
           decoder.LexicalHandler = saxRecorder;
 
-          decoder.Parse(inputSource);
+          decoder.Parse(inputStream);
 
           Assert.AreEqual(profiled[i] ? 14 : 10, exiEventList.Count);
 

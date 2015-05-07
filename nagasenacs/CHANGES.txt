@@ -1,3 +1,17 @@
+2015-05-07 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0050.2
+
+- Added preliminary implementation of XMLifier.
+
+A       test/Nagasena/Sax/XMLifierTest.cs
+M       test/Nagasena/Sax/FragmentTest.cs
+M       test/Nagasena/Sax/ProfileDecodeTest.cs
+M       test/Nagasena/Sax/EXIReaderTest.cs
+M       src/AssemblyInfo.cs
+A       src/Nagasena/Sax/XMLifier.cs
+M       src/Nagasena/Sax/EXIReader.cs
+
 2015-01-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0050.1

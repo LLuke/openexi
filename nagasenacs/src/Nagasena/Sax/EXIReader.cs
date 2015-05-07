@@ -24,7 +24,7 @@ namespace Nagasena.Sax {
   /// EXIReader implements the SAX XMLReader to provide a convenient and 
   /// familiar interface for decoding an EXI stream.
   /// </summary>
-  public sealed class EXIReader : ReaderSupport, IXmlReader {
+  public sealed class EXIReader : ReaderSupport {
 
     private bool m_hasLexicalHandler;
     private ILexicalHandler m_lexicalHandler;
@@ -44,67 +44,6 @@ namespace Nagasena.Sax {
     ///////////////////////////////////////////////////////////////////////////
     // XMLReader APIs
     ///////////////////////////////////////////////////////////////////////////
-
-    public XmlReaderStatus Status {
-      get {
-        throw new NotSupportedException();
-      }
-    }
-
-    /// <summary>
-    /// Set a SAX DTDHandler to receive notation events and
-    /// unparsed entity declaration events. </summary>
-    /// <param name="dtdHandler"> SAX DTDHandler
-    /// Not yet implemented.
-    /// @y.exclude </param>
-    public IDtdHandler DtdHandler {
-      set {
-        //m_dtdHandler = value;
-      }
-      get {
-        //return m_dtdHandler;
-        return null;
-      }
-    }
-
-    /// <summary>
-    /// @y.exclude
-    /// </summary>
-    public IEntityResolver EntityResolver {
-      set {
-        // nothing to do.
-      }
-      get {
-        // nothing to do.
-        return null;
-      }
-    }
-
-    /// <summary>
-    /// @y.exclude
-    /// </summary>
-    public IErrorHandler ErrorHandler {
-      set {
-        // nothing to do.
-      }
-      get {
-        // nothing to do.
-        return null;
-      }
-    }
-
-    /// <summary>
-    /// @y.exclude
-    /// </summary>
-    public IDeclHandler DeclHandler {
-      set {
-        // nothing to do.
-      }
-      get {
-        // nothing to do.
-        return null;
-      }
-    }
 
     /// <summary>
     /// This method wraps the friendlier setLexicalHandler method to provide 
@@ -174,46 +113,6 @@ namespace Nagasena.Sax {
         return false;
       }
       throw new ArgumentException("Feature '" + name + "' is not recognized.");
-    }
-
-    /// <summary>
-    /// Reads the EXI input source and restores the XML stream per the schema and 
-    /// grammar options.
-    /// Not yet implemented.
-    /// @y.exclude
-    /// </summary>
-    public void Parse(InputSource input) {
-      if (input is InputSource<Stream>) {
-        Stream stream = ((InputSource<Stream>)input).Source;
-        if (stream != null) {
-          parse(stream);
-        }        
-      }
-      else
-        throw new NotSupportedException("");
-    }
-
-    /// <summary>
-    /// Reads the EXI input stream from a file on the system
-    /// and restores the XML stream per the schema and 
-    /// grammar options.
-    /// Not yet implemented.
-    /// @y.exclude
-    /// </summary>
-    public void Parse(string systemId) {
-      throw new NotSupportedException("");
-    }
-
-    public void Resume() {
-      throw new NotSupportedException();
-    }
-
-    public void Suspend() {
-      throw new NotSupportedException();
-    }
-
-    public void Abort() {
-      throw new NotSupportedException();
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -327,12 +226,9 @@ namespace Nagasena.Sax {
     }
 
     /// <summary>
-    /// Parse the input stream and restore the XML stream per the schema and
-    /// grammar options. </summary>
-    /// <param name="inputStream"> an encoded EXI stream </param>
-    /// <exception cref="IOException"> </exception>
-    /// <exception cref="SAXException"> </exception>
-    private void parse(Stream inputStream) {
+    /// Parses an EXI input stream and reconstitute an XML.</summary>
+    /// <param name="inputStream">an EXI stream to be decoded</param>
+    public void Parse(Stream inputStream) {
       reset();
       Scanner scanner = processHeader(inputStream);
 

@@ -692,7 +692,7 @@ namespace Nagasena.Sax {
         decoder.ContentHandler = saxRecorder;
         decoder.LexicalHandler = saxRecorder;
 
-        decoder.Parse(new InputSource<Stream>(new MemoryStream(baos.ToArray())));
+        decoder.Parse(new MemoryStream(baos.ToArray()));
 
         Event saxEvent;
         int n = 0;
