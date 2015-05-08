@@ -41,7 +41,6 @@ public class URIPartitionTest extends TestCase {
     
     stringTable = Scriber.createStringTable(null);
     
-    Assert.assertEquals(2, stringTable.uriWidth);
     Assert.assertEquals(2, stringTable.uriForwardedWidth);
 
     Assert.assertEquals(3, stringTable.n_uris);
@@ -60,7 +59,6 @@ public class URIPartitionTest extends TestCase {
     
     stringTable = Scriber.createStringTable(grammarCache); 
     
-    Assert.assertEquals(2, stringTable.uriWidth);
     Assert.assertEquals(3, stringTable.uriForwardedWidth);
 
     Assert.assertEquals(4, stringTable.n_uris);
@@ -85,7 +83,6 @@ public class URIPartitionTest extends TestCase {
     
     stringTable = Scriber.createStringTable(grammarCache); 
     
-    Assert.assertEquals(2, stringTable.uriWidth);
     Assert.assertEquals(3, stringTable.uriForwardedWidth);
 
     Assert.assertEquals(4, stringTable.n_uris);
@@ -96,7 +93,6 @@ public class URIPartitionTest extends TestCase {
     
     stringTable.reset();
     
-    Assert.assertEquals(2, stringTable.uriWidth);
     Assert.assertEquals(3, stringTable.uriForwardedWidth);
 
     Assert.assertEquals(4, stringTable.n_uris);
@@ -112,7 +108,6 @@ public class URIPartitionTest extends TestCase {
     
     stringTable = Scriber.createStringTable(grammarCache); 
 
-    Assert.assertEquals(3, stringTable.uriWidth);
     Assert.assertEquals(3, stringTable.uriForwardedWidth);
 
     Assert.assertEquals(5, stringTable.n_uris);
@@ -124,7 +119,6 @@ public class URIPartitionTest extends TestCase {
 
     stringTable.reset();
 
-    Assert.assertEquals(3, stringTable.uriWidth);
     Assert.assertEquals(3, stringTable.uriForwardedWidth);
 
     Assert.assertEquals(5, stringTable.n_uris);
@@ -142,33 +136,26 @@ public class URIPartitionTest extends TestCase {
     
     stringTable = Scriber.createStringTable(null); 
     
-    Assert.assertEquals(2, stringTable.uriWidth);
     Assert.assertEquals(2, stringTable.uriForwardedWidth);
     Assert.assertEquals(3, stringTable.n_uris);
     
     Assert.assertEquals(3, stringTable.internURI("03"));
-    Assert.assertEquals(2, stringTable.uriWidth);
     Assert.assertEquals(3, stringTable.uriForwardedWidth);
     Assert.assertEquals(4, stringTable.n_uris);
     Assert.assertEquals(4, stringTable.internURI("04"));
-    Assert.assertEquals(3, stringTable.uriWidth);
     Assert.assertEquals(3, stringTable.uriForwardedWidth);
     Assert.assertEquals(5, stringTable.n_uris);
     Assert.assertEquals(5, stringTable.internURI("05"));
-    Assert.assertEquals(3, stringTable.uriWidth);
     Assert.assertEquals(3, stringTable.uriForwardedWidth);
     Assert.assertEquals(6, stringTable.n_uris);
     Assert.assertEquals(6, stringTable.internURI("06"));
-    Assert.assertEquals(3, stringTable.uriWidth);
     Assert.assertEquals(3, stringTable.uriForwardedWidth);
     Assert.assertEquals(7, stringTable.n_uris);
     Assert.assertEquals(3, stringTable.internURI("03"));
     Assert.assertEquals(7, stringTable.internURI("07"));
-    Assert.assertEquals(3, stringTable.uriWidth);
     Assert.assertEquals(4, stringTable.uriForwardedWidth);
     Assert.assertEquals(8, stringTable.n_uris);
     Assert.assertEquals(8, stringTable.internURI("08"));
-    Assert.assertEquals(4, stringTable.uriWidth);
     Assert.assertEquals(4, stringTable.uriForwardedWidth);
     Assert.assertEquals(9, stringTable.n_uris);
 
@@ -182,29 +169,23 @@ public class URIPartitionTest extends TestCase {
     
     stringTable = Scriber.createStringTable(grammarCache); 
     
-    Assert.assertEquals(2, stringTable.uriWidth);
     Assert.assertEquals(3, stringTable.uriForwardedWidth);
     Assert.assertEquals(4, stringTable.n_uris);
     
     Assert.assertEquals(4, stringTable.internURI("04"));
-    Assert.assertEquals(3, stringTable.uriWidth);
     Assert.assertEquals(3, stringTable.uriForwardedWidth);
     Assert.assertEquals(5, stringTable.n_uris);
     Assert.assertEquals(5, stringTable.internURI("05"));
-    Assert.assertEquals(3, stringTable.uriWidth);
     Assert.assertEquals(3, stringTable.uriForwardedWidth);
     Assert.assertEquals(6, stringTable.n_uris);
     Assert.assertEquals(6, stringTable.internURI("06"));
-    Assert.assertEquals(3, stringTable.uriWidth);
     Assert.assertEquals(3, stringTable.uriForwardedWidth);
     Assert.assertEquals(7, stringTable.n_uris);
     Assert.assertEquals(4, stringTable.internURI("04"));
     Assert.assertEquals(7, stringTable.internURI("07"));
-    Assert.assertEquals(3, stringTable.uriWidth);
     Assert.assertEquals(4, stringTable.uriForwardedWidth);
     Assert.assertEquals(8, stringTable.n_uris);
     Assert.assertEquals(8, stringTable.internURI("08"));
-    Assert.assertEquals(4, stringTable.uriWidth);
     Assert.assertEquals(4, stringTable.uriForwardedWidth);
     Assert.assertEquals(9, stringTable.n_uris);
   }

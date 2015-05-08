@@ -40,14 +40,10 @@ public final class StringTable {
   private URIEntry[] m_uriList;
   
   public int n_uris = 0;
-  public int uriWidth = 0;
   public int uriForwardedWidth = 0;
-  private int m_uriMilestone = 1;
   
   private final int m_start_n_uris;
-  private final int m_start_uriWidth;
   private final int m_start_uriForwardedWidth;
-  private final int m_start_uriMilestone;
   
   private final Map<String,URIEntry> m_uriMap;
   private final LocalNamePartition[] m_initialLocalNamePartitions;
@@ -107,9 +103,7 @@ public final class StringTable {
       addURI(localNamePartition.uri, localNamePartition, prefixPartition);
     }
     m_start_n_uris = n_uris;
-    m_start_uriWidth = uriWidth;
     m_start_uriForwardedWidth = uriForwardedWidth;
-    m_start_uriMilestone = m_uriMilestone;
   }
 
   public void reset() {
@@ -145,9 +139,7 @@ public final class StringTable {
       }
     }
     n_uris = m_start_n_uris;
-    uriWidth = m_start_uriWidth;
     uriForwardedWidth = m_start_uriForwardedWidth;
-    m_uriMilestone = m_start_uriMilestone;
     
   	// Reset Global value partition
     globalValuePartition.reset();
@@ -229,13 +221,9 @@ public final class StringTable {
     if (m_useMap)
       m_uriMap.put(uri, uriEntry);
     m_uriList[n_uris] = uriEntry;
-    if (n_uris++ == m_uriMilestone) {
-      ++uriWidth;
-      m_uriMilestone <<= 1;
-    }
-    if (n_uris == m_uriMilestone) {
+    if ((n_uris++ & n_uris) == 0) // i.e. n_uris (after increment) is a power of 2
       ++uriForwardedWidth;
-    }
+      
     return number;
   }
 

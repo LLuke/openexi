@@ -1,3 +1,17 @@
+2015-05-07 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0052.0
+
+- Modified how width of URIs are calculated.
+
+M       test/org/openexi/proc/io/URIPartitionTest.java
+M       src/org/openexi/proc/common/StringTable.java
+M       testdata/iso15118/xmldsig-core-schema.xsd
+A       testdata/iso15118/dtds
+A       testdata/iso15118/dtds/datatypes.dtd
+A       testdata/iso15118/dtds/XMLSchema.dtd
+M       build.xml
+
 2015-05-05 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0051.1
