@@ -21,7 +21,9 @@ namespace Nagasena.Sax {
     /// Convert EXI stream into XML stream.
     /// </summary>
     public void Convert(Stream inputStream, Stream outputStream) {
-      m_exiReader.ContentHandler = new XMLifierContentHandler(outputStream);
+      XMLifierContentHandler handler = new XMLifierContentHandler(outputStream);
+      m_exiReader.ContentHandler = handler;
+      m_exiReader.LexicalHandler = handler;
       m_exiReader.Parse(inputStream);
     }
 
@@ -92,16 +94,6 @@ namespace Nagasena.Sax {
           m_writer.Write(" " + attributes.GetQName(i) + "=\"" + attributes.GetValue(i) + "\"");
         }
         m_writer.Write(">");
-
-
-        //const string xmlString =
-        //  "<F xsi:type='F' xmlns='urn:foo' xmlns:foo='urn:foo' " +
-        //  "   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'" +
-        //  "   foo:aA='abc'>" +
-        //  "</F>\n";
-
-        //<F xmlns:="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:foo="urn:foo" xsi:type="F" foo:aA="abc"></F>
-
       }
 
       public override void EndElement(string uri, string localName, string qName) {
@@ -126,7 +118,17 @@ namespace Nagasena.Sax {
       public override void EndDocument() {
         m_writer.Flush();
       }
-    }
 
+      public override void Comment(char[] ch, int start, int length) {
+        m_writer.Write("<!--");
+        m_writer.Write(ch, start, length);
+        m_writer.Write("-->");
+      }
+
+      public override void ProcessingInstruction(string target, string data) {
+        m_writer.Write("<?" + target + " " + data + "?>");
+      }
+
+    }
   }
 }

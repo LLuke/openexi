@@ -219,8 +219,7 @@ namespace Nagasena.Sax {
         "xyz</foo:AB>";
 
       foreach (AlignmentType alignment in Alignments) {
-//        foreach (bool preserveLexicalValues in new bool[] { true, false }) {
-        foreach (bool preserveLexicalValues in new bool[] { false }) {
+        foreach (bool preserveLexicalValues in new bool[] { true, false }) {
           Transmogrifier encoder = new Transmogrifier();
           XMLifier decoder = new XMLifier();
 
@@ -265,285 +264,133 @@ namespace Nagasena.Sax {
       }
     }
 
-    ///// <summary>
-    ///// Schema: 
-    ///// <xsd:complexType name="restricted_B">
-    /////   <xsd:complexContent>
-    /////     <xsd:restriction base="foo:B">
-    /////       <xsd:sequence>
-    /////         <xsd:element ref="foo:AB"/>
-    /////         <xsd:element ref="foo:AC" minOccurs="0"/>
-    /////         <xsd:element ref="foo:AD" minOccurs="0"/>
-    /////       </xsd:sequence>
-    /////     </xsd:restriction>
-    /////   </xsd:complexContent>
-    ///// </xsd:complexType>
-    ///// 
-    ///// <xsd:element name="nillable_B" type="foo:B" nillable="true" />
-    ///// 
-    ///// Instance:
-    ///// <nillable_B xmlns='urn:foo' xsi:nil='true' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'/>
-    ///// </summary>
-    //[Test]
-    //public virtual void testAcceptanceForNillableB() {
-    //  EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
+    /// <summary>
+    /// Schema: 
+    /// <xsd:complexType name="restricted_B">
+    ///   <xsd:complexContent>
+    ///     <xsd:restriction base="foo:B">
+    ///       <xsd:sequence>
+    ///         <xsd:element ref="foo:AB"/>
+    ///         <xsd:element ref="foo:AC" minOccurs="0"/>
+    ///         <xsd:element ref="foo:AD" minOccurs="0"/>
+    ///       </xsd:sequence>
+    ///     </xsd:restriction>
+    ///   </xsd:complexContent>
+    /// </xsd:complexType>
+    /// 
+    /// <xsd:element name="nillable_B" type="foo:B" nillable="true" />
+    /// 
+    /// Instance:
+    /// <nillable_B xmlns='urn:foo' xsi:nil='true' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'/>
+    /// </summary>
+    [Test]
+    public virtual void testAcceptanceForNillableB() {
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
-    //  GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
+      GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
 
-    //  const string xmlString = 
-    //    "<foo:nillable_B xmlns:foo='urn:foo' xsi:nil='  true   ' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'/>";
+      const string xmlString =
+        "<foo:nillable_B xmlns:foo='urn:foo' xsi:nil='  true   ' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'/>";
 
-    //  foreach (AlignmentType alignment in Alignments) {
-    //    foreach (bool preserveLexicalValues in new bool[] { true, false }) {
+      foreach (AlignmentType alignment in Alignments) {
+        foreach (bool preserveLexicalValues in new bool[] { true, false }) {
 
-    //      Transmogrifier encoder = new Transmogrifier();
-    //      EXIReader decoder = new EXIReader();
+          Transmogrifier encoder = new Transmogrifier();
+          XMLifier decoder = new XMLifier();
 
-    //      encoder.AlignmentType = alignment;
-    //      decoder.AlignmentType = alignment;
+          encoder.AlignmentType = alignment;
+          decoder.AlignmentType = alignment;
 
-    //      encoder.PreserveLexicalValues = preserveLexicalValues;
-    //      decoder.PreserveLexicalValues = preserveLexicalValues;
+          encoder.PreserveLexicalValues = preserveLexicalValues;
+          decoder.PreserveLexicalValues = preserveLexicalValues;
 
-    //      encoder.GrammarCache = grammarCache;
-    //      MemoryStream baos = new MemoryStream();
-    //      encoder.OutputStream = baos;
+          encoder.GrammarCache = grammarCache;
+          MemoryStream baos = new MemoryStream();
+          encoder.OutputStream = baos;
 
-    //      byte[] bts;
+          byte[] bts;
 
-    //      encoder.encode(new InputSource<Stream>(string2Stream(xmlString)));
+          encoder.encode(new InputSource<Stream>(string2Stream(xmlString)));
 
-    //      bts = baos.ToArray();
+          bts = baos.ToArray();
 
-    //      decoder.GrammarCache = grammarCache;
+          decoder.GrammarCache = grammarCache;
 
-    //      List<Event> exiEventList = new List<Event>();
+          baos = new MemoryStream();
+          decoder.Convert(new MemoryStream(bts), baos);
 
-    //      SAXRecorder saxRecorder = new SAXRecorder(exiEventList, true);
-    //      decoder.ContentHandler = saxRecorder;
-    //      decoder.LexicalHandler = saxRecorder;
-    //      decoder.Parse(new MemoryStream(bts));
+          String str = bytesToString(baos.ToArray());
+          System.Console.WriteLine(str);
 
-    //      Assert.AreEqual(7, exiEventList.Count);
+          Assert.AreEqual(preserveLexicalValues ?
+            "<foo:nillable_B xmlns:foo=\"urn:foo\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " + 
+              "xsi:nil=\"  true   \"></foo:nillable_B>" :
+            "<foo:nillable_B xmlns:foo=\"urn:foo\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " + 
+              "xsi:nil=\"true\"></foo:nillable_B>", str);
+        }
+      }
+    }
 
-    //      Event saxEvent;
+    /// <summary>
+    /// Exercise CM and PI in "all" group.
+    /// 
+    /// Schema:
+    /// <xsd:element name="C">
+    ///   <xsd:complexType>
+    ///     <xsd:all>
+    ///       <xsd:element ref="foo:AB" minOccurs="0" />
+    ///       <xsd:element ref="foo:AC" minOccurs="0" />
+    ///     </xsd:all>
+    ///   </xsd:complexType>
+    /// </xsd:element>
+    /// 
+    /// Instance:
+    /// <C><AC/><!-- Good? --><?eg Good! ?></C><?eg Good? ?><!-- Good! -->
+    /// </summary>
+    [Test]
+    public virtual void testCommentPI_01() {
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
 
-    //      saxEvent = exiEventList[0];
-    //      Assert.AreEqual(Event.NAMESPACE, saxEvent.type);
-    //      Assert.AreEqual("urn:foo", saxEvent.@namespace);
-    //      Assert.AreEqual("foo", saxEvent.name);
+      short options = GrammarOptions.DEFAULT_OPTIONS;
+      options = GrammarOptions.addCM(options);
+      options = GrammarOptions.addPI(options);
 
-    //      saxEvent = exiEventList[1];
-    //      Assert.AreEqual(Event.NAMESPACE, saxEvent.type);
-    //      Assert.AreEqual("http://www.w3.org/2001/XMLSchema-instance", saxEvent.@namespace);
-    //      Assert.AreEqual("xsi", saxEvent.name);
+      GrammarCache grammarCache = new GrammarCache(corpus, options);
 
-    //      saxEvent = exiEventList[2];
-    //      Assert.AreEqual(Event.START_ELEMENT, saxEvent.type);
-    //      Assert.AreEqual("urn:foo", saxEvent.@namespace);
-    //      Assert.AreEqual("nillable_B", saxEvent.localName);
-    //      Assert.AreEqual("foo:nillable_B", saxEvent.name);
+      const string xmlString =
+        "<C xmlns='urn:foo'><AC/><!-- Good? --><?eg Good! ?></C><?eg Good? ?><!-- Good! -->";
 
-    //      saxEvent = exiEventList[3];
-    //      Assert.AreEqual(Event.ATTRIBUTE, saxEvent.type);
-    //      Assert.AreEqual("http://www.w3.org/2001/XMLSchema-instance", saxEvent.@namespace);
-    //      Assert.AreEqual("nil", saxEvent.localName);
-    //      Assert.AreEqual("xsi:nil", saxEvent.name);
-    //      Assert.AreEqual(preserveLexicalValues ? "  true   " : "true", saxEvent.stringValue);
+      foreach (AlignmentType alignment in Alignments) {
+        Transmogrifier encoder = new Transmogrifier();
+        XMLifier decoder = new XMLifier();
 
-    //      saxEvent = exiEventList[4];
-    //      Assert.AreEqual(Event.END_ELEMENT, saxEvent.type);
-    //      Assert.AreEqual("urn:foo", saxEvent.@namespace);
-    //      Assert.AreEqual("nillable_B", saxEvent.localName);
-    //      Assert.AreEqual("foo:nillable_B", saxEvent.name);
+        encoder.AlignmentType = alignment;
+        decoder.AlignmentType = alignment;
 
-    //      saxEvent = exiEventList[5];
-    //      Assert.AreEqual(Event.END_NAMESPACE, saxEvent.type);
-    //      Assert.AreEqual("xsi", saxEvent.name);
+        encoder.GrammarCache = grammarCache;
+        decoder.GrammarCache = grammarCache;
 
-    //      saxEvent = exiEventList[6];
-    //      Assert.AreEqual(Event.END_NAMESPACE, saxEvent.type);
-    //      Assert.AreEqual("foo", saxEvent.name);
-    //    }
-    //  }
-    //}
+        MemoryStream baos = new MemoryStream();
+        encoder.OutputStream = baos;
 
-    ///// <summary>
-    ///// Exercise CM and PI in "all" group.
-    ///// 
-    ///// Schema:
-    ///// <xsd:element name="C">
-    /////   <xsd:complexType>
-    /////     <xsd:all>
-    /////       <xsd:element ref="foo:AB" minOccurs="0" />
-    /////       <xsd:element ref="foo:AC" minOccurs="0" />
-    /////     </xsd:all>
-    /////   </xsd:complexType>
-    ///// </xsd:element>
-    ///// 
-    ///// Instance:
-    ///// <C><AC/><!-- Good? --><?eg Good! ?></C><?eg Good? ?><!-- Good! -->
-    ///// </summary>
-    //[Test]
-    //public virtual void testCommentPI_01() {
-    //  EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema("/testStates/acceptance.gram", this);
+        encoder.encode(new InputSource<Stream>(string2Stream(xmlString)));
 
-    //  short options = GrammarOptions.DEFAULT_OPTIONS;
-    //  options = GrammarOptions.addCM(options);
-    //  options = GrammarOptions.addPI(options);
+        byte[] bts = baos.ToArray();
 
-    //  GrammarCache grammarCache = new GrammarCache(corpus, options);
+        baos = new MemoryStream();
+        decoder.Convert(new MemoryStream(bts), baos);
 
-    //  const string xmlString = 
-    //    "<C xmlns='urn:foo'><AC/><!-- Good? --><?eg Good! ?></C><?eg Good? ?><!-- Good! -->";
+        String str = bytesToString(baos.ToArray());
+        System.Console.WriteLine(str);
 
-    //  foreach (AlignmentType alignment in Alignments) {
-    //    Transmogrifier encoder = new Transmogrifier();
-    //    EXIReader decoder = new EXIReader();
-
-    //    encoder.AlignmentType = alignment;
-    //    decoder.AlignmentType = alignment;
-
-    //    encoder.GrammarCache = grammarCache;
-    //    decoder.GrammarCache = grammarCache;
-
-    //    MemoryStream baos = new MemoryStream();
-    //    encoder.OutputStream = baos;
-
-    //    encoder.encode(new InputSource<Stream>(string2Stream(xmlString)));
-
-    //    byte[] bts = baos.ToArray();
-
-    //    List<Event> exiEventList = new List<Event>();
-    //    SAXRecorder saxRecorder = new SAXRecorder(exiEventList, true);
-    //    decoder.ContentHandler = saxRecorder;
-    //    decoder.LexicalHandler = saxRecorder;
-
-    //    decoder.Parse(new MemoryStream(bts));
-
-    //    Assert.AreEqual(24, exiEventList.Count);
-
-    //    Event saxEvent;
-
-    //    int n = 0;
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual(XmlUriConst.W3C_XML_1998_URI, saxEvent.@namespace);
-    //    Assert.AreEqual("xml", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, saxEvent.@namespace);
-    //    Assert.AreEqual("xsi", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_URI, saxEvent.@namespace);
-    //    Assert.AreEqual("xsd", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual("urn:eoo", saxEvent.@namespace);
-    //    Assert.AreEqual("s0", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual("urn:foo", saxEvent.@namespace);
-    //    Assert.AreEqual("s1", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual("urn:goo", saxEvent.@namespace);
-    //    Assert.AreEqual("s2", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual("urn:hoo", saxEvent.@namespace);
-    //    Assert.AreEqual("s3", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual("urn:ioo", saxEvent.@namespace);
-    //    Assert.AreEqual("s4", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.START_ELEMENT, saxEvent.type);
-    //    Assert.AreEqual("urn:foo", saxEvent.@namespace);
-    //    Assert.AreEqual("C", saxEvent.localName);
-    //    Assert.AreEqual("s1:C", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.START_ELEMENT, saxEvent.type);
-    //    Assert.AreEqual("urn:foo", saxEvent.@namespace);
-    //    Assert.AreEqual("AC", saxEvent.localName);
-    //    Assert.AreEqual("s1:AC", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.END_ELEMENT, saxEvent.type);
-    //    Assert.AreEqual("urn:foo", saxEvent.@namespace);
-    //    Assert.AreEqual("AC", saxEvent.localName);
-    //    Assert.AreEqual("s1:AC", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.COMMENT, saxEvent.type);
-    //    Assert.AreEqual(" Good? ", new string(saxEvent.charValue));
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.PROCESSING_INSTRUCTION, saxEvent.type);
-    //    Assert.AreEqual("eg", saxEvent.name);
-    //    Assert.AreEqual("Good! ", saxEvent.stringValue);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.END_ELEMENT, saxEvent.type);
-    //    Assert.AreEqual("urn:foo", saxEvent.@namespace);
-    //    Assert.AreEqual("C", saxEvent.localName);
-    //    Assert.AreEqual("s1:C", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.END_NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual("xml", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.END_NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual("xsi", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.END_NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual("xsd", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.END_NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual("s0", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.END_NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual("s1", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.END_NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual("s2", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.END_NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual("s3", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.END_NAMESPACE, saxEvent.type);
-    //    Assert.AreEqual("s4", saxEvent.name);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.PROCESSING_INSTRUCTION, saxEvent.type);
-    //    Assert.AreEqual("eg", saxEvent.name);
-    //    Assert.AreEqual("Good? ", saxEvent.stringValue);
-
-    //    saxEvent = exiEventList[n++];
-    //    Assert.AreEqual(Event.COMMENT, saxEvent.type);
-    //    Assert.AreEqual(" Good! ", new string(saxEvent.charValue));
-
-    //    Assert.AreEqual(exiEventList.Count, n);
-    //  }
-    //}
+        Assert.AreEqual(
+          "<s1:C xmlns:xml=\"http://www.w3.org/XML/1998/namespace\" " + 
+            "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " + 
+            "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" " + 
+            "xmlns:s0=\"urn:eoo\" xmlns:s1=\"urn:foo\" xmlns:s2=\"urn:goo\" xmlns:s3=\"urn:hoo\" xmlns:s4=\"urn:ioo\">" + 
+            "<s1:AC></s1:AC><!-- Good? --><?eg Good! ?></s1:C><?eg Good? ?><!-- Good! -->", str);
+      }
+    }
 
     ///// <summary>
     ///// Schema:
