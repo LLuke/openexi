@@ -320,7 +320,7 @@ namespace Nagasena.Sax {
           decoder.Convert(new MemoryStream(bts), baos);
 
           String str = bytesToString(baos.ToArray());
-          System.Console.WriteLine(str);
+          //System.Console.WriteLine(str);
 
           Assert.AreEqual(preserveLexicalValues ?
             "<foo:nillable_B xmlns:foo=\"urn:foo\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " + 
@@ -381,7 +381,7 @@ namespace Nagasena.Sax {
         decoder.Convert(new MemoryStream(bts), baos);
 
         String str = bytesToString(baos.ToArray());
-        System.Console.WriteLine(str);
+        //System.Console.WriteLine(str);
 
         Assert.AreEqual(
           "<s1:C xmlns:xml=\"http://www.w3.org/XML/1998/namespace\" " + 

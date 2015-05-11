@@ -1,3 +1,16 @@
+2015-05-11 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0051.0
+
+- Set Transmogrifier's DivertBuiltinGrammarToAnyType property value to true to 
+  generate EXI profile streams.
+
+M       test/Nagasena/Sax/XMLifierTest.cs
+M       test/Nagasena/Sax/GrammarBuiltinTest.cs
+M       src/AssemblyInfo.cs
+M       src/Nagasena/Proc/Grammars/Apparatus.cs
+M       src/Nagasena/Sax/Transmogrifier.cs
+
 2015-05-08 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0050.3

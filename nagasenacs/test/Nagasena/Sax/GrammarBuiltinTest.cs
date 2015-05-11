@@ -17,6 +17,7 @@ using XmlUriConst = Nagasena.Proc.Common.XmlUriConst;
 using EXIEventDTD = Nagasena.Proc.Events.EXIEventDTD;
 using EXIEventNS = Nagasena.Proc.Events.EXIEventNS;
 using EXIEventSchemaType = Nagasena.Proc.Events.EXIEventSchemaType;
+using Grammar = Nagasena.Proc.Grammars.Grammar;
 using GrammarCache = Nagasena.Proc.Grammars.GrammarCache;
 using Scanner = Nagasena.Proc.IO.Scanner;
 using EXISchema = Nagasena.Schema.EXISchema;
@@ -4759,6 +4760,1634 @@ namespace Nagasena.Sax {
       Assert.AreEqual(EventDescription_Fields.EVENT_ED, exiEvent.EventKind);
       eventType = exiEvent.getEventType();
       Assert.AreEqual(EventType.ITEM_ED, eventType.itemType);
+    }
+
+    /**
+     * Excercise EXI Profile's grammar usage.
+     */
+    [Test]
+    public void testProfile_01() {
+      GrammarCache grammarCache = new GrammarCache(EmptySchema.EXISchema, GrammarOptions.DEFAULT_OPTIONS);
+      
+      String xmlString;
+      byte[] bts;
+      
+      xmlString =
+        "<foo:None xmlns:foo='urn:foo'>" +
+          "<foo:None2></foo:None2>" +
+          "<foo:None2></foo:None2>" + 
+        "</foo:None>";
+
+      foreach (AlignmentType alignment in Alignments) {
+        Transmogrifier encoder = new Transmogrifier();
+        EXIDecoder decoder = new EXIDecoder();
+        Scanner scanner;
+        
+        encoder.DivertBuiltinGrammarToAnyType = true;
+        
+        encoder.AlignmentType = alignment;
+        decoder.AlignmentType = alignment;
+  
+        encoder.GrammarCache = grammarCache;
+        MemoryStream baos = new MemoryStream();
+        encoder.OutputStream = baos;
+
+        encoder.encode(new InputSource<Stream>(string2Stream(xmlString)));
+
+        bts = baos.ToArray();
+        
+        decoder.GrammarCache = grammarCache;
+        decoder.InputStream = new MemoryStream(bts);
+        scanner = decoder.processHeader();
+        
+        EventDescription exiEvent;
+        
+        EventType eventType;
+        EventTypeList eventTypeList;
+        
+        int n_events = 0;
+        int i;
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SD, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreSame(exiEvent, eventType);
+          Assert.AreEqual(0, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.IsNull(eventTypeList.EE);
+        }
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+          Assert.AreEqual("None", exiEvent.Name);
+          Assert.AreEqual("urn:foo", exiEvent.URI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = exiEvent.getEventType();
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(eventTypeList.Length - 1, eventType.Index);
+          Assert.IsNull(eventTypeList.EE);
+          
+          eventType = eventTypeList.item(0);
+          for (i = 1; i < eventTypeList.Length - 1; i++) {
+            EventType ith = eventTypeList.item(i);
+            if (!(eventType.name.CompareTo(ith.name) < 0)) {
+              Assert.AreEqual(eventType.name, ith.name);
+              Assert.IsTrue(eventType.uri.CompareTo(ith.uri) < 0);
+            }
+            eventType = ith;
+          }
+        }
+    
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_TP, exiEvent.EventKind);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.URI);
+          Assert.AreEqual("type", exiEvent.Name);
+          Assert.IsNull(exiEvent.Prefix);
+          Assert.AreEqual(null, exiEvent.Characters);
+          Assert.AreEqual("anyType", ((EXIEventSchemaType)exiEvent).TypeName);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).TypeURI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(2, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(5, eventTypeList.Length);
+            Assert.IsNotNull(eventTypeList.EE);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+        
+        // First None2
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+          Assert.AreEqual("None2", exiEvent.Name);
+          Assert.AreEqual("urn:foo", exiEvent.URI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          Assert.AreEqual(3, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(10, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(5);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(6);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(7);
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_THREE, eventType.Depth);
+          eventType = eventTypeList.item(8);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(9);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+            eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.PeekState());
+            Assert.AreEqual(4, eventTypeList.Length);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_TP, exiEvent.EventKind);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.URI);
+          Assert.AreEqual("type", exiEvent.Name);
+          Assert.IsNull(exiEvent.Prefix);
+          Assert.AreEqual(null, exiEvent.Characters);
+          Assert.AreEqual("anyType", ((EXIEventSchemaType)exiEvent).TypeName);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).TypeURI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+            Assert.AreEqual(2, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(5, eventTypeList.Length);
+            Assert.IsNotNull(eventTypeList.EE);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_ONE, eventType.Depth);
+          Assert.AreEqual(4, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(10, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(5);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(6);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(7);
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_THREE, eventType.Depth);
+          eventType = eventTypeList.item(8);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(9);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+        }
+  
+        // Second None2
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+          Assert.AreEqual("None2", exiEvent.Name);
+          Assert.AreEqual("urn:foo", exiEvent.URI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          Assert.AreEqual(0, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(5, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+            
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+            eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.PeekState());
+            Assert.AreEqual(5, eventTypeList.Length);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_TP, exiEvent.EventKind);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.URI);
+          Assert.AreEqual("type", exiEvent.Name);
+          Assert.IsNull(exiEvent.Prefix);
+          Assert.AreEqual(null, exiEvent.Characters);
+          Assert.AreEqual("anyType", ((EXIEventSchemaType)exiEvent).TypeName);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).TypeURI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+            Assert.AreEqual(2, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(5, eventTypeList.Length);
+            Assert.IsNotNull(eventTypeList.EE);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_ONE, eventType.Depth);
+          Assert.AreEqual(4, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(10, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(5);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(6);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(7);
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_THREE, eventType.Depth);
+          eventType = eventTypeList.item(8);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(9);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_ONE, eventType.Depth);
+          Assert.AreEqual(1, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(5, eventTypeList.Length);
+          Assert.IsNotNull(eventTypeList.EE);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_ONE, eventType.Depth);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+        }
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_ED, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreSame(exiEvent, eventType);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(0, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(1, eventTypeList.Length);
+          }
+        }
+  
+        Assert.IsNull(scanner.nextEvent());
+        
+        Assert.AreEqual(11, n_events);
+      }
+    }
+
+    /**
+     * Exercise NS production with EXI Profile's grammar usage.
+     */
+    [Test]
+    public void testProfile_02() {
+      GrammarCache grammarCache = new GrammarCache(EmptySchema.EXISchema, GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
+      
+      String xmlString;
+      byte[] bts;
+      
+      xmlString =
+        "<foo:None xmlns:foo='urn:foo'>" +
+          "<foo:None2></foo:None2>" +
+          "<foo:None2></foo:None2>" + 
+        "</foo:None>";
+
+      foreach (AlignmentType alignment in Alignments) {
+        Transmogrifier encoder = new Transmogrifier();
+        EXIDecoder decoder = new EXIDecoder();
+        Scanner scanner;
+
+        encoder.DivertBuiltinGrammarToAnyType = true;
+        
+        encoder.AlignmentType = alignment;
+        decoder.AlignmentType = alignment;
+  
+        encoder.GrammarCache = grammarCache;
+        MemoryStream baos = new MemoryStream();
+        encoder.OutputStream = baos;
+
+        encoder.encode(new InputSource<Stream>(string2Stream(xmlString)));
+
+        bts = baos.ToArray();
+        
+        decoder.GrammarCache = grammarCache;
+        decoder.InputStream = new MemoryStream(bts);
+        scanner = decoder.processHeader();
+        
+        EventDescription exiEvent;
+        
+        EventType eventType;
+        EventTypeList eventTypeList;
+        
+        int n_events = 0;
+        int i;
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SD, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreSame(exiEvent, eventType);
+          Assert.AreEqual(0, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.IsNull(eventTypeList.EE);
+        }
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+          Assert.AreEqual("None", exiEvent.Name);
+          Assert.AreEqual("urn:foo", exiEvent.URI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = exiEvent.getEventType();
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(eventTypeList.Length - 1, eventType.Index);
+          Assert.IsNull(eventTypeList.EE);
+          
+          eventType = eventTypeList.item(0);
+          for (i = 1; i < eventTypeList.Length - 1; i++) {
+            EventType ith = eventTypeList.item(i);
+            if (!(eventType.name.CompareTo(ith.name) < 0)) {
+              Assert.AreEqual(eventType.name, ith.name);
+              Assert.IsTrue(eventType.uri.CompareTo(ith.uri) < 0);
+            }
+            eventType = ith;
+          }
+        }
+    
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_NS, exiEvent.EventKind);
+          Assert.AreEqual("urn:foo", exiEvent.URI);
+          Assert.AreEqual("foo", exiEvent.Prefix);
+          Assert.IsNull(exiEvent.Name);
+          Assert.AreEqual(null, exiEvent.Characters);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_NS, eventType.itemType);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(2, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(5, eventTypeList.Length);
+            Assert.IsNotNull(eventTypeList.EE);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_NS, eventType.itemType);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_TP, exiEvent.EventKind);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.URI);
+          Assert.AreEqual("type", exiEvent.Name);
+          Assert.AreEqual("xsi", exiEvent.Prefix);
+          Assert.AreEqual(null, exiEvent.Characters);
+          Assert.AreEqual("anyType", ((EXIEventSchemaType)exiEvent).TypeName);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).TypeURI);
+          Assert.IsNull(((EXIEventSchemaType)exiEvent).TypePrefix);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(2, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(6, eventTypeList.Length);
+            Assert.IsNotNull(eventTypeList.EE);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_NS, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(5);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+        
+        // First None2
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+          Assert.AreEqual("None2", exiEvent.Name);
+          Assert.AreEqual("urn:foo", exiEvent.URI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          Assert.AreEqual(3, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(11, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(5);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(6);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(7);
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_THREE, eventType.Depth);
+          eventType = eventTypeList.item(8);
+          Assert.AreEqual(EventType.ITEM_NS, eventType.itemType);
+          eventType = eventTypeList.item(9);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(10);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+            eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.PeekState());
+            Assert.AreEqual(5, eventTypeList.Length);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_NS, eventType.itemType);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_TP, exiEvent.EventKind);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.URI);
+          Assert.AreEqual("type", exiEvent.Name);
+          Assert.AreEqual("xsi", exiEvent.Prefix);
+          Assert.AreEqual(null, exiEvent.Characters);
+          Assert.AreEqual("anyType", ((EXIEventSchemaType)exiEvent).TypeName);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).TypeURI);
+          Assert.IsNull(((EXIEventSchemaType)exiEvent).TypePrefix);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+            Assert.AreEqual(2, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(6, eventTypeList.Length);
+            Assert.IsNotNull(eventTypeList.EE);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_NS, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(5);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_ONE, eventType.Depth);
+          Assert.AreEqual(4, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(11, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(5);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(6);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(7);
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_THREE, eventType.Depth);
+          eventType = eventTypeList.item(8);
+          Assert.AreEqual(EventType.ITEM_NS, eventType.itemType);
+          eventType = eventTypeList.item(9);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(10);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+        }
+  
+        // Second None2
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+          Assert.AreEqual("None2", exiEvent.Name);
+          Assert.AreEqual("urn:foo", exiEvent.URI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          Assert.AreEqual(0, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(5, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+            
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+            eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.PeekState());
+            Assert.AreEqual(6, eventTypeList.Length);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_NS, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(5);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_TP, exiEvent.EventKind);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.URI);
+          Assert.AreEqual("type", exiEvent.Name);
+          Assert.AreEqual("xsi", exiEvent.Prefix);
+          Assert.AreEqual(null, exiEvent.Characters);
+          Assert.AreEqual("anyType", ((EXIEventSchemaType)exiEvent).TypeName);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).TypeURI);
+          Assert.IsNull(((EXIEventSchemaType)exiEvent).TypePrefix);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+            Assert.AreEqual(2, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(6, eventTypeList.Length);
+            Assert.IsNotNull(eventTypeList.EE);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_NS, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(5);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_ONE, eventType.Depth);
+          Assert.AreEqual(4, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(11, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(5);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(6);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(7);
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_THREE, eventType.Depth);
+          eventType = eventTypeList.item(8);
+          Assert.AreEqual(EventType.ITEM_NS, eventType.itemType);
+          eventType = eventTypeList.item(9);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(10);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_ONE, eventType.Depth);
+          Assert.AreEqual(1, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(5, eventTypeList.Length);
+          Assert.IsNotNull(eventTypeList.EE);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_ONE, eventType.Depth);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+        }
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_ED, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreSame(exiEvent, eventType);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(0, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(1, eventTypeList.Length);
+          }
+        }
+  
+        Assert.IsNull(scanner.nextEvent());
+        
+        Assert.AreEqual(12, n_events);
+      }
+    }
+
+    /**
+     * Excercise EXI Profile's grammar usage where type-cast is explicitly specified.
+     */
+    [Test]
+    public void testProfile_03() {
+      GrammarCache grammarCache = new GrammarCache(EmptySchema.EXISchema, GrammarOptions.DEFAULT_OPTIONS);
+      
+      String xmlString;
+      byte[] bts;
+      
+      xmlString =
+        "<foo:None xmlns:foo='urn:foo' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' " +
+          "xmlns:xsd='http://www.w3.org/2001/XMLSchema'>" +
+          "<foo:None2 xsi:type='xsd:int'></foo:None2>" +
+          "<foo:None2 xsi:type='xsd:boolean'></foo:None2>" + 
+        "</foo:None>";
+
+      foreach (AlignmentType alignment in Alignments) {
+        Transmogrifier encoder = new Transmogrifier();
+        EXIDecoder decoder = new EXIDecoder();
+        Scanner scanner;
+
+        encoder.DivertBuiltinGrammarToAnyType = true;
+        
+        encoder.AlignmentType = alignment;
+        decoder.AlignmentType = alignment;
+  
+        encoder.GrammarCache = grammarCache;
+        MemoryStream baos = new MemoryStream();
+        encoder.OutputStream = baos;
+
+        encoder.encode(new InputSource<Stream>(string2Stream(xmlString)));
+
+        bts = baos.ToArray();
+        
+        decoder.GrammarCache = grammarCache;
+        decoder.InputStream = new MemoryStream(bts);
+        scanner = decoder.processHeader();
+        
+        EventDescription exiEvent;
+        
+        EventType eventType;
+        EventTypeList eventTypeList;
+        
+        int n_events = 0;
+        int i;
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SD, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreSame(exiEvent, eventType);
+          Assert.AreEqual(0, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.IsNull(eventTypeList.EE);
+        }
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+          Assert.AreEqual("None", exiEvent.Name);
+          Assert.AreEqual("urn:foo", exiEvent.URI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = exiEvent.getEventType();
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(eventTypeList.Length - 1, eventType.Index);
+          Assert.IsNull(eventTypeList.EE);
+          
+          eventType = eventTypeList.item(0);
+          for (i = 1; i < eventTypeList.Length - 1; i++) {
+            EventType ith = eventTypeList.item(i);
+            if (!(eventType.name.CompareTo(ith.name) < 0)) {
+              Assert.AreEqual(eventType.name, ith.name);
+              Assert.IsTrue(eventType.uri.CompareTo(ith.uri) < 0);
+            }
+            eventType = ith;
+          }
+        }
+    
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_TP, exiEvent.EventKind);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.URI);
+          Assert.AreEqual("type", exiEvent.Name);
+          Assert.IsNull(exiEvent.Prefix);
+          Assert.AreEqual(null, exiEvent.Characters);
+          Assert.AreEqual("anyType", ((EXIEventSchemaType)exiEvent).TypeName);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).TypeURI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(2, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(5, eventTypeList.Length);
+            Assert.IsNotNull(eventTypeList.EE);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+        
+        // First None2
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+          Assert.AreEqual("None2", exiEvent.Name);
+          Assert.AreEqual("urn:foo", exiEvent.URI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          Assert.AreEqual(3, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(10, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(5);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(6);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(7);
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_THREE, eventType.Depth);
+          eventType = eventTypeList.item(8);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(9);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+            eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.PeekState());
+            Assert.AreEqual(4, eventTypeList.Length);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_TP, exiEvent.EventKind);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.URI);
+          Assert.AreEqual("type", exiEvent.Name);
+          Assert.IsNull(exiEvent.Prefix);
+          Assert.AreEqual(null, exiEvent.Characters);
+          Assert.AreEqual("int", ((EXIEventSchemaType)exiEvent).TypeName);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).TypeURI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+            Assert.AreEqual(2, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(5, eventTypeList.Length);
+            Assert.IsNotNull(eventTypeList.EE);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          Assert.AreEqual(3, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(8, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(5);
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_THREE, eventType.Depth);
+          eventType = eventTypeList.item(6);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(7);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+        }
+  
+        // Second None2
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+          Assert.AreEqual("None2", exiEvent.Name);
+          Assert.AreEqual("urn:foo", exiEvent.URI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          Assert.AreEqual(0, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(5, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+            
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+            eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.PeekState());
+            Assert.AreEqual(5, eventTypeList.Length);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_TP, exiEvent.EventKind);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.URI);
+          Assert.AreEqual("type", exiEvent.Name);
+          Assert.IsNull(exiEvent.Prefix);
+          Assert.AreEqual(null, exiEvent.Characters);
+          Assert.AreEqual("boolean", ((EXIEventSchemaType)exiEvent).TypeName);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).TypeURI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+            Assert.AreEqual(2, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(5, eventTypeList.Length);
+            Assert.IsNotNull(eventTypeList.EE);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          Assert.AreEqual(3, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(8, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(5);
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_THREE, eventType.Depth);
+          eventType = eventTypeList.item(6);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(7);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_ONE, eventType.Depth);
+          Assert.AreEqual(1, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(5, eventTypeList.Length);
+          Assert.IsNotNull(eventTypeList.EE);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_ONE, eventType.Depth);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+        }
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_ED, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreSame(exiEvent, eventType);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(0, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(1, eventTypeList.Length);
+          }
+        }
+  
+        Assert.IsNull(scanner.nextEvent());
+        
+        Assert.AreEqual(11, n_events);
+      }
+    }
+
+    /**
+     * Excercise xsi:nil with EXI Profile's grammar usage.
+     */
+    [Test]
+    public void testProfile_04() {
+      GrammarCache grammarCache = new GrammarCache(EmptySchema.EXISchema, GrammarOptions.DEFAULT_OPTIONS);
+      
+      String xmlString;
+      byte[] bts;
+      
+      xmlString =
+        "<foo:None xmlns:foo='urn:foo' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>" +
+          "<foo:None2 xsi:nil='true'></foo:None2>" +
+          "<foo:None2 xsi:nil='true'></foo:None2>" + 
+        "</foo:None>";
+
+      foreach (AlignmentType alignment in Alignments) {
+        Transmogrifier encoder = new Transmogrifier();
+        EXIDecoder decoder = new EXIDecoder();
+        Scanner scanner;
+
+        encoder.DivertBuiltinGrammarToAnyType = true;
+        
+        encoder.AlignmentType = alignment;
+        decoder.AlignmentType = alignment;
+  
+        encoder.GrammarCache = grammarCache;
+        MemoryStream baos = new MemoryStream();
+        encoder.OutputStream = baos;
+
+        encoder.encode(new InputSource<Stream>(string2Stream(xmlString)));
+
+        bts = baos.ToArray();
+        
+        decoder.GrammarCache = grammarCache;
+        decoder.InputStream = new MemoryStream(bts);
+        scanner = decoder.processHeader();
+        
+        EventDescription exiEvent;
+        
+        EventType eventType;
+        EventTypeList eventTypeList;
+        
+        int n_events = 0;
+        int i;
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SD, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreSame(exiEvent, eventType);
+          Assert.AreEqual(0, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.IsNull(eventTypeList.EE);
+        }
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+          Assert.AreEqual("None", exiEvent.Name);
+          Assert.AreEqual("urn:foo", exiEvent.URI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = exiEvent.getEventType();
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(eventTypeList.Length - 1, eventType.Index);
+          Assert.IsNull(eventTypeList.EE);
+          
+          eventType = eventTypeList.item(0);
+          for (i = 1; i < eventTypeList.Length - 1; i++) {
+            EventType ith = eventTypeList.item(i);
+            if (!(eventType.name.CompareTo(ith.name) < 0)) {
+              Assert.AreEqual(eventType.name, ith.name);
+              Assert.IsTrue(eventType.uri.CompareTo(ith.uri) < 0);
+            }
+            eventType = ith;
+          }
+        }
+    
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_TP, exiEvent.EventKind);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.URI);
+          Assert.AreEqual("type", exiEvent.Name);
+          Assert.IsNull(exiEvent.Prefix);
+          Assert.AreEqual(null, exiEvent.Characters);
+          Assert.AreEqual("anyType", ((EXIEventSchemaType)exiEvent).TypeName);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).TypeURI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(2, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(5, eventTypeList.Length);
+            Assert.IsNotNull(eventTypeList.EE);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+        
+        // First None2
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+          Assert.AreEqual("None2", exiEvent.Name);
+          Assert.AreEqual("urn:foo", exiEvent.URI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          Assert.AreEqual(3, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(10, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(5);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(6);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(7);
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_THREE, eventType.Depth);
+          eventType = eventTypeList.item(8);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(9);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+            eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.PeekState());
+            Assert.AreEqual(4, eventTypeList.Length);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_TP, exiEvent.EventKind);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.URI);
+          Assert.AreEqual("type", exiEvent.Name);
+          Assert.IsNull(exiEvent.Prefix);
+          Assert.AreEqual(null, exiEvent.Characters);
+          Assert.AreEqual("anyType", ((EXIEventSchemaType)exiEvent).TypeName);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).TypeURI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+            Assert.AreEqual(2, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(5, eventTypeList.Length);
+            Assert.IsNotNull(eventTypeList.EE);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_NL, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          Assert.AreEqual(1, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(10, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(5);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(6);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(7);
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_THREE, eventType.Depth);
+          eventType = eventTypeList.item(8);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(9);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+        }
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_ONE, eventType.Depth);
+          Assert.AreEqual(3, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(8, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(5);
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_THREE, eventType.Depth);
+          eventType = eventTypeList.item(6);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(7);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+        }
+  
+        // Second None2
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+          Assert.AreEqual("None2", exiEvent.Name);
+          Assert.AreEqual("urn:foo", exiEvent.URI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          Assert.AreEqual(0, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(5, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+            
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.BUILTIN_GRAMMAR_ELEMENT, scanner.currentState.targetGrammar.grammarType);
+            eventTypeList = scanner.currentState.targetGrammar.getNextEventTypes(scanner.PeekState());
+            Assert.AreEqual(5, eventTypeList.Length);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_TP, exiEvent.EventKind);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, exiEvent.URI);
+          Assert.AreEqual("type", exiEvent.Name);
+          Assert.IsNull(exiEvent.Prefix);
+          Assert.AreEqual(null, exiEvent.Characters);
+          Assert.AreEqual("anyType", ((EXIEventSchemaType)exiEvent).TypeName);
+          Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_URI, ((EXIEventSchemaType)exiEvent).TypeURI);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(Grammar.SCHEMA_GRAMMAR_ELEMENT_AND_TYPE, scanner.currentState.targetGrammar.grammarType);
+            Assert.AreEqual(2, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(5, eventTypeList.Length);
+            Assert.IsNotNull(eventTypeList.EE);
+            eventType = eventTypeList.item(0);
+            Assert.AreEqual(EventType.ITEM_AT, eventType.itemType);
+            Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, eventType.uri);
+            Assert.AreEqual("type", eventType.name);
+            eventType = eventTypeList.item(1);
+            Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(2);
+            Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+            Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+            eventType = eventTypeList.item(3);
+            Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+            eventType = eventTypeList.item(4);
+            Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+          }
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_NL, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          Assert.AreEqual(1, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(10, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(5);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(6);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(7);
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_THREE, eventType.Depth);
+          eventType = eventTypeList.item(8);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(9);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+        }
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_ONE, eventType.Depth);
+          Assert.AreEqual(3, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(8, eventTypeList.Length);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_TYPE, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_NIL, eventType.itemType);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_AT_WC_ANY, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_TWO, eventType.Depth);
+          eventType = eventTypeList.item(5);
+          Assert.AreEqual(EventType.ITEM_AT_WC_ANY_UNTYPED, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_THREE, eventType.Depth);
+          eventType = eventTypeList.item(6);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(7);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+        }
+  
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_ONE, eventType.Depth);
+          Assert.AreEqual(1, eventType.Index);
+          eventTypeList = eventType.EventTypeList;
+          Assert.AreEqual(5, eventTypeList.Length);
+          Assert.IsNotNull(eventTypeList.EE);
+          eventType = eventTypeList.item(0);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_WC_ANY, eventType.itemType);
+          eventType = eventTypeList.item(1);
+          Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+          Assert.AreEqual(EventCode.EVENT_CODE_DEPTH_ONE, eventType.Depth);
+          eventType = eventTypeList.item(2);
+          Assert.AreEqual(EventType.ITEM_SCHEMA_CH_MIXED, eventType.itemType);
+          eventType = eventTypeList.item(3);
+          Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+          eventType = eventTypeList.item(4);
+          Assert.AreEqual(EventType.ITEM_CH, eventType.itemType);
+        }
+        
+        if ((exiEvent = scanner.nextEvent()) != null) {
+          ++n_events;
+          Assert.AreEqual(EventDescription_Fields.EVENT_ED, exiEvent.EventKind);
+          eventType = exiEvent.getEventType();
+          Assert.AreSame(exiEvent, eventType);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            Assert.AreEqual(0, eventType.Index);
+            eventTypeList = eventType.EventTypeList;
+            Assert.AreEqual(1, eventTypeList.Length);
+          }
+        }
+  
+        Assert.IsNull(scanner.nextEvent());
+        
+        Assert.AreEqual(13, n_events);
+      }
     }
 
   }

@@ -84,7 +84,6 @@ namespace Nagasena.Proc.Grammars {
 
     public EXISchema schema;
     protected internal int[] m_types;
-  //  protected byte[] m_ancestryIds;
     protected internal short[] m_codecTable; // simple type serial -> codec id
     protected internal int[] m_restrictedCharacterCountTable; // simple type serial -> # in restricted character set
 
@@ -213,6 +212,10 @@ namespace Nagasena.Proc.Grammars {
     ///////////////////////////////////////////////////////////////////////////
     /// Utilities
     ///////////////////////////////////////////////////////////////////////////
+
+    public GrammarState PeekState() {
+      return m_statesStack[m_n_stackedStates - 1];
+    }
 
     internal GrammarState pushState() {
       int stackLength;

@@ -54,6 +54,8 @@ namespace Nagasena.Sax {
     private HeaderOptionsOutputType m_outputOptions;
     private readonly EXIOptions m_exiOptions;
 
+    private bool m_divertBuiltinGrammarToAnyType;
+
     private static readonly SchemaId SCHEMAID_NO_SCHEMA;
     private static readonly SchemaId SCHEMAID_EMPTY_SCHEMA;
     static Transmogrifier() {
@@ -99,6 +101,7 @@ namespace Nagasena.Sax {
        */
       m_outputOptions = HeaderOptionsOutputType.none;
       m_exiOptions = new EXIOptions();
+      m_divertBuiltinGrammarToAnyType = false;
     }
 
     /// <summary>
@@ -207,6 +210,12 @@ namespace Nagasena.Sax {
     public int ValuePartitionCapacity {
       set {
         m_exiOptions.ValuePartitionCapacity = value;
+      }
+    }
+
+    public bool DivertBuiltinGrammarToAnyType {
+      set {
+        m_divertBuiltinGrammarToAnyType = value;
       }
     }
 
@@ -729,7 +738,7 @@ namespace Nagasena.Sax {
         locusItem.prefixUriBindings = m_prefixUriBindings;
         try {
           EventTypeList eventTypes = m_scriber.NextEventTypes;
-          int i, j, i_len, j_len;
+          int i, j, i_len;
           EventType eventType = null;
           string eventTypeUri;
           sbyte itemType = -1;
@@ -802,6 +811,7 @@ namespace Nagasena.Sax {
             }
 
             bool isSchemaInformedGrammar = m_scriber.currentState.targetGrammar.SchemaInformed;
+            bool useATStarForXsiType = outerInstance.m_divertBuiltinGrammarToAnyType && grammarType == Grammar.BUILTIN_GRAMMAR_ELEMENT;
 
             int positionOfNil = -1; // position of legitimate xsi:nil
             int positionOfType = -1; // position of legitimate xsi:type
@@ -820,36 +830,9 @@ namespace Nagasena.Sax {
                 else if (XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI.Equals(instanceUri)) {
                   string instanceName = attrs.GetLocalName(i);
                   if ("type".Equals(instanceName)) {
-                    eventTypes = m_scriber.NextEventTypes;
-                    for (j = 0, j_len = eventTypes.Length; j < j_len; j++) {
-                      eventType = eventTypes.item(j);
-                      switch (itemType = eventType.itemType) {
-                        case EventType.ITEM_SCHEMA_TYPE:
-                          goto iterateEventTypesBreak;
-                        case EventType.ITEM_AT_WC_ANY_UNTYPED:
-                          if (!isSchemaInformedGrammar) {
-                            goto iterateEventTypesBreak;
-                          }
-                          break;
-                        case EventType.ITEM_AT:
-                          Debug.Assert(!isSchemaInformedGrammar);
-                          if ("type".Equals(eventType.name) && XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI.Equals(eventType.uri)) {
-                            goto iterateEventTypesBreak;
-                          }
-                          break;
-                      }
-                    }
-                    iterateEventTypesBreak:
-                    if (j != j_len) { // xsi:type had a matching event type
-                      positionOfType = i;
-                      eventTypeForType = eventType;
-                      --n_attrs;
-                      continue;
-                    }
-                    Debug.Assert(isSchemaInformedGrammar);
-                    m_transmogrifierException = new TransmogrifierException(TransmogrifierException.UNEXPECTED_ATTR, 
-                      new string[] { "type", XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, attrs.GetValue(i) }, new LocatorImpl(m_locator));
-                    throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
+                    positionOfType = i;
+                    --n_attrs;
+                    continue;
                   }
                   else if ("nil".Equals(instanceName)) {
                     positionOfNil = i;
@@ -863,16 +846,34 @@ namespace Nagasena.Sax {
                 sortedAttributes.Add(comparableAttribute);
               }
             }
+            if (positionOfType != -1 || useATStarForXsiType) {
+              if ((eventTypeForType = matchXsiType(m_scriber.NextEventTypes, useATStarForXsiType)) == null) { // xsi:type had no matching event type
+                Debug.Assert(isSchemaInformedGrammar);
+                m_transmogrifierException = new TransmogrifierException(TransmogrifierException.UNEXPECTED_ATTR,
+                    new String[] { "type", XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, attrs.GetValue(positionOfType) }, new LocatorImpl(m_locator));
+                throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
+              }
+            }
 
             EXISchema corpus = m_grammarCache.EXISchema;
-            if (positionOfType != -1) {
+            if (outerInstance.m_divertBuiltinGrammarToAnyType || positionOfType != -1) {
               m_scriber.writeEventType(eventTypeForType);
-              m_scriber.writeQName(qname.setValue(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, "type", 
-                hasNS ? getPrefixOfQualifiedName(attrs.GetQName(positionOfType)) : null), eventTypeForType);
-              string xsiType = attrs.GetValue(positionOfType);
-              m_scriber.writeXsiTypeValue(setXsiTypeValue(qname, xsiType, m_prefixUriBindings));
+              String prefix = hasNS ? (positionOfType != -1 ? getPrefixOfQualifiedName(attrs.GetQName(positionOfType)) : "") : null;
+              m_scriber.writeQName(qname.setValue(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, "type", prefix), eventTypeForType);
+              if (positionOfType != -1) {
+                String xsiType = attrs.GetValue(positionOfType);
+                setXsiTypeValue(qname, xsiType, m_prefixUriBindings);
+              }
+              else {
+                qname.qName = "anyType";
+                qname.namespaceName = XmlUriConst.W3C_2001_XMLSCHEMA_URI;
+                qname.localName = "anyType";
+                qname.prefix = "";
+              }
+              m_scriber.writeXsiTypeValue(qname);
               if (!isSchemaInformedGrammar && (itemType = eventTypeForType.itemType) == EventType.ITEM_AT_WC_ANY_UNTYPED) {
-                m_scriber.wildcardAttribute(eventTypeForType.Index, XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI_ID, EXISchemaConst.XSI_LOCALNAME_TYPE_ID);
+                m_scriber.wildcardAttribute(eventTypeForType.Index, XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI_ID,
+                    EXISchemaConst.XSI_LOCALNAME_TYPE_ID);
               }
               if (corpus != null) {
                 int tp;
@@ -1497,6 +1498,32 @@ namespace Nagasena.Sax {
             throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
           }
         }
+      }
+
+      private EventType matchXsiType(EventTypeList eventTypes, bool useWildcardAT) {
+        Grammar targetGrammar = m_scriber.currentState.targetGrammar;
+        sbyte grammarType = targetGrammar.grammarType;
+        bool isSchemaInformedGrammar = targetGrammar.SchemaInformed;
+        for (int j = 0, j_len = eventTypes.Length; j < j_len; j++) {
+          EventType eventType = eventTypes.item(j);
+          switch (eventType.itemType) {
+            case EventType.ITEM_SCHEMA_TYPE:
+              Debug.Assert(grammarType != Grammar.BUILTIN_GRAMMAR_ELEMENT);
+              return eventType;
+            case EventType.ITEM_AT_WC_ANY_UNTYPED:
+              if (!isSchemaInformedGrammar)
+                return eventType;
+              break;
+            case EventType.ITEM_AT:
+              Debug.Assert(!isSchemaInformedGrammar);
+              if (!useWildcardAT && "type".Equals(eventType.name) && 
+                  XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI.Equals(eventType.uri)) {
+                return eventType;
+              }
+              break;
+          }
+        }
+        return null;
       }
 
     }
