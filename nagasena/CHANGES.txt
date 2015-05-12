@@ -1,3 +1,12 @@
+2015-05-12 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0052.0
+
+- Minor code cleanup.
+
+M       test/org/openexi/sax/GrammarBuiltinTest.java
+M       src/org/openexi/proc/grammars/Apparatus.java
+
 2015-05-07 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0052.0

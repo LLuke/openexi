@@ -4794,8 +4794,6 @@ public class GrammarBuiltinTest extends TestBase {
    * Excercise EXI Profile's grammar usage.
    */
   public void testProfile_01() throws Exception {
-    Assert.assertEquals(0, m_compilerErrors.getTotalCount());
-
     GrammarCache grammarCache = new GrammarCache(EmptySchema.getEXISchema(), GrammarOptions.DEFAULT_OPTIONS);
     
     final String xmlString;
@@ -5176,8 +5174,6 @@ public class GrammarBuiltinTest extends TestBase {
    * Exercise NS production with EXI Profile's grammar usage.
    */
   public void testProfile_02() throws Exception {
-    Assert.assertEquals(0, m_compilerErrors.getTotalCount());
-
     GrammarCache grammarCache = new GrammarCache(EmptySchema.getEXISchema(), GrammarOptions.addNS(GrammarOptions.DEFAULT_OPTIONS));
     
     final String xmlString;
@@ -5609,8 +5605,6 @@ public class GrammarBuiltinTest extends TestBase {
    * Excercise EXI Profile's grammar usage where type-cast is explicitly specified.
    */
   public void testProfile_03() throws Exception {
-    Assert.assertEquals(0, m_compilerErrors.getTotalCount());
-
     GrammarCache grammarCache = new GrammarCache(EmptySchema.getEXISchema(), GrammarOptions.DEFAULT_OPTIONS);
     
     final String xmlString;
@@ -5986,8 +5980,6 @@ public class GrammarBuiltinTest extends TestBase {
    * Excercise xsi:nil with EXI Profile's grammar usage.
    */
   public void testProfile_04() throws Exception {
-    Assert.assertEquals(0, m_compilerErrors.getTotalCount());
-
     GrammarCache grammarCache = new GrammarCache(EmptySchema.getEXISchema(), GrammarOptions.DEFAULT_OPTIONS);
     
     final String xmlString;

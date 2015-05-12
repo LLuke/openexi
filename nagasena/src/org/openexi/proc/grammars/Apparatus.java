@@ -82,7 +82,6 @@ public abstract class Apparatus {
   
   public EXISchema schema;
   protected int[] m_types;
-//  protected byte[] m_ancestryIds;
   protected short[] m_codecTable; // simple type serial -> codec id
   protected int[] m_restrictedCharacterCountTable; // simple type serial -> # in restricted character set
 
