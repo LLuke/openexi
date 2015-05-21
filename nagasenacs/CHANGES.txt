@@ -1,3 +1,11 @@
+2015-05-21 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0051.0
+
+- Added SaxAdapter.cs
+
+A       src/Nagasena/Sax/SaxAdapter.cs
+
 2015-05-12 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0051.0
