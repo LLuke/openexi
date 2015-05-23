@@ -710,7 +710,7 @@ public abstract class Scanner extends Apparatus {
    */
   protected final int readURI() throws IOException {
     final int width, id;
-    width = stringTable.uriForwardedWidth;
+    width = stringTable.uriWidth;
     final int uriId;
     id = readNBitUnsigned(width, m_inputStream);
     if (id != 0)

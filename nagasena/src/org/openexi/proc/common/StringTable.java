@@ -40,7 +40,7 @@ public final class StringTable {
   private URIEntry[] m_uriList;
   
   public int n_uris = 0;
-  public int uriForwardedWidth = 0;
+  public int uriWidth = 0;
   
   private final int m_start_n_uris;
   private final int m_start_uriForwardedWidth;
@@ -103,7 +103,7 @@ public final class StringTable {
       addURI(localNamePartition.uri, localNamePartition, prefixPartition);
     }
     m_start_n_uris = n_uris;
-    m_start_uriForwardedWidth = uriForwardedWidth;
+    m_start_uriForwardedWidth = uriWidth;
   }
 
   public void reset() {
@@ -139,7 +139,7 @@ public final class StringTable {
       }
     }
     n_uris = m_start_n_uris;
-    uriForwardedWidth = m_start_uriForwardedWidth;
+    uriWidth = m_start_uriForwardedWidth;
     
   	// Reset Global value partition
     globalValuePartition.reset();
@@ -222,7 +222,7 @@ public final class StringTable {
       m_uriMap.put(uri, uriEntry);
     m_uriList[n_uris] = uriEntry;
     if ((n_uris++ & n_uris) == 0) // i.e. n_uris (after increment) is a power of 2
-      ++uriForwardedWidth;
+      ++uriWidth;
       
     return number;
   }

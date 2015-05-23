@@ -463,7 +463,7 @@ public abstract class Scriber extends Apparatus {
   protected final int writeURI(String uri, OutputStream structureChannelStream) throws IOException {
     final int n_uris, width, uriId;
     n_uris = stringTable.n_uris;
-    width = stringTable.uriForwardedWidth;
+    width = stringTable.uriWidth;
     if ((uriId = stringTable.internURI(uri)) < n_uris)
       writeNBitUnsigned(uriId + 1, width, structureChannelStream);
     else {

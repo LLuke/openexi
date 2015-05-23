@@ -1,3 +1,15 @@
+2015-05-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0052.1
+
+- Minor variable name changes.
+
+M       test/org/openexi/proc/io/URIPartitionTest.java
+M       src/org/openexi/proc/io/Scanner.java
+M       src/org/openexi/proc/io/Scriber.java
+M       src/org/openexi/proc/common/StringTable.java
+M       build.xml
+
 2015-05-12 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0052.0
