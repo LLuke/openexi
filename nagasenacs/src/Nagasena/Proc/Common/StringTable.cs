@@ -41,13 +41,9 @@ namespace Nagasena.Proc.Common {
 
     public int n_uris = 0;
     public int uriWidth = 0;
-    public int uriForwardedWidth = 0;
-    private int m_uriMilestone = 1;
 
     private readonly int m_start_n_uris;
-    private readonly int m_start_uriWidth;
     private readonly int m_start_uriForwardedWidth;
-    private readonly int m_start_uriMilestone;
 
     private readonly IDictionary<string, URIEntry> m_uriMap;
     private readonly LocalNamePartition[] m_initialLocalNamePartitions;
@@ -107,9 +103,7 @@ namespace Nagasena.Proc.Common {
         addURI(localNamePartition.uri, localNamePartition, prefixPartition);
       }
       m_start_n_uris = n_uris;
-      m_start_uriWidth = uriWidth;
-      m_start_uriForwardedWidth = uriForwardedWidth;
-      m_start_uriMilestone = m_uriMilestone;
+      m_start_uriForwardedWidth = uriWidth;
     }
 
     public void reset() {
@@ -148,9 +142,7 @@ namespace Nagasena.Proc.Common {
         }
       }
       n_uris = m_start_n_uris;
-      uriWidth = m_start_uriWidth;
-      uriForwardedWidth = m_start_uriForwardedWidth;
-      m_uriMilestone = m_start_uriMilestone;
+      uriWidth = m_start_uriForwardedWidth;
 
       // Reset Global value partition
       globalValuePartition.reset();
@@ -233,17 +225,11 @@ namespace Nagasena.Proc.Common {
         uriEntry.prefixPartition = prefixPartition;
       }
 
-      if (m_useMap) {
+      if (m_useMap)
         m_uriMap[uri] = uriEntry;
-      }
       m_uriList[n_uris] = uriEntry;
-      if (n_uris++ == m_uriMilestone) {
+      if ((n_uris++ & n_uris) == 0) // i.e. n_uris (after increment) is a power of 2
         ++uriWidth;
-        m_uriMilestone <<= 1;
-      }
-      if (n_uris == m_uriMilestone) {
-        ++uriForwardedWidth;
-      }
       return number;
     }
 

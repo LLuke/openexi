@@ -462,7 +462,7 @@ namespace Nagasena.Proc.IO {
     protected internal int writeURI(string uri, Stream structureChannelStream) {
       int n_uris, width, uriId;
       n_uris = stringTable.n_uris;
-      width = stringTable.uriForwardedWidth;
+      width = stringTable.uriWidth;
       if ((uriId = stringTable.internURI(uri)) < n_uris) {
         writeNBitUnsigned(uriId + 1, width, structureChannelStream);
       }

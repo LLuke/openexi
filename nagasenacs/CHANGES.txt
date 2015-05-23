@@ -1,3 +1,15 @@
+2015-05-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0052.0
+
+- Modified how width of URIs are calculated.
+
+M       test/Nagasena/Proc/IO/URIPartitionTest.cs
+M       src/AssemblyInfo.cs
+M       src/Nagasena/Proc/IO/Scriber.cs
+M       src/Nagasena/Proc/IO/Scanner.cs
+M       src/Nagasena/Proc/Common/StringTable.cs
+
 2015-05-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0051.1

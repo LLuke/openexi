@@ -23,7 +23,6 @@ namespace Nagasena.Proc.IO {
       stringTable = Scriber.createStringTable(null);
 
       Assert.AreEqual(2, stringTable.uriWidth);
-      Assert.AreEqual(2, stringTable.uriForwardedWidth);
 
       Assert.AreEqual(3, stringTable.n_uris);
       Assert.AreEqual(0, stringTable.getCompactIdOfURI(""));
@@ -38,8 +37,7 @@ namespace Nagasena.Proc.IO {
 
       stringTable = Scriber.createStringTable(grammarCache);
 
-      Assert.AreEqual(2, stringTable.uriWidth);
-      Assert.AreEqual(3, stringTable.uriForwardedWidth);
+      Assert.AreEqual(3, stringTable.uriWidth);
 
       Assert.AreEqual(4, stringTable.n_uris);
       Assert.AreEqual(0, stringTable.getCompactIdOfURI(""));
@@ -61,8 +59,7 @@ namespace Nagasena.Proc.IO {
 
       stringTable = Scriber.createStringTable(grammarCache);
 
-      Assert.AreEqual(2, stringTable.uriWidth);
-      Assert.AreEqual(3, stringTable.uriForwardedWidth);
+      Assert.AreEqual(3, stringTable.uriWidth);
 
       Assert.AreEqual(4, stringTable.n_uris);
       Assert.AreEqual(0, stringTable.getCompactIdOfURI(""));
@@ -72,8 +69,7 @@ namespace Nagasena.Proc.IO {
 
       stringTable.reset();
 
-      Assert.AreEqual(2, stringTable.uriWidth);
-      Assert.AreEqual(3, stringTable.uriForwardedWidth);
+      Assert.AreEqual(3, stringTable.uriWidth);
 
       Assert.AreEqual(4, stringTable.n_uris);
       Assert.AreEqual(0, stringTable.getCompactIdOfURI(""));
@@ -88,7 +84,6 @@ namespace Nagasena.Proc.IO {
       stringTable = Scriber.createStringTable(grammarCache);
 
       Assert.AreEqual(3, stringTable.uriWidth);
-      Assert.AreEqual(3, stringTable.uriForwardedWidth);
 
       Assert.AreEqual(5, stringTable.n_uris);
       Assert.AreEqual(0, stringTable.getCompactIdOfURI(""));
@@ -100,7 +95,6 @@ namespace Nagasena.Proc.IO {
       stringTable.reset();
 
       Assert.AreEqual(3, stringTable.uriWidth);
-      Assert.AreEqual(3, stringTable.uriForwardedWidth);
 
       Assert.AreEqual(5, stringTable.n_uris);
       Assert.AreEqual(0, stringTable.getCompactIdOfURI(""));
@@ -117,33 +111,26 @@ namespace Nagasena.Proc.IO {
       stringTable = Scriber.createStringTable(null);
 
       Assert.AreEqual(2, stringTable.uriWidth);
-      Assert.AreEqual(2, stringTable.uriForwardedWidth);
       Assert.AreEqual(3, stringTable.n_uris);
 
       Assert.AreEqual(3, stringTable.internURI("03"));
-      Assert.AreEqual(2, stringTable.uriWidth);
-      Assert.AreEqual(3, stringTable.uriForwardedWidth);
+      Assert.AreEqual(3, stringTable.uriWidth);
       Assert.AreEqual(4, stringTable.n_uris);
       Assert.AreEqual(4, stringTable.internURI("04"));
       Assert.AreEqual(3, stringTable.uriWidth);
-      Assert.AreEqual(3, stringTable.uriForwardedWidth);
       Assert.AreEqual(5, stringTable.n_uris);
       Assert.AreEqual(5, stringTable.internURI("05"));
       Assert.AreEqual(3, stringTable.uriWidth);
-      Assert.AreEqual(3, stringTable.uriForwardedWidth);
       Assert.AreEqual(6, stringTable.n_uris);
       Assert.AreEqual(6, stringTable.internURI("06"));
       Assert.AreEqual(3, stringTable.uriWidth);
-      Assert.AreEqual(3, stringTable.uriForwardedWidth);
       Assert.AreEqual(7, stringTable.n_uris);
       Assert.AreEqual(3, stringTable.internURI("03"));
       Assert.AreEqual(7, stringTable.internURI("07"));
-      Assert.AreEqual(3, stringTable.uriWidth);
-      Assert.AreEqual(4, stringTable.uriForwardedWidth);
+      Assert.AreEqual(4, stringTable.uriWidth);
       Assert.AreEqual(8, stringTable.n_uris);
       Assert.AreEqual(8, stringTable.internURI("08"));
       Assert.AreEqual(4, stringTable.uriWidth);
-      Assert.AreEqual(4, stringTable.uriForwardedWidth);
       Assert.AreEqual(9, stringTable.n_uris);
 
 
@@ -153,30 +140,24 @@ namespace Nagasena.Proc.IO {
 
       stringTable = Scriber.createStringTable(grammarCache);
 
-      Assert.AreEqual(2, stringTable.uriWidth);
-      Assert.AreEqual(3, stringTable.uriForwardedWidth);
+      Assert.AreEqual(3, stringTable.uriWidth);
       Assert.AreEqual(4, stringTable.n_uris);
 
       Assert.AreEqual(4, stringTable.internURI("04"));
       Assert.AreEqual(3, stringTable.uriWidth);
-      Assert.AreEqual(3, stringTable.uriForwardedWidth);
       Assert.AreEqual(5, stringTable.n_uris);
       Assert.AreEqual(5, stringTable.internURI("05"));
       Assert.AreEqual(3, stringTable.uriWidth);
-      Assert.AreEqual(3, stringTable.uriForwardedWidth);
       Assert.AreEqual(6, stringTable.n_uris);
       Assert.AreEqual(6, stringTable.internURI("06"));
       Assert.AreEqual(3, stringTable.uriWidth);
-      Assert.AreEqual(3, stringTable.uriForwardedWidth);
       Assert.AreEqual(7, stringTable.n_uris);
       Assert.AreEqual(4, stringTable.internURI("04"));
       Assert.AreEqual(7, stringTable.internURI("07"));
-      Assert.AreEqual(3, stringTable.uriWidth);
-      Assert.AreEqual(4, stringTable.uriForwardedWidth);
+      Assert.AreEqual(4, stringTable.uriWidth);
       Assert.AreEqual(8, stringTable.n_uris);
       Assert.AreEqual(8, stringTable.internURI("08"));
       Assert.AreEqual(4, stringTable.uriWidth);
-      Assert.AreEqual(4, stringTable.uriForwardedWidth);
       Assert.AreEqual(9, stringTable.n_uris);
     }
 

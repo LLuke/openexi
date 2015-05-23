@@ -756,7 +756,7 @@ namespace Nagasena.Proc.IO {
     /// </summary>
     protected internal int readURI() {
       int width, id;
-      width = stringTable.uriForwardedWidth;
+      width = stringTable.uriWidth;
       int uriId;
       id = readNBitUnsigned(width, m_inputStream);
       if (id != 0) {
