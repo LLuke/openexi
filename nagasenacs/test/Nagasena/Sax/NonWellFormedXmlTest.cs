@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Xml;
 using NUnit.Framework;
 
 using Org.System.Xml.Sax;
@@ -38,9 +39,8 @@ namespace Nagasena.Sax {
       try {
         encoder.encode(new InputSource<Stream>(string2Stream(xmlString)));
       }
-      catch (TransmogrifierException te) {
-        ILocator locator = te.Locator;
-        Assert.AreEqual(3, locator.LineNumber);
+      catch (XmlException xe) {
+        Assert.AreEqual(3, xe.LineNumber);
         return;
       }
       Assert.Fail();

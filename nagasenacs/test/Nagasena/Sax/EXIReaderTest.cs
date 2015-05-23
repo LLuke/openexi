@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 using NUnit.Framework;
 
 using Org.System.Xml.Sax;
@@ -13,6 +14,7 @@ using AlignmentType = Nagasena.Proc.Common.AlignmentType;
 using GrammarOptions = Nagasena.Proc.Common.GrammarOptions;
 using XmlUriConst = Nagasena.Proc.Common.XmlUriConst;
 using GrammarCache = Nagasena.Proc.Grammars.GrammarCache;
+using EmptySchema = Nagasena.Schema.EmptySchema;
 using EXISchema = Nagasena.Schema.EXISchema;
 using TestBase = Nagasena.Schema.TestBase;
 
@@ -940,7 +942,6 @@ namespace Nagasena.Sax {
 
       foreach (AlignmentType alignment in Alignments) {
         Transmogrifier encoder = new Transmogrifier();
-        encoder.ResolveExternalGeneralEntities = false;
         EXIReader decoder = new EXIReader();
 
         encoder.AlignmentType = alignment;
@@ -952,9 +953,12 @@ namespace Nagasena.Sax {
         MemoryStream baos = new MemoryStream();
         encoder.OutputStream = baos;
 
-        InputSource inputSource = new InputSource<Stream>(string2Stream(xmlString));
-        inputSource.SystemId = resolveSystemIdAsURL("/").ToString();
-        encoder.encode(inputSource);
+        String systemId = resolveSystemIdAsURL("/").ToString();
+
+        XmlTextReader xmlTextReader;
+        xmlTextReader = new XmlTextReader(systemId, string2Stream(xmlString));
+
+        encoder.encode(xmlTextReader, systemId);
 
         bts = baos.ToArray();
 
@@ -1069,6 +1073,123 @@ namespace Nagasena.Sax {
         saxEvent = exiEventList[n++];
         Assert.AreEqual(Event.END_NAMESPACE, saxEvent.type);
         Assert.AreEqual("s4", saxEvent.name);
+
+        Assert.AreEqual(exiEventList.Count, n);
+      }
+    }
+
+    /// <summary>
+    /// Schema:
+    /// None available
+    /// 
+    /// Instance:
+    /// <None>&abc;&def;</None>
+    /// </summary>
+    [Test]
+    public virtual void testBuiltinEntityRefResolution() {
+      EXISchema corpus = EmptySchema.EXISchema;
+
+      GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addDTD(GrammarOptions.DEFAULT_OPTIONS));
+
+      string xmlString;
+      byte[] bts;
+
+      xmlString = "<!DOCTYPE None [ <!ENTITY ent SYSTEM 'entity01.ent'> ]><None xmlns='urn:foo'>&ent;&ent;</None>\n";
+
+      XmlReaderSettings settings = new XmlReaderSettings();
+      settings.ValidationType = System.Xml.ValidationType.None;
+      settings.DtdProcessing = DtdProcessing.Parse;
+
+      foreach (AlignmentType alignment in Alignments) {
+        Transmogrifier encoder = new Transmogrifier();
+        EXIReader decoder = new EXIReader();
+
+        encoder.AlignmentType = alignment;
+        decoder.AlignmentType = alignment;
+
+        encoder.GrammarCache = grammarCache;
+        decoder.GrammarCache = grammarCache;
+
+        MemoryStream baos = new MemoryStream();
+        encoder.OutputStream = baos;
+
+        String systemId = resolveSystemIdAsURL("/whatever.xml").ToString();
+
+        encoder.encode(XmlReader.Create(string2Stream(xmlString), settings, systemId), systemId);
+
+        bts = baos.ToArray();
+
+        List<Event> exiEventList = new List<Event>();
+        SAXRecorder saxRecorder = new SAXRecorder(exiEventList, true);
+        decoder.ContentHandler = saxRecorder;
+        decoder.LexicalHandler = saxRecorder;
+
+        decoder.Parse(new MemoryStream(bts));
+
+        Assert.AreEqual(13, exiEventList.Count);
+
+        Event saxEvent;
+
+        int n = 0;
+
+        saxEvent = exiEventList[n++];
+        Assert.AreEqual(Event.DOCTYPE, saxEvent.type);
+        Assert.AreEqual("None", saxEvent.name);
+
+        saxEvent = exiEventList[n++];
+        Assert.AreEqual(Event.END_DTD, saxEvent.type);
+
+        saxEvent = exiEventList[n++];
+        Assert.AreEqual(Event.NAMESPACE, saxEvent.type);
+        Assert.AreEqual(XmlUriConst.W3C_XML_1998_URI, saxEvent.@namespace);
+        Assert.AreEqual("xml", saxEvent.name);
+
+        saxEvent = exiEventList[n++];
+        Assert.AreEqual(Event.NAMESPACE, saxEvent.type);
+        Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, saxEvent.@namespace);
+        Assert.AreEqual("xsi", saxEvent.name);
+
+        saxEvent = exiEventList[n++];
+        Assert.AreEqual(Event.NAMESPACE, saxEvent.type);
+        Assert.AreEqual(XmlUriConst.W3C_2001_XMLSCHEMA_URI, saxEvent.@namespace);
+        Assert.AreEqual("xsd", saxEvent.name);
+
+        saxEvent = exiEventList[n++];
+        Assert.AreEqual(Event.NAMESPACE, saxEvent.type);
+        Assert.AreEqual("urn:foo", saxEvent.@namespace);
+        Assert.AreEqual("p0", saxEvent.name);
+
+        saxEvent = exiEventList[n++];
+        Assert.AreEqual(Event.START_ELEMENT, saxEvent.type);
+        Assert.AreEqual("urn:foo", saxEvent.@namespace);
+        Assert.AreEqual("None", saxEvent.localName);
+        Assert.AreEqual("p0:None", saxEvent.name);
+
+        saxEvent = exiEventList[n++];
+        Assert.AreEqual(Event.CHARACTERS, saxEvent.type);
+        Assert.AreEqual("ABCABC", new String(saxEvent.charValue));
+
+        saxEvent = exiEventList[n++];
+        Assert.AreEqual(Event.END_ELEMENT, saxEvent.type);
+        Assert.AreEqual("urn:foo", saxEvent.@namespace);
+        Assert.AreEqual("None", saxEvent.localName);
+        Assert.AreEqual("p0:None", saxEvent.name);
+
+        saxEvent = exiEventList[n++];
+        Assert.AreEqual(Event.END_NAMESPACE, saxEvent.type);
+        Assert.AreEqual("xml", saxEvent.name);
+
+        saxEvent = exiEventList[n++];
+        Assert.AreEqual(Event.END_NAMESPACE, saxEvent.type);
+        Assert.AreEqual("xsi", saxEvent.name);
+
+        saxEvent = exiEventList[n++];
+        Assert.AreEqual(Event.END_NAMESPACE, saxEvent.type);
+        Assert.AreEqual("xsd", saxEvent.name);
+
+        saxEvent = exiEventList[n++];
+        Assert.AreEqual(Event.END_NAMESPACE, saxEvent.type);
+        Assert.AreEqual("p0", saxEvent.name);
 
         Assert.AreEqual(exiEventList.Count, n);
       }

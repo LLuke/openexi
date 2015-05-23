@@ -7,7 +7,6 @@ using NUnit.Framework;
 using Org.System.Xml.Sax;
 using LocatorImpl = Org.System.Xml.Sax.Helpers.LocatorImpl;
 using AttributesImpl = Org.System.Xml.Sax.Helpers.AttributesImpl;
-using SaxDriver = AElfred.SaxDriver;
 
 using EXIDecoder = Nagasena.Proc.EXIDecoder;
 using AlignmentType = Nagasena.Proc.Common.AlignmentType;
@@ -101,8 +100,7 @@ namespace Nagasena.Sax {
 
         SAXTransmogrifier saxTransmogrifier;
 
-        SaxDriver xmlReader = new SaxDriver();
-        xmlReader.SetFeature(Constants.NamespacesFeature, true);
+        SaxAdapter xmlReader = new SaxAdapter();
         saxTransmogrifier = encoder.SAXTransmogrifier;
         xmlReader.ContentHandler = saxTransmogrifier;
 
@@ -323,8 +321,7 @@ namespace Nagasena.Sax {
         MemoryStream baos = new MemoryStream();
         encoder.OutputStream = baos;
 
-        SaxDriver xmlReader = new SaxDriver();
-        xmlReader.SetFeature(Constants.NamespacesFeature, true);
+        SaxAdapter xmlReader = new SaxAdapter();
         xmlReader.ContentHandler = encoder.SAXTransmogrifier;
 
         caught = false;
@@ -382,8 +379,7 @@ namespace Nagasena.Sax {
         MemoryStream baos = new MemoryStream();
         encoder.OutputStream = baos;
 
-        SaxDriver xmlReader = new SaxDriver();
-        xmlReader.SetFeature(Constants.NamespacesFeature, true);
+        SaxAdapter xmlReader = new SaxAdapter();
         xmlReader.ContentHandler = encoder.SAXTransmogrifier;
         xmlReader.LexicalHandler = encoder.SAXTransmogrifier;
 

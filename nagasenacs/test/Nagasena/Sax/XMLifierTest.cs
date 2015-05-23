@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 using NUnit.Framework;
 
 using Org.System.Xml.Sax;
@@ -412,7 +413,6 @@ namespace Nagasena.Sax {
 
       foreach (AlignmentType alignment in Alignments) {
         Transmogrifier encoder = new Transmogrifier();
-        encoder.ResolveExternalGeneralEntities = false;
         XMLifier decoder = new XMLifier();
 
         encoder.AlignmentType = alignment;
@@ -424,9 +424,12 @@ namespace Nagasena.Sax {
         MemoryStream baos = new MemoryStream();
         encoder.OutputStream = baos;
 
-        InputSource inputSource = new InputSource<Stream>(string2Stream(xmlString));
-        inputSource.SystemId = resolveSystemIdAsURL("/").ToString();
-        encoder.encode(inputSource);
+        String systemId = resolveSystemIdAsURL("/").ToString();
+
+        XmlTextReader xmlTextReader;
+        xmlTextReader = new XmlTextReader(systemId, string2Stream(xmlString));
+
+        encoder.encode(xmlTextReader, systemId);
 
         bts = baos.ToArray();
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Xml;
 using NUnit.Framework;
 
 using Org.System.Xml.Sax;
@@ -206,8 +207,12 @@ namespace Nagasena.Sax {
       byte[] bts;
       int n_events;
 
-      InputSource inputSource;
       Uri url = resolveSystemIdAsURL("/dtdComments.xml");
+      String systemId = url.ToString();
+
+      XmlReaderSettings settings = new XmlReaderSettings();
+      settings.ValidationType = System.Xml.ValidationType.None;
+      settings.DtdProcessing = DtdProcessing.Parse;
 
       foreach (AlignmentType alignment in Alignments) {
         Transmogrifier encoder = new Transmogrifier();
@@ -222,9 +227,7 @@ namespace Nagasena.Sax {
         encoder.OutputStream = baos;
 
         FileStream inputStream = new FileStream(url.LocalPath, FileMode.Open);
-        inputSource = new InputSource<Stream>(inputStream, url.ToString());
-
-        encoder.encode(inputSource);
+        encoder.encode(XmlReader.Create(inputStream, settings, systemId), systemId);
 
         bts = baos.ToArray();
 
@@ -459,7 +462,6 @@ namespace Nagasena.Sax {
 
       foreach (AlignmentType alignment in Alignments) {
         Transmogrifier encoder = new Transmogrifier();
-        encoder.ResolveExternalGeneralEntities = false;
         EXIDecoder decoder = new EXIDecoder();
         Scanner scanner;
 
@@ -470,9 +472,12 @@ namespace Nagasena.Sax {
         MemoryStream baos = new MemoryStream();
         encoder.OutputStream = baos;
 
-        InputSource inputSource = new InputSource<Stream>(string2Stream(xmlString));
-        inputSource.SystemId = resolveSystemIdAsURL("/").ToString();
-        encoder.encode(inputSource);
+        String systemId = resolveSystemIdAsURL("/").ToString();
+
+        XmlTextReader xmlTextReader;
+        xmlTextReader = new XmlTextReader(systemId, string2Stream(xmlString));
+
+        encoder.encode(xmlTextReader, systemId);
 
         bts = baos.ToArray();
 
@@ -630,7 +635,6 @@ namespace Nagasena.Sax {
 
       foreach (AlignmentType alignment in Alignments) {
         Transmogrifier encoder = new Transmogrifier();
-        encoder.ResolveExternalGeneralEntities = false;
         EXIDecoder decoder = new EXIDecoder();
         Scanner scanner;
 
@@ -641,9 +645,12 @@ namespace Nagasena.Sax {
         MemoryStream baos = new MemoryStream();
         encoder.OutputStream = baos;
 
-        InputSource inputSource = new InputSource<Stream>(string2Stream(xmlString));
-        inputSource.SystemId = resolveSystemIdAsURL("/").ToString();
-        encoder.encode(inputSource);
+        String systemId = resolveSystemIdAsURL("/").ToString();
+
+        XmlTextReader xmlTextReader;
+        xmlTextReader = new XmlTextReader(systemId, string2Stream(xmlString));
+
+        encoder.encode(xmlTextReader, systemId);
 
         bts = baos.ToArray();
 

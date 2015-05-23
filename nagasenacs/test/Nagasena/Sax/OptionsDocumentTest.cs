@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Xml;
 using NUnit.Framework;
 
 using Org.System.Xml.Sax;
@@ -529,7 +530,6 @@ namespace Nagasena.Sax {
 
       foreach (AlignmentType alignment in Alignments) {
         Transmogrifier encoder = new Transmogrifier();
-        encoder.ResolveExternalGeneralEntities = false;
         encoder.GrammarCache = encodeGrammarCache;
         encoder.AlignmentType = alignment;
         MemoryStream baos = new MemoryStream();
@@ -545,9 +545,12 @@ namespace Nagasena.Sax {
         xmlString = "<!DOCTYPE header [ <!ENTITY ent SYSTEM 'er-entity.xml'> ]>" +
           "<header xmlns='http://www.w3.org/2009/exi'>&ent;<strict/></header>\n";
 
-        InputSource inputSource = new InputSource<Stream>(string2Stream(xmlString));
-        inputSource.SystemId = resolveSystemIdAsURL("/").ToString();
-        encoder.encode(inputSource);
+        String systemId = resolveSystemIdAsURL("/").ToString();
+
+        XmlTextReader xmlTextReader;
+        xmlTextReader = new XmlTextReader(systemId, string2Stream(xmlString));
+
+        encoder.encode(xmlTextReader, systemId);
 
         bts = baos.ToArray();
 

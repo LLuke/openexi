@@ -5,12 +5,8 @@ using System.IO;
 using System.Xml;
 
 using Org.System.Xml.Sax;
-//using ILocator = Org.System.Xml.Sax.ILocator;
-using LocatorImpl = Org.System.Xml.Sax.Helpers.LocatorImpl;
-
-using SaxParseException = Org.System.Xml.Sax.SaxParseException;
-
 using AttributesImpl = Org.System.Xml.Sax.Helpers.AttributesImpl;
+using LocatorImpl = Org.System.Xml.Sax.Helpers.LocatorImpl;
 using ParseErrorImpl = Org.System.Xml.Sax.Helpers.ParseErrorImpl;
 
 namespace Nagasena.Sax {
@@ -19,14 +15,14 @@ namespace Nagasena.Sax {
   /// <summary>
   /// Emulates the SAX parsers behaviours.
   /// </summary>
-  public class SaxAdapter : IXmlReader {
+  public class SaxAdapter {
 
     public IContentHandler ContentHandler {
       get {
         return callBackHandler;
       }
       set {
-        callBackHandler = value;
+        callBackHandler = (Transmogrifier.SAXEventHandler)value;
       }
     }
     public IDeclHandler DeclHandler { get; set; }
@@ -70,155 +66,81 @@ namespace Nagasena.Sax {
 
     protected LocatorImpl locator;
 
-    protected XmlReader reader;
-    private IContentHandler callBackHandler;
+    private Transmogrifier.SAXEventHandler callBackHandler;
     private IErrorHandler errorHandler;
-    //protected XmlSaxLocatorImpl locator;
     protected ILexicalHandler lexicalHandler;
     protected IEntityResolver entityResolver;
-    protected System.String parserFileName;
 
     /// <summary>
     /// Public constructor for the class.
     /// </summary>
     public SaxAdapter() {
-      reader = null;
       callBackHandler = null;
       errorHandler = null;
       locator = null;
       lexicalHandler = null;
       entityResolver = null;
-      parserFileName = "";
-    }
-
-    public void Suspend() {
-    }
-    public void Abort() {
-    }
-    public void Resume() {
     }
 
     /// <summary>
     /// Emulates the behaviour of a SAX LocatorImpl object.
     /// </summary>
-    private void UpdateLocatorData(LocatorImpl locator, System.Xml.XmlReader xmlReader) {
+    private void UpdateLocatorData(LocatorImpl locator, System.Xml.XmlReader xmlReader, String parserFileName) {
       if (locator != null && xmlReader != null) {
-        locator.ColumnNumber = xmlReader.Settings.LinePositionOffset;
-        locator.LineNumber = xmlReader.Settings.LinePositionOffset;
-        locator.SystemId = parserFileName;
-      }
-    }
-
-    /// <summary>
-    /// Emulates the behavior of a SAX parsers. Set the value of a feature.
-    /// </summary>
-    /// <param name="name">The feature name, which is a fully-qualified URI.</param>
-    /// <param name="value">The requested value for the feature.</param>
-    public virtual void SetFeature(System.String name, bool value) {
-      switch (name) {
-        default:
-          throw new ManagerNotRecognizedException("The specified feature: " + name + " are not supported");
-      }
-    }
-
-    /// <summary>
-    /// Emulates the behavior of a SAX parsers. Gets the value of a feature.
-    /// </summary>
-    /// <param name="name">The feature name, which is a fully-qualified URI.</param>
-    /// <returns>The requested value for the feature.</returns>
-    public virtual bool GetFeature(System.String name) {
-      switch (name) {
-        default:
-          throw new ManagerNotRecognizedException("The specified feature: " + name +" are not supported");
-      }
-    }
-
-    ///// <summary>
-    ///// Emulates the behavior of a SAX parsers. Sets the value of a property.
-    ///// </summary>
-    ///// <param name="name">The property name, which is a fully-qualified URI.</param>
-    ///// <param name="value">The requested value for the property.</param>
-    //public virtual void setProperty(System.String name, System.Object value) {
-    //  switch (name) {
-    //    case "http://xml.org/sax/properties/lexical-handler": {
-    //      try {
-    //        lexicalHandler = (IlexicalHandler)value;
-    //        break;
-    //      }
-    //      catch (System.Exception e) {
-    //        throw new ManagerNotSupportedException("The property is not supported as an internal exception was thrown when trying to set it: " + e.Message);
-    //      }
-    //    }
-    //    default:
-    //      throw new ManagerNotRecognizedException("The specified feature: " + name + " is not recognized");
-    //  }
-    //}
-
-    /// <summary>
-    /// Emulates the behavior of a SAX parsers. Gets the value of a property.
-    /// </summary>
-    /// <param name="name">The property name, which is a fully-qualified URI.</param>
-    /// <returns>The requested value for the property.</returns>
-    public virtual IProperty<T> GetProperty<T>(System.String name) {
-      switch (name) {
-        case "http://xml.org/sax/properties/lexical-handler": {
-          try {
-            // REVISIT: 
-            return null;
-            //return this.lexical;
-          }
-          catch {
-            throw new ManagerNotSupportedException("The specified operation was not performed");
-          }
+        XmlReaderSettings settings;
+        if ((settings = xmlReader.Settings) != null) {
+          locator.LineNumber = settings.LineNumberOffset;
+          locator.ColumnNumber = settings.LinePositionOffset;
         }
-        default:
-          throw new ManagerNotRecognizedException("The specified feature: " + name + " are not supported");
+        locator.SystemId = parserFileName;
       }
     }
 
     /// <summary>
     /// Emulates the behavior of a SAX parser, it realizes the callback events of the parser.
     /// </summary>
-    private void DoParsing() {
+    private void DoParsing(XmlReader xmlReader, String systemId) {
       bool bDocument = true;
       Stack/*<int>*/ nsDeclsCount = new Stack();
       Stack/*<String>*/ prefixes = new Stack();
       locator = new LocatorImpl();
       try {
-        UpdateLocatorData(this.locator, this.reader);
+        UpdateLocatorData(this.locator, xmlReader, systemId);
         if (this.callBackHandler != null)
           this.callBackHandler.SetDocumentLocator(locator);
         if (this.callBackHandler != null)
           this.callBackHandler.StartDocument();
-        while (this.reader.Read()) {
-          UpdateLocatorData(this.locator, this.reader);
+        while (xmlReader.Read()) {
+          UpdateLocatorData(this.locator, xmlReader, systemId);
           int n_nsdecls;
-          switch (this.reader.NodeType) {
+          switch (xmlReader.NodeType) {
             case System.Xml.XmlNodeType.Element:
               if (bDocument) {
                 bDocument = false;
               }
-              bool Empty = reader.IsEmptyElement;
+              bool Empty = xmlReader.IsEmptyElement;
               System.String namespaceURI = "";
               System.String localName = "";
-              namespaceURI = reader.NamespaceURI;
-              localName = reader.LocalName;
+              namespaceURI = xmlReader.NamespaceURI;
+              localName = xmlReader.LocalName;
               n_nsdecls = 0;
-              System.String name = reader.Name;
+              System.String name = xmlReader.Name;
               AttributesImpl attributes = new AttributesImpl();
-              if (reader.HasAttributes) {
-                for (int i = 0; i < reader.AttributeCount; i++) {
-                  reader.MoveToAttribute(i);
-                  System.String prefixName = (reader.Name.IndexOf(":") > 0) ? reader.Name.Substring(reader.Name.IndexOf(":") + 1, reader.Name.Length - reader.Name.IndexOf(":") - 1) : "";
-                  System.String prefix = (reader.Name.IndexOf(":") > 0) ? reader.Name.Substring(0, reader.Name.IndexOf(":")) : reader.Name;
+              if (xmlReader.HasAttributes) {
+                for (int i = 0; i < xmlReader.AttributeCount; i++) {
+                  xmlReader.MoveToAttribute(i);
+                  System.String prefixName = (xmlReader.Name.IndexOf(":") > 0) ? 
+                    xmlReader.Name.Substring(xmlReader.Name.IndexOf(":") + 1, xmlReader.Name.Length - xmlReader.Name.IndexOf(":") - 1) : "";
+                  System.String prefix = (xmlReader.Name.IndexOf(":") > 0) ? 
+                    xmlReader.Name.Substring(0, xmlReader.Name.IndexOf(":")) : xmlReader.Name;
                   bool IsXmlns = prefix.ToLower().Equals("xmlns");
                   if (!IsXmlns)
-                    attributes.AddAttribute(reader.NamespaceURI, reader.LocalName, reader.Name, "" + reader.NodeType, reader.Value, true);
+                    attributes.AddAttribute(xmlReader.NamespaceURI, xmlReader.LocalName, xmlReader.Name, "" + xmlReader.NodeType, xmlReader.Value, true);
                   else {
                     ++n_nsdecls;
                     prefixes.Push(prefixName);
                     if (this.callBackHandler != null)
-                      this.callBackHandler.StartPrefixMapping(prefixName, reader.Value);
+                      this.callBackHandler.StartPrefixMapping(prefixName, xmlReader.Value);
                   }
                 }
               }
@@ -241,7 +163,7 @@ namespace Nagasena.Sax {
 
             case System.Xml.XmlNodeType.EndElement:
                 if (this.callBackHandler != null)
-                  this.callBackHandler.EndElement(reader.NamespaceURI, reader.LocalName, reader.Name);
+                  this.callBackHandler.EndElement(xmlReader.NamespaceURI, xmlReader.LocalName, xmlReader.Name);
 
               n_nsdecls = (int)nsDeclsCount.Pop();
               while (n_nsdecls > 0) {
@@ -254,44 +176,44 @@ namespace Nagasena.Sax {
 
             case System.Xml.XmlNodeType.Text:
               if (this.callBackHandler != null)
-                this.callBackHandler.Characters(reader.Value.ToCharArray(), 0, reader.Value.Length);
+                this.callBackHandler.Characters(xmlReader.Value.ToCharArray(), 0, xmlReader.Value.Length);
               break;
 
             case System.Xml.XmlNodeType.Whitespace:
               if (!bDocument && this.callBackHandler != null)
-                this.callBackHandler.IgnorableWhitespace(reader.Value.ToCharArray(), 0, reader.Value.Length);
+                this.callBackHandler.IgnorableWhitespace(xmlReader.Value.ToCharArray(), 0, xmlReader.Value.Length);
               break;
 
             case System.Xml.XmlNodeType.ProcessingInstruction:
               if (this.callBackHandler != null)
-                this.callBackHandler.ProcessingInstruction(reader.Name, reader.Value);
+                this.callBackHandler.ProcessingInstruction(xmlReader.Name, xmlReader.Value);
               break;
 
             case System.Xml.XmlNodeType.Comment:
               if (this.lexicalHandler != null)
-                this.lexicalHandler.Comment(reader.Value.ToCharArray(), 0, reader.Value.Length);
+                this.lexicalHandler.Comment(xmlReader.Value.ToCharArray(), 0, xmlReader.Value.Length);
               break;
 
             case System.Xml.XmlNodeType.CDATA:
               if (this.lexicalHandler != null) {
                 lexicalHandler.StartCData();
                 if (this.callBackHandler != null)
-                  this.callBackHandler.Characters(this.reader.Value.ToCharArray(), 0, this.reader.Value.ToCharArray().Length);
+                  this.callBackHandler.Characters(xmlReader.Value.ToCharArray(), 0, xmlReader.Value.ToCharArray().Length);
                 lexicalHandler.EndCData();
               }
               break;
 
             case System.Xml.XmlNodeType.DocumentType:
-              //if (this.lexical != null) {
-              //  System.String lname = this.reader.Name;
-              //  System.String systemId = null;
-              //  if (this.reader.AttributeCount > 0)
-              //    systemId = this.reader.GetAttribute(0);
-              //  this.lexical.startDTD(lname, null, systemId);
-              //  this.lexical.startEntity("[dtd]");
-              //  this.lexical.endEntity("[dtd]");
-              //  this.lexical.endDTD();
-              //}
+              if (this.lexicalHandler != null) {
+                this.lexicalHandler.StartDtd(xmlReader.Name, null, null);
+                this.lexicalHandler.EndDtd();
+              }
+              break;
+
+            case System.Xml.XmlNodeType.EntityReference:
+              if (this.callBackHandler != null) {
+                this.callBackHandler.SkippedEntity(xmlReader.Name);
+              }
               break;
 
             default:
@@ -305,72 +227,41 @@ namespace Nagasena.Sax {
         throw e;
       }
       finally {
-        this.reader.Close();
+        xmlReader.Close();
       }
     }
 
-    ///// <summary>
-    ///// Parses the specified file path and process the events over the specified handler.
-    ///// </summary>
-    ///// <param name="filepath">The path of the file to be used.</param>
-    //public virtual void parse(System.String filepath) {
-    //  try {
-    //    if (handler is XmlSaxDefaultHandler) {
-    //      this.errorHandler = (XmlSaxDefaultHandler) handler;
-    //    }
-    //    if (!(this is XmlSaxParserAdapter))
-    //      this.callBackHandler = handler;
-    //    else {
-    //      if(this.callBackHandler == null)
-    //        this.callBackHandler = handler;
-    //    }
-    //    XmlReaderSettings settings = new XmlReaderSettings();
-    //    settings.ProhibitDtd = false;
-    //    settings.ValidationType = (this.isValidating) ? System.Xml.ValidationType.DTD : System.Xml.ValidationType.None;
-    //    settings.ValidationEventHandler += new System.Xml.Schema.ValidationEventHandler(this.ValidationEventHandle);
-    //    settings.XmlResolver = new XmlResolverAdapter(entityResolver);
-    //    this.reader = XmlReader.Create(filepath, settings);
-    //    parserFileName = filepath;
-    //    this.DoParsing();
-    //  }
-    //  catch (System.Xml.XmlException e) {
-    //    if (this.errorHandler != null)
-    //      this.errorHandler.fatalError(e);
-    //    throw e;
-    //  }
-    //}
+    /// <summary>
+    /// Parses the specified XML document into SAX events.
+    /// </summary>
+    /// <param name="source">XML document</param>
+    public virtual void Parse(InputSource source) {
+      if (source is InputSource<Stream>) {
+        Parse(((InputSource<Stream>)source).Source, source.SystemId);
+      }
+      else if (source.SystemId != null) {
+        Parse(source.SystemId);
+      }
+      else {
+        throw new SaxException("InputSource's SystemId can't be null.");
+      }
+    }
 
-    ///// <summary>
-    ///// Parses the specified stream and process the events over the specified handler.
-    ///// </summary>
-    ///// <param name="stream">The stream with the XML.</param>
-    ///// <param name="handler">The handler that manage the parser events.</param>
-    //public virtual void parse(System.IO.Stream stream, XmlSaxContentHandler handler) {
-    //  try {
-    //    if (handler is XmlSaxDefaultHandler) {
-    //      this.errorHandler = (XmlSaxDefaultHandler) handler;
-    //    }
-    //    if (!(this is XmlSaxParserAdapter))
-    //      this.callBackHandler = handler;
-    //    else {
-    //      if(this.callBackHandler == null)
-    //        this.callBackHandler = handler;
-    //    }
-    //    XmlReaderSettings settings = new XmlReaderSettings();
-    //    settings.ProhibitDtd = false;
-    //    settings.ValidationType = (this.isValidating) ? System.Xml.ValidationType.DTD : System.Xml.ValidationType.None;
-    //    settings.ValidationEventHandler += new System.Xml.Schema.ValidationEventHandler(this.ValidationEventHandle);
-    //    settings.XmlResolver = new XmlResolverAdapter(entityResolver);
-    //    this.reader = XmlReader.Create(stream, settings);
-    //    parserFileName = null;
-    //    this.DoParsing();
-    //  }
-    //  catch (System.Xml.XmlException e) {
-    //    if (this.errorHandler != null)
-    //      this.errorHandler.fatalError(e);
-    //    throw e;
-    //  }
-    //}
+    /// <summary>
+    /// Parses the specified XML document into SAX events.
+    /// </summary>
+    /// <param name="source">XML document</param>
+    public virtual void Parse(XmlReader xmlReader, System.String systemId) {
+      try {
+        this.DoParsing(xmlReader, systemId);
+      }
+      catch (System.Xml.XmlException e) {
+        if (this.errorHandler != null)
+          this.errorHandler.FatalError(new ParseErrorImpl(e.Message, (String)null, e.SourceUri.ToString(), e.LineNumber, e.LinePosition, e));
+        else
+          throw new SaxParseException(e.Message, e);
+      }
+    }
 
     /// <summary>
     /// Parses the specified stream and process the events over the specified handler, and resolves the 
@@ -379,172 +270,42 @@ namespace Nagasena.Sax {
     /// <param name="stream">The stream with the XML.</param>
     /// <param name="handler">The handler that manage the parser events.</param>
     /// <param name="URI">The namespace URI for resolve external etities.</param>
-    public virtual void Parse(System.IO.Stream stream, System.String URI) {
+    private void Parse(System.IO.Stream stream, System.String systemId) {
       try {
-        //if (handler is XmlSaxDefaultHandler) {
-        //  this.errorHandler = (XmlSaxDefaultHandler) handler;
-        //}
-        //if (!(this is XmlSaxParserAdapter))
-        //  this.callBackHandler = handler;
-        //else {
-        //  if(this.callBackHandler == null)
-        //    this.callBackHandler = handler;
-        //}
+        XmlReader xmlReader;
         XmlReaderSettings settings = new XmlReaderSettings();
-        settings.ProhibitDtd = false;
         settings.ValidationType = System.Xml.ValidationType.None;
-        settings.ValidationEventHandler += new System.Xml.Schema.ValidationEventHandler(this.ValidationEventHandle);
         settings.XmlResolver = new XmlResolverAdapter(entityResolver);
-        this.reader = XmlReader.Create(stream, settings, URI);
-        parserFileName = null;
-        this.DoParsing();
+        xmlReader = XmlReader.Create(stream, settings, systemId);
+        this.DoParsing(xmlReader, systemId);
       }
       catch (System.Xml.XmlException e) {
         if (this.errorHandler != null)
           this.errorHandler.FatalError(new ParseErrorImpl(e.Message, (String)null, e.SourceUri.ToString(), e.LineNumber, e.LinePosition, e));
-        throw e;
+        else
+          throw new SaxParseException(e.Message, e);
       }
-    }
-
-    ///// <summary>
-    ///// Parses the specified stream and process the events over the specified handler.
-    ///// </summary>
-    ///// <param name="textReader">The stream with the XML.</param>
-    ///// <param name="handler">The handler that manage the parser events.</param>
-    //public virtual void parse(System.IO.TextReader textReader) {
-    //  parse(textReader, (XmlSaxContentHandler)null);
-    //}
-
-    ///// <summary>
-    ///// Parses the specified stream and process the events over the specified handler.
-    ///// </summary>
-    ///// <param name="textReader">The stream with the XML.</param>
-    ///// <param name="handler">The handler that manage the parser events.</param>
-    //public virtual void parse(System.IO.TextReader textReader, XmlSaxContentHandler handler) {
-    //  try
-    //  {
-    //    if (handler != null) {
-    //      if (handler is XmlSaxDefaultHandler) {
-    //        this.errorHandler = (XmlSaxDefaultHandler)handler;
-    //      }
-    //      if (!(this is XmlSaxParserAdapter))
-    //        this.callBackHandler = handler;
-    //      else {
-    //        if (this.callBackHandler == null)
-    //          this.callBackHandler = handler;
-    //      }
-    //    }
-    //    XmlReaderSettings settings = new XmlReaderSettings();
-    //    settings.ProhibitDtd = false;
-    //    settings.ValidationType = (this.isValidating) ? System.Xml.ValidationType.DTD : System.Xml.ValidationType.None;
-    //    settings.ValidationEventHandler += new System.Xml.Schema.ValidationEventHandler(this.ValidationEventHandle);
-    //    settings.XmlResolver = new XmlResolverAdapter(entityResolver);
-    //    this.reader = XmlReader.Create(textReader, settings);
-    //    parserFileName = null;
-    //    this.DoParsing();
-    //  }
-    //  catch (System.Xml.XmlException e) {
-    //    if (this.errorHandler != null)
-    //      this.errorHandler.fatalError(e);
-    //    throw e;
-    //  }
-    //}
-
-    /// <summary>
-    /// Parses the specified 'XmlSourceSupport' instance and process the events over the specified handler, 
-    /// and resolves the entities with the specified URI.
-    /// </summary>
-    /// <param name="source">The 'XmlSourceSupport' that contains the XML.</param>
-    /// <param name="handler">The handler that manages the parser events.</param>
-    public virtual void Parse(InputSource source) {
-        if (source is InputSource<MemoryStream>)
-          Parse(((InputSource<MemoryStream>)source).Source, source.SystemId);
-        else {
-          if (source.SystemId != null)
-            Parse(source.SystemId);
-          else
-            throw new System.Xml.XmlException("InputSource's SystemId can't be null");
-        }
     }
 
     /// <summary>
     /// Parses the specified file path and processes the events over previously specified handler.
     /// </summary>
-    /// <param name="filepath">The path of the file with the XML.</param>
-    public virtual void Parse(String filepath) {
+    /// <param name="systemId">The path of the file with the XML.</param>
+    private void Parse(String systemId) {
       try {
         XmlReaderSettings settings = new XmlReaderSettings();
-        settings.ProhibitDtd = false;
         settings.ValidationType = System.Xml.ValidationType.None;
-        settings.ValidationEventHandler += new System.Xml.Schema.ValidationEventHandler(this.ValidationEventHandle);
         settings.XmlResolver = new XmlResolverAdapter(entityResolver);
-        this.reader = XmlReader.Create(filepath, settings);
-        parserFileName = filepath;
-        this.DoParsing();
+        XmlReader xmlReader = XmlReader.Create(systemId, settings);
+        this.DoParsing(xmlReader, systemId);
       }
       catch (System.Xml.XmlException e) {
         if (this.errorHandler != null)
           this.errorHandler.FatalError(new ParseErrorImpl(e.Message, (String)null, e.SourceUri.ToString(), e.LineNumber, e.LinePosition, e));
-        throw e;
+        else
+          throw new SaxParseException(e.Message, e);
       }
     }
-
-    /// <summary>
-    /// Manages all the exceptions that were thrown when the validation over XML fails.
-    /// </summary>
-    public void ValidationEventHandle(System.Object sender, System.Xml.Schema.ValidationEventArgs args) {
-      System.Xml.Schema.XmlSchemaException tempException = args.Exception;
-      if (args.Severity == System.Xml.Schema.XmlSeverityType.Warning) {
-        if (this.errorHandler != null)
-          this.errorHandler.Warning(
-            new ParseErrorImpl(tempException.Message, (String)null, tempException.SourceUri.ToString(), tempException.LineNumber, tempException.LinePosition, tempException));
-      }
-      else {
-        if (this.errorHandler != null)
-          this.errorHandler.FatalError(
-            new ParseErrorImpl(tempException.Message, (String)null, tempException.SourceUri.ToString(), tempException.LineNumber, tempException.LinePosition, tempException));
-      }
-    }
-        
-    ///// <summary>
-    ///// Assigns the object that will handle all the error events. 
-    ///// </summary>
-    ///// <param name="handler">The object that handles the errors events.</param>
-    //public virtual void setErrorHandler(XmlSaxErrorHandler handler) {
-    //  this.errorHandler = handler;
-    //}
-
-    ///// <summary>
-    ///// Obtains the object that will handle all the content events.
-    ///// </summary>
-    ///// <returns>The object that handles the content events.</returns>
-    //public virtual XmlSaxContentHandler getContentHandler() {
-    //  return this.callBackHandler;
-    //}
-
-    ///// <summary>
-    ///// Assigns the object that will handle all the error events. 
-    ///// </summary>
-    ///// <returns>The object that handles the error events.</returns>
-    //public virtual XmlSaxErrorHandler getErrorHandler() {
-    //  return this.errorHandler;
-    //}
-
-    ///// <summary>
-    ///// Returns the current entity resolver.
-    ///// </summary>
-    ///// <returns>The current entity resolver, or null if none has been registered.</returns>
-    //public virtual XmlSaxEntityResolver getEntityResolver() {
-    //  return this.entityResolver;
-    //}
-
-    ///// <summary>
-    ///// Allows an application to register an entity resolver.
-    ///// </summary>
-    ///// <param name="resolver">The entity resolver.</param>
-    //public virtual void setEntityResolver(XmlSaxEntityResolver resolver) {
-    //  this.entityResolver = resolver;
-    //}
 
     /*******************************/
     /// <summary>
@@ -566,38 +327,5 @@ namespace Nagasena.Sax {
       }
     }
   }
-
-  /*******************************/
-  /// <summary>
-  /// This exception is thrown by the XmlSaxDocumentManager in the SetProperty and SetFeature methods 
-  /// if a property or method couldn't be supported.
-  /// </summary>
-  public class ManagerNotSupportedException : System.Exception
-  {
-    /// <summary>
-    /// Creates a new ManagerNotSupportedException with the message specified.
-    /// </summary>
-    /// <param name="Message">Error message of the exception.</param>
-    public ManagerNotSupportedException(System.String Message)
-      : base(Message) {
-    }
-  }
-
-  /*******************************/
-  /// <summary>
-  /// This exception is thrown by the XmlSaxDocumentManager in the SetProperty and SetFeature 
-  /// methods if a property or method couldn't be found.
-  /// </summary>
-  public class ManagerNotRecognizedException : System.Exception
-  {
-    /// <summary>
-    /// Creates a new ManagerNotRecognizedException with the message specified.
-    /// </summary>
-    /// <param name="Message">Error message of the exception.</param>
-    public ManagerNotRecognizedException(System.String Message)
-      : base(Message) {
-    }
-  }
-
 
 }

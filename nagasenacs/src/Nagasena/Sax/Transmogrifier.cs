@@ -2,10 +2,10 @@
 using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Xml;
 
 using Org.System.Xml.Sax;
 using LocatorImpl = Org.System.Xml.Sax.Helpers.LocatorImpl;
-using SaxDriver = AElfred.SaxDriver;
 
 using DeflateStrategy = ICSharpCode.SharpZipLib.Zip.Compression.DeflateStrategy;
 
@@ -44,10 +44,9 @@ namespace Nagasena.Sax {
   /// </summary>
   public sealed class Transmogrifier {
 
-    private readonly IXmlReader m_xmlReader;
+    private readonly SaxAdapter m_saxAdapter;
     /// <summary>
-    /// EXIEncoderSaxHandler handles SAX events coming from XMLReader. 
-    /// 
+    /// EXIEncoderSaxHandler handles SAX events that comes from SaxAdapter. 
     /// </summary>
     private readonly SAXEventHandler m_saxHandler;
 
@@ -75,18 +74,10 @@ namespace Nagasena.Sax {
     internal Transmogrifier(bool namespacePrefixesFeature) {
       // fixtures
       m_saxHandler = new SAXEventHandler(this);
+      m_saxAdapter = new SaxAdapter();
+      m_saxAdapter.ContentHandler = m_saxHandler;
       try {
-        m_xmlReader = new SaxDriver();
-        m_xmlReader.SetFeature(Constants.NamespacesFeature, true);
-        m_xmlReader.SetFeature(Constants.NamespacePrefixesFeature, namespacePrefixesFeature);
-      }
-      catch (Exception) {
-        throw new TransmogrifierRuntimeException(TransmogrifierRuntimeException.XMLREADER_ACCESS_ERROR, (string[])null);
-      }
-      m_xmlReader.ContentHandler = m_saxHandler;
-      try {
-        m_xmlReader.LexicalHandler = m_saxHandler;
-        //m_xmlReader.setProperty("http://xml.org/sax/properties/lexical-handler", m_saxHandler);
+        m_saxAdapter.LexicalHandler = m_saxHandler;
       }
       catch (SaxException se) {
         TransmogrifierRuntimeException te;
@@ -102,29 +93,6 @@ namespace Nagasena.Sax {
       m_outputOptions = HeaderOptionsOutputType.none;
       m_exiOptions = new EXIOptions();
       m_divertBuiltinGrammarToAnyType = false;
-    }
-
-    /// <summary>
-    /// Change the way a Transmogrifier handles external general entities. When the value
-    /// of resolveExternalGeneralEntities is set to true, a Transmogrifier will try to 
-    /// resolve external general entities. Otherwise, external general entities will not
-    /// be resolved. </summary>
-    /// <param name="resolveExternalGeneralEntities"> </param>
-    /// <exception cref="TransmogrifierException"> Thrown when the underlying XMLReader does not 
-    /// support the specified behavior. </exception>
-    public bool ResolveExternalGeneralEntities {
-      set {
-        try {
-          m_xmlReader.SetFeature("http://xml.org/sax/features/external-general-entities", value);
-        }
-        catch (SaxException se) {
-          TransmogrifierException te;
-          te = new TransmogrifierException(TransmogrifierException.UNHANDLED_SAXPARSER_FEATURE, 
-            new string[] { "http://xml.org/sax/features/external-general-entities" });
-          te.Exception = se;
-          throw te;
-        }
-      }
     }
 
     /// <summary>
@@ -310,7 +278,7 @@ namespace Nagasena.Sax {
     /// <param name="entityResolver"> <seealso cref="Org.System.Xml.Sax.EntityResolver"/> </param>
     public IEntityResolver EntityResolver {
       set {
-        m_xmlReader.EntityResolver = value;
+        m_saxAdapter.EntityResolver = value;
       }
     }
 
@@ -386,12 +354,23 @@ namespace Nagasena.Sax {
     ///////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// Parses XML input source and converts it to an EXI stream. </summary>
-    /// <param name="is"> XML input source </param>
-    public void encode(InputSource @is) {
+    /// Parses XML input source and converts it to an EXI stream.</summary>
+    /// <param name="inputSource">XML input source</param>
+    public void encode(InputSource inputSource) {
+      encode(inputSource, (XmlReader)null, (String)null);
+    }
+
+    internal void encode(XmlReader xmlReader, String URI) {
+      encode((InputSource)null, xmlReader, URI);
+    }
+
+    private void encode(InputSource inputSource, XmlReader xmlReader, String URI) {
       reset();
       try {
-        m_xmlReader.Parse(@is);
+        if (inputSource != null)
+          m_saxAdapter.Parse(inputSource);
+        else
+          m_saxAdapter.Parse(xmlReader, URI);
       }
       catch (SaxException se) {
         Exception e;
@@ -401,6 +380,9 @@ namespace Nagasena.Sax {
           }
           else if (e is IOException) {
             throw (IOException)e;
+          }
+          else if (e is XmlException) {
+            throw (XmlException)e;
           }
         }
         else {
@@ -437,55 +419,55 @@ namespace Nagasena.Sax {
     /// SAX-based Encoder
     ///////////////////////////////////////////////////////////////////////////
 
-    private sealed class SAXEventHandler : SAXTransmogrifier {
+    internal sealed class SAXEventHandler : SAXTransmogrifier {
       private readonly Transmogrifier outerInstance;
 
       private const String W3C_2000_XMLNS_URI = "http://www.w3.org/2000/xmlns/";
 
-      internal XMLLocusItemEx[] m_locusStack;
-      internal int m_locusLastDepth;
-      internal bool m_inDTD;
+      private XMLLocusItemEx[] m_locusStack;
+      private int m_locusLastDepth;
+      private bool m_inDTD;
 
-      internal const sbyte STAG = 0; // start tag
-      internal const sbyte CONT = 1; // non-whitespace content
-      internal const sbyte ETAG = 2; // end tag
-      internal sbyte m_contentState;
+      private const sbyte STAG = 0; // start tag
+      private const sbyte CONT = 1; // non-whitespace content
+      private const sbyte ETAG = 2; // end tag
+      private sbyte m_contentState;
 
-      internal GrammarCache m_grammarCache;
-      internal EXISchema m_schema;
-      internal bool hasNS; // hasNS is subservient to m_grammarCache (derivative)
+      private GrammarCache m_grammarCache;
+      private EXISchema m_schema;
+      private bool hasNS; // hasNS is subservient to m_grammarCache (derivative)
 
-      internal PrefixUriBindings m_prefixUriBindingsDefault;
-      internal PrefixUriBindings m_prefixUriBindings; // current bindings
+      private PrefixUriBindings m_prefixUriBindingsDefault;
+      private PrefixUriBindings m_prefixUriBindings; // current bindings
 
-      internal char[] m_charBuf;
-      internal int m_charPos;
+      private char[] m_charBuf;
+      private int m_charPos;
 
-      internal readonly SortedSet<ComparableAttribute> sortedAttributes;
-      internal ComparableAttribute[] m_comparableAttributes;
-      internal int m_n_comparableAttributes;
+      private readonly SortedSet<ComparableAttribute> sortedAttributes;
+      private ComparableAttribute[] m_comparableAttributes;
+      private int m_n_comparableAttributes;
 
-      internal readonly NamespaceDeclarations m_decls;
-      internal readonly QName qname;
+      private readonly NamespaceDeclarations m_decls;
+      private readonly QName qname;
 
       // scriber is to be created based on alignment type as necessary
-      internal Scriber m_scriber;
-      internal ValueScriber m_stringValueScriber;
+      private Scriber m_scriber;
+      private ValueScriber m_stringValueScriber;
 
-      internal Stream m_outputStream;
+      private Stream m_outputStream;
 
-      internal ILocator m_locator;
+      private ILocator m_locator;
 
-      internal bool m_outputCookie;
+      private bool m_outputCookie;
 
-      internal readonly EXIOptionsEncoder m_optionsEncoder;
+      private readonly EXIOptionsEncoder m_optionsEncoder;
 
-      internal readonly Scribble m_scribble;
+      private readonly Scribble m_scribble;
 
-      internal int m_zlibLevel;
-      internal DeflateStrategy m_zlibStrategy;
+      private int m_zlibLevel;
+      private DeflateStrategy m_zlibStrategy;
 
-      internal bool m_preserveWhitespaces;
+      private bool m_preserveWhitespaces;
 
       private TransmogrifierException m_transmogrifierException;
 
@@ -1470,7 +1452,7 @@ namespace Nagasena.Sax {
         }
       }
 
-      internal ComparableAttribute acquireComparableAttribute() {
+      private ComparableAttribute acquireComparableAttribute() {
         if (m_n_comparableAttributes == m_comparableAttributes.Length) {
           ComparableAttribute[] comparableAttributes;
           int len = m_n_comparableAttributes + 32; // new array size
