@@ -21,6 +21,7 @@ import org.openexi.proc.common.GrammarOptions;
 import org.openexi.proc.common.XmlUriConst;
 import org.openexi.proc.grammars.GrammarCache;
 import org.openexi.schema.EXISchema;
+import org.openexi.schema.EmptySchema;
 import org.openexi.schema.TestBase;
 
 import org.openexi.scomp.EXISchemaFactoryErrorMonitor;
@@ -1111,6 +1112,120 @@ public class EXIReaderTest extends TestBase {
       saxEvent = exiEventList.get(n++);
       Assert.assertEquals(Event.END_NAMESPACE, saxEvent.type);
       Assert.assertEquals("s4", saxEvent.name);
+
+      Assert.assertEquals(exiEventList.size(), n);
+    }
+  }
+  
+  /**
+   * Schema:
+   * None available
+   * 
+   * Instance:
+   * <None>&abc;&def;</None>
+   */
+  public void testBuiltinEntityRefResolution() throws Exception {
+    EXISchema corpus = EmptySchema.getEXISchema();
+
+    GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.addDTD(GrammarOptions.DEFAULT_OPTIONS));
+
+    String xmlString;
+    byte[] bts;
+
+    xmlString = "<!DOCTYPE None [ <!ENTITY ent SYSTEM 'entity01.ent'> ]><None xmlns='urn:foo'>&ent;&ent;</None>\n";
+
+    for (AlignmentType alignment : Alignments) {
+      Transmogrifier encoder = new Transmogrifier();
+      encoder.setResolveExternalGeneralEntities(true);
+      EXIReader decoder = new EXIReader();
+      
+      encoder.setAlignmentType(alignment);
+      decoder.setAlignmentType(alignment);
+
+      encoder.setGrammarCache(grammarCache);
+      decoder.setGrammarCache(grammarCache);
+      
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      encoder.setOutputStream(baos);
+      
+      InputSource inputSource = new InputSource(new StringReader(xmlString));
+      URL url = resolveSystemIdAsURL("/file.txt");
+      inputSource.setSystemId(url.toString());
+      encoder.encode(inputSource);
+      
+      bts = baos.toByteArray();
+
+      ArrayList<Event> exiEventList = new ArrayList<Event>();
+      SAXRecorder saxRecorder = new SAXRecorder(exiEventList, true);
+      decoder.setContentHandler(saxRecorder);
+      decoder.setLexicalHandler(saxRecorder);
+
+      decoder.parse(new InputSource(new ByteArrayInputStream(bts)));
+      
+      Assert.assertEquals(13, exiEventList.size());
+
+      Event saxEvent;
+
+      int n = 0;
+
+      saxEvent = exiEventList.get(n++);
+      Assert.assertEquals(Event.DOCTYPE, saxEvent.type);
+      Assert.assertEquals("None", saxEvent.name);
+
+      saxEvent = exiEventList.get(n++);
+      Assert.assertEquals(Event.END_DTD, saxEvent.type);
+
+      saxEvent = exiEventList.get(n++);
+      Assert.assertEquals(Event.NAMESPACE, saxEvent.type);
+      Assert.assertEquals(XmlUriConst.W3C_XML_1998_URI, saxEvent.namespace);
+      Assert.assertEquals("xml", saxEvent.name);
+
+      saxEvent = exiEventList.get(n++);
+      Assert.assertEquals(Event.NAMESPACE, saxEvent.type);
+      Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, saxEvent.namespace);
+      Assert.assertEquals("xsi", saxEvent.name);
+
+      saxEvent = exiEventList.get(n++);
+      Assert.assertEquals(Event.NAMESPACE, saxEvent.type);
+      Assert.assertEquals(XmlUriConst.W3C_2001_XMLSCHEMA_URI, saxEvent.namespace);
+      Assert.assertEquals("xsd", saxEvent.name);
+
+      saxEvent = exiEventList.get(n++);
+      Assert.assertEquals(Event.NAMESPACE, saxEvent.type);
+      Assert.assertEquals("urn:foo", saxEvent.namespace);
+      Assert.assertEquals("p0", saxEvent.name);
+
+      saxEvent = exiEventList.get(n++);
+      Assert.assertEquals(Event.START_ELEMENT, saxEvent.type);
+      Assert.assertEquals("urn:foo", saxEvent.namespace);
+      Assert.assertEquals("None", saxEvent.localName);
+      Assert.assertEquals("p0:None", saxEvent.name);
+
+      saxEvent = exiEventList.get(n++);
+      Assert.assertEquals(Event.CHARACTERS, saxEvent.type);
+      Assert.assertEquals("ABCABC", new String(saxEvent.charValue));
+
+      saxEvent = exiEventList.get(n++);
+      Assert.assertEquals(Event.END_ELEMENT, saxEvent.type);
+      Assert.assertEquals("urn:foo", saxEvent.namespace);
+      Assert.assertEquals("None", saxEvent.localName);
+      Assert.assertEquals("p0:None", saxEvent.name);
+
+      saxEvent = exiEventList.get(n++);
+      Assert.assertEquals(Event.END_NAMESPACE, saxEvent.type);
+      Assert.assertEquals("xml", saxEvent.name);
+
+      saxEvent = exiEventList.get(n++);
+      Assert.assertEquals(Event.END_NAMESPACE, saxEvent.type);
+      Assert.assertEquals("xsi", saxEvent.name);
+
+      saxEvent = exiEventList.get(n++);
+      Assert.assertEquals(Event.END_NAMESPACE, saxEvent.type);
+      Assert.assertEquals("xsd", saxEvent.name);
+
+      saxEvent = exiEventList.get(n++);
+      Assert.assertEquals(Event.END_NAMESPACE, saxEvent.type);
+      Assert.assertEquals("p0", saxEvent.name);
 
       Assert.assertEquals(exiEventList.size(), n);
     }

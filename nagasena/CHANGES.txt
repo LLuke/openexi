@@ -1,3 +1,13 @@
+2015-05-28 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0052.1
+
+- Added a test case in EXIReaderTest. This test case was introduced
+  in .Net implementation version 0000.0002.0051.1.
+
+M       test/org/openexi/sax/EXIReaderTest.java
+A       testdata/entity01.ent
+
 2015-05-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0052.1
