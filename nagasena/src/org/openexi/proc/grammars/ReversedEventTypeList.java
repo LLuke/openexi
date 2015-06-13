@@ -173,7 +173,10 @@ final class ReversedEventTypeList extends EventTypeList {
         m_attributeWildcardAnyUntyped = eventType;
         break;
     }
-    m_eventTypes.add(eventType);
+    if (m_n_eventTypes == m_eventTypes.size())
+      m_eventTypes.add(eventType); // Need to let the array grow
+    else
+      m_eventTypes.set(m_n_eventTypes, eventType); // simply replace.
     eventType.setIndex(m_n_eventTypes++);
   }
 
