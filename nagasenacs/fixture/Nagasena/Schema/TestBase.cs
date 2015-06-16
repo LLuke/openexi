@@ -51,5 +51,14 @@ namespace Nagasena.Schema {
       return new MemoryStream(System.Text.Encoding.UTF8.GetBytes(str.ToCharArray()));
     }
 
+    protected internal String bytesToString(byte[] bts) {
+      if (bts[0] == 239 && bts[1] == 187 && bts[2] == 191) {
+        // Strip off BOM
+        return System.Text.Encoding.UTF8.GetString(bts, 3, bts.Length - 3);
+      }
+      else
+        return System.Text.Encoding.UTF8.GetString(bts);
+    }
+
   }
 }

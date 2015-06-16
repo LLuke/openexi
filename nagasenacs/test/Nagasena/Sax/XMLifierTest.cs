@@ -31,15 +31,6 @@ namespace Nagasena.Sax {
       AlignmentType.compress 
     };
 
-    private static String bytesToString(byte[] bts) {
-      if (bts[0] == 239 && bts[1] == 187 && bts[2] == 191) {
-        // Strip off BOM
-        return System.Text.Encoding.UTF8.GetString(bts, 3, bts.Length - 3);
-      }
-      else
-        return System.Text.Encoding.UTF8.GetString(bts);
-    }
-
     ///////////////////////////////////////////////////////////////////////////
     // Test cases
     ///////////////////////////////////////////////////////////////////////////

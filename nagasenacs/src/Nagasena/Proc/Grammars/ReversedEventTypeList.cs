@@ -179,7 +179,10 @@ namespace Nagasena.Proc.Grammars {
           m_attributeWildcardAnyUntyped = eventType;
           break;
       }
-      m_eventTypes.Add(eventType);
+      if (m_n_eventTypes == m_eventTypes.Count)
+        m_eventTypes.Add(eventType); // Need to let the array grow
+      else
+        m_eventTypes[m_n_eventTypes] = eventType; // simply replace.
       eventType.Index = m_n_eventTypes++;
     }
 

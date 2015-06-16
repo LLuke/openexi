@@ -1,3 +1,17 @@
+2015-06-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0053.0
+
+- Fixed a bug that caused Transmogrifier to generate wrong EXI streams when
+  the same instance is reused.
+
+M       test/Nagasena/Sax/XMLifierTest.cs
+A       test/Nagasena/Sax/OpenDaylightTest.cs
+M       fixture/Nagasena/Schema/TestBase.cs
+M       CHANGES.txt
+M       src/AssemblyInfo.cs
+M       src/Nagasena/Proc/Grammars/ReversedEventTypeList.cs
+
 2015-05-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0052.0
