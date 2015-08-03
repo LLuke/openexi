@@ -6335,5 +6335,5 @@ public class EXISchemaFactoryTest extends TestCase {
     
     Assert.assertTrue(g1_A == g1_B);
   }
-
+  
 }

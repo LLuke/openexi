@@ -2171,7 +2171,10 @@ public class EXISchemaFactory extends EXISchemaStruct {
           return handleError(de, true, true);
         default:
           assert de.getSeverity() == DOMError.SEVERITY_ERROR;
-          return handleError(de, true, false);
+          if ("cos-element-consistent".equals(de.getType()))
+            return true;
+          else
+            return handleError(de, true, false);
       }
     }
     

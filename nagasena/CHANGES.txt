@@ -1,3 +1,15 @@
+2015-07-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0054.0
+
+- XML Schema constraint "cos-element-consistent" is no longer enforced.
+
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       test/org/openexi/sax/GrammarStrictTest.java
+M       src/org/openexi/scomp/EXISchemaFactory.java
+A       testdata/json-instance01.xsd
+M       build.xml
+
 2015-06-12 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0053.0

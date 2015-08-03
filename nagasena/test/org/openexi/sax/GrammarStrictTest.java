@@ -13,6 +13,7 @@ import java.net.URL;
 import org.xml.sax.InputSource;
 
 import org.openexi.proc.EXIDecoder;
+import org.openexi.proc.HeaderOptionsOutputType;
 import org.openexi.proc.common.AlignmentType;
 import org.openexi.proc.common.EventCode;
 import org.openexi.proc.common.EventType;
@@ -6119,5 +6120,296 @@ public class GrammarStrictTest extends TestBase {
     }
   }
   
+  /**
+   * Disregard XML Schema constraint "cos-element-consistent". 
+   */
+  public void testJsonExperiment_01() throws Exception {
+    EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema(
+        "/json-instance01.xsd", getClass(), m_compilerErrors);
+    
+    Assert.assertEquals(0, m_compilerErrors.getTotalCount());
+
+    GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
+    
+    String xmlString;
+    byte[] bts;
+    int n_events;
+
+    xmlString = 
+        "<object>" + 
+        "  <name>myDecimal</name>" + 
+        "  <number>" + 
+        "    <decimal>12345.67</decimal>" + 
+        "  </number>" + 
+        "  <name>myInteger</name>" + 
+        "  <number>" + 
+        "    <integer>1234567</integer>" + 
+        "  </number>" + 
+        "  <name>myBooleanArray</name>" + 
+        "  <array>" + 
+        "    <boolean>false</boolean>" + 
+        "    <boolean>true</boolean>" + 
+        "  </array>" + 
+        "</object>";
+
+    Transmogrifier encoder = new Transmogrifier();
+    encoder.setOutputOptions(HeaderOptionsOutputType.none);
+    encoder.setGrammarCache(grammarCache);
+
+    EXIDecoder decoder = new EXIDecoder();
+    decoder.setGrammarCache(grammarCache);
+
+    for (AlignmentType alignment : Alignments) {
+      Scanner scanner;
+      
+      encoder.setAlignmentType(alignment);
+      decoder.setAlignmentType(alignment);
+
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      encoder.setOutputStream(baos);
+
+      encoder.encode(new InputSource(new StringReader(xmlString)));
+      
+      bts = baos.toByteArray();
+      
+      decoder.setInputStream(new ByteArrayInputStream(bts));
+      scanner = decoder.processHeader();
+      
+      EventDescription exiEvent;
+      n_events = 0;
+      
+      EventType eventType;
+      EventTypeList eventTypeList;
+  
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertSame(exiEvent, eventType);
+      Assert.assertEquals(0, eventType.getIndex());
+      eventTypeList = eventType.getEventTypeList();
+      Assert.assertNull(eventTypeList.getEE());
+      ++n_events;
+      
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_SE, eventType.itemType);
+      Assert.assertEquals("object", eventType.name);
+      Assert.assertEquals("", eventType.uri);
+      ++n_events;
+      
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      Assert.assertEquals("name", exiEvent.getName());
+      Assert.assertEquals("", exiEvent.getURI());
+      ++n_events;
+  
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
+      Assert.assertEquals("myDecimal", exiEvent.getCharacters().makeString());
+      ++n_events;
+      
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+      ++n_events;
+  
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      Assert.assertEquals("number", exiEvent.getName());
+      Assert.assertEquals("", exiEvent.getURI());
+      ++n_events;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      Assert.assertEquals("decimal", exiEvent.getName());
+      Assert.assertEquals("", exiEvent.getURI());
+      ++n_events;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
+      Assert.assertEquals("12345.67", exiEvent.getCharacters().makeString());
+      ++n_events;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+      ++n_events;
+  
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+      ++n_events;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      Assert.assertEquals("name", exiEvent.getName());
+      Assert.assertEquals("", exiEvent.getURI());
+      ++n_events;
+  
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
+      Assert.assertEquals("myInteger", exiEvent.getCharacters().makeString());
+      ++n_events;
+      
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+      ++n_events;
+  
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      Assert.assertEquals("number", exiEvent.getName());
+      Assert.assertEquals("", exiEvent.getURI());
+      ++n_events;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      Assert.assertEquals("integer", exiEvent.getName());
+      Assert.assertEquals("", exiEvent.getURI());
+      ++n_events;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
+      Assert.assertEquals("1234567", exiEvent.getCharacters().makeString());
+      ++n_events;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+      ++n_events;
+  
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+      ++n_events;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      Assert.assertEquals("name", exiEvent.getName());
+      Assert.assertEquals("", exiEvent.getURI());
+      ++n_events;
+  
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
+      Assert.assertEquals("myBooleanArray", exiEvent.getCharacters().makeString());
+      ++n_events;
+      
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+      ++n_events;
+  
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      Assert.assertEquals("array", exiEvent.getName());
+      Assert.assertEquals("", exiEvent.getURI());
+      ++n_events;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      Assert.assertEquals("boolean", exiEvent.getName());
+      Assert.assertEquals("", exiEvent.getURI());
+      ++n_events;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
+      Assert.assertEquals("false", exiEvent.getCharacters().makeString());
+      ++n_events;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+      ++n_events;
+  
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      Assert.assertEquals("boolean", exiEvent.getName());
+      Assert.assertEquals("", exiEvent.getURI());
+      ++n_events;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
+      Assert.assertEquals("true", exiEvent.getCharacters().makeString());
+      ++n_events;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+      ++n_events;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+      ++n_events;
+
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+      ++n_events;
+      
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertSame(exiEvent, eventType);
+      Assert.assertEquals(0, eventType.getIndex());
+      ++n_events;
+      
+      Assert.assertNull(scanner.nextEvent());
+      
+      Assert.assertEquals(31, n_events);
+    }
+
+    xmlString = 
+        "<object>\n" + 
+        "  <name>myDecimal</name>\n" + 
+        "  <number>\n" + 
+        "    <decimal>12345.67</decimal>\n" + 
+        "  </number>\n" + 
+        "  <name>myBooleanArray</name>\n" + // unexpected
+        "  <array>\n" + 
+        "    <boolean>false</boolean>\n" + 
+        "    <boolean>true</boolean>\n" + 
+        "  </array>\n" + 
+        "  <name>myInteger</name>\n" + 
+        "  <number>\n" + 
+        "    <integer>1234567</integer>\n" + 
+        "  </number>\n" + 
+        "</object>\n";
+
+    encoder = new Transmogrifier();
+    
+    for (AlignmentType alignment : Alignments) {
+      encoder.setAlignmentType(alignment);
+
+      boolean caught;
+  
+      encoder.setGrammarCache(grammarCache);
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      encoder.setOutputStream(baos);
+
+      caught = false;
+      try {
+        encoder.encode(new InputSource(new StringReader(xmlString)));
+      }
+      catch (TransmogrifierException eee) {
+        caught = true;
+        Assert.assertEquals(TransmogrifierException.UNEXPECTED_CHARS, eee.getCode());
+        Assert.assertEquals(6, eee.getLocator().getLineNumber());
+      }
+      Assert.assertTrue(caught);
+    }
+  }
   
 }
