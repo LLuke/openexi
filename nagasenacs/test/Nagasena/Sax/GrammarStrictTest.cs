@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Xml;
+using System.Xml.Schema;
 using NUnit.Framework;
 
 using Org.System.Xml.Sax;
 
 using EXIDecoder = Nagasena.Proc.EXIDecoder;
+using HeaderOptionsOutputType = Nagasena.Proc.HeaderOptionsOutputType;
 using AlignmentType = Nagasena.Proc.Common.AlignmentType;
 using EventCode = Nagasena.Proc.Common.EventCode;
 using EventType = Nagasena.Proc.Common.EventType;
@@ -6041,6 +6046,366 @@ namespace Nagasena.Sax {
       }
     }
 
-  }
+    /**
+     * Disregard XML Schema constraint "cos-element-consistent". 
+     */
+    [Test]
+    public void testJsonExperiment_01() {
+      EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema(
+          "/json-instance01.gram", this);
 
+      GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
+    
+      String xmlString;
+      byte[] bts;
+      int n_events;
+
+      xmlString = 
+          "<object>" + 
+          "  <name>myDecimal</name>" + 
+          "  <number>" + 
+          "    <decimal>12345.67</decimal>" + 
+          "  </number>" + 
+          "  <name>myInteger</name>" + 
+          "  <number>" + 
+          "    <integer>1234567</integer>" + 
+          "  </number>" + 
+          "  <name>myBooleanArray</name>" + 
+          "  <array>" + 
+          "    <boolean>false</boolean>" + 
+          "    <boolean>true</boolean>" + 
+          "  </array>" + 
+          "</object>";
+
+      Transmogrifier encoder = new Transmogrifier();
+      encoder.OutputOptions = HeaderOptionsOutputType.none;
+      encoder.GrammarCache = grammarCache;
+
+      EXIDecoder decoder = new EXIDecoder();
+      decoder.GrammarCache = grammarCache;
+
+      foreach (AlignmentType alignment in Alignments) {
+        Scanner scanner;
+      
+        encoder.AlignmentType = alignment;
+        decoder.AlignmentType = alignment;
+
+        MemoryStream baos = new MemoryStream();
+        encoder.OutputStream = baos;
+
+        encoder.encode(new InputSource<Stream>(string2Stream(xmlString)));
+
+        bts = baos.ToArray();
+      
+        decoder.InputStream = new MemoryStream(bts);
+        scanner = decoder.processHeader();
+      
+        EventDescription exiEvent;
+        n_events = 0;
+      
+        EventType eventType;
+        EventTypeList eventTypeList;
+  
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_SD, exiEvent.EventKind);
+        eventType = exiEvent.getEventType();
+        Assert.AreSame(exiEvent, eventType);
+        Assert.AreEqual(0, eventType.Index);
+        eventTypeList = eventType.EventTypeList;
+        Assert.IsNull(eventTypeList.EE);
+        ++n_events;
+      
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+        eventType = exiEvent.getEventType();
+        Assert.AreEqual(EventType.ITEM_SE, eventType.itemType);
+        Assert.AreEqual("object", eventType.name);
+        Assert.AreEqual("", eventType.uri);
+        ++n_events;
+      
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+        Assert.AreEqual("name", exiEvent.Name);
+        Assert.AreEqual("", exiEvent.URI);
+        ++n_events;
+  
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_CH, exiEvent.EventKind);
+        Assert.AreEqual("myDecimal", exiEvent.Characters.makeString());
+        ++n_events;
+      
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+        eventType = exiEvent.getEventType();
+        Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+        ++n_events;
+  
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+        Assert.AreEqual("number", exiEvent.Name);
+        Assert.AreEqual("", exiEvent.URI);
+        ++n_events;
+
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+        Assert.AreEqual("decimal", exiEvent.Name);
+        Assert.AreEqual("", exiEvent.URI);
+        ++n_events;
+
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_CH, exiEvent.EventKind);
+        Assert.AreEqual("12345.67", exiEvent.Characters.makeString());
+        ++n_events;
+
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+        eventType = exiEvent.getEventType();
+        Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+        ++n_events;
+  
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+        eventType = exiEvent.getEventType();
+        Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+        ++n_events;
+
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+        Assert.AreEqual("name", exiEvent.Name);
+        Assert.AreEqual("", exiEvent.URI);
+        ++n_events;
+  
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_CH, exiEvent.EventKind);
+        Assert.AreEqual("myInteger", exiEvent.Characters.makeString());
+        ++n_events;
+      
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+        eventType = exiEvent.getEventType();
+        Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+        ++n_events;
+  
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+        Assert.AreEqual("number", exiEvent.Name);
+        Assert.AreEqual("", exiEvent.URI);
+        ++n_events;
+
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+        Assert.AreEqual("integer", exiEvent.Name);
+        Assert.AreEqual("", exiEvent.URI);
+        ++n_events;
+
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_CH, exiEvent.EventKind);
+        Assert.AreEqual("1234567", exiEvent.Characters.makeString());
+        ++n_events;
+
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+        eventType = exiEvent.getEventType();
+        Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+        ++n_events;
+  
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+        eventType = exiEvent.getEventType();
+        Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+        ++n_events;
+
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+        Assert.AreEqual("name", exiEvent.Name);
+        Assert.AreEqual("", exiEvent.URI);
+        ++n_events;
+  
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_CH, exiEvent.EventKind);
+        Assert.AreEqual("myBooleanArray", exiEvent.Characters.makeString());
+        ++n_events;
+      
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+        eventType = exiEvent.getEventType();
+        Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+        ++n_events;
+  
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+        Assert.AreEqual("array", exiEvent.Name);
+        Assert.AreEqual("", exiEvent.URI);
+        ++n_events;
+
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+        Assert.AreEqual("boolean", exiEvent.Name);
+        Assert.AreEqual("", exiEvent.URI);
+        ++n_events;
+
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_CH, exiEvent.EventKind);
+        Assert.AreEqual("false", exiEvent.Characters.makeString());
+        ++n_events;
+
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+        eventType = exiEvent.getEventType();
+        Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+        ++n_events;
+  
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+        Assert.AreEqual("boolean", exiEvent.Name);
+        Assert.AreEqual("", exiEvent.URI);
+        ++n_events;
+
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_CH, exiEvent.EventKind);
+        Assert.AreEqual("true", exiEvent.Characters.makeString());
+        ++n_events;
+
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+        eventType = exiEvent.getEventType();
+        Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+        ++n_events;
+
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+        eventType = exiEvent.getEventType();
+        Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+        ++n_events;
+
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+        eventType = exiEvent.getEventType();
+        Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+        ++n_events;
+      
+        exiEvent = scanner.nextEvent();
+        Assert.AreEqual(EventDescription_Fields.EVENT_ED, exiEvent.EventKind);
+        eventType = exiEvent.getEventType();
+        Assert.AreSame(exiEvent, eventType);
+        Assert.AreEqual(0, eventType.Index);
+        ++n_events;
+      
+        Assert.IsNull(scanner.nextEvent());
+      
+        Assert.AreEqual(31, n_events);
+      }
+
+      xmlString = 
+          "<object>\n" + 
+          "  <name>myDecimal</name>\n" + 
+          "  <number>\n" + 
+          "    <decimal>12345.67</decimal>\n" + 
+          "  </number>\n" + 
+          "  <name>myBooleanArray</name>\n" + // unexpected
+          "  <array>\n" + 
+          "    <boolean>false</boolean>\n" + 
+          "    <boolean>true</boolean>\n" + 
+          "  </array>\n" + 
+          "  <name>myInteger</name>\n" + 
+          "  <number>\n" + 
+          "    <integer>1234567</integer>\n" + 
+          "  </number>\n" + 
+          "</object>\n";
+
+      encoder = new Transmogrifier();
+    
+      foreach (AlignmentType alignment in Alignments) {
+        encoder.AlignmentType = alignment;
+
+        bool caught;
+  
+        encoder.GrammarCache = grammarCache;
+        MemoryStream baos = new MemoryStream();
+        encoder.OutputStream = baos;
+
+        caught = false;
+        try {
+          encoder.encode(new InputSource<Stream>(string2Stream(xmlString)));
+        }
+        catch (TransmogrifierException eee) {
+          caught = true;
+          Assert.AreEqual(TransmogrifierException.UNEXPECTED_CHARS, eee.Code);
+          // REVISIT: Is there a way to acquire line number?
+          // Assert.AreEqual(6, eee.Locator.LineNumber);
+          Assert.AreEqual(0, eee.Locator.LineNumber);
+        }
+        Assert.IsTrue(caught);
+      }
+
+    }
+
+    /**
+     * Introspect json-instance01.xsd using SOM.
+     */
+    private void ValidationCallBack(object sender, ValidationEventArgs args) {
+      //System.Console.Out.WriteLine(args.Message);
+      //System.Console.Out.WriteLine(args.Severity);
+      return;
+    }
+    [Test]
+    public void testJsonExperiment_01_schema() {
+
+      Uri uri = EXISchemaFactoryTestUtil.getAbsoluteUri("/json-instance01.xsd", this);
+
+      FileStream fs = new FileStream(uri.AbsolutePath, FileMode.Open);
+
+      XmlSchema schema = XmlSchema.Read(fs, new ValidationEventHandler(ValidationCallBack));
+      XmlSchemaSet schemaSet = new XmlSchemaSet();
+      schemaSet.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
+      schemaSet.Add(schema);
+      schemaSet.Compile();
+
+      Assert.AreEqual(1, schema.Elements.Count);
+      IEnumerator iterator = schema.Elements.Values.GetEnumerator();
+      iterator.MoveNext();
+      XmlSchemaElement objectElement = iterator.Current as XmlSchemaElement;
+
+      Assert.AreEqual("object", objectElement.Name);
+      XmlSchemaComplexType objectType = objectElement.ElementSchemaType as XmlSchemaComplexType;
+      Assert.AreEqual("Object", objectType.Name);
+      XmlSchemaSequence sequence = objectType.ContentTypeParticle as XmlSchemaSequence;
+      Assert.AreEqual(1, sequence.MinOccurs);
+      Assert.AreEqual(1, sequence.MaxOccurs);
+
+      XmlSchemaElement nameElement1 = sequence.Items[0] as XmlSchemaElement;
+      Assert.AreEqual("name", nameElement1.Name);
+      Assert.AreEqual(1, nameElement1.MinOccurs);
+      Assert.AreEqual(1, nameElement1.MaxOccurs);
+      XmlSchemaSimpleType nameType1 = nameElement1.ElementSchemaType as XmlSchemaSimpleType;
+      XmlSchemaSimpleTypeRestriction restriction1 = (XmlSchemaSimpleTypeRestriction)nameType1.Content;
+      iterator = restriction1.Facets.OfType<XmlSchemaEnumerationFacet>().GetEnumerator();
+      Assert.IsTrue(iterator.MoveNext());
+      Assert.AreEqual("myDecimal", ((XmlSchemaEnumerationFacet)iterator.Current).Value);
+      Assert.IsFalse(iterator.MoveNext());
+
+      XmlSchemaElement nameElement2 = sequence.Items[2] as XmlSchemaElement;
+      Assert.AreEqual("name", nameElement2.Name);
+      Assert.AreEqual(1, nameElement2.MinOccurs);
+      Assert.AreEqual(1, nameElement2.MaxOccurs);
+      XmlSchemaSimpleType nameType2 = nameElement2.ElementSchemaType as XmlSchemaSimpleType;
+      XmlSchemaSimpleTypeRestriction restriction2 = (XmlSchemaSimpleTypeRestriction)nameType2.Content;
+      iterator = restriction2.Facets.OfType<XmlSchemaEnumerationFacet>().GetEnumerator();
+      Assert.IsTrue(iterator.MoveNext());
+      Assert.AreEqual("myInteger", ((XmlSchemaEnumerationFacet)iterator.Current).Value);
+      Assert.IsFalse(iterator.MoveNext());
+
+      XmlSchemaElement nameElement3 = sequence.Items[4] as XmlSchemaElement;
+      Assert.AreEqual("name", nameElement3.Name);
+      Assert.AreEqual(1, nameElement3.MinOccurs);
+      Assert.AreEqual(1, nameElement3.MaxOccurs);
+      XmlSchemaSimpleType nameType3 = nameElement3.ElementSchemaType as XmlSchemaSimpleType;
+      XmlSchemaSimpleTypeRestriction restriction3 = (XmlSchemaSimpleTypeRestriction)nameType3.Content;
+      iterator = restriction3.Facets.OfType<XmlSchemaEnumerationFacet>().GetEnumerator();
+      Assert.IsTrue(iterator.MoveNext());
+      Assert.AreEqual("myBooleanArray", ((XmlSchemaEnumerationFacet)iterator.Current).Value);
+      Assert.IsFalse(iterator.MoveNext());
+    }
+
+  }
 }

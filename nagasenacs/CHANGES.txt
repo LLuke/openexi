@@ -1,3 +1,13 @@
+2015-07-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0053.0
+
+-  Added a test that was implemented as part of Nagasena Java version 0054.
+
+M       test/Nagasena/Sax/GrammarStrictTest.cs
+A       testdata/json-instance01.xsd
+A       testdata/json-instance01.gram
+
 2015-06-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0053.0
