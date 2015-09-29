@@ -1688,6 +1688,98 @@ namespace Nagasena.Sax {
       }
     }
 
+    /// <summary>
+    /// Attributes are sorted according to lexicographical order.
+    /// </summary>
+    [Test]
+    public void testAttributeOrder_01() {
+      GrammarCache grammarCache = new GrammarCache((EXISchema)null, GrammarOptions.STRICT_OPTIONS);
+
+      byte[] bts;
+
+      Transmogrifier encoder = new Transmogrifier();
+      encoder.GrammarCache = grammarCache;
+
+      EXIDecoder decoder = new EXIDecoder();
+      decoder.GrammarCache = grammarCache;
+
+      Scanner scanner;
+
+      encoder.AlignmentType = AlignmentType.bitPacked;
+      decoder.AlignmentType = AlignmentType.bitPacked;
+
+      MemoryStream baos = new MemoryStream();
+      encoder.OutputStream = baos;
+
+      SAXTransmogrifier saxTransmogrifier = encoder.SAXTransmogrifier;
+
+      saxTransmogrifier.SetDocumentLocator(new LocatorImpl());
+      saxTransmogrifier.StartDocument();
+      saxTransmogrifier.StartPrefixMapping("foo", "urn:foo");
+      AttributesImpl attributes = new AttributesImpl();
+      attributes.AddAttribute("", "z", "z", "CDATA", "", true);
+      attributes.AddAttribute("", "x", "x", "CDATA", "", true);
+      attributes.AddAttribute("", "y", "y", "CDATA", "", true);
+      saxTransmogrifier.StartElement("urn:foo", "B", "foo:B", attributes);
+      saxTransmogrifier.EndElement("urn:foo", "B", "foo:B");
+      saxTransmogrifier.EndDocument();
+
+      bts = baos.ToArray();
+
+      decoder.InputStream = new MemoryStream(bts);
+      scanner = decoder.processHeader();
+
+      EventDescription exiEvent;
+
+      EventType eventType;
+      EventTypeList eventTypeList;
+
+      exiEvent = scanner.nextEvent();
+      Assert.AreEqual(EventDescription_Fields.EVENT_SD, exiEvent.EventKind);
+      eventType = exiEvent.getEventType();
+      Assert.AreSame(exiEvent, eventType);
+      Assert.AreEqual(0, eventType.Index);
+      eventTypeList = eventType.EventTypeList;
+      Assert.IsNull(eventTypeList.EE);
+
+      exiEvent = scanner.nextEvent();
+      Assert.AreEqual(EventDescription_Fields.EVENT_SE, exiEvent.EventKind);
+      eventType = exiEvent.getEventType();
+      Assert.AreEqual(EventType.ITEM_SE_WC, eventType.itemType);
+      Assert.AreEqual("B", exiEvent.Name);
+      Assert.AreEqual("urn:foo", exiEvent.URI);
+
+      exiEvent = scanner.nextEvent();
+      Assert.AreEqual(EventDescription_Fields.EVENT_AT, exiEvent.EventKind);
+      Assert.AreEqual("x", exiEvent.Name);
+      Assert.AreEqual("", exiEvent.URI);
+
+      exiEvent = scanner.nextEvent();
+      Assert.AreEqual(EventDescription_Fields.EVENT_AT, exiEvent.EventKind);
+      Assert.AreEqual("y", exiEvent.Name);
+      Assert.AreEqual("", exiEvent.URI);
+
+      exiEvent = scanner.nextEvent();
+      Assert.AreEqual(EventDescription_Fields.EVENT_AT, exiEvent.EventKind);
+      Assert.AreEqual("z", exiEvent.Name);
+      Assert.AreEqual("", exiEvent.URI);
+
+      exiEvent = scanner.nextEvent();
+      Assert.AreEqual(EventDescription_Fields.EVENT_EE, exiEvent.EventKind);
+      eventType = exiEvent.getEventType();
+      Assert.AreEqual(EventType.ITEM_EE, eventType.itemType);
+      Assert.AreEqual(4, eventType.Index); // EE, AT("z"), AT("y"), AT("x"), EE, AT(*), SE(*), CH
+      Assert.AreEqual(EventType.ITEM_EE, eventType.EventTypeList.item(4).itemType);
+
+      exiEvent = scanner.nextEvent();
+      Assert.AreEqual(EventDescription_Fields.EVENT_ED, exiEvent.EventKind);
+      eventType = exiEvent.getEventType();
+      Assert.AreSame(exiEvent, eventType);
+      Assert.AreEqual(0, eventType.Index);
+
+      Assert.IsNull(scanner.nextEvent());
+    }
+
   }
 
 }
