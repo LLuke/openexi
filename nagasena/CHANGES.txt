@@ -1,3 +1,11 @@
+2015-09-29 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0054.0
+
+- Make sure attributes are always sorted.
+
+M       test/org/openexi/sax/SAXTransmogrifierTest.java
+
 2015-07-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0054.0

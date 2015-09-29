@@ -1739,4 +1739,95 @@ public class SAXTransmogrifierTest extends TestBase {
     }
   }
   
+  /**
+   * Attributes are sorted according to lexicographical order.
+   */
+  public void testAttributeOrder_01() throws Exception {
+    GrammarCache grammarCache = new GrammarCache((EXISchema)null, GrammarOptions.STRICT_OPTIONS);
+    
+    byte[] bts;
+    
+    Transmogrifier encoder = new Transmogrifier();
+    encoder.setGrammarCache(grammarCache);
+
+    EXIDecoder decoder = new EXIDecoder();
+    decoder.setGrammarCache(grammarCache);
+
+    Scanner scanner;
+    
+    encoder.setAlignmentType(AlignmentType.bitPacked);
+    decoder.setAlignmentType(AlignmentType.bitPacked);
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    encoder.setOutputStream(baos);
+
+    SAXTransmogrifier saxTransmogrifier = encoder.getSAXTransmogrifier();
+    
+    saxTransmogrifier.setDocumentLocator(new LocatorImpl());
+    saxTransmogrifier.startDocument();
+    saxTransmogrifier.startPrefixMapping("foo", "urn:foo");
+    AttributesImpl attributes = new AttributesImpl();
+    attributes.addAttribute("", "z", "z", "", "");
+    attributes.addAttribute("", "x", "x", "", "");
+    attributes.addAttribute("", "y", "y", "", "");
+    saxTransmogrifier.startElement("urn:foo", "B", "foo:B", attributes);
+    saxTransmogrifier.endElement("urn:foo", "B", "foo:B");
+    saxTransmogrifier.endDocument();
+    
+    bts = baos.toByteArray();
+    
+    decoder.setInputStream(new ByteArrayInputStream(bts));
+    scanner = decoder.processHeader();
+    
+    EventDescription exiEvent;
+    
+    EventType eventType;
+    EventTypeList eventTypeList;
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
+    eventType = exiEvent.getEventType();
+    Assert.assertSame(exiEvent, eventType);
+    Assert.assertEquals(0, eventType.getIndex());
+    eventTypeList = eventType.getEventTypeList();
+    Assert.assertNull(eventTypeList.getEE());
+    
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+    eventType = exiEvent.getEventType();
+    Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+    Assert.assertEquals("B", exiEvent.getName());
+    Assert.assertEquals("urn:foo", exiEvent.getURI());
+    
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
+    Assert.assertEquals("x", exiEvent.getName());
+    Assert.assertEquals("", exiEvent.getURI());
+    
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
+    Assert.assertEquals("y", exiEvent.getName());
+    Assert.assertEquals("", exiEvent.getURI());
+    
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
+    Assert.assertEquals("z", exiEvent.getName());
+    Assert.assertEquals("", exiEvent.getURI());
+    
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+    eventType = exiEvent.getEventType();
+    Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+    Assert.assertEquals(4, eventType.getIndex()); // EE, AT("z"), AT("y"), AT("x"), EE, AT(*), SE(*), CH
+    Assert.assertEquals(EventType.ITEM_EE, eventType.getEventTypeList().item(4).itemType);
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
+    eventType = exiEvent.getEventType();
+    Assert.assertSame(exiEvent, eventType);
+    Assert.assertEquals(0, eventType.getIndex());
+    
+    Assert.assertNull(scanner.nextEvent());
+  }
+  
 }
