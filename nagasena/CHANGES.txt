@@ -1,3 +1,12 @@
+2015-10-07 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0055.0
+
+- Fixed a bug in supporting profile.
+
+M       src/org/openexi/sax/Transmogrifier.java
+M       build.xml
+
 2015-09-29 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0054.0
