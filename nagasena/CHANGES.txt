@@ -1,3 +1,16 @@
+2015-11-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0056.0
+
+- Added support for xml:space.
+
+A       test/org/openexi/sax/WhitespacesTest.java
+M       src/org/openexi/sax/TransmogrifierExceptionXMsg.xml
+M       src/org/openexi/sax/TransmogrifierException.java
+M       src/org/openexi/sax/Transmogrifier.java
+M       testdata/whiteSpace.xsd
+M       build.xml
+
 2015-10-07 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0055.0

@@ -443,6 +443,9 @@ public final class Transmogrifier {
     private XMLLocusItemEx[] m_locusStack;
     private int m_locusLastDepth;
     private boolean m_inDTD;
+    
+    private boolean[] m_xmlSpaceStack;
+    private int m_xmlSpaceLastDepth;
 
     private static final byte STAG = 0; // start tag
     private static final byte CONT = 1; // non-whitespace content
@@ -493,6 +496,8 @@ public final class Transmogrifier {
         m_locusStack[i] = new XMLLocusItemEx();
       }
       m_locusLastDepth = -1;
+      m_xmlSpaceStack = new boolean[32];
+      m_xmlSpaceLastDepth = -1;
       m_prefixUriBindingsDefault = new PrefixUriBindings();
       m_prefixUriBindings = null;
       m_charBuf = new char[128];
@@ -595,6 +600,8 @@ public final class Transmogrifier {
 
     public final void startDocument() throws SAXException {
       m_locusLastDepth = -1;
+      m_xmlSpaceLastDepth = 0;
+      m_xmlSpaceStack[m_xmlSpaceLastDepth] = false;
       m_decls.clear();
       m_charPos = 0;
       try {
@@ -705,6 +712,14 @@ public final class Transmogrifier {
         m_locusStack = locusStack;
       }
       final XMLLocusItemEx locusItem = m_locusStack[m_locusLastDepth];
+      if (++m_xmlSpaceLastDepth == m_xmlSpaceStack.length) {
+        final int xmlSpaceStackCapacity = m_xmlSpaceLastDepth + 8;
+        final boolean[] xmlSpaceStack = new boolean[xmlSpaceStackCapacity];
+        System.arraycopy(m_xmlSpaceStack, 0, xmlSpaceStack, 0, m_xmlSpaceLastDepth);
+        m_xmlSpaceStack = xmlSpaceStack;
+      }
+      // inherit parent's xml:space value
+      m_xmlSpaceStack[m_xmlSpaceLastDepth] = m_xmlSpaceStack[m_xmlSpaceLastDepth - 1]; 
       locusItem.prefixUriBindings = m_prefixUriBindings;
       try {
         EventTypeList eventTypes = m_scriber.getNextEventTypes();
@@ -803,6 +818,17 @@ public final class Transmogrifier {
                   continue;
                 }
               }
+              else if (XmlUriConst.W3C_XML_1998_URI.equals(instanceUri)) {
+                if ("space".equals(attrs.getLocalName(i))) {
+                  final String attrValue = attrs.getValue(i);
+                  if ("preserve".equals(attrValue)) {
+                    m_xmlSpaceStack[m_xmlSpaceLastDepth] = true;
+                  }
+                  else if ("default".equals(attrValue)) {
+                    m_xmlSpaceStack[m_xmlSpaceLastDepth] = false;
+                  }
+                }
+              }
               final ComparableAttribute comparableAttribute;
               final String _prefix = hasNS ? getPrefixOfQualifiedName(instanceQName) : null;
               comparableAttribute = acquireComparableAttribute();
@@ -834,7 +860,7 @@ public final class Transmogrifier {
               qname.prefix = "";
             }
             m_scriber.writeXsiTypeValue(qname);
-            if (!isSchemaInformedGrammar && (itemType = eventTypeForType.itemType) == EventType.ITEM_AT_WC_ANY_UNTYPED) {
+            if (!isSchemaInformedGrammar && eventTypeForType.itemType == EventType.ITEM_AT_WC_ANY_UNTYPED) {
               m_scriber.wildcardAttribute(eventTypeForType.getIndex(), XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI_ID, 
                   EXISchemaConst.XSI_LOCALNAME_TYPE_ID);
             }
@@ -1162,8 +1188,9 @@ public final class Transmogrifier {
             return;
           }
         }
+        final boolean xmlSpacePreserve = m_xmlSpaceStack[m_xmlSpaceLastDepth];
         if ((eventType = eventTypes.getCharacters()) != null) {
-          boolean preserveWhitespaces = m_preserveWhitespaces;
+          boolean preserveWhitespaces = m_preserveWhitespaces || xmlSpacePreserve;
           if (!preserveWhitespaces) {
             if (tp != EXISchema.NIL_NODE)
               preserveWhitespaces = true;
@@ -1218,6 +1245,12 @@ public final class Transmogrifier {
                   new String[] { new String(m_charBuf, 0, m_charPos) }, new LocatorImpl(m_locator));
               throw new SAXException(te);
           }
+        }
+        if (xmlSpacePreserve && m_preserveWhitespaces) {
+          TransmogrifierException te;
+          te = new TransmogrifierException(TransmogrifierException.CANNOT_PRESERVE_WHITESPACES, 
+              (String[])null, new LocatorImpl(m_locator));
+          throw new SAXException(te);
         }
       }
       catch (IOException ioe) {
@@ -1460,13 +1493,12 @@ public final class Transmogrifier {
     
     private EventType matchXsiType(EventTypeList eventTypes, boolean useWildcardAT) {
       final Grammar targetGrammar = m_scriber.currentState.targetGrammar;
-      final byte grammarType = targetGrammar.grammarType;
       final boolean isSchemaInformedGrammar = targetGrammar.isSchemaInformed();
       for (int j = 0, j_len = eventTypes.getLength(); j < j_len; j++) {
         final EventType eventType = eventTypes.item(j);
         switch (eventType.itemType) {
           case EventType.ITEM_SCHEMA_TYPE:
-            assert grammarType != Grammar.BUILTIN_GRAMMAR_ELEMENT;
+            assert targetGrammar.grammarType != Grammar.BUILTIN_GRAMMAR_ELEMENT;
             return eventType;
           case EventType.ITEM_AT_WC_ANY_UNTYPED:
             if (!isSchemaInformedGrammar)

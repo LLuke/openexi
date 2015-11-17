@@ -59,6 +59,11 @@ public final class TransmogrifierException extends Exception {
    * Errors reported by Scriber.
    */
   public static final int SCRIBER_ERROR = 12;
+  /**
+   * Whitespaces could not be preserved.
+   * This occurs when xml:space was specified to be preserved in strict mode.
+   */
+  public static final int CANNOT_PRESERVE_WHITESPACES = 13;
 
   private static final MessageResolver m_msgs =
     new MessageResolver(TransmogrifierException.class);
