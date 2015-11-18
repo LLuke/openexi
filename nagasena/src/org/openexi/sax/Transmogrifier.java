@@ -349,6 +349,7 @@ public final class Transmogrifier {
       m_outputOptions = outputOptions;
     }
   }
+  
   /**
    * Set to true to preserve whitespace (for example, spaces, tabs, and
    * line breaks) in the encoded EXI stream. By default, non-essential whitespace
@@ -357,6 +358,15 @@ public final class Transmogrifier {
    */
   public final void setPreserveWhitespaces(boolean preserveWhitespaces) {
     m_saxHandler.setPreserveWhitespaces(preserveWhitespaces);
+  }
+  
+  /**
+   * Set to true to have the transmogrifier observe EXI Canonicalization
+   * encoding rules.
+   * @param observeC14N <i>true</i> to enable EXI Canonicalization encoding rules
+   */
+  public final void setObserveC14N(boolean observeC14N) {
+    m_saxHandler.setObserveC14N(observeC14N);
   }
 
   ///////////////////////////////////////////////////////////////////////////
@@ -487,6 +497,7 @@ public final class Transmogrifier {
     private int m_zlibStrategy;
     
     private boolean m_preserveWhitespaces;
+    private boolean m_observeC14N;
     
     SAXEventHandler() {
       m_schema = null;
@@ -512,6 +523,7 @@ public final class Transmogrifier {
       m_zlibLevel = java.util.zip.Deflater.DEFAULT_COMPRESSION;
       m_zlibStrategy = java.util.zip.Deflater.DEFAULT_STRATEGY;
       m_preserveWhitespaces = false;
+      m_observeC14N = false;
       m_comparableAttributes = new ComparableAttribute[32];
       for (int i = 0; i < m_comparableAttributes.length; i++) {
         m_comparableAttributes[i] = new ComparableAttribute();
@@ -592,6 +604,10 @@ public final class Transmogrifier {
       m_preserveWhitespaces = preserveWhitespaces;
     }
 
+    public final void setObserveC14N(boolean observeC14N) {
+      m_observeC14N = observeC14N;
+    }
+    
     //////////// SAX event handlers
 
     public final void setDocumentLocator(final Locator locator) {
@@ -687,7 +703,7 @@ public final class Transmogrifier {
       final String[] nsdecls;
       final int n_nsdecls;
       if (hasNS) {
-        nsdecls = m_decls.getDecls();
+        nsdecls = m_decls.getDecls(m_observeC14N);
         if ((n_nsdecls = m_decls.getDeclsCount()) != 0) {
           m_decls.clear();
         }
@@ -1589,10 +1605,37 @@ public final class Transmogrifier {
       n_decls = 0;
     }
 
-    public final String[] getDecls() {
+    public final String[] getDecls(boolean doSort) {
+      if (doSort && n_decls > 1) {
+        int h = n_decls * 10 / 13;
+        while (true) {
+          int swaps = 0;
+          for (int i = 0; i + h < n_decls; ++i) {
+            final int p = i << 1;
+            final int q = (i + h) << 1;
+            if (decls[p].compareTo(decls[q]) > 0) {
+              // do the swap
+              final String prefix = decls[p];
+              final String uri = decls[p + 1];
+              decls[p] = decls[q];
+              decls[p + 1] = decls[q + 1];
+              decls[q] = prefix;
+              decls[q + 1] = uri;
+              ++swaps;
+            }
+          }
+          if (h == 1) {
+            if (swaps == 0) {
+              break;
+            }
+          } else {
+            h = h * 10 / 13;
+          }
+        }
+      }
       return decls;
     }
-     
+
     public final int getDeclsCount() {
       return n_decls;
     }

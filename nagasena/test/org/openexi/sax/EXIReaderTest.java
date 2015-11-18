@@ -406,97 +406,133 @@ public class EXIReaderTest extends TestBase {
       "  xmlns:xsd='http://www.w3.org/2001/XMLSchema' \n" +
       "  xmlns:foo='urn:foo' xsi:type='xsd:string' foo:aA='abc'>" +
       "xyz</foo:AB>";
-  
+
+    Transmogrifier encoder = new Transmogrifier();
+    EXIReader decoder = new EXIReader();
+    
+    encoder.setGrammarCache(grammarCache);
+    decoder.setGrammarCache(grammarCache);
+
     for (AlignmentType alignment : Alignments) {
       for (boolean preserveLexicalValues : new boolean[] { true, false }) {
-        Transmogrifier encoder = new Transmogrifier();
-        EXIReader decoder = new EXIReader();
-        
-        encoder.setAlignmentType(alignment);
-        decoder.setAlignmentType(alignment);
-  
-        encoder.setPreserveLexicalValues(preserveLexicalValues);
-        decoder.setPreserveLexicalValues(preserveLexicalValues);
-  
-        encoder.setGrammarCache(grammarCache);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        encoder.setOutputStream(baos);
-        
-        byte[] bts;
-        
-        encoder.encode(new InputSource(new StringReader(xmlString)));
-        
-        bts = baos.toByteArray();
-        
-        decoder.setGrammarCache(grammarCache);
-        
-        ArrayList<Event> exiEventList = new ArrayList<Event>();
-  
-        SAXRecorder saxRecorder = new SAXRecorder(exiEventList, true);
-        decoder.setContentHandler(saxRecorder);
-        decoder.setLexicalHandler(saxRecorder);
-        decoder.parse(new InputSource(new ByteArrayInputStream(bts)));
-  
-        Assert.assertEquals(11, exiEventList.size());
-  
-        Event saxEvent;
-        
-        saxEvent = exiEventList.get(0);
-        Assert.assertEquals(Event.NAMESPACE, saxEvent.type);
-        Assert.assertEquals("http://www.w3.org/2001/XMLSchema-instance", saxEvent.namespace);
-        Assert.assertEquals("xsi", saxEvent.name);
-  
-        saxEvent = exiEventList.get(1);
-        Assert.assertEquals(Event.NAMESPACE, saxEvent.type);
-        Assert.assertEquals("http://www.w3.org/2001/XMLSchema", saxEvent.namespace);
-        Assert.assertEquals("xsd", saxEvent.name);
-  
-        saxEvent = exiEventList.get(2);
-        Assert.assertEquals(Event.NAMESPACE, saxEvent.type);
-        Assert.assertEquals("urn:foo", saxEvent.namespace);
-        Assert.assertEquals("foo", saxEvent.name);
-  
-        saxEvent = exiEventList.get(3);
-        Assert.assertEquals(Event.START_ELEMENT, saxEvent.type);
-        Assert.assertEquals("urn:foo", saxEvent.namespace);
-        Assert.assertEquals("AB", saxEvent.localName);
-        Assert.assertEquals("foo:AB", saxEvent.name);
-  
-        saxEvent = exiEventList.get(4);
-        Assert.assertEquals(Event.ATTRIBUTE, saxEvent.type);
-        Assert.assertEquals("http://www.w3.org/2001/XMLSchema-instance", saxEvent.namespace);
-        Assert.assertEquals("type", saxEvent.localName);
-        Assert.assertEquals("xsi:type", saxEvent.name);
-        Assert.assertEquals("xsd:string", saxEvent.stringValue);
-  
-        saxEvent = exiEventList.get(5);
-        Assert.assertEquals(Event.ATTRIBUTE, saxEvent.type);
-        Assert.assertEquals("urn:foo", saxEvent.namespace);
-        Assert.assertEquals("aA", saxEvent.localName);
-        Assert.assertEquals("foo:aA", saxEvent.name);
-        Assert.assertEquals("abc", saxEvent.stringValue);
-  
-        saxEvent = exiEventList.get(6);
-        Assert.assertEquals(Event.CHARACTERS, saxEvent.type);
-        Assert.assertEquals("xyz", new String(saxEvent.charValue));
-  
-        saxEvent = exiEventList.get(7);
-        Assert.assertEquals(Event.END_ELEMENT, saxEvent.type);
-        Assert.assertEquals("urn:foo", saxEvent.namespace);
-        Assert.assertEquals("AB", saxEvent.localName);
-        Assert.assertEquals("foo:AB", saxEvent.name);
-        
-        saxEvent = exiEventList.get(8);
-        Assert.assertEquals(Event.END_NAMESPACE, saxEvent.type);
-        Assert.assertEquals("foo", saxEvent.name);
-        
-        saxEvent = exiEventList.get(9);
-        Assert.assertEquals(Event.END_NAMESPACE, saxEvent.type);
-        Assert.assertEquals("xsd", saxEvent.name);
-        
-        saxEvent = exiEventList.get(10);
-        Assert.assertEquals(Event.END_NAMESPACE, saxEvent.type);
-        Assert.assertEquals("xsi", saxEvent.name);
+        for (boolean observeC14N : new boolean[] { true, false }) {
+          encoder.setAlignmentType(alignment);
+          decoder.setAlignmentType(alignment);
+    
+          encoder.setPreserveLexicalValues(preserveLexicalValues);
+          decoder.setPreserveLexicalValues(preserveLexicalValues);
+    
+          ByteArrayOutputStream baos = new ByteArrayOutputStream();
+          encoder.setOutputStream(baos);
+          
+          byte[] bts;
+          
+          encoder.setObserveC14N(observeC14N);
+          encoder.encode(new InputSource(new StringReader(xmlString)));
+          
+          bts = baos.toByteArray();
+          
+          ArrayList<Event> exiEventList = new ArrayList<Event>();
+    
+          SAXRecorder saxRecorder = new SAXRecorder(exiEventList, true);
+          decoder.setContentHandler(saxRecorder);
+          decoder.setLexicalHandler(saxRecorder);
+          decoder.parse(new InputSource(new ByteArrayInputStream(bts)));
+    
+          Assert.assertEquals(11, exiEventList.size());
+    
+          Event saxEvent;
+          
+          if (observeC14N) {
+            saxEvent = exiEventList.get(0);
+            Assert.assertEquals(Event.NAMESPACE, saxEvent.type);
+            Assert.assertEquals("urn:foo", saxEvent.namespace);
+            Assert.assertEquals("foo", saxEvent.name);
+            
+            saxEvent = exiEventList.get(1);
+            Assert.assertEquals(Event.NAMESPACE, saxEvent.type);
+            Assert.assertEquals("http://www.w3.org/2001/XMLSchema", saxEvent.namespace);
+            Assert.assertEquals("xsd", saxEvent.name);
+
+            saxEvent = exiEventList.get(2);
+            Assert.assertEquals(Event.NAMESPACE, saxEvent.type);
+            Assert.assertEquals("http://www.w3.org/2001/XMLSchema-instance", saxEvent.namespace);
+            Assert.assertEquals("xsi", saxEvent.name);
+          }
+          else {
+            saxEvent = exiEventList.get(0);
+            Assert.assertEquals(Event.NAMESPACE, saxEvent.type);
+            Assert.assertEquals("http://www.w3.org/2001/XMLSchema-instance", saxEvent.namespace);
+            Assert.assertEquals("xsi", saxEvent.name);
+      
+            saxEvent = exiEventList.get(1);
+            Assert.assertEquals(Event.NAMESPACE, saxEvent.type);
+            Assert.assertEquals("http://www.w3.org/2001/XMLSchema", saxEvent.namespace);
+            Assert.assertEquals("xsd", saxEvent.name);
+      
+            saxEvent = exiEventList.get(2);
+            Assert.assertEquals(Event.NAMESPACE, saxEvent.type);
+            Assert.assertEquals("urn:foo", saxEvent.namespace);
+            Assert.assertEquals("foo", saxEvent.name);
+          }
+    
+          saxEvent = exiEventList.get(3);
+          Assert.assertEquals(Event.START_ELEMENT, saxEvent.type);
+          Assert.assertEquals("urn:foo", saxEvent.namespace);
+          Assert.assertEquals("AB", saxEvent.localName);
+          Assert.assertEquals("foo:AB", saxEvent.name);
+    
+          saxEvent = exiEventList.get(4);
+          Assert.assertEquals(Event.ATTRIBUTE, saxEvent.type);
+          Assert.assertEquals("http://www.w3.org/2001/XMLSchema-instance", saxEvent.namespace);
+          Assert.assertEquals("type", saxEvent.localName);
+          Assert.assertEquals("xsi:type", saxEvent.name);
+          Assert.assertEquals("xsd:string", saxEvent.stringValue);
+    
+          saxEvent = exiEventList.get(5);
+          Assert.assertEquals(Event.ATTRIBUTE, saxEvent.type);
+          Assert.assertEquals("urn:foo", saxEvent.namespace);
+          Assert.assertEquals("aA", saxEvent.localName);
+          Assert.assertEquals("foo:aA", saxEvent.name);
+          Assert.assertEquals("abc", saxEvent.stringValue);
+    
+          saxEvent = exiEventList.get(6);
+          Assert.assertEquals(Event.CHARACTERS, saxEvent.type);
+          Assert.assertEquals("xyz", new String(saxEvent.charValue));
+    
+          saxEvent = exiEventList.get(7);
+          Assert.assertEquals(Event.END_ELEMENT, saxEvent.type);
+          Assert.assertEquals("urn:foo", saxEvent.namespace);
+          Assert.assertEquals("AB", saxEvent.localName);
+          Assert.assertEquals("foo:AB", saxEvent.name);
+          
+          if (observeC14N) {
+            saxEvent = exiEventList.get(8);
+            Assert.assertEquals(Event.END_NAMESPACE, saxEvent.type);
+            Assert.assertEquals("xsi", saxEvent.name);
+
+            saxEvent = exiEventList.get(9);
+            Assert.assertEquals(Event.END_NAMESPACE, saxEvent.type);
+            Assert.assertEquals("xsd", saxEvent.name);
+
+            saxEvent = exiEventList.get(10);
+            Assert.assertEquals(Event.END_NAMESPACE, saxEvent.type);
+            Assert.assertEquals("foo", saxEvent.name);
+          }
+          else {
+            saxEvent = exiEventList.get(8);
+            Assert.assertEquals(Event.END_NAMESPACE, saxEvent.type);
+            Assert.assertEquals("foo", saxEvent.name);
+            
+            saxEvent = exiEventList.get(9);
+            Assert.assertEquals(Event.END_NAMESPACE, saxEvent.type);
+            Assert.assertEquals("xsd", saxEvent.name);
+            
+            saxEvent = exiEventList.get(10);
+            Assert.assertEquals(Event.END_NAMESPACE, saxEvent.type);
+            Assert.assertEquals("xsi", saxEvent.name);
+          }
+        }
       }
     }
   }

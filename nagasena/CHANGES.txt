@@ -1,3 +1,14 @@
+2015-11-18 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0057.0
+
+- Added support for sorting NS events lexicographically.
+
+M       test/org/openexi/sax/GrammarSchemaInformedTest.java
+M       test/org/openexi/sax/EXIReaderTest.java
+M       src/org/openexi/sax/Transmogrifier.java
+M       build.xml
+
 2015-11-16 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0056.0

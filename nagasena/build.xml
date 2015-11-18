@@ -7,7 +7,7 @@
 <property name="debug" value="off"/>
 
 <property name="name" value="Nagasena"/>
-<property name="version" value="0000.0002.0056.0"/>
+<property name="version" value="0000.0002.0057.0"/>
 <property name="vendor" value="OpenEXI"/>
 
 &properties.xml;
