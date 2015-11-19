@@ -1,3 +1,56 @@
+2015-11-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0057.0
+
+- Added a test case that decodes EXI-encoded FixML documents.
+
+M       test/org/openexi/proc/DecodeStrictTest.java
+A       testdata/FixML-4.4
+A       testdata/FixML-4.4/schema
+A       testdata/FixML-4.4/schema/fixml-indications-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-posttrade-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-fields-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-crossorders-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-securitystatus-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-collateral-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-quotation-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-registration-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-order-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-main-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-allocation-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-components-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-marketdata-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-tradecapture-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-settlement-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-datatypes-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-trade-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-positions-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-confirmation-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-listorders-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-pretrade-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-registration-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-multilegorders-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-newsevents-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-order-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-indications-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-marketdata-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-fields-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-crossorders-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-tradecapture-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-securitystatus-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-settlement-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-positions-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-confirmation-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-listorders-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-collateral-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-quotation-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-allocation-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-components-base-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-newsevents-impl-4-4.xsd
+A       testdata/FixML-4.4/schema/fixml-multilegorders-impl-4-4.xsd
+A       testdata/FixML-4.4/AllocationInstructionAck.exi_vi_openexi.bitPacked
+A       testdata/FixML-4.4/AllocationInstructionAck.xml
+
 2015-11-18 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0057.0

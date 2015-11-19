@@ -494,5 +494,119 @@ public class DecodeStrictTest extends TestBase {
     
     Assert.assertEquals(10, n_events);
   }
+  
+  /**
+   * Decode FixML EXI documents.
+   */
+  public void testFixML_01() throws Exception {
+    EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema(
+        "/FixML-4.4/schema/fixml-main-4-4.xsd", getClass(), m_compilerErrors);
+    
+    Assert.assertEquals(0, m_compilerErrors.getTotalCount());
+
+    GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
+
+    AlignmentType alignment = AlignmentType.bitPacked;
+    EXIDecoder decoder = new EXIDecoder();
+    Scanner scanner;
+    
+    decoder.setAlignmentType(alignment);
+
+    URL url = resolveSystemIdAsURL("/FixML-4.4/AllocationInstructionAck.exi_vi_openexi.bitPacked");
+
+    decoder.setGrammarCache(grammarCache);
+    decoder.setInputStream(url.openStream());
+    scanner = decoder.processHeader();
+    
+    EventDescription exiEvent;
+    
+    EventType eventType;
+    EventTypeList eventTypeList;
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
+    eventType = exiEvent.getEventType();
+    Assert.assertSame(exiEvent, eventType);
+    Assert.assertEquals(0, eventType.getIndex());
+    eventTypeList = eventType.getEventTypeList();
+    Assert.assertEquals(1, eventTypeList.getLength());
+    
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+    Assert.assertEquals("FIXML", exiEvent.getName());
+    Assert.assertEquals("http://www.fixprotocol.org/FIXML-4-4", exiEvent.getURI());
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+    Assert.assertEquals("AllocInstrctnAck", exiEvent.getName());
+    Assert.assertEquals("http://www.fixprotocol.org/FIXML-4-4", exiEvent.getURI());
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
+    Assert.assertEquals("ID", exiEvent.getName());
+    Assert.assertEquals("", exiEvent.getURI());
+    Assert.assertEquals("20012358", exiEvent.getCharacters().makeString());
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
+    Assert.assertEquals("Stat", exiEvent.getName());
+    Assert.assertEquals("", exiEvent.getURI());
+    Assert.assertEquals("3", exiEvent.getCharacters().makeString());
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
+    Assert.assertEquals("TrdDt", exiEvent.getName());
+    Assert.assertEquals("", exiEvent.getURI());
+    Assert.assertEquals("2003-10-30", exiEvent.getCharacters().makeString());
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
+    Assert.assertEquals("TxnTm", exiEvent.getName());
+    Assert.assertEquals("", exiEvent.getURI());
+    Assert.assertEquals("2003-10-30T16:46:17", exiEvent.getCharacters().makeString());
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+    Assert.assertEquals("Hdr", exiEvent.getName());
+    Assert.assertEquals("http://www.fixprotocol.org/FIXML-4-4", exiEvent.getURI());
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
+    Assert.assertEquals("SID", exiEvent.getName());
+    Assert.assertEquals("", exiEvent.getURI());
+    Assert.assertEquals("BONDBROKER", exiEvent.getCharacters().makeString());
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
+    Assert.assertEquals("SeqNum", exiEvent.getName());
+    Assert.assertEquals("", exiEvent.getURI());
+    Assert.assertEquals("307", exiEvent.getCharacters().makeString());
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
+    Assert.assertEquals("Snt", exiEvent.getName());
+    Assert.assertEquals("", exiEvent.getURI());
+    Assert.assertEquals("2003-10-30T16:46:18", exiEvent.getCharacters().makeString());
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
+    Assert.assertEquals("TID", exiEvent.getName());
+    Assert.assertEquals("", exiEvent.getURI());
+    Assert.assertEquals("ABCINV", exiEvent.getCharacters().makeString());
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
+    
+    Assert.assertNull(scanner.nextEvent());
+  }
 
 }
