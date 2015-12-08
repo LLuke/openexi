@@ -7,6 +7,7 @@ import org.openexi.schema.EXISchema;
 import org.openexi.schema.EXISchemaConst;
 import org.openexi.proc.common.AlignmentType;
 import org.openexi.proc.common.EXIOptions;
+import org.openexi.proc.common.EXIOptionsException;
 import org.openexi.proc.common.EventType;
 import org.openexi.proc.common.EventTypeList;
 import org.openexi.proc.common.GrammarOptions;
@@ -47,7 +48,7 @@ public final class EXIOptionsEncoder {
     m_valueScriberUnsignedInt = (IntegerValueScriber)m_scriber.getValueScriber(m_unsignedIntType);
   }
   
-  public BitOutputStream encode(EXIOptions options, boolean outputSchemaId, OutputStream ostream) throws IOException {
+  public BitOutputStream encode(EXIOptions options, boolean outputSchemaId, boolean observeC14N, OutputStream ostream) throws IOException, EXIOptionsException {
     m_scriber.reset();
     m_scriber.setOutputStream(ostream);
 
@@ -72,6 +73,10 @@ public final class EXIOptionsEncoder {
 
     int pos;
     int pos_level1 = 0;
+    
+    // schemaId is required by C14N EXI
+    if (!outputSchemaId && observeC14N)
+      outputSchemaId = true;
     
     final AlignmentType alignmentType = options.getAlignmentType();
     int delineation = options.getOutline(outputSchemaId);
@@ -347,37 +352,43 @@ public final class EXIOptionsEncoder {
         m_scriber.endElement();
         eventTypes = m_scriber.getNextEventTypes();
       }
-      final SchemaId schemaId;
-      if (outputSchemaId && (schemaId = options.getSchemaId()) != null) {
-        pos = 2 - pos_level2;
-        eventType = eventTypes.item(pos);
-        assert "schemaId".equals(eventType.name);
-        m_scriber.writeEventType(eventType);
-        final int schemaIdId = eventType.getNameId();
-        m_scriber.startElement(eventType);
-        eventTypes = m_scriber.getNextEventTypes();
-        String val;
-        if ((val = schemaId.getValue()) == null) {
-          eventType = eventTypes.item(0);
-          assert eventType.itemType == EventType.ITEM_SCHEMA_NIL;
+      if (outputSchemaId) {
+        final SchemaId schemaId;
+        if ((schemaId = options.getSchemaId()) != null) {
+          pos = 2 - pos_level2;
+          eventType = eventTypes.item(pos);
+          assert "schemaId".equals(eventType.name);
           m_scriber.writeEventType(eventType);
-          m_scriber.writeBoolean(true);
-          m_scriber.nillify(eventType.getIndex());
+          final int schemaIdId = eventType.getNameId();
+          m_scriber.startElement(eventType);
           eventTypes = m_scriber.getNextEventTypes();
+          String val;
+          if ((val = schemaId.getValue()) == null) {
+            eventType = eventTypes.item(0);
+            assert eventType.itemType == EventType.ITEM_SCHEMA_NIL;
+            m_scriber.writeEventType(eventType);
+            m_scriber.writeBoolean(true);
+            m_scriber.nillify(eventType.getIndex());
+            eventTypes = m_scriber.getNextEventTypes();
+          }
+          else {
+            eventType = eventTypes.item(1);
+            assert eventType.itemType == EventType.ITEM_SCHEMA_CH;
+            m_scriber.writeEventType(eventType);
+            m_scriber.getValueScriberByID(Scriber.CODEC_STRING).scribe(
+                val, m_scribble, schemaIdId, ExiUriConst.W3C_2009_EXI_URI_ID, m_scriber.currentState.contentDatatype, m_scriber);
+            m_scriber.characters(eventType);
+            eventTypes = m_scriber.getNextEventTypes();
+          }
+          eventType = eventTypes.getEE();
+          m_scriber.writeEventType(eventType);
+          m_scriber.endElement();
+          eventTypes = m_scriber.getNextEventTypes();
+          
         }
         else {
-          eventType = eventTypes.item(1);
-          assert eventType.itemType == EventType.ITEM_SCHEMA_CH;
-          m_scriber.writeEventType(eventType);
-          m_scriber.getValueScriberByID(Scriber.CODEC_STRING).scribe(
-              val, m_scribble, schemaIdId, ExiUriConst.W3C_2009_EXI_URI_ID, m_scriber.currentState.contentDatatype, m_scriber);
-          m_scriber.characters(eventType);
-          eventTypes = m_scriber.getNextEventTypes();
+          throw new EXIOptionsException("schemaId needs to be specified.");
         }
-        eventType = eventTypes.getEE();
-        m_scriber.writeEventType(eventType);
-        m_scriber.endElement();
-        eventTypes = m_scriber.getNextEventTypes();
       }
       eventType = eventTypes.getEE();
       m_scriber.writeEventType(eventType);

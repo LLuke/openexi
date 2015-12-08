@@ -975,6 +975,96 @@ public class OptionsDocumentTest extends TestBase {
   }
   
   /**
+   * Canonical EXI requires schemaId.
+   */
+  public void testSchemaIdOption_04() throws Exception {
+    EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema(
+        "/optionsSchema.xsd", getClass(), m_compilerErrors);
+    
+    Assert.assertEquals(0, m_compilerErrors.getTotalCount());
+    
+    GrammarCache encodeGrammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
+    GrammarCache decodeGrammarCache = new GrammarCache(corpus, GrammarOptions.DEFAULT_OPTIONS);
+    
+    for (boolean observeC14N : new boolean[] { true, false }) {
+      Transmogrifier encoder = new Transmogrifier();
+      encoder.setObserveC14N(observeC14N);
+      encoder.setGrammarCache(encodeGrammarCache, (SchemaId)null);
+      encoder.setAlignmentType(AlignmentType.bitPacked);
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      encoder.setOutputStream(baos);
+      encoder.setOutputOptions(HeaderOptionsOutputType.lessSchemaId);
+      
+      String xmlString;
+      byte[] bts;
+      EXIDecoder decoder;
+      Scanner scanner;
+      int n_events;
+      EXIOptions headerOptions;
+      
+      xmlString = "<header xmlns='http://www.w3.org/2009/exi'><strict/></header>\n";
+      
+      try {
+        encoder.encode(new InputSource(new StringReader(xmlString)));
+      }
+      catch (TransmogrifierException te) {
+        Assert.assertTrue(observeC14N);
+        Assert.assertEquals(TransmogrifierException.EXI_OPTIONS_ENCODER_EXCEPTION, te.getCode());
+        Assert.assertTrue(te.getMessage().indexOf("schemaId") >= 0);
+        continue;
+      }
+      Assert.assertFalse(observeC14N);
+      
+      bts = baos.toByteArray();
+      
+      decoder = new EXIDecoder();
+      decoder.setGrammarCache(decodeGrammarCache);
+      // DO NOT SET AlignmentType for decoder.
+      decoder.setInputStream(new ByteArrayInputStream(bts));
+      scanner = decoder.processHeader();
+      headerOptions = scanner.getHeaderOptions();
+      Assert.assertNull(headerOptions.getSchemaId());
+      
+      EventDescription exiEvent;
+      EventType eventType;
+      n_events = 0;
+  
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
+      ++n_events;
+      
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      Assert.assertEquals("header", exiEvent.getName());
+      Assert.assertEquals(ExiUriConst.W3C_2009_EXI_URI, exiEvent.getURI());
+      ++n_events;
+      
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      Assert.assertEquals("strict", exiEvent.getName());
+      Assert.assertEquals(ExiUriConst.W3C_2009_EXI_URI, exiEvent.getURI());
+      ++n_events;
+      
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      ++n_events;
+  
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      ++n_events;
+  
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertSame(exiEvent, eventType);
+      Assert.assertEquals(0, eventType.getIndex());
+      ++n_events;
+      
+      Assert.assertEquals(6, n_events);
+    }
+  }
+  
+  /**
    */
   public void testSchemaIdOptionNil_01() throws Exception {
     

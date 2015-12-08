@@ -64,6 +64,10 @@ public final class TransmogrifierException extends Exception {
    * This occurs when xml:space was specified to be preserved in strict mode.
    */
   public static final int CANNOT_PRESERVE_WHITESPACES = 13;
+  /**
+   * Errors reported by EXIOptionsEncoder.
+   */
+  public static final int EXI_OPTIONS_ENCODER_EXCEPTION = 14;
 
   private static final MessageResolver m_msgs =
     new MessageResolver(TransmogrifierException.class);

@@ -624,8 +624,14 @@ public final class Transmogrifier {
         Scriber.writeHeaderPreamble(m_outputStream, m_outputCookie, m_outputOptions != HeaderOptionsOutputType.none);
         BitOutputStream bitOutputStream = null;
         if (m_outputOptions != HeaderOptionsOutputType.none) {
-          BitOutputStream outputStream;
-          outputStream = m_optionsEncoder.encode(m_exiOptions, m_outputOptions == HeaderOptionsOutputType.all, m_outputStream);
+          final BitOutputStream outputStream;
+          try {
+            outputStream = m_optionsEncoder.encode(m_exiOptions, m_outputOptions == HeaderOptionsOutputType.all, m_observeC14N, m_outputStream);
+          }
+          catch (EXIOptionsException eoe) {
+            throw new SAXException(new TransmogrifierException(TransmogrifierException.EXI_OPTIONS_ENCODER_EXCEPTION,
+                new String[] { eoe.getMessage() }, new LocatorImpl(m_locator)));
+          }
           if (m_exiOptions.getAlignmentType() == AlignmentType.bitPacked) {
             bitOutputStream = outputStream;
           }

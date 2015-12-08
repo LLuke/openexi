@@ -596,7 +596,7 @@ public final class EXIOptions {
     else if (m_isFragment) {
       hasCommon = true;
     }
-    else if (outputSchemaId && m_schemaId != null) {
+    else if (outputSchemaId) {
       hasCommon = true;
     }
 

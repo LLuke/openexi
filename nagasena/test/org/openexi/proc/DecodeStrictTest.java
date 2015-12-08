@@ -608,5 +608,5 @@ public class DecodeStrictTest extends TestBase {
     
     Assert.assertNull(scanner.nextEvent());
   }
-
+  
 }
