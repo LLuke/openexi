@@ -3,9 +3,6 @@ package org.openexi.sax;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import java.util.Iterator;
-import java.util.TreeSet;
-
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -478,7 +475,6 @@ public final class Transmogrifier {
     private char[] m_charBuf;
     private int m_charPos;
     
-    private final TreeSet<ComparableAttribute> sortedAttributes;
     private ComparableAttribute[] m_comparableAttributes;
     private int m_n_comparableAttributes;
     
@@ -518,7 +514,6 @@ public final class Transmogrifier {
       m_prefixUriBindingsDefault = new PrefixUriBindings();
       m_prefixUriBindings = null;
       m_charBuf = new char[128];
-      sortedAttributes = new TreeSet<ComparableAttribute>();
       m_decls = new NamespaceDeclarations();
       qname = new QName();
       m_scriber = ScriberFactory.createScriber(AlignmentType.bitPacked);
@@ -823,22 +818,18 @@ public final class Transmogrifier {
           
           int positionOfNil  = -1; // position of legitimate xsi:nil
           int positionOfType = -1; // position of legitimate xsi:type
-          int n_attrs;
-          if ((n_attrs = attrs.getLength()) != 0) {
-            sortedAttributes.clear();
-            for (i = 0, i_len = n_attrs; i < i_len; i++) {
+          if ((i_len = attrs.getLength()) != 0) {
+            for (i = 0; i < i_len; i++) {
               final String instanceUri = attrs.getURI(i);
               final String instanceQName = attrs.getQName(i);
               if (W3C_2000_XMLNS_URI.equals(instanceUri) ||
                   instanceQName.startsWith("xmlns") && (instanceQName.length() == 5 || instanceQName.charAt(5) == ':')) { // i.e. "xmlns" or "xmlns:*"
-                --n_attrs;
                 continue;
               }
               else if (XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI.equals(instanceUri)) {
                 final String instanceName = attrs.getLocalName(i);
                 if ("type".equals(instanceName)) {
                   positionOfType = i;
-                  --n_attrs;
                   continue;
                 }
                 else if ("nil".equals(instanceName)) {
@@ -861,7 +852,6 @@ public final class Transmogrifier {
               final String _prefix = hasNS ? getPrefixOfQualifiedName(instanceQName) : null;
               comparableAttribute = acquireComparableAttribute();
               comparableAttribute.init(instanceUri, attrs.getLocalName(i), _prefix, i);
-              sortedAttributes.add(comparableAttribute);
             }
           }
           final EXISchema corpus = m_grammarCache.getEXISchema();
@@ -988,7 +978,6 @@ public final class Transmogrifier {
               if (nilled) {
                 m_scriber.nillify(eventType.getIndex());
               }
-              --n_attrs;
             }
             else {
               if (isSchemaInformedGrammar) {
@@ -999,7 +988,6 @@ public final class Transmogrifier {
                     hasNS ? getPrefixOfQualifiedName(attrs.getQName(positionOfNil)) : null), eventType);
                 m_stringValueScriber.scribe(nilval, m_scribble, EXISchemaConst.XSI_LOCALNAME_NIL_ID,  
                     XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI_ID, EXISchema.NIL_NODE, m_scriber);
-                --n_attrs;
               }
               else {
                 // treat it as a vanilla attribute
@@ -1007,15 +995,39 @@ public final class Transmogrifier {
                 final String _prefix = hasNS ? getPrefixOfQualifiedName(attrs.getQName(positionOfNil)) : null;
                 comparableAttribute = acquireComparableAttribute();
                 comparableAttribute.init(attrs.getURI(positionOfNil), attrs.getLocalName(positionOfNil), _prefix, positionOfNil);
-                sortedAttributes.add(comparableAttribute);
               }
             }
           }
+          final int n_attrs = m_n_comparableAttributes;
           if (n_attrs != 0) {
-            final Iterator<ComparableAttribute> iter; 
-            for (i = 0, iter = sortedAttributes.iterator(); i < n_attrs; i++) {
+            if (n_attrs != 1) { 
+              // Sort attributes
+              int h = n_attrs * 10 / 13;
+              while (true) {
+                int swaps = 0;
+                for (i = 0; i + h < n_attrs; ++i) {
+                  final int p = i;
+                  final int q = i + h;
+                  if (m_comparableAttributes[p].compareTo(m_comparableAttributes[q]) > 0) {
+                    // do the swap
+                    final ComparableAttribute _at_p = m_comparableAttributes[p];
+                    m_comparableAttributes[p] = m_comparableAttributes[q];
+                    m_comparableAttributes[q] = _at_p;
+                    ++swaps;
+                  }
+                }
+                if (h == 1) {
+                  if (swaps == 0) {
+                    break;
+                  }
+                } else {
+                  h = h * 10 / 13;
+                }
+              }
+            }
+            for (i = 0; i < n_attrs; i++) {
               eventTypes = m_scriber.getNextEventTypes();
-              final ComparableAttribute attr = iter.next();
+              final ComparableAttribute attr = m_comparableAttributes[i]; 
               final String instanceUri  = attr.uri;
               final String instanceName = attr.name;
               int tp = EXISchema.NIL_NODE;
