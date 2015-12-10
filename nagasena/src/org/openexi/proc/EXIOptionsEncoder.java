@@ -293,7 +293,8 @@ public final class EXIOptionsEncoder {
         eventTypes = m_scriber.getNextEventTypes();
       }
       int blockSize;
-      if ((blockSize = options.getBlockSize()) != EXIOptions.BLOCKSIZE_DEFAULT) {
+      if ((blockSize = options.getBlockSize()) != EXIOptions.BLOCKSIZE_DEFAULT && 
+          (alignmentType == AlignmentType.compress || alignmentType == AlignmentType.preCompress)) {
         pos = 2 - pos_level2;
         eventType = eventTypes.item(pos);
         pos_level2 = 3;

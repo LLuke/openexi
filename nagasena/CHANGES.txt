@@ -1,3 +1,24 @@
+2015-12-09 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0059.0
+
+- blockSize element is only output when alignment type is compression or
+  pre-compress.
+
+- Canonical EXI uses schemaId even when OutputOptions is 
+  HeaderOptionsOutputType.lessSchemaId.
+
+- Alignment type "compression" cannot be used with Canonical EXI.
+
+A       test/org/openexi/proc/EXIOptionsEncoderTest.java
+M       test/org/openexi/sax/GrammarSchemaInformedTest.java
+M       test/org/openexi/sax/TransmogrifierTest.java
+M       test/org/openexi/sax/EXIReaderTest.java
+M       test/org/openexi/sax/OptionsDocumentTest.java
+A       fixture/org/openexi/proc/HeaderOptionsUtil.java
+M       src/org/openexi/proc/EXIOptionsEncoder.java
+M       src/org/openexi/sax/Transmogrifier.java
+
 2015-12-07 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0058.0

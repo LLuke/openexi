@@ -173,6 +173,9 @@ public final class Transmogrifier {
    * @throws EXIOptionsException
    */
   public final void setAlignmentType(AlignmentType alignmentType) throws EXIOptionsException {
+    if (alignmentType == AlignmentType.compress && m_saxHandler.m_observeC14N) {
+      throw new EXIOptionsException("Alignment type \"compression\" cannot be used with Canonical EXI.");
+    }
     m_exiOptions.setAlignmentType(alignmentType);
     m_saxHandler.setAlignmentType(alignmentType);
   }
@@ -365,7 +368,10 @@ public final class Transmogrifier {
    * encoding rules.
    * @param observeC14N <i>true</i> to enable EXI Canonicalization encoding rules
    */
-  public final void setObserveC14N(boolean observeC14N) {
+  public final void setObserveC14N(boolean observeC14N) throws EXIOptionsException {
+    if (m_saxHandler.m_observeC14N && m_exiOptions.getAlignmentType() == AlignmentType.compress) {
+      throw new EXIOptionsException("Canonical EXI cannot be used when alignment type is \"compression\"");
+    }
     m_saxHandler.setObserveC14N(observeC14N);
   }
 

@@ -8,6 +8,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.openexi.proc.EXIDecoder;
 import org.openexi.proc.common.AlignmentType;
+import org.openexi.proc.common.EXIOptionsException;
 import org.openexi.proc.common.EventDescription;
 import org.openexi.proc.common.EventType;
 import org.openexi.proc.common.GrammarOptions;
@@ -145,6 +146,34 @@ public class TransmogrifierTest extends TestCase {
       Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
 
       Assert.assertNull(scanner.nextEvent());
+    }
+  }
+  
+  /**
+  * Alignment type "compression" cannot be used with Canonical EXI.
+  */
+  public void testCanonicalEXICompression_01() throws Exception {
+    Transmogrifier encoder = new Transmogrifier();
+    
+    encoder.setAlignmentType(AlignmentType.compress);
+    try {
+      encoder.setObserveC14N(true);
+    }
+    catch (EXIOptionsException eoe) {
+      Assert.assertTrue(eoe.getMessage().contains("Canonical EXI"));
+      Assert.assertTrue(eoe.getMessage().contains("compression"));
+    }
+  
+    // reset alignment type
+    encoder.setAlignmentType(AlignmentType.bitPacked);
+    
+    encoder.setObserveC14N(true);
+    try {
+      encoder.setAlignmentType(AlignmentType.compress);
+    }
+    catch (EXIOptionsException eoe) {
+      Assert.assertTrue(eoe.getMessage().contains("Canonical EXI"));
+      Assert.assertTrue(eoe.getMessage().contains("compression"));
     }
   }
   

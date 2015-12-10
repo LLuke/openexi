@@ -12741,6 +12741,9 @@ public class GrammarSchemaInformedTest extends TestBase {
 
     for (AlignmentType alignment : Alignments) {
       for (boolean observeC14N : new boolean[] { true, false }) {
+        if (observeC14N && alignment == AlignmentType.compress)
+          continue;
+        
         Scanner scanner;
         
         encoder.setAlignmentType(alignment);
@@ -13096,6 +13099,9 @@ public class GrammarSchemaInformedTest extends TestBase {
 
     for (AlignmentType alignment : Alignments) {
       for (boolean observeC14N : new boolean[] { true, false }) {
+        if (observeC14N && alignment == AlignmentType.compress)
+          continue;
+        
         Scanner scanner;
         
         encoder.setAlignmentType(alignment);
@@ -13620,6 +13626,9 @@ public class GrammarSchemaInformedTest extends TestBase {
     for (AlignmentType alignment : Alignments) {
       for (boolean preserveLexicalValues : new boolean[] { true, false }) {
         for (boolean observeC14N : new boolean[] { true, false }) {
+          if (observeC14N && alignment == AlignmentType.compress)
+            continue;
+
           Scanner scanner;
           
           encoder.setAlignmentType(alignment);
@@ -14128,6 +14137,9 @@ public class GrammarSchemaInformedTest extends TestBase {
     for (AlignmentType alignment : Alignments) {
       for (boolean preserveLexicalValues : new boolean[] { true, false }) {
         for (boolean observeC14N : new boolean[] { true, false }) {
+          if (observeC14N && alignment == AlignmentType.compress)
+            continue;
+          
           Scanner scanner;
           
           encoder.setAlignmentType(alignment);

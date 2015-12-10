@@ -7,7 +7,7 @@
 <property name="debug" value="off"/>
 
 <property name="name" value="Nagasena"/>
-<property name="version" value="0000.0002.0058.0"/>
+<property name="version" value="0000.0002.0059.0"/>
 <property name="vendor" value="OpenEXI"/>
 
 &properties.xml;
@@ -72,6 +72,7 @@
 
 <property name="build.proc.src" value="${build.proc.dir}/src"/>
 <property name="build.proc.test" value="${build.proc.dir}/test"/>
+<property name="build.proc.fixture" value="${build.proc.dir}/fixture"/>
 <property name="build.proc.dest" value="${build.proc.dir}/dest"/>
 
 <property name="build.sax.src" value="${build.sax.dir}/src"/>
@@ -236,6 +237,16 @@
   <pathelement location="${build.grammars.dest}"/>
 </path>
 
+<path id="proc.fixture.compile.class.path">
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.putil.dest}"/>
+  <pathelement location="${build.events.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.io.dest}"/>
+  <pathelement location="${build.proc.dest}"/>
+</path>
+
 <path id="scomp.fixture.compile.class.path">
   <pathelement location="${junit.jar}"/>
   <pathelement location="${build.schema.dest}"/>
@@ -309,6 +320,7 @@
   <pathelement location="${build.io.dest}"/>
   <pathelement location="${build.compression.dest}"/>
   <pathelement location="${build.proc.dest}"/>
+  <pathelement location="${build.proc.fixture}"/>
   <pathelement location="${build.scomp.dest}"/>
   <pathelement location="${build.scomp.fixture}"/>
 </path>
@@ -416,6 +428,7 @@
   <pathelement location="${build.testdata.dir}"/>
   <pathelement location="${build.schema.fixture}"/>
   <pathelement location="${build.scomp.fixture}"/>
+  <pathelement location="${build.proc.fixture}"/>
   <pathelement location="${build.proc.test}"/>
 </path>
 
@@ -502,6 +515,7 @@
 
   <mkdir dir="${build.proc.dir}"/>
   <mkdir dir="${build.proc.src}"/>
+  <mkdir dir="${build.proc.fixture}"/>
   <mkdir dir="${build.proc.test}"/>
   <mkdir dir="${build.proc.dest}"/>
 
@@ -589,6 +603,9 @@
   </copy>
   <copy todir="${build.proc.src}">
     <fileset dir="${src.dir}" includes="**/openexi/proc/*" />
+  </copy>
+  <copy todir="${build.proc.fixture}">
+    <fileset dir="${fixture.dir}" includes="**/openexi/proc/*" />
   </copy>
   <copy todir="${build.proc.test}">
     <fileset dir="${test.dir}" includes="**/openexi/proc/*" />
@@ -789,6 +806,10 @@
   <javac srcdir="${build.grammars.fixture}" debug="on" optimize="off" encoding="utf-8"
          fork="true" includeAntRuntime="no"
          classpathref="grammars.fixture.compile.class.path"/>
+
+  <javac srcdir="${build.proc.fixture}" debug="on" optimize="off" encoding="utf-8"
+         fork="true" includeAntRuntime="no"
+         classpathref="proc.fixture.compile.class.path"/>
 
   <javac srcdir="${build.scomp.fixture}" debug="on" optimize="off" encoding="utf-8"
          fork="true" includeAntRuntime="no"
