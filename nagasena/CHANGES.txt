@@ -2,6 +2,14 @@
 
 0000.0002.0059.0
 
+- Added a test case that verifies empty container elements are not output in 
+  header options.
+
+M       test/org/openexi/proc/EXIOptionsEncoderTest.java
+M       fixture/org/openexi/proc/HeaderOptionsUtil.java
+
+0000.0002.0059.0
+
 - blockSize element is only output when alignment type is compression or
   pre-compress.
 

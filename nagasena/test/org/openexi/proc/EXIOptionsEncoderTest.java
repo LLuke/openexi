@@ -112,5 +112,30 @@ public class EXIOptionsEncoderTest extends TestCase {
     Assert.assertFalse(optionsMap.containsKey("blockSize"));
   }
 
+  /**
+   * Empty container elements are omitted. 
+   */
+  public void testEmptyContainers_01() throws Exception {
+    
+    EXIOptionsEncoder optionsEncoder = new EXIOptionsEncoder();
+    
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    
+    EXIOptions options = new EXIOptions();
+    
+    optionsEncoder.encode(options, false, false, baos).flush();
+    
+    baos.close();
+    
+    byte[] bts = baos.toByteArray();
+    InputStream inputStream = new ByteArrayInputStream(bts);
+    
+    HashMap<String,Object> optionsMap = HeaderOptionsUtil.decode(inputStream);
+    inputStream.close();
+    
+    Assert.assertFalse(optionsMap.containsKey("common"));
+    Assert.assertFalse(optionsMap.containsKey("lesscommon"));
+    Assert.assertFalse(optionsMap.containsKey("uncommon"));
+  }
 
 }

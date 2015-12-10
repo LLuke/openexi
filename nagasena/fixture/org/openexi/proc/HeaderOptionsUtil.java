@@ -128,6 +128,15 @@ public class HeaderOptionsUtil {
           else if ("selfContained".equals(name)) {
             options.put("selfContained", (String)null);
           }
+          else if ("common".equals(name)) {
+            options.put("common", (String)null);
+          }
+          else if ("lesscommon".equals(name)) {
+            options.put("lesscommon", (String)null);
+          }
+          else if ("uncommon".equals(name)) {
+            options.put("uncommon", (String)null);
+          }
         }
       }
     } 
