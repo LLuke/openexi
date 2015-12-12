@@ -1,5 +1,7 @@
 package org.openexi.ant;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -11,6 +13,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
 import org.openexi.proc.HeaderOptionsOutputType;
+import org.openexi.proc.common.AlignmentType;
 import org.openexi.proc.grammars.GrammarCache;
 import org.openexi.sax.Transmogrifier;
 import org.openexi.schema.EXISchema;
@@ -21,6 +24,7 @@ public class Xml2Exi extends Task {
   private String m_gramFile;
   private String m_xmlFile;
   private String m_exiFile;
+  private AlignmentType m_alignment = AlignmentType.bitPacked;
 
   public Xml2Exi() {
   }
@@ -37,6 +41,10 @@ public class Xml2Exi extends Task {
     this.m_exiFile = exiFile;
   }
 
+  public void setAlignment(String alignment) {
+    this.m_alignment = AlignmentType.valueOf(alignment);
+  }
+
   /**
    * Convert a XML into EXI.
    */
@@ -47,19 +55,27 @@ public class Xml2Exi extends Task {
       URI xmlUri = Utils.resolveURI(m_xmlFile, baseUri);
       URI outputUri = Utils.resolveURI(m_exiFile, baseUri);
       
-      InputStream inputStream = gramUri.toURL().openStream();
+      InputStream inputStream;
+      
+      inputStream = gramUri.toURL().openStream();
       EXISchemaReader schemaReader = new EXISchemaReader();
       EXISchema exiSchema = schemaReader.parse(inputStream);
       inputStream.close();
 
       FileOutputStream outputStream = new FileOutputStream(outputUri.toURL().getFile());
+      BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
       Transmogrifier transmogrifier = new Transmogrifier();
       transmogrifier.setGrammarCache(new GrammarCache(exiSchema));
-      transmogrifier.setOutputOptions(HeaderOptionsOutputType.all);
-      transmogrifier.setOutputStream(outputStream);
+      transmogrifier.setAlignmentType(m_alignment);
+      transmogrifier.setOutputOptions(HeaderOptionsOutputType.lessSchemaId);
+      transmogrifier.setOutputStream(bufferedOutputStream);
       inputStream = xmlUri.toURL().openStream();
-      transmogrifier.encode(new InputSource(inputStream));
+      BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+      transmogrifier.encode(new InputSource(bufferedInputStream));
+      bufferedInputStream.close();
       inputStream.close();
+      bufferedOutputStream.flush();
+      bufferedOutputStream.close();
       outputStream.close();
     }
     catch (Exception e) {

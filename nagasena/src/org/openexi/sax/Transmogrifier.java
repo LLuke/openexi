@@ -1335,7 +1335,7 @@ public final class Transmogrifier {
       catch (IOException ioe) {
         throw new SAXException(ioe);
       }
-      
+      --m_xmlSpaceLastDepth;
       m_prefixUriBindings = m_locusLastDepth-- != 0 ? m_locusStack[m_locusLastDepth].prefixUriBindings : m_prefixUriBindingsDefault;  
     }
 
