@@ -428,6 +428,9 @@ namespace Nagasena.Sax {
       private int m_locusLastDepth;
       private bool m_inDTD;
 
+      private bool[] m_xmlSpaceStack;
+      private int m_xmlSpaceLastDepth;
+
       private const sbyte STAG = 0; // start tag
       private const sbyte CONT = 1; // non-whitespace content
       private const sbyte ETAG = 2; // end tag
@@ -480,6 +483,8 @@ namespace Nagasena.Sax {
           m_locusStack[i] = new XMLLocusItemEx();
         }
         m_locusLastDepth = -1;
+        m_xmlSpaceStack = new bool[32];
+        m_xmlSpaceLastDepth = -1;
         m_prefixUriBindingsDefault = new PrefixUriBindings();
         m_prefixUriBindings = null;
         m_charBuf = new char[128];
@@ -603,6 +608,8 @@ namespace Nagasena.Sax {
 
       public void StartDocument() {
         m_locusLastDepth = -1;
+        m_xmlSpaceLastDepth = 0;
+        m_xmlSpaceStack[m_xmlSpaceLastDepth] = false;
         m_decls.clear();
         m_charPos = 0;
         try {
@@ -717,6 +724,14 @@ namespace Nagasena.Sax {
           m_locusStack = locusStack;
         }
         XMLLocusItemEx locusItem = m_locusStack[m_locusLastDepth];
+        if (++m_xmlSpaceLastDepth == m_xmlSpaceStack.Length) {
+          int xmlSpaceStackCapacity = m_xmlSpaceLastDepth + 8;
+          bool[] xmlSpaceStack = new bool[xmlSpaceStackCapacity];
+          Array.Copy(m_xmlSpaceStack, 0, xmlSpaceStack, 0, m_xmlSpaceLastDepth);
+          m_xmlSpaceStack = xmlSpaceStack;
+        }
+        // inherit parent's xml:space value
+        m_xmlSpaceStack[m_xmlSpaceLastDepth] = m_xmlSpaceStack[m_xmlSpaceLastDepth - 1]; 
         locusItem.prefixUriBindings = m_prefixUriBindings;
         try {
           EventTypeList eventTypes = m_scriber.NextEventTypes;
@@ -820,6 +835,17 @@ namespace Nagasena.Sax {
                     continue;
                   }
                 }
+                else if (XmlUriConst.W3C_XML_1998_URI.Equals(instanceUri)) {
+                  if ("space".Equals(attrs.GetLocalName(i))) {
+                    String attrValue = attrs.GetValue(i);
+                    if ("preserve".Equals(attrValue)) {
+                      m_xmlSpaceStack[m_xmlSpaceLastDepth] = true;
+                    }
+                    else if ("default".Equals(attrValue)) {
+                      m_xmlSpaceStack[m_xmlSpaceLastDepth] = false;
+                    }
+                  }
+                }
                 ComparableAttribute comparableAttribute;
                 string _prefix = hasNS ? getPrefixOfQualifiedName(instanceQName) : null;
                 comparableAttribute = acquireComparableAttribute();
@@ -850,7 +876,7 @@ namespace Nagasena.Sax {
                 qname.prefix = "";
               }
               m_scriber.writeXsiTypeValue(qname);
-              if (!isSchemaInformedGrammar && (itemType = eventTypeForType.itemType) == EventType.ITEM_AT_WC_ANY_UNTYPED) {
+              if (!isSchemaInformedGrammar && eventTypeForType.itemType == EventType.ITEM_AT_WC_ANY_UNTYPED) {
                 m_scriber.wildcardAttribute(eventTypeForType.Index, XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI_ID,
                     EXISchemaConst.XSI_LOCALNAME_TYPE_ID);
               }
@@ -1085,6 +1111,10 @@ namespace Nagasena.Sax {
         appendCharacters(ch, start, len);
       }
 
+      public void SignificantWhitespace(char[] ch, int start, int len) {
+        appendCharacters(ch, start, len);
+      }
+
       public void Characters(char[] ch, int start, int len) {
         appendCharacters(ch, start, len);
       }
@@ -1175,8 +1205,9 @@ namespace Nagasena.Sax {
               return;
             }
           }
+          bool xmlSpacePreserve = m_xmlSpaceStack[m_xmlSpaceLastDepth];
           if ((eventType = eventTypes.Characters) != null) {
-            bool preserveWhitespaces = m_preserveWhitespaces;
+            bool preserveWhitespaces = m_preserveWhitespaces || xmlSpacePreserve;
             if (!preserveWhitespaces) {
               if (tp != EXISchema.NIL_NODE) {
                 preserveWhitespaces = true;
@@ -1234,6 +1265,11 @@ namespace Nagasena.Sax {
                 throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
             }
           }
+          if (xmlSpacePreserve && m_preserveWhitespaces) {
+            m_transmogrifierException = new TransmogrifierException(TransmogrifierException.CANNOT_PRESERVE_WHITESPACES,
+                (String[])null, new LocatorImpl(m_locator));
+            throw new SaxException(m_transmogrifierException.Message, m_transmogrifierException);
+          }
         }
         catch (IOException ioe) {
           throw new SaxException(ioe.Message, ioe);
@@ -1279,7 +1315,7 @@ namespace Nagasena.Sax {
         catch (IOException ioe) {
           throw new SaxException(ioe.Message, ioe);
         }
-
+        --m_xmlSpaceLastDepth;
         m_prefixUriBindings = m_locusLastDepth-- != 0 ? m_locusStack[m_locusLastDepth].prefixUriBindings : m_prefixUriBindingsDefault;
       }
 
@@ -1481,13 +1517,12 @@ namespace Nagasena.Sax {
 
       private EventType matchXsiType(EventTypeList eventTypes, bool useWildcardAT) {
         Grammar targetGrammar = m_scriber.currentState.targetGrammar;
-        sbyte grammarType = targetGrammar.grammarType;
         bool isSchemaInformedGrammar = targetGrammar.SchemaInformed;
         for (int j = 0, j_len = eventTypes.Length; j < j_len; j++) {
           EventType eventType = eventTypes.item(j);
           switch (eventType.itemType) {
             case EventType.ITEM_SCHEMA_TYPE:
-              Debug.Assert(grammarType != Grammar.BUILTIN_GRAMMAR_ELEMENT);
+              Debug.Assert(targetGrammar.grammarType != Grammar.BUILTIN_GRAMMAR_ELEMENT);
               return eventType;
             case EventType.ITEM_AT_WC_ANY_UNTYPED:
               if (!isSchemaInformedGrammar)

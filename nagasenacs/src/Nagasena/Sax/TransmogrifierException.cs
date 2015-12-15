@@ -61,6 +61,11 @@ namespace Nagasena.Sax {
     /// Errors reported by Scriber.
     /// </summary>
     public const int SCRIBER_ERROR = 12;
+    /// <summary>
+    /// Whitespaces could not be preserved.
+    /// This occurs when xml:space was specified to be preserved in strict mode.
+    /// </summary>
+    public const int CANNOT_PRESERVE_WHITESPACES = 13;
 
     private static readonly MessageResolver m_msgs = new TransmogrifierExceptionMessages();
 

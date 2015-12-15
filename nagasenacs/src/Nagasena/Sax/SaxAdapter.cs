@@ -184,6 +184,11 @@ namespace Nagasena.Sax {
                 this.callBackHandler.IgnorableWhitespace(xmlReader.Value.ToCharArray(), 0, xmlReader.Value.Length);
               break;
 
+            case System.Xml.XmlNodeType.SignificantWhitespace:
+              if (!bDocument && this.callBackHandler != null)
+                this.callBackHandler.SignificantWhitespace(xmlReader.Value.ToCharArray(), 0, xmlReader.Value.Length);
+              break;
+
             case System.Xml.XmlNodeType.ProcessingInstruction:
               if (this.callBackHandler != null)
                 this.callBackHandler.ProcessingInstruction(xmlReader.Name, xmlReader.Value);

@@ -1,3 +1,17 @@
+2015-12-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0056.0
+
+- Added support for xml:space.
+
+A       test/Nagasena/Sax/WhitespacesTest.cs
+M       src/AssemblyInfo.cs
+M       src/Nagasena/Sax/Transmogrifier.cs
+M       src/Nagasena/Sax/SaxAdapter.cs
+M       src/Nagasena/Sax/TransmogrifierException.cs
+A       testdata/whiteSpace.gram
+M       resources/Nagasena/Sax/TransmogrifierExceptionXMsg.xml
+
 2015-12-14 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0055.0

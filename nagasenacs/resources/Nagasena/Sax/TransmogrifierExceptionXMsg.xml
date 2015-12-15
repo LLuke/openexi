@@ -12,4 +12,5 @@
   <msg id="10">Prefix "{0}" is not bound to any namespace.</msg>
   <msg id="11">Prefix "{0}" is bound to namespace "{1}".</msg>
   <msg id="12">{0}</msg><!-- Errors reported by Scriber --> 
+  <msg id="13">Whitespaces could not be preserved.</msg>
 </Root>
