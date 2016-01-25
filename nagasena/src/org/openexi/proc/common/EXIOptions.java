@@ -459,10 +459,11 @@ public final class EXIOptions {
     }
     m_n_datatypeRepresentationMapBindings = n_bindings;
   }
+  
   /**
    * Add an entry to the datatype representation map. 
-   * @param typeName EXIEvent with the URI and local name of the XSD datatype.
-   * @param codecName EXIEvent with the URI and local name of corresponding EXI datatype.
+   * @param typeName EventDescription with the URI and local name of the XSD datatype.
+   * @param codecName EventDescription with the URI and local name of corresponding EXI datatype.
    * @throws EXIOptionsException
    * @y.exclude
    */
@@ -471,6 +472,11 @@ public final class EXIOptions {
     if (typeName == null || codecName == null) {
       throw new EXIOptionsException("A qname in datatypeRepresentationMap cannot be null.");
     }
+    appendDatatypeRepresentationMap(typeName.getURI(), typeName.getName(), codecName.getURI(), codecName.getName());
+  }
+
+  public void appendDatatypeRepresentationMap(String typeURI, String typeName, String codecURI, String codecName)
+    throws EXIOptionsException {
     final int n_bindings = m_n_datatypeRepresentationMapBindings + 1;
     final int n_qnames = 2 * n_bindings;
     int i;
@@ -486,8 +492,8 @@ public final class EXIOptions {
       m_datatypeRepresentationMap = _datatypeRepresentationMap;
     }
     int ind = 2 * m_n_datatypeRepresentationMapBindings;
-    m_datatypeRepresentationMap[ind++].setValue(typeName.getURI(), typeName.getName(), null, null);
-    m_datatypeRepresentationMap[ind++].setValue(codecName.getURI(), codecName.getName(), null, null);
+    m_datatypeRepresentationMap[ind++].setValue(typeURI, typeName, null, null);
+    m_datatypeRepresentationMap[ind++].setValue(codecURI, codecName, null, null);
     assert ind == n_qnames;
     m_n_datatypeRepresentationMapBindings = n_bindings;
   }
@@ -561,7 +567,8 @@ public final class EXIOptions {
     hasValueMaxLength = m_valueMaxLength != VALUE_MAX_LENGTH_UNBOUNDED;
     
     final boolean hasDTRM;
-    hasDTRM = m_n_datatypeRepresentationMapBindings != 0;
+    // DTRM is not necessary in the header when lexical preservation is turned on. 
+    hasDTRM = m_n_datatypeRepresentationMapBindings != 0 && !m_preserveLexicalValues;
 
     boolean hasUncommon = false;
     if (hasAlignment)

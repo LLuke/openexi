@@ -11,7 +11,6 @@ import org.openexi.proc.HeaderOptionsOutputType;
 import org.openexi.proc.common.AlignmentType;
 import org.openexi.proc.common.EventType;
 import org.openexi.proc.common.EventDescription;
-import org.openexi.proc.common.EXIOptionsException;
 import org.openexi.proc.common.GrammarOptions;
 import org.openexi.proc.common.QName;
 import org.openexi.proc.common.XmlUriConst;
@@ -21,7 +20,6 @@ import org.openexi.proc.grammars.GrammarCache;
 import org.openexi.proc.io.Scanner;
 import org.openexi.proc.util.ExiUriConst;
 import org.openexi.schema.EXISchemaConst;
-import org.openexi.schema.EmptySchema;
 import org.openexi.schema.EXISchema;
 import org.openexi.schema.TestBase;
 import org.openexi.scomp.EXISchemaFactoryErrorMonitor;
@@ -58,88 +56,6 @@ public class DTRMTest extends TestBase  {
   ///////////////////////////////////////////////////////////////////////////
   // Test cases
   ///////////////////////////////////////////////////////////////////////////
-
-  /**
-   * Preserve.lexicalValues option and DTRM cannot be specified together in EXI header options.
-   */
-  public void testPreserveLexicalValues() throws Exception {
-
-    GrammarCache grammarCache = new GrammarCache(EmptySchema.getEXISchema(), GrammarOptions.STRICT_OPTIONS);
-
-    final QName[] datatypeRepresentationMap = new QName[2];
-    datatypeRepresentationMap[0] = new QName("xsd:boolean", XmlUriConst.W3C_2001_XMLSCHEMA_URI);
-    datatypeRepresentationMap[1] = new QName("exi:integer", ExiUriConst.W3C_2009_EXI_URI);
-
-    Transmogrifier encoder;
-    boolean caught;
-    
-    encoder = new Transmogrifier();
-    encoder.setGrammarCache(grammarCache);
-
-    encoder.setOutputOptions(HeaderOptionsOutputType.none);
-    encoder.setPreserveLexicalValues(true);
-    encoder.setDatatypeRepresentationMap(datatypeRepresentationMap, 1);
-
-    /* ------------------------------------------------------------------------------- */
-
-    encoder = new Transmogrifier();
-    encoder.setGrammarCache(grammarCache);
-
-    encoder.setDatatypeRepresentationMap(datatypeRepresentationMap, 1);
-    encoder.setPreserveLexicalValues(true);
-    encoder.setOutputOptions(HeaderOptionsOutputType.none);
-
-    /* ------------------------------------------------------------------------------- */
-    
-    encoder = new Transmogrifier();
-    encoder.setGrammarCache(grammarCache);
-    
-    encoder.setOutputOptions(HeaderOptionsOutputType.lessSchemaId);
-    encoder.setPreserveLexicalValues(true);
-
-    caught = false;
-    try {
-      encoder.setDatatypeRepresentationMap(datatypeRepresentationMap, 1);
-    }
-    catch (EXIOptionsException eoe) {
-      caught = true;
-    }
-    Assert.assertTrue(caught);
-
-    /* ------------------------------------------------------------------------------- */
-    
-    encoder = new Transmogrifier();
-    encoder.setGrammarCache(grammarCache);
-
-    encoder.setDatatypeRepresentationMap(datatypeRepresentationMap, 1);
-    encoder.setPreserveLexicalValues(true);
-
-    caught = false;
-    try {
-      encoder.setOutputOptions(HeaderOptionsOutputType.lessSchemaId);
-    }
-    catch (EXIOptionsException eoe) {
-      caught = true;
-    }
-    Assert.assertTrue(caught);
-    
-    /* ------------------------------------------------------------------------------- */
-    
-    encoder = new Transmogrifier();
-    encoder.setGrammarCache(grammarCache);
-
-    encoder.setDatatypeRepresentationMap(datatypeRepresentationMap, 1);
-    encoder.setOutputOptions(HeaderOptionsOutputType.lessSchemaId);
-
-    caught = false;
-    try {
-      encoder.setPreserveLexicalValues(true);
-    }
-    catch (EXIOptionsException eoe) {
-      caught = true;
-    }
-    Assert.assertTrue(caught);
-  }
 
   /**
    * Use DTRM to represent xsd:boolean using exi:integer.

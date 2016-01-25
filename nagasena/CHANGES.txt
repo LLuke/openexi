@@ -1,3 +1,16 @@
+2016-01-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0062.0
+
+- DTRM is not necessary in the header when lexical preservation is turned on. 
+
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+M       test/org/openexi/proc/EXIOptionsEncoderTest.java
+M       test/org/openexi/sax/DTRMTest.java
+M       src/org/openexi/proc/common/EXIOptions.java
+M       src/org/openexi/sax/Transmogrifier.java
+M       build.xml
+
 2015-12-11 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0061.0

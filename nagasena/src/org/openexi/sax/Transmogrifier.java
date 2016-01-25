@@ -237,9 +237,6 @@ public final class Transmogrifier {
    */  
   public final void setPreserveLexicalValues(boolean preserveLexicalValues) throws EXIOptionsException {
     if (m_exiOptions.getPreserveLexicalValues() != preserveLexicalValues) {
-      if (m_outputOptions != HeaderOptionsOutputType.none && m_exiOptions.getDatatypeRepresentationMapBindingsCount() != 0 && preserveLexicalValues) {
-        throw new EXIOptionsException("Preserve.lexicalValues option and datatypeRepresentationMap option cannot be specified together in EXI header options.");
-      }
       m_exiOptions.setPreserveLexicalValues(preserveLexicalValues);
       m_saxHandler.setPreserveLexicalValues(preserveLexicalValues);
     }
@@ -308,9 +305,6 @@ public final class Transmogrifier {
    */  
   public final void setDatatypeRepresentationMap(QName[] dtrm, int n_bindings) throws EXIOptionsException {
     if (!QName.isSame(m_exiOptions.getDatatypeRepresentationMap(), m_exiOptions.getDatatypeRepresentationMapBindingsCount(), dtrm, n_bindings)) {
-      if (m_outputOptions != HeaderOptionsOutputType.none && m_exiOptions.getPreserveLexicalValues() && dtrm != null) {
-        throw new EXIOptionsException("Preserve.lexicalValues option and datatypeRepresentationMap option cannot be specified together in EXI header options.");
-      }
       m_exiOptions.setDatatypeRepresentationMap(dtrm, n_bindings);
       m_saxHandler.setDatatypeRepresentationMap(dtrm, n_bindings);
     }
@@ -340,14 +334,7 @@ public final class Transmogrifier {
    * @throws EXIOptionsException
    */
   public final void setOutputOptions(HeaderOptionsOutputType outputOptions) throws EXIOptionsException {
-    if (m_outputOptions != outputOptions) {
-      if (outputOptions != HeaderOptionsOutputType.none) {
-        if (m_exiOptions.getPreserveLexicalValues() && m_exiOptions.getDatatypeRepresentationMap() != null) {
-          throw new EXIOptionsException("Preserve.lexicalValues option and datatypeRepresentationMap option cannot be specified together in EXI header options.");
-        }
-      }
-      m_outputOptions = outputOptions;
-    }
+    m_outputOptions = outputOptions;
   }
   
   /**

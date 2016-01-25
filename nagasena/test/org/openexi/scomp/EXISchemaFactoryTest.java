@@ -4082,15 +4082,18 @@ public class EXISchemaFactoryTest extends TestCase {
    */
   public void testUPA_Choice_NG01_no_ErrorHandler() throws Exception {
     EXISchema corpus = null;
+    boolean caught = false;
     try {
       corpus = EXISchemaFactoryTestUtil.getEXISchema("/upa/choiceUPA_NG01.xsd", getClass(), 
         (EXISchemaFactoryErrorHandler)null);
     }
     catch (EXISchemaFactoryException sce) {
+      caught = true;
       XMLParseException spe = (XMLParseException)sce.getException();
       Assert.assertEquals(8, spe.getLineNumber());
       Assert.assertTrue(spe.getMessage().startsWith("cos-nonambig:"));
     }
+    Assert.assertTrue(caught);
     Assert.assertNull(corpus);
     // Simply because we did not set an error handler.
     Assert.assertEquals(0, m_compilerErrorHandler.getTotalCount());

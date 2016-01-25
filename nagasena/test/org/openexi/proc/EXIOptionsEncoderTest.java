@@ -10,6 +10,8 @@ import junit.framework.TestCase;
 
 import org.openexi.proc.common.AlignmentType;
 import org.openexi.proc.common.EXIOptions;
+import org.openexi.proc.common.XmlUriConst;
+import org.openexi.proc.util.ExiUriConst;
 
 public class EXIOptionsEncoderTest extends TestCase {
 
@@ -136,6 +138,60 @@ public class EXIOptionsEncoderTest extends TestCase {
     Assert.assertFalse(optionsMap.containsKey("common"));
     Assert.assertFalse(optionsMap.containsKey("lesscommon"));
     Assert.assertFalse(optionsMap.containsKey("uncommon"));
+  }
+  
+  /**
+   * datatypeRepresentationMap does not get output in the header  when lexicalValues is present.
+   */
+  public void testDTRM_01() throws Exception {
+    
+    EXIOptionsEncoder optionsEncoder = new EXIOptionsEncoder();
+    
+    ByteArrayOutputStream baos;
+    EXIOptions options;
+    byte[] bts;
+    InputStream inputStream;
+    HashMap<String,Object> optionsMap;
+    
+    baos = new ByteArrayOutputStream();
+    options = new EXIOptions();
+    
+    options.setPreserveLexicalValues(true);
+    options.appendDatatypeRepresentationMap(XmlUriConst.W3C_2001_XMLSCHEMA_URI, "xsd:boolean" , ExiUriConst.W3C_2009_EXI_URI, "exi:integer");
+
+    optionsEncoder.encode(options, false, false, baos).flush();
+    
+    baos.close();
+    
+    bts = baos.toByteArray();
+    inputStream = new ByteArrayInputStream(bts);
+    
+    optionsMap = HeaderOptionsUtil.decode(inputStream);
+    inputStream.close();
+
+    Assert.assertTrue(optionsMap.containsKey("lexicalValues"));
+    Assert.assertFalse(optionsMap.containsKey("datatypeRepresentationMap"));
+    
+    baos = new ByteArrayOutputStream();
+    options = new EXIOptions();
+    
+    
+    options.setPreserveLexicalValues(false);
+    options.appendDatatypeRepresentationMap(XmlUriConst.W3C_2001_XMLSCHEMA_URI, "xsd:boolean" , ExiUriConst.W3C_2009_EXI_URI, "exi:integer");
+
+    optionsEncoder.encode(options, false, false, baos).flush();
+    
+    baos.close();
+    
+    bts = baos.toByteArray();
+    inputStream = new ByteArrayInputStream(bts);
+    
+    optionsMap = HeaderOptionsUtil.decode(inputStream);
+    inputStream.close();
+    
+    // datatypeRepresentationMap gets output when lexicalValues is not present.
+    Assert.assertFalse(optionsMap.containsKey("lexicalValues"));
+    Assert.assertTrue(optionsMap.containsKey("datatypeRepresentationMap"));
   }
 
 }
