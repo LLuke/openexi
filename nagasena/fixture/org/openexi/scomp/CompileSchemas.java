@@ -15,11 +15,13 @@ public final class CompileSchemas {
   private static final String[] SCHEMA_INSTANCES = { 
     "HeaderOptions.xsd", 
     "EmptySchema.txt", 
+    "schema-for-json.xsd",
     "Grammar.xsd" };
   
   private static final String[] COMPILED_SCHEMAS = { 
-    "HeaderOptions.xsc", 
+    "HeaderOptions.xsc",
     "EmptySchema.xsc", 
+    "schema-for-json.xsc",
     "Grammar.xsc" };
 
   public static void main(String args[]) throws IOException {

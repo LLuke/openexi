@@ -1,3 +1,15 @@
+2016-03-14 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0062.0
+
+- Added schema-for-json.xsd into build process.
+
+M       tools/eclipseCompileSchemas.xml
+A       fixture/org/openexi/scomp/schema-for-json.xsd
+M       fixture/org/openexi/scomp/CompileSchemas.java
+A       src/org/openexi/json
+M       build.xml
+
 2016-01-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0062.0

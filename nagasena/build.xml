@@ -34,6 +34,7 @@
 <property name="build.proc.dir" value="${build.dir}/proc"/>
 <property name="build.sax.dir" value="${build.dir}/sax"/>
 <property name="build.scomp.dir" value="${build.dir}/scomp"/>
+<property name="build.json.dir" value="${build.dir}/json"/>
 <property name="build.cli.dir" value="${build.dir}/cli"/>
 <property name="build.ant.dir" value="${build.dir}/ant"/>
 
@@ -83,6 +84,10 @@
 <property name="build.scomp.test" value="${build.scomp.dir}/test"/>
 <property name="build.scomp.fixture" value="${build.scomp.dir}/fixture"/>
 <property name="build.scomp.dest" value="${build.scomp.dir}/dest"/>
+
+<property name="build.json.src" value="${build.json.dir}/src"/>
+<property name="build.json.test" value="${build.json.dir}/test"/>
+<property name="build.json.dest" value="${build.json.dir}/dest"/>
 
 <property name="build.cli.src" value="${build.cli.dir}/src"/>
 <property name="build.cli.dest" value="${build.cli.dir}/dest"/>
@@ -190,6 +195,10 @@
   <pathelement location="${build.io.dest}"/>
   <pathelement location="${build.proc.dest}"/>
   <pathelement location="${build.sax.dest}"/>
+</path>
+
+<!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
+<path id="json.src.compile.class.path">
 </path>
 
 <!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
@@ -344,6 +353,11 @@
   <pathelement location="${build.scomp.fixture}"/>
 </path>
 
+<path id="json.test.compile.class.path">
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.json.dest}"/>
+</path>
+
 <!-- =================================================================== -->
 <!-- Schema Compilation Classpathes                                      -->
 <!-- =================================================================== -->
@@ -448,6 +462,13 @@
   <pathelement location="${build.sax.test}"/>
 </path>
 
+<path id="json.test.run.class.path">
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.dir}/nagasena.jar"/>
+  <pathelement location="${build.testdata.dir}"/>
+  <pathelement location="${build.json.test}"/>
+</path>
+
 <path id="javadoc.src.path">
   <pathelement location="${build.docsrc}"/>
 </path>
@@ -529,6 +550,11 @@
   <mkdir dir="${build.scomp.fixture}"/>
   <mkdir dir="${build.scomp.test}"/>
   <mkdir dir="${build.scomp.dest}"/>
+
+  <mkdir dir="${build.json.dir}"/>
+  <mkdir dir="${build.json.src}"/>
+  <mkdir dir="${build.json.test}"/>
+  <mkdir dir="${build.json.dest}"/>
 
   <mkdir dir="${build.cli.dir}"/>
   <mkdir dir="${build.cli.src}"/>
@@ -625,6 +651,12 @@
   <copy todir="${build.scomp.test}">
     <fileset dir="${test.dir}" includes="**/openexi/scomp/**/*" />
   </copy>
+  <copy todir="${build.json.src}">
+    <fileset dir="${src.dir}" includes="**/openexi/json/*" />
+  </copy>
+  <copy todir="${build.json.test}">
+    <fileset dir="${test.dir}" includes="**/openexi/json/*" />
+  </copy>
   <copy todir="${build.cli.src}">
     <fileset dir="${src.dir}" includes="**/openexi/cli/**/*" />
   </copy>
@@ -648,6 +680,7 @@
     <fileset dir="${build.proc.src}"/>
     <fileset dir="${build.sax.src}"/>
     <fileset dir="${build.scomp.src}"/>
+    <fileset dir="${build.json.src}"/>
   </copy>
 
   <copy todir="${build.docsrc}">
@@ -701,6 +734,9 @@
       <include name="org/openexi/scomp/EXISchemaFactoryException.java"/>
       <include name="org/openexi/scomp/EXISchemaReader.java"/>
       <include name="org/openexi/scomp/EXISchemaWriter.java"/>
+    </fileset>
+    <fileset dir="${build.json.src}">
+      <include name="**/*.html"/>
     </fileset>
   </copy>
 
@@ -819,7 +855,12 @@
   <java classname="${CompileSchemasClass}"
         classpathref="scomp.fixture.run.class.path" fork="yes" failonerror="true"/>
   <move todir="${build.schema.dest}/org/openexi/schema">
-    <fileset dir="${build.scomp.fixture}/org/openexi/scomp" includes="*.xsc" />
+    <fileset dir="${build.scomp.fixture}/org/openexi/scomp" includes="*.xsc">
+      <exclude name="**/*json*"/>
+    </fileset>
+  </move>
+  <move todir="${build.json.dest}/org/openexi/json">
+    <fileset dir="${build.scomp.fixture}/org/openexi/scomp" includes="*json.xsc" />
   </move>
 
   <!-- Encode Grammar Fragments -->
