@@ -1,3 +1,21 @@
+2016-03-17 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0063.0
+
+- Added classes JsonSchema and Transmogrifier in org.openexi.json
+  package.
+
+A       test/org/openexi/json
+A       test/org/openexi/json/ObjectTest.java
+A       lib/fasterxml
+A       lib/fasterxml/jackson-core-2.4.2.jar
+M       src/org/openexi/schema/CommonSchema.java
+A       src/org/openexi/json/JsonSchema.java
+A       src/org/openexi/json/Transmogrifier.java
+A       testdata/json
+A       testdata/json/object_01.json
+M       build.xml
+
 2016-03-14 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0062.0

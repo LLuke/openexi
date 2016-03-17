@@ -5,12 +5,12 @@ import java.io.DataInputStream;
 import java.io.InputStream;
 import java.net.URL;
 
-abstract class CommonSchema {
+public abstract class CommonSchema {
   
   private CommonSchema() {
   }
 
-  protected static EXISchema loadCompiledSchema(URL compiledSchemaURI) {
+  public static EXISchema loadCompiledSchema(URL compiledSchemaURI) {
     EXISchema schema = null;
     if (compiledSchemaURI != null) {
       InputStream is = null;
