@@ -1,3 +1,11 @@
+2016-03-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0000.0014.0
+
+- Migrated to Eclipse Mars.
+
+M       src/com/sumerogi/proc/io/compression/ChannellingScriber.java
+
 2015-02-26 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0000.0014.0

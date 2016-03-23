@@ -189,7 +189,8 @@ public final class ChannellingScriber extends Scriber {
   ///////////////////////////////////////////////////////////////////////////
 
   public void finishBlock() throws IOException {
-    final EXIDeflaterOutputStream deflaterStream = m_compressed ? 
+    @SuppressWarnings("resource")
+	final EXIDeflaterOutputStream deflaterStream = m_compressed ? 
         (EXIDeflaterOutputStream)m_outputStream : null;
     boolean moreValues = false;
     if (m_compressed) {
