@@ -466,7 +466,7 @@ public class EXISchemaFactoryTest extends TestCase {
     Assert.assertEquals(2, m_compilerErrorHandler.getTotalCount());
     EXISchemaFactoryException sce1, sce2;
     XMLParseException se;
-    int index;
+    int index = -1;
     String message;
     sce1 = m_compilerErrorHandler.getErrors(EXISchemaFactoryException.XMLSCHEMA_ERROR)[0];
     sce2 = m_compilerErrorHandler.getErrors(EXISchemaFactoryException.XMLSCHEMA_ERROR)[1];

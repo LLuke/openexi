@@ -1,3 +1,12 @@
+2016-03-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0063.0
+
+- Migrated to Eclipse Mars.
+
+M       src/org/openexi/proc/io/compression/ChannellingScriber.java
+M       test/org/openexi/scomp/EXISchemaFactoryTest.java
+
 2016-03-17 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0063.0
