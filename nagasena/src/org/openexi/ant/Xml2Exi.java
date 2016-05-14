@@ -14,6 +14,8 @@ import org.apache.tools.ant.Task;
 
 import org.openexi.proc.HeaderOptionsOutputType;
 import org.openexi.proc.common.AlignmentType;
+import org.openexi.proc.common.GrammarOptions;
+import org.openexi.proc.common.SchemaId;
 import org.openexi.proc.grammars.GrammarCache;
 import org.openexi.sax.Transmogrifier;
 import org.openexi.schema.EXISchema;
@@ -25,8 +27,11 @@ public class Xml2Exi extends Task {
   private String m_xmlFile;
   private String m_exiFile;
   private AlignmentType m_alignment = AlignmentType.bitPacked;
+  private boolean m_isStrict;
+  private SchemaId m_schemaId;
 
   public Xml2Exi() {
+	  m_isStrict = false;
   }
 
   public void setGram(String gramFile) {
@@ -43,6 +48,14 @@ public class Xml2Exi extends Task {
 
   public void setAlignment(String alignment) {
     this.m_alignment = AlignmentType.valueOf(alignment);
+  }
+  
+  public void setStrict(String isStrict) {
+    this.m_isStrict = Boolean.valueOf(isStrict);
+  }
+
+  public void setSchemaId(String schemaId) {
+    this.m_schemaId = new SchemaId(schemaId);
   }
 
   /**
@@ -65,9 +78,11 @@ public class Xml2Exi extends Task {
       FileOutputStream outputStream = new FileOutputStream(outputUri.toURL().getFile());
       BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
       Transmogrifier transmogrifier = new Transmogrifier();
-      transmogrifier.setGrammarCache(new GrammarCache(exiSchema));
+      transmogrifier.setGrammarCache(new GrammarCache(exiSchema,
+    		  m_isStrict ? GrammarOptions.STRICT_OPTIONS : GrammarOptions.DEFAULT_OPTIONS), m_schemaId);
       transmogrifier.setAlignmentType(m_alignment);
-      transmogrifier.setOutputOptions(HeaderOptionsOutputType.lessSchemaId);
+      transmogrifier.setOutputOptions(m_schemaId == null ?
+    		  HeaderOptionsOutputType.lessSchemaId : HeaderOptionsOutputType.all);
       transmogrifier.setOutputStream(bufferedOutputStream);
       inputStream = xmlUri.toURL().openStream();
       BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);

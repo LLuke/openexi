@@ -70,10 +70,22 @@ public final class Transmogrifier {
       if (token == JsonToken.START_OBJECT) {
         encodeObject(transmogrifier, (String)null);
       }
-      else {
-        // implement START_ARRAY, VALUE_STRING, VALUE_NUMBER_INT, VALUE_NUMBER_FLOAT, VALUE_NULL, VALUE_TRUE, VALUE_FALSE
+      else if (token == JsonToken.START_ARRAY) {
+        encodeArray(transmogrifier, (String)null);
       }
-      
+      else if (token == JsonToken.VALUE_STRING) {
+        encodeValue(transmogrifier, "string", false, m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), (String)null);
+      }
+      else if (token == JsonToken.VALUE_NUMBER_INT) {
+        encodeValue(transmogrifier, "integer", true, m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), (String)null);
+      }
+      else if (token == JsonToken.VALUE_NUMBER_FLOAT) {
+        encodeValue(transmogrifier, "number", false, m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), (String)null);
+      }
+      else {
+        // implement VALUE_NULL, VALUE_TRUE, VALUE_FALSE
+        assert false;
+      }
       
     }
     transmogrifier.endDocument();
@@ -84,7 +96,7 @@ public final class Transmogrifier {
     m_attributes.clear();
     if (myName != null) {
       // SE(j:map) AT(key) content EE      
-      m_attributes.addAttribute("", "key", (String)null, "", myName);
+      m_attributes.addAttribute("", "key", "key", "", myName);
     }
     transmogrifier.startElement(JsonSchema.URI, "map", (String)null, m_attributes);
 
@@ -97,9 +109,20 @@ public final class Transmogrifier {
       if (token == JsonToken.FIELD_NAME) {
         final String name = m_parser.getCurrentName();
         token = m_parser.nextToken();
-        if (token == JsonToken.VALUE_STRING) {
-          final String stringValue = m_parser.getText();
-          encodeString(transmogrifier, stringValue, name);
+        if (token == JsonToken.START_OBJECT) {
+          encodeObject(transmogrifier, name);
+        }
+        else if (token == JsonToken.START_ARRAY) {
+          encodeArray(transmogrifier, name);
+        }
+        else if (token == JsonToken.VALUE_STRING) {
+          encodeValue(transmogrifier, "string", false, m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), name);
+        }
+        else if (token == JsonToken.VALUE_NUMBER_INT) {
+          encodeValue(transmogrifier, "integer", true, m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), name);
+        }
+        else if (token == JsonToken.VALUE_NUMBER_FLOAT) {
+          encodeValue(transmogrifier, "number", false, m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), name);
         }
         else {
           // implement
@@ -112,17 +135,52 @@ public final class Transmogrifier {
       }
     }
   }
-  
-  private void encodeString(SAXTransmogrifier transmogrifier, String value, String myName) throws IOException, SAXException{
-    // SE(j:string) CH(string-value) EE
+
+  private void encodeArray(SAXTransmogrifier transmogrifier, String myName) throws IOException, SAXException{
+    // SE(j:array) content EE
     m_attributes.clear();
     if (myName != null) {
-      // SE(j:string) AT(key) CH(string-value) EE
+      // SE(j:array) AT(key) content EE      
       m_attributes.addAttribute("", "key", "key", "", myName);
     }
-    transmogrifier.startElement(JsonSchema.URI, "string", (String)null, m_attributes);
-    transmogrifier.characters(value.toCharArray(), 0, value.length());
-    transmogrifier.endElement(JsonSchema.URI, "string", (String)null);
+    transmogrifier.startElement(JsonSchema.URI, "array", (String)null, m_attributes);
+
+    JsonToken token;
+    while ((token = m_parser.nextToken()) != null) {
+      if (token == JsonToken.END_ARRAY) {
+        transmogrifier.endElement(JsonSchema.URI, "array", (String)null);
+        break;
+      }
+      if (token == JsonToken.START_OBJECT) {
+        encodeObject(transmogrifier, (String)null);
+      }
+      else if (token == JsonToken.VALUE_STRING) {
+        encodeValue(transmogrifier, "string", false, m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), (String)null);
+
+      }
+      else {
+        assert false;
+      }
+      
+    }
+  }
+
+  private void encodeValue(SAXTransmogrifier transmogrifier, String typeName, boolean isOther, char[] characters, int offset, int length, String propertyName) throws IOException, SAXException{
+    m_attributes.clear();
+    if (propertyName != null) {
+      m_attributes.addAttribute("", "key", "key", "", propertyName);
+    }
+    if (isOther) {
+      transmogrifier.startElement(JsonSchema.URI, "other", (String)null, m_attributes);
+      if (propertyName != null)
+        m_attributes.clear();
+    }
+    transmogrifier.startElement(JsonSchema.URI, typeName, (String)null, m_attributes);
+    transmogrifier.characters(characters, offset, length);
+    transmogrifier.endElement(JsonSchema.URI, typeName, (String)null);
+    if (isOther) {
+      transmogrifier.endElement(JsonSchema.URI, "other", (String)null);
+    }
   }
 
 }

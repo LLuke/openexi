@@ -13,15 +13,20 @@ public final class JsonSchema {
   
   public static final String URI;
 
+  private static final EXISchema m_schema;
   private static final GrammarCache m_grammarCache;
   
   static {
     URL schemaURI = Transmogrifier.class.getResource(COMPILED_SCHEMA_LOCATION);
-    EXISchema schema = CommonSchema.loadCompiledSchema(schemaURI);
-    m_grammarCache = new GrammarCache(schema, GrammarOptions.STRICT_OPTIONS);
+    m_schema = CommonSchema.loadCompiledSchema(schemaURI);
+    m_grammarCache = new GrammarCache(m_schema, GrammarOptions.STRICT_OPTIONS);
     
-    final String[] uris = schema.uris;
+    final String[] uris = m_schema.uris;
     URI =  uris[uris.length - 1];
+  }
+  
+  public static EXISchema getEXISchema() {
+    return m_schema;
   }
   
   public static GrammarCache getGrammarCache() {

@@ -1,3 +1,25 @@
+2016-05-13 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0064.0
+
+- Preliminary implementation of EXI4JSON encoder.
+
+M       build.xml
+M       src/org/openexi/ant/Xml2Exi.java
+M       src/org/openexi/json/JsonSchema.java
+M       src/org/openexi/json/Transmogrifier.java
+A       test/org/openexi/json/ArrayTest.java
+M       test/org/openexi/json/ObjectTest.java
+A       test/org/openexi/json/PersonnelTest.java
+A       test/org/openexi/json/SingleValueTest.java
+A       testdata/json/array_01.json
+A       testdata/json/array_02.json
+A       testdata/json/object_02.json
+A       testdata/json/object_03.json
+A       testdata/json/object_04.json
+A       testdata/json/object_05.json
+A       testdata/json/personnel.json
+
 2016-03-25 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0063.0

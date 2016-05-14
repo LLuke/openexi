@@ -1,0 +1,53 @@
+{
+  "personnel" :
+    [
+      {
+        "person" : {
+          "id" : "Boss",
+          "name" : {
+            "family" : "Smith",
+            "given" : "Bill"
+          },
+          "email" : "smith@foo.com",
+          "YearsOfService" : 20,
+          "weight" : 175.4,
+          "birthday" : "1955-03-24",
+          "link" : {
+            "subordinates": "worker"
+          }
+        }
+      },
+      {
+        "person" : {
+          "id" : "worker",
+          "name" : {
+            "family" : "Jones",
+            "given" : "Bill"
+          },
+          "email" : "jones@foo.com",
+          "YearsOfService" : 15,
+          "weight" : 175.4,
+          "birthday" : "1968-07-16",
+          "link" : {
+            "manager" : "Boss"
+          }
+        }
+      },
+      {
+        "person" : {
+          "id" : "worker",
+          "name" : {
+            "family" : "Jones",
+            "given" : "Sam"
+          },
+          "email" : "sjones@foo.com",
+          "YearsOfService" : 20,
+          "weight" : 189.2,
+          "birthday" : "1959-01-26",
+          "link" : {
+            "manager" : "Boss"
+          }
+        }
+      }
+    ]
+}
