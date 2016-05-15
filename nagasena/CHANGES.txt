@@ -1,4 +1,16 @@
-2016-05-13 tkamiya@us.fujitsu.com (Takuki Kamiya)
+2016-05-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0063.0
+
+- Yet another preliminary implementation of EXI4JSON encoder.
+
+M       fixture/org/openexi/scomp/CompileSchemas.java
+A       fixture/org/openexi/scomp/schema-for-json-V2a.xsd
+A       src/org/openexi/json/JsonSchema2a.java
+A       src/org/openexi/json/Transmogrifier2a.java
+M       test/org/openexi/json/PersonnelTest.java
+
+2016-05-14 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0063.0
 

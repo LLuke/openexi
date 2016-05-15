@@ -1,0 +1,197 @@
+package org.openexi.json;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import org.openexi.proc.common.EXIOptionsException;
+import org.openexi.proc.common.SchemaId;
+import org.openexi.proc.common.XmlUriConst;
+import org.openexi.sax.SAXTransmogrifier;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+
+public final class Transmogrifier2a {
+  
+  private JsonParser m_parser;
+
+  private final org.openexi.sax.Transmogrifier m_transmogrifier;
+
+  private OutputStream m_outputStream;
+  
+  private final AttributesImpl m_attributes;
+
+  public Transmogrifier2a() {
+    m_transmogrifier = new org.openexi.sax.Transmogrifier();
+    try {
+      m_transmogrifier.setGrammarCache(JsonSchema2a.getGrammarCache(), new SchemaId("schema-for-json"));
+    } 
+    catch (EXIOptionsException e) {
+      // Never enters here.
+      e.printStackTrace();
+      assert false;
+    }
+    m_attributes = new AttributesImpl();
+  }
+
+  private void reset() {
+    // REVISIT: do I need to re-create a parser for every encode process?
+    m_parser = null;
+  }
+  
+  public final void setOutputStream(OutputStream ostream) {
+    m_outputStream = ostream;
+  }
+  
+  public void encode(String inputString) throws IOException, SAXException {
+    reset();
+    m_parser = new JsonFactory().createParser(inputString);
+    encodeDocument();
+  }
+  
+  public void encode(InputStream inputStream) throws IOException, SAXException {
+    reset();
+    m_parser = new JsonFactory().createParser(inputStream);
+    encodeDocument();
+  }
+  
+  private void encodeDocument() throws IOException, SAXException {
+    m_transmogrifier.setOutputStream(m_outputStream);
+    
+    SAXTransmogrifier transmogrifier = m_transmogrifier.getSAXTransmogrifier();
+    
+    transmogrifier.startDocument();
+    transmogrifier.startPrefixMapping("xsi", XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI);
+    transmogrifier.startPrefixMapping("e4j", "http://www.w3.org/2015/EXI/json");
+    
+    JsonToken token;
+    if ((token = m_parser.nextToken()) != null) {
+      if (token == JsonToken.START_OBJECT) {
+        encodeObject(transmogrifier, (String)null);
+      }
+      else if (token == JsonToken.START_ARRAY) {
+        encodeArray(transmogrifier, (String)null);
+      }
+      else if (token == JsonToken.VALUE_STRING) {
+        encodeValue(transmogrifier, "string", false, m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), (String)null);
+      }
+      else if (token == JsonToken.VALUE_NUMBER_INT) {
+        encodeValue(transmogrifier, "integer", true, m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), (String)null);
+      }
+      else if (token == JsonToken.VALUE_NUMBER_FLOAT) {
+        encodeValue(transmogrifier, "number", false, m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), (String)null);
+      }
+      else {
+        // implement VALUE_NULL, VALUE_TRUE, VALUE_FALSE
+        assert false;
+      }
+      
+    }
+    transmogrifier.endPrefixMapping("e4j");
+    transmogrifier.endPrefixMapping("xsi");
+    transmogrifier.endDocument();
+  }
+  
+  private void encodeObject(SAXTransmogrifier transmogrifier, String myName) throws IOException, SAXException{
+    if (myName != null) {
+      m_attributes.addAttribute(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, "type", "xsi:type", "", "e4j:mapContent");
+      transmogrifier.startElement(JsonSchema2.URI, myName, (String)null, m_attributes);
+      m_attributes.clear();
+    }
+    transmogrifier.startElement(JsonSchema2.URI, "map", (String)null, m_attributes);
+
+    JsonToken token;
+    while ((token = m_parser.nextToken()) != null) {
+      if (token == JsonToken.END_OBJECT) {
+        transmogrifier.endElement(JsonSchema2.URI, "map", (String)null);
+        break;
+      }
+      if (token == JsonToken.FIELD_NAME) {
+        final String name = m_parser.getCurrentName();
+        token = m_parser.nextToken();
+        if (token == JsonToken.START_OBJECT) {
+          encodeObject(transmogrifier, name);
+        }
+        else if (token == JsonToken.START_ARRAY) {
+          encodeArray(transmogrifier, name);
+        }
+        else if (token == JsonToken.VALUE_STRING) {
+          encodeValue(transmogrifier, "string", false, m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), name);
+        }
+        else if (token == JsonToken.VALUE_NUMBER_INT) {
+          encodeValue(transmogrifier, "integer", true, m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), name);
+        }
+        else if (token == JsonToken.VALUE_NUMBER_FLOAT) {
+          encodeValue(transmogrifier, "number", false, m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), name);
+        }
+        else {
+          // implement
+          assert false;
+        }
+      }
+      else {
+        // REVISIT: Should never enter here. Throw an exception.
+        assert false;
+      }
+    }
+    if (myName != null) {
+      transmogrifier.endElement(JsonSchema2.URI, myName, (String)null);
+    }
+  }
+
+  private void encodeArray(SAXTransmogrifier transmogrifier, String myName) throws IOException, SAXException{
+    if (myName != null) {
+      m_attributes.addAttribute(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, "type", "xsi:type", "", "e4j:arrayContent");
+      transmogrifier.startElement(JsonSchema2.URI, myName, (String)null, m_attributes);
+      m_attributes.clear();
+    }
+    transmogrifier.startElement(JsonSchema2.URI, "array", (String)null, m_attributes);
+
+    JsonToken token;
+    while ((token = m_parser.nextToken()) != null) {
+      if (token == JsonToken.END_ARRAY) {
+        transmogrifier.endElement(JsonSchema2.URI, "array", (String)null);
+        break;
+      }
+      if (token == JsonToken.START_OBJECT) {
+        encodeObject(transmogrifier, (String)null);
+      }
+      else if (token == JsonToken.VALUE_STRING) {
+        encodeValue(transmogrifier, "string", false, m_parser.getTextCharacters(), m_parser.getTextOffset(), m_parser.getTextLength(), (String)null);
+
+      }
+      else {
+        assert false;
+      }
+    }
+    if (myName != null) {
+      transmogrifier.endElement(JsonSchema2.URI, myName, (String)null);
+    }
+  }
+
+  private void encodeValue(SAXTransmogrifier transmogrifier, String typeName, boolean isOther, char[] characters, int offset, int length, String propertyName) throws IOException, SAXException{
+    if (propertyName != null) {
+      m_attributes.addAttribute(XmlUriConst.W3C_2001_XMLSCHEMA_INSTANCE_URI, "type", "xsi:type", "", 
+          isOther ? "e4j:otherContent" : "e4j:" + typeName + "Content");
+      transmogrifier.startElement(JsonSchema2.URI, propertyName, (String)null, m_attributes);
+      m_attributes.clear();
+    }
+    if (isOther) {
+      transmogrifier.startElement(JsonSchema2.URI, "other", (String)null, m_attributes);
+    }
+    transmogrifier.startElement(JsonSchema2.URI, typeName, (String)null, m_attributes);
+    transmogrifier.characters(characters, offset, length);
+    transmogrifier.endElement(JsonSchema2.URI, typeName, (String)null);
+    if (isOther) {
+      transmogrifier.endElement(JsonSchema2.URI, "other", (String)null);
+    }
+    if (propertyName != null) {
+      transmogrifier.endElement(JsonSchema2.URI, propertyName, (String)null);
+    }
+  }
+
+}

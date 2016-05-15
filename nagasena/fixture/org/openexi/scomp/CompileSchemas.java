@@ -17,6 +17,7 @@ public final class CompileSchemas {
     "EmptySchema.txt", 
     "schema-for-json.xsd",
     "schema-for-json-V2.xsd",
+    "schema-for-json-V2a.xsd",
     "Grammar.xsd" };
   
   private static final String[] COMPILED_SCHEMAS = { 
@@ -24,6 +25,7 @@ public final class CompileSchemas {
     "EmptySchema.xsc", 
     "schema-for-json.xsc",
     "schema-for-json-V2.xsc",
+    "schema-for-json-V2a.xsc",
     "Grammar.xsc" };
 
   public static void main(String args[]) throws IOException {
