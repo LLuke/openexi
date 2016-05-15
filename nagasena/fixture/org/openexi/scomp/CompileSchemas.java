@@ -12,16 +12,18 @@ import org.xml.sax.InputSource;
 
 public final class CompileSchemas {
 
-  private static final String[] SCHEMA_INSTANCES = { 
+  private static final String[] SCHEMA_INSTANCES = {
     "HeaderOptions.xsd", 
     "EmptySchema.txt", 
     "schema-for-json.xsd",
+    "schema-for-json-V2.xsd",
     "Grammar.xsd" };
   
   private static final String[] COMPILED_SCHEMAS = { 
     "HeaderOptions.xsc",
     "EmptySchema.xsc", 
     "schema-for-json.xsc",
+    "schema-for-json-V2.xsc",
     "Grammar.xsc" };
 
   public static void main(String args[]) throws IOException {

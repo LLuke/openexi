@@ -33,7 +33,7 @@
     </fileset>
   </move>
   <move todir="${build.dir}/org/openexi/json">
-    <fileset dir="${build.dir}/org/openexi/scomp" includes="*json.xsc" />
+    <fileset dir="${build.dir}/org/openexi/scomp" includes="*json*.xsc" />
   </move>
   <!-- Encode Grammar Fragments -->
   <java classname="${EncodeGrammarFragments}"
