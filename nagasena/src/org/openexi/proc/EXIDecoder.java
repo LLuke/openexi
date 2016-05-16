@@ -43,6 +43,8 @@ public class EXIDecoder {
   private boolean m_binaryDataEnabled;
   private int m_initialBinaryDataBufferSize;
   
+  private boolean m_useBuiltinElementGrammar;
+  
   /**
    * Creates an instance of EXIDecoder with the default inflator 
    * buffer size of 8192 bytes.  Buffer size is only used when
@@ -74,6 +76,7 @@ public class EXIDecoder {
     m_scanner.setStringTable(Scanner.createStringTable(m_grammarCache));
     m_binaryDataEnabled = false;
     m_initialBinaryDataBufferSize = 8192;
+    m_useBuiltinElementGrammar = true;
   }
 
   /**
@@ -229,6 +232,10 @@ public class EXIDecoder {
   public final void setInitialBinaryDataBufferSize(int initialSize) {
     m_initialBinaryDataBufferSize = initialSize;
   }
+  
+  public final void setUseBuiltinElementGrammar(boolean useBuiltinElementGrammar) {
+    m_useBuiltinElementGrammar = useBuiltinElementGrammar;
+  }
 
   /**
    * This method reads and configures any header options present
@@ -302,7 +309,7 @@ public class EXIDecoder {
       scanner.setValueMaxLength(m_exiHeaderOptions.getValueMaxLength());
       scanner.setPreserveLexicalValues(m_exiHeaderOptions.getPreserveLexicalValues());
       scanner.setValueMaxLength(m_exiHeaderOptions.getValueMaxLength());
-
+      
       scanner.setBlockSize(m_exiHeaderOptions.getBlockSize());
       scanner.stringTable.setValuePartitionCapacity(m_exiHeaderOptions.getValuePartitionCapacity());
       isFragment = m_exiHeaderOptions.isFragment();
@@ -318,6 +325,7 @@ public class EXIDecoder {
     }
     scanner.reset();
     scanner.setEnableBinaryData(m_binaryDataEnabled, m_initialBinaryDataBufferSize);
+    scanner.useBuiltinElementGrammar = m_useBuiltinElementGrammar;
   
     if (bitInputStream != null)
       ((BitPackedScanner)scanner).takeover(bitInputStream);

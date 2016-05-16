@@ -24,7 +24,7 @@ public final class Transmogrifier2 {
   
   private final AttributesImpl m_attributes;
 
-  public Transmogrifier2() {
+  public Transmogrifier2(boolean useBuiltinElementGrammar) {
     m_transmogrifier = new org.openexi.sax.Transmogrifier();
     try {
       m_transmogrifier.setGrammarCache(JsonSchema2.getGrammarCache(), new SchemaId("schema-for-json"));
@@ -34,6 +34,7 @@ public final class Transmogrifier2 {
       e.printStackTrace();
       assert false;
     }
+    m_transmogrifier.setUseBuiltinElementGrammar(useBuiltinElementGrammar);
     m_attributes = new AttributesImpl();
   }
 

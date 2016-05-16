@@ -88,6 +88,7 @@ public abstract class Apparatus {
   protected abstract ValueApparatus[] getValueApparatuses();
   
   protected boolean m_preserveLexicalValues;
+  public boolean useBuiltinElementGrammar;
   
   public Apparatus() {
     m_statesStack = new GrammarState[INIT_GRAMMARS_DEPTH];
@@ -102,6 +103,7 @@ public abstract class Apparatus {
     m_types = null;
     m_codecTable = null;
     m_restrictedCharacterCountTable = null;
+    useBuiltinElementGrammar = true;
   }
 
   public void reset() {
@@ -138,7 +140,7 @@ public abstract class Apparatus {
   public final boolean getPreserveLexicalValues() {
     return m_preserveLexicalValues;
   }
-
+  
   ///////////////////////////////////////////////////////////////////////////
   /// APIs specific to SchemaVM
   ///////////////////////////////////////////////////////////////////////////

@@ -358,6 +358,10 @@ public final class Transmogrifier {
     }
     m_saxHandler.setObserveC14N(observeC14N);
   }
+  
+  public final void setUseBuiltinElementGrammar(boolean useBuiltinElementGrammar) {
+    m_saxHandler.setUseBuiltinElementGrammar(useBuiltinElementGrammar);
+  }
 
   ///////////////////////////////////////////////////////////////////////////
   /// Methods for controlling Deflater parameters
@@ -487,6 +491,7 @@ public final class Transmogrifier {
     
     private boolean m_preserveWhitespaces;
     private boolean m_observeC14N;
+    private boolean m_useBuiltinElementGrammar;
     
     SAXEventHandler() {
       m_schema = null;
@@ -512,6 +517,7 @@ public final class Transmogrifier {
       m_zlibStrategy = java.util.zip.Deflater.DEFAULT_STRATEGY;
       m_preserveWhitespaces = false;
       m_observeC14N = false;
+      m_useBuiltinElementGrammar = true;
       m_comparableAttributes = new ComparableAttribute[32];
       for (int i = 0; i < m_comparableAttributes.length; i++) {
         m_comparableAttributes[i] = new ComparableAttribute();
@@ -596,6 +602,10 @@ public final class Transmogrifier {
       m_observeC14N = observeC14N;
     }
     
+    public final void setUseBuiltinElementGrammar(boolean useBuiltinElementGrammar) {
+      m_useBuiltinElementGrammar = useBuiltinElementGrammar;
+    }
+    
     //////////// SAX event handlers
 
     public final void setDocumentLocator(final Locator locator) {
@@ -634,6 +644,7 @@ public final class Transmogrifier {
         m_scriber.stringTable.setValuePartitionCapacity(m_exiOptions.getValuePartitionCapacity());
         m_scriber.setBlockSize(m_exiOptions.getBlockSize());
         m_scriber.setDeflateParams(m_zlibLevel, m_zlibStrategy);
+        m_scriber.useBuiltinElementGrammar = m_useBuiltinElementGrammar;
         
         m_stringValueScriber = m_scriber.getValueScriberByID(Scriber.CODEC_STRING);
         

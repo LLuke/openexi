@@ -2,6 +2,25 @@
 
 0000.0002.0063.0
 
+- Experiment to use Element Fragment Grammar instead of Built-in Element Grammar.
+
+M       src/org/openexi/json/Transmogrifier2.java
+M       src/org/openexi/proc/EXIDecoder.java
+M       src/org/openexi/proc/grammars/Apparatus.java
+M       src/org/openexi/proc/grammars/Grammar.java
+M       src/org/openexi/sax/Transmogrifier.java
+M       test/org/openexi/json/PersonnelTest.java
+D       testdata/json/personnel.json
+        > moved to testdata/json/personnel_three.json
+A       testdata/json/personnel_one.json
+A  +    testdata/json/personnel_three.json
+        > moved from testdata/json/personnel.json
+A       testdata/json/personnel_two.json
+
+2016-05-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0063.0
+
 - Yet another preliminary implementation of EXI4JSON encoder.
 
 M       fixture/org/openexi/scomp/CompileSchemas.java

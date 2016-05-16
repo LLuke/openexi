@@ -1,0 +1,21 @@
+{
+  "personnel" :
+    [
+      {
+        "person" : {
+          "id" : "Boss",
+          "name" : {
+            "family" : "Smith",
+            "given" : "Bill"
+          },
+          "email" : "smith@foo.com",
+          "YearsOfService" : 20,
+          "weight" : 175.4,
+          "birthday" : "1955-03-24",
+          "link" : {
+            "subordinates": "worker"
+          }
+        }
+      }
+    ]
+}

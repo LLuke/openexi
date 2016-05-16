@@ -74,21 +74,28 @@ public abstract class Grammar {
 
   Grammar wildcardElement(int eventTypeIndex, int uri, int name, final GrammarState stateVariables) {
     final GrammarState kid = stateVariables.apparatus.pushState();
-    final StringTable stringTable = stateVariables.apparatus.stringTable;
-    final StringTable.LocalNamePartition localNamePartition;
-    localNamePartition = stringTable.getLocalNamePartition(uri);
-    final Grammar elementGrammar;
-    if ((elementGrammar = (Grammar)localNamePartition.localNameEntries[name].grammar) != null) {
-      elementGrammar.init(kid);
-      return elementGrammar;
+    final Grammar elementFragmentGrammar = m_grammarCache.elementFragmentGrammar;
+    if (stateVariables.apparatus.useBuiltinElementGrammar || elementFragmentGrammar == null) {
+      final StringTable stringTable = stateVariables.apparatus.stringTable;
+      final StringTable.LocalNamePartition localNamePartition;
+      localNamePartition = stringTable.getLocalNamePartition(uri);
+      final Grammar elementGrammar;
+      if ((elementGrammar = (Grammar)localNamePartition.localNameEntries[name].grammar) != null) {
+        elementGrammar.init(kid);
+        return elementGrammar;
+      }
+      else {
+        final BuiltinElementGrammar builtinElementGrammar;
+        builtinElementGrammar = m_grammarCache.createBuiltinElementGrammar(stringTable.getURI(uri), stateVariables.apparatus.eventTypesWorkSpace);
+        builtinElementGrammar.localNamePartition = localNamePartition;
+        localNamePartition.setGrammar(name, builtinElementGrammar);
+        builtinElementGrammar.init(kid);
+        return builtinElementGrammar;
+      }
     }
     else {
-      final BuiltinElementGrammar builtinElementGrammar;
-      builtinElementGrammar = m_grammarCache.createBuiltinElementGrammar(stringTable.getURI(uri), stateVariables.apparatus.eventTypesWorkSpace);
-      builtinElementGrammar.localNamePartition = localNamePartition;
-      localNamePartition.setGrammar(name, builtinElementGrammar);
-      builtinElementGrammar.init(kid);
-      return builtinElementGrammar;
+      elementFragmentGrammar.init(kid);
+      return elementFragmentGrammar;
     }
   }
 
