@@ -2,6 +2,14 @@
 
 0000.0002.0063.0
 
+- Instrumented XML output for experiment verification in PersonnelTest.
+
+M       test/org/openexi/json/PersonnelTest.java
+
+2016-05-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0063.0
+
 - Experiment to use Element Fragment Grammar instead of Built-in Element Grammar.
 
 M       src/org/openexi/json/Transmogrifier2.java

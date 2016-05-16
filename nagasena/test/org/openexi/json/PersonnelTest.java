@@ -3,6 +3,12 @@ package org.openexi.json;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+//import java.io.StringWriter;
+//
+//import javax.xml.parsers.SAXParserFactory;
+//import javax.xml.transform.sax.SAXTransformerFactory;
+//import javax.xml.transform.sax.TransformerHandler;
+//import javax.xml.transform.stream.StreamResult;
 
 import org.openexi.proc.EXIDecoder;
 import org.openexi.proc.common.EventDescription;
@@ -10,8 +16,10 @@ import org.openexi.proc.common.EventType;
 import org.openexi.proc.common.XmlUriConst;
 import org.openexi.proc.events.EXIEventSchemaType;
 import org.openexi.proc.io.Scanner;
+//import org.openexi.sax.EXIReader;
 import org.openexi.schema.EXISchema;
 import org.openexi.schema.EXISchemaConst;
+//import org.xml.sax.InputSource;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -5169,6 +5177,23 @@ public class PersonnelTest extends TestCase {
 
     final byte[] exi4json = baos.toByteArray();
     
+//    EXIReader decoder = new EXIReader();
+//    decoder.setGrammarCache(JsonSchema2.getGrammarCache());
+//
+//    SAXTransformerFactory saxTransformerFactory = (SAXTransformerFactory)SAXTransformerFactory.newInstance();
+//    SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+//    saxParserFactory.setNamespaceAware(true);
+//
+//    TransformerHandler transformerHandler = saxTransformerFactory.newTransformerHandler();
+//    StringWriter stringWriter = new StringWriter();
+//    transformerHandler.setResult(new StreamResult(stringWriter));
+//    
+//    decoder.setContentHandler(transformerHandler);
+//    decoder.setLexicalHandler(transformerHandler);
+//    decoder.parse(new InputSource(new ByteArrayInputStream(exi4json)));
+//    
+//    System.out.println(stringWriter.toString());
+    
     EXIDecoder decoder = new EXIDecoder();
     decoder.setGrammarCache(JsonSchema2.getGrammarCache());
     
@@ -6445,6 +6470,23 @@ public class PersonnelTest extends TestCase {
     inputJsonStream.close();
 
     final byte[] exi4json = baos.toByteArray();
+    
+//    EXIReader decoder = new EXIReader();
+//    decoder.setGrammarCache(JsonSchema2a.getGrammarCache());
+//  
+//    SAXTransformerFactory saxTransformerFactory = (SAXTransformerFactory)SAXTransformerFactory.newInstance();
+//    SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+//    saxParserFactory.setNamespaceAware(true);
+//  
+//    TransformerHandler transformerHandler = saxTransformerFactory.newTransformerHandler();
+//    StringWriter stringWriter = new StringWriter();
+//    transformerHandler.setResult(new StreamResult(stringWriter));
+//    
+//    decoder.setContentHandler(transformerHandler);
+//    decoder.setLexicalHandler(transformerHandler);
+//    decoder.parse(new InputSource(new ByteArrayInputStream(exi4json)));
+//    
+//    System.out.println(stringWriter.toString());
     
     EXIDecoder decoder = new EXIDecoder();
     decoder.setGrammarCache(JsonSchema2a.getGrammarCache());
