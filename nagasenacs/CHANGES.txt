@@ -1,3 +1,13 @@
+2016-08-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0056.1
+
+- XMLifier now has a variant of Convert method that takes an extra parameter
+  to specify the text encoding that should be used for generating text XML.
+
+M       src/AssemblyInfo.cs
+M       src/Nagasena/Sax/XMLifier.cs
+
 2015-12-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0056.0

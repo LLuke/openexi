@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 using Org.System.Xml.Sax;
 using Org.System.Xml.Sax.Helpers;
@@ -13,15 +14,28 @@ namespace Nagasena.Sax {
 
     private EXIReader m_exiReader;
 
+    private static Encoding m_utf8Encoding; 
+
+    static XMLifier() {
+      m_utf8Encoding = new UTF8Encoding(true, true);
+    }
+
     public XMLifier() {
       m_exiReader = new EXIReader();
     }
 
     /// <summary>
-    /// Convert EXI stream into XML stream.
+    /// Convert EXI stream into UTF8-encoded XML stream with BOM.
     /// </summary>
     public void Convert(Stream inputStream, Stream outputStream) {
-      XMLifierContentHandler handler = new XMLifierContentHandler(outputStream);
+      Convert(inputStream, outputStream, m_utf8Encoding);
+    }
+
+    /// <summary>
+    /// Convert EXI stream into XML stream in the specified text encoding.
+    /// </summary>
+    public void Convert(Stream inputStream, Stream outputStream, Encoding textEncoding) {
+      XMLifierContentHandler handler = new XMLifierContentHandler(outputStream, textEncoding);
       m_exiReader.ContentHandler = handler;
       m_exiReader.LexicalHandler = handler;
       m_exiReader.Parse(inputStream);
@@ -70,8 +84,8 @@ namespace Nagasena.Sax {
 
       private int m_n_prefixes;
 
-      internal XMLifierContentHandler(Stream outputStream) {
-        m_writer = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
+      internal XMLifierContentHandler(Stream outputStream, Encoding textEncoding) {
+        m_writer = new StreamWriter(outputStream, textEncoding);
         m_n_prefixBindings = 0;
         m_prefixBindings = new String[128];
       }
