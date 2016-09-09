@@ -1,3 +1,31 @@
+2016-09-08 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0064.0
+
+- Preliminary implementation of EXI4JSON encoder according to Aug 23 draft.
+
+M       build.xml
+M       fixture/org/openexi/scomp/CompileSchemas.java
+A       fixture/org/openexi/scomp/exi4json.xsd
+D       fixture/org/openexi/scomp/schema-for-json-V2.xsd
+D       fixture/org/openexi/scomp/schema-for-json-V2a.xsd
+D       fixture/org/openexi/scomp/schema-for-json.xsd
+M       properties.xml
+A  +    src/org/openexi/json/EXI4JsonSchema.java
+        > moved from src/org/openexi/json/JsonSchema.java
+D       src/org/openexi/json/JsonSchema.java
+        > moved to src/org/openexi/json/EXI4JsonSchema.java
+D       src/org/openexi/json/JsonSchema2.java
+D       src/org/openexi/json/JsonSchema2a.java
+M       src/org/openexi/json/Transmogrifier.java
+D       src/org/openexi/json/Transmogrifier2.java
+D       src/org/openexi/json/Transmogrifier2a.java
+A       system.xml
+M       test/org/openexi/json/ArrayTest.java
+M       test/org/openexi/json/ObjectTest.java
+M       test/org/openexi/json/PersonnelTest.java
+M       test/org/openexi/json/SingleValueTest.java
+
 2016-05-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0063.0

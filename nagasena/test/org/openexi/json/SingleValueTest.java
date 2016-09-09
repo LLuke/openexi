@@ -43,7 +43,7 @@ public class SingleValueTest extends TestCase {
     final byte[] exi4json = baos.toByteArray();
     
     EXIDecoder decoder = new EXIDecoder();
-    decoder.setGrammarCache(JsonSchema.getGrammarCache());
+    decoder.setGrammarCache(EXI4JsonSchema.getGrammarCache());
     
     decoder.setInputStream(new ByteArrayInputStream(exi4json));
     Scanner scanner = decoder.processHeader();
@@ -70,7 +70,7 @@ public class SingleValueTest extends TestCase {
     Assert.assertEquals("xyz", exiEvent.getCharacters().makeString());
     eventType = exiEvent.getEventType();
     Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
-    Assert.assertEquals(EXISchemaConst.STRING_TYPE, getAncestryId(JsonSchema.getEXISchema(), scanner.getGrammarState().contentDatatype)); 
+    Assert.assertEquals(EXISchemaConst.STRING_TYPE, getAncestryId(EXI4JsonSchema.getEXISchema(), scanner.getGrammarState().contentDatatype)); 
 
     exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
@@ -103,7 +103,7 @@ public class SingleValueTest extends TestCase {
     final byte[] exi4json = baos.toByteArray();
     
     EXIDecoder decoder = new EXIDecoder();
-    decoder.setGrammarCache(JsonSchema.getGrammarCache());
+    decoder.setGrammarCache(EXI4JsonSchema.getGrammarCache());
     
     decoder.setInputStream(new ByteArrayInputStream(exi4json));
     Scanner scanner = decoder.processHeader();
@@ -139,7 +139,7 @@ public class SingleValueTest extends TestCase {
     Assert.assertEquals("20", exiEvent.getCharacters().makeString());
     eventType = exiEvent.getEventType();
     Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
-    Assert.assertEquals(EXISchemaConst.INTEGER_TYPE, getAncestryId(JsonSchema.getEXISchema(), scanner.getGrammarState().contentDatatype)); 
+    Assert.assertEquals(EXISchemaConst.INTEGER_TYPE, getAncestryId(EXI4JsonSchema.getEXISchema(), scanner.getGrammarState().contentDatatype)); 
   
     exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
@@ -178,7 +178,7 @@ public class SingleValueTest extends TestCase {
     final byte[] exi4json = baos.toByteArray();
     
     EXIDecoder decoder = new EXIDecoder();
-    decoder.setGrammarCache(JsonSchema.getGrammarCache());
+    decoder.setGrammarCache(EXI4JsonSchema.getGrammarCache());
     
     decoder.setInputStream(new ByteArrayInputStream(exi4json));
     Scanner scanner = decoder.processHeader();
@@ -205,7 +205,7 @@ public class SingleValueTest extends TestCase {
     Assert.assertEquals("1754E-1", exiEvent.getCharacters().makeString());
     eventType = exiEvent.getEventType();
     Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
-    Assert.assertEquals(EXISchemaConst.FLOAT_TYPE, getAncestryId(JsonSchema.getEXISchema(), scanner.getGrammarState().contentDatatype)); 
+    Assert.assertEquals(EXISchemaConst.FLOAT_TYPE, getAncestryId(EXI4JsonSchema.getEXISchema(), scanner.getGrammarState().contentDatatype)); 
   
     exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());

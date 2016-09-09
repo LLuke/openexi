@@ -7,9 +7,9 @@ import org.openexi.proc.grammars.GrammarCache;
 import org.openexi.schema.CommonSchema;
 import org.openexi.schema.EXISchema;
 
-public final class JsonSchema2a {
+public final class EXI4JsonSchema {
 
-  private static final String COMPILED_SCHEMA_LOCATION = "schema-for-json-V2a.xsc";
+  private static final String COMPILED_SCHEMA_LOCATION = "exi4json.xsc";
   
   public static final String URI;
 
@@ -33,7 +33,7 @@ public final class JsonSchema2a {
     return m_grammarCache;
   }
   
-  private JsonSchema2a() {
+  private EXI4JsonSchema() {
   }
   
 }

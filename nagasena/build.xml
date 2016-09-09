@@ -1,4 +1,5 @@
 <!DOCTYPE project [
+  <!ENTITY system.xml SYSTEM "./system.xml" >
   <!ENTITY properties.xml SYSTEM "./properties.xml" >
 ]>
 
@@ -7,9 +8,10 @@
 <property name="debug" value="off"/>
 
 <property name="name" value="Nagasena"/>
-<property name="version" value="0000.0002.0063.0"/>
+<property name="version" value="0000.0002.0064.0"/>
 <property name="vendor" value="OpenEXI"/>
 
+&system.xml;
 &properties.xml;
 
 <property name="src.dir" value="./src"/>
@@ -107,6 +109,10 @@
   <pathelement location="${xml-apis.jar}"/>
 </path>
 
+<path id="jackson.class.path">
+  <pathelement location="${jackson-core.jar}"/>
+</path>
+
 <path id="javadoc.class.path">
   <pathelement location="${build.dir}/nagasena.jar"/>
   <pathelement location="${xercesImpl.jar}"/>
@@ -199,6 +205,11 @@
 
 <!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
 <path id="json.src.compile.class.path">
+  <path refid="jackson.class.path"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.sax.dest}"/>
 </path>
 
 <!-- DO NOT CHANGE! The path is composed to enforce dependency. -->
@@ -355,6 +366,11 @@
 
 <path id="json.test.compile.class.path">
   <pathelement location="${junit.jar}"/>
+  <pathelement location="${build.schema.dest}"/>
+  <pathelement location="${build.common.dest}"/>
+  <pathelement location="${build.grammars.dest}"/>
+  <pathelement location="${build.io.dest}"/>
+  <pathelement location="${build.proc.dest}"/>
   <pathelement location="${build.json.dest}"/>
 </path>
 
@@ -464,6 +480,7 @@
 
 <path id="json.test.run.class.path">
   <pathelement location="${junit.jar}"/>
+  <path refid="jackson.class.path"/>
   <pathelement location="${build.dir}/nagasena.jar"/>
   <pathelement location="${build.testdata.dir}"/>
   <pathelement location="${build.json.test}"/>
@@ -748,12 +765,12 @@
 <target name="compile" description="compilation" depends="prepare-src">
 
   <!-- Build sources -->
-  <javac srcdir="${build.util.src}" debug="${debug}" optimize="on" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.util.src}" debug="${debug}" optimize="on"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          destdir="${build.util.dest}" classpathref="xerces.class.path"/>
 
-  <javac srcdir="${build.schema.src}" debug="${debug}" optimize="on" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.schema.src}" debug="${debug}" optimize="on"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          destdir="${build.schema.dest}" classpathref="schema.src.compile.class.path"/>
   <copy overwrite="true" todir="${build.schema.dest}">
     <fileset dir="${build.schema.src}">
@@ -761,20 +778,20 @@
     </fileset>
   </copy>
 
-  <javac srcdir="${build.common.src}" debug="${debug}" optimize="on" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.common.src}" debug="${debug}" optimize="on"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          destdir="${build.common.dest}" classpathref="common.src.compile.class.path"/>
 
-  <javac srcdir="${build.putil.src}" debug="${debug}" optimize="on" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.putil.src}" debug="${debug}" optimize="on"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          destdir="${build.putil.dest}" />
 
-  <javac srcdir="${build.events.src}" debug="${debug}" optimize="on" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.events.src}" debug="${debug}" optimize="on"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          destdir="${build.events.dest}" classpathref="events.src.compile.class.path"/>
 
-  <javac srcdir="${build.grammars.src}" debug="${debug}" optimize="on" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.grammars.src}" debug="${debug}" optimize="on"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          destdir="${build.grammars.dest}" classpathref="grammars.src.compile.class.path"/>
   <copy overwrite="true" todir="${build.grammars.dest}">
     <fileset dir="${build.grammars.src}">
@@ -782,8 +799,8 @@
     </fileset>
   </copy>
 
-  <javac srcdir="${build.io.src}" debug="${debug}" optimize="on" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.io.src}" debug="${debug}" optimize="on"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          destdir="${build.io.dest}" classpathref="io.src.compile.class.path"/>
   <copy overwrite="true" todir="${build.io.dest}">
     <fileset dir="${build.io.src}">
@@ -791,16 +808,16 @@
     </fileset>
   </copy>
 
-  <javac srcdir="${build.compression.src}" debug="${debug}" optimize="on" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.compression.src}" debug="${debug}" optimize="on"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          destdir="${build.compression.dest}" classpathref="compression.src.compile.class.path"/>
 
-  <javac srcdir="${build.proc.src}" debug="${debug}" optimize="on" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.proc.src}" debug="${debug}" optimize="on"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          destdir="${build.proc.dest}" classpathref="proc.src.compile.class.path"/>
 
-  <javac srcdir="${build.sax.src}" debug="${debug}" optimize="on" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.sax.src}" debug="${debug}" optimize="on"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          destdir="${build.sax.dest}" classpathref="sax.src.compile.class.path"/>
   <copy overwrite="true" todir="${build.sax.dest}">
     <fileset dir="${build.sax.src}">
@@ -808,8 +825,8 @@
     </fileset>
   </copy>
 
-  <javac srcdir="${build.scomp.src}" debug="${debug}" optimize="on" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.scomp.src}" debug="${debug}" optimize="on"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          destdir="${build.scomp.dest}" classpathref="scomp.src.compile.class.path"/>
   <copy overwrite="true" todir="${build.scomp.dest}">
     <fileset dir="${build.scomp.src}">
@@ -818,37 +835,42 @@
     </fileset>
   </copy>
 
-  <javac srcdir="${build.cli.src}" debug="${debug}" optimize="on" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <!-- Use JDK 1.6 to compile JSON package. This is necessary in order to use jackson. -->
+  <javac executable="${jdk1.6}" srcdir="${build.json.src}" debug="${debug}" optimize="on"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
+         destdir="${build.json.dest}" classpathref="json.src.compile.class.path"/>
+
+  <javac executable="${jdk1.5}" srcdir="${build.cli.src}" debug="${debug}" optimize="on"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          destdir="${build.cli.dest}" classpathref="cli.src.compile.class.path"/>
 
-  <javac srcdir="${build.ant.src}" debug="${debug}" optimize="on" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.ant.src}" debug="${debug}" optimize="on"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          destdir="${build.ant.dest}" classpathref="ant.src.compile.class.path"/>
 
   <!-- Build fixtures -->
-  <javac srcdir="${build.ttf.fixture}" debug="on" optimize="off" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.ttf.fixture}" debug="on" optimize="off"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          classpathref="ttf.fixture.compile.class.path"/>
 
-  <javac srcdir="${build.schema.fixture}" debug="on" optimize="off" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.schema.fixture}" debug="on" optimize="off"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          classpathref="schema.fixture.compile.class.path"/>
 
-  <javac srcdir="${build.common.fixture}" debug="on" optimize="off" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.common.fixture}" debug="on" optimize="off"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          classpathref="common.fixture.compile.class.path"/>
 
-  <javac srcdir="${build.grammars.fixture}" debug="on" optimize="off" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.grammars.fixture}" debug="on" optimize="off"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          classpathref="grammars.fixture.compile.class.path"/>
 
-  <javac srcdir="${build.proc.fixture}" debug="on" optimize="off" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.proc.fixture}" debug="on" optimize="off"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          classpathref="proc.fixture.compile.class.path"/>
 
-  <javac srcdir="${build.scomp.fixture}" debug="on" optimize="off" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.scomp.fixture}" debug="on" optimize="off"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          classpathref="scomp.fixture.compile.class.path"/>
 
   <!-- Compile Header Options schema -->
@@ -871,33 +893,38 @@
   </move>
 
   <!-- Build tests -->
-  <javac srcdir="${build.schema.test}" debug="on" optimize="off" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.schema.test}" debug="on" optimize="off"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          classpathref="schema.test.compile.class.path"/>
 
-  <javac srcdir="${build.common.test}" debug="on" optimize="off" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.common.test}" debug="on" optimize="off"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          classpathref="common.test.compile.class.path"/>
 
-  <javac srcdir="${build.grammars.test}" debug="on" optimize="off" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.grammars.test}" debug="on" optimize="off"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          classpathref="grammars.test.compile.class.path"/>
 
-  <javac srcdir="${build.io.test}" debug="on" optimize="off" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.io.test}" debug="on" optimize="off"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          classpathref="io.test.compile.class.path"/>
 
-  <javac srcdir="${build.proc.test}" debug="on" optimize="off" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.proc.test}" debug="on" optimize="off"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          classpathref="proc.test.compile.class.path"/>
 
-  <javac srcdir="${build.sax.test}" debug="on" optimize="off" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.sax.test}" debug="on" optimize="off"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          classpathref="sax.test.compile.class.path"/>
 
-  <javac srcdir="${build.scomp.test}" debug="on" optimize="off" encoding="utf-8"
-         fork="true" includeAntRuntime="no"
+  <javac executable="${jdk1.5}" srcdir="${build.scomp.test}" debug="on" optimize="off"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
          classpathref="scomp.test.compile.class.path"/>
+
+  <!-- Use JDK 1.6 to compile JSON package. This is necessary in order to use jackson. -->
+  <javac executable="${jdk1.6}" srcdir="${build.json.test}" debug="on" optimize="off"
+         fork="true" includeAntRuntime="no" encoding="utf-8"
+         classpathref="json.test.compile.class.path"/>
 
 </target>
 
@@ -945,6 +972,8 @@
     <fileset dir="${build.proc.dest}" />
     <!-- exiSax -->
     <fileset dir="${build.sax.dest}" />
+    <!-- JSON -->
+    <fileset dir="${build.json.dest}" />
   </jar>
   <delete file="${build.dir}/nagasena-rta.jar"/>
   <jar destfile="${build.dir}/nagasena-rta.jar" manifest="${build.dir}/MANIFEST.MF">
@@ -1055,6 +1084,15 @@
     <classpath refid="sax.test.run.class.path"/>
     <batchtest>
       <fileset dir="${build.sax.test}" includes="**/*Test.class" />
+    </batchtest>
+    <assertions><enable/></assertions>
+  </junit>
+
+  <junit printsummary="false" haltonfailure="true" fork="yes" maxmemory="512M">
+    <formatter type="brief" usefile="false" />
+    <classpath refid="json.test.run.class.path"/>
+    <batchtest>
+      <fileset dir="${build.json.test}" includes="**/*Test.class" />
     </batchtest>
     <assertions><enable/></assertions>
   </junit>

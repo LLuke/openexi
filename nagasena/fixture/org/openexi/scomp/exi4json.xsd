@@ -10,12 +10,7 @@
      *
     -->
 
-    <xs:element name="map" type="j:mapType">
-        <xs:unique name="unique-key">
-            <xs:selector xpath="*"/>
-            <xs:field xpath="@key"/>
-        </xs:unique>
-    </xs:element>
+    <xs:element name="map" type="j:mapType"/>
 
     <xs:element name="array" type="j:arrayType"/>
 
@@ -29,76 +24,18 @@
 
     <xs:element name="other" type="j:otherType"/>
 
+
     <xs:complexType name="mapType">
-        <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="map">
-                <xs:complexType>
-                    <xs:complexContent>
-                        <xs:extension base="j:mapType">
-                            <xs:attributeGroup ref="j:key-group"/>
-                        </xs:extension>
-                    </xs:complexContent>
-                </xs:complexType>
-                <xs:unique name="unique-key-2">
-                    <xs:selector xpath="*"/>
-                    <xs:field xpath="@key"/>
-                </xs:unique>
-            </xs:element>
-            <xs:element name="array">
-                <xs:complexType>
-                    <xs:complexContent>
-                        <xs:extension base="j:arrayType">
-                            <xs:attributeGroup ref="j:key-group"/>
-                        </xs:extension>
-                    </xs:complexContent>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="string">
-                <xs:complexType>
-                    <xs:simpleContent>
-                        <xs:extension base="j:stringType">
-                            <xs:attributeGroup ref="j:key-group"/>
-                        </xs:extension>
-                    </xs:simpleContent>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="number">
-                <xs:complexType>
-                    <xs:simpleContent>
-                        <xs:extension base="j:numberType">
-                            <xs:attributeGroup ref="j:key-group"/>
-                        </xs:extension>
-                    </xs:simpleContent>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="boolean">
-                <xs:complexType>
-                    <xs:simpleContent>
-                        <xs:extension base="j:booleanType">
-                            <xs:attributeGroup ref="j:key-group"/>
-                        </xs:extension>
-                    </xs:simpleContent>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="null">
-                <xs:complexType>
-                    <xs:complexContent>
-                        <xs:extension base="j:nullType">
-                            <xs:attributeGroup ref="j:key-group"/>
-                        </xs:extension>
-                    </xs:complexContent>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="other">
-                <xs:complexType>
-                    <xs:complexContent>
-                        <xs:extension base="j:otherType">
-                            <xs:attributeGroup ref="j:key-group"/>
-                        </xs:extension>
-                    </xs:complexContent>
-                </xs:complexType>
-            </xs:element>
-        </xs:choice>
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <!-- any element is a map key which contains the actual value  -->
+            <!-- "key": 25 -->
+            <!-- 
+                <age>
+                    <number>25</number>
+                </age>
+            -->
+            <xs:any processContents="lax" namespace="##targetNamespace"/>
+        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="arrayType">
@@ -167,9 +104,5 @@
             </xs:element>
         </xs:choice>
     </xs:complexType>
-
-    <xs:attributeGroup name="key-group">
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:attributeGroup>
 
 </xs:schema>

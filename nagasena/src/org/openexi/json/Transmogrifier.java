@@ -25,15 +25,20 @@ public final class Transmogrifier {
   private final AttributesImpl m_attributes;
 
   public Transmogrifier() {
+    this(true);
+  }
+
+  public Transmogrifier(boolean useBuiltinElementGrammar) {
     m_transmogrifier = new org.openexi.sax.Transmogrifier();
     try {
-      m_transmogrifier.setGrammarCache(JsonSchema.getGrammarCache(), new SchemaId("schema-for-json"));
+      m_transmogrifier.setGrammarCache(EXI4JsonSchema.getGrammarCache(), new SchemaId("exi4json"));
     } 
     catch (EXIOptionsException e) {
       // Never enters here.
       e.printStackTrace();
       assert false;
     }
+    m_transmogrifier.setUseBuiltinElementGrammar(useBuiltinElementGrammar);
     m_attributes = new AttributesImpl();
   }
 
@@ -92,18 +97,15 @@ public final class Transmogrifier {
   }
   
   private void encodeObject(SAXTransmogrifier transmogrifier, String myName) throws IOException, SAXException{
-    // SE(j:map) content EE
-    m_attributes.clear();
     if (myName != null) {
-      // SE(j:map) AT(key) content EE      
-      m_attributes.addAttribute("", "key", "key", "", myName);
+      transmogrifier.startElement(EXI4JsonSchema.URI, myName, (String)null, m_attributes);
     }
-    transmogrifier.startElement(JsonSchema.URI, "map", (String)null, m_attributes);
+    transmogrifier.startElement(EXI4JsonSchema.URI, "map", (String)null, m_attributes);
 
     JsonToken token;
     while ((token = m_parser.nextToken()) != null) {
       if (token == JsonToken.END_OBJECT) {
-        transmogrifier.endElement(JsonSchema.URI, "map", (String)null);
+        transmogrifier.endElement(EXI4JsonSchema.URI, "map", (String)null);
         break;
       }
       if (token == JsonToken.FIELD_NAME) {
@@ -134,21 +136,21 @@ public final class Transmogrifier {
         assert false;
       }
     }
+    if (myName != null) {
+      transmogrifier.endElement(EXI4JsonSchema.URI, myName, (String)null);
+    }
   }
 
   private void encodeArray(SAXTransmogrifier transmogrifier, String myName) throws IOException, SAXException{
-    // SE(j:array) content EE
-    m_attributes.clear();
     if (myName != null) {
-      // SE(j:array) AT(key) content EE      
-      m_attributes.addAttribute("", "key", "key", "", myName);
+      transmogrifier.startElement(EXI4JsonSchema.URI, myName, (String)null, m_attributes);
     }
-    transmogrifier.startElement(JsonSchema.URI, "array", (String)null, m_attributes);
+    transmogrifier.startElement(EXI4JsonSchema.URI, "array", (String)null, m_attributes);
 
     JsonToken token;
     while ((token = m_parser.nextToken()) != null) {
       if (token == JsonToken.END_ARRAY) {
-        transmogrifier.endElement(JsonSchema.URI, "array", (String)null);
+        transmogrifier.endElement(EXI4JsonSchema.URI, "array", (String)null);
         break;
       }
       if (token == JsonToken.START_OBJECT) {
@@ -161,26 +163,28 @@ public final class Transmogrifier {
       else {
         assert false;
       }
-      
+    }
+    if (myName != null) {
+      transmogrifier.endElement(EXI4JsonSchema.URI, myName, (String)null);
     }
   }
 
   private void encodeValue(SAXTransmogrifier transmogrifier, String typeName, boolean isOther, char[] characters, int offset, int length, String propertyName) throws IOException, SAXException{
-    m_attributes.clear();
     if (propertyName != null) {
-      m_attributes.addAttribute("", "key", "key", "", propertyName);
+      transmogrifier.startElement(EXI4JsonSchema.URI, propertyName, (String)null, m_attributes);
     }
     if (isOther) {
-      transmogrifier.startElement(JsonSchema.URI, "other", (String)null, m_attributes);
-      if (propertyName != null)
-        m_attributes.clear();
+      transmogrifier.startElement(EXI4JsonSchema.URI, "other", (String)null, m_attributes);
     }
-    transmogrifier.startElement(JsonSchema.URI, typeName, (String)null, m_attributes);
+    transmogrifier.startElement(EXI4JsonSchema.URI, typeName, (String)null, m_attributes);
     transmogrifier.characters(characters, offset, length);
-    transmogrifier.endElement(JsonSchema.URI, typeName, (String)null);
+    transmogrifier.endElement(EXI4JsonSchema.URI, typeName, (String)null);
     if (isOther) {
-      transmogrifier.endElement(JsonSchema.URI, "other", (String)null);
+      transmogrifier.endElement(EXI4JsonSchema.URI, "other", (String)null);
+    }
+    if (propertyName != null) {
+      transmogrifier.endElement(EXI4JsonSchema.URI, propertyName, (String)null);
     }
   }
-
+  
 }

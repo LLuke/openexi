@@ -36,9 +36,9 @@ public class ObjectTest extends TestCase {
    * }
    * 
    * <map xmlns="http://www.w3.org/2015/EXI/json">
-   *   <string key="a">wenhua</string>
-   *   <string key="b">pianyi</string>
-   *   <string key="c">xyz</string>
+   *   <a><string>wenhua</string></a>
+   *   <b><string>pianyi</string></b>
+   *   <c><string>xyz</string></c>
    * </map>
    */
   public void testObject_01() throws Exception {
@@ -57,7 +57,7 @@ public class ObjectTest extends TestCase {
     final byte[] exi4json = baos.toByteArray();
     
     EXIDecoder decoder = new EXIDecoder();
-    decoder.setGrammarCache(JsonSchema.getGrammarCache());
+    decoder.setGrammarCache(EXI4JsonSchema.getGrammarCache());
     
     decoder.setInputStream(new ByteArrayInputStream(exi4json));
     Scanner scanner = decoder.processHeader();
@@ -82,22 +82,18 @@ public class ObjectTest extends TestCase {
     for (int i = 0; i < 3; i++) {
       exiEvent = scanner.nextEvent();
       Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
-      Assert.assertEquals("string", exiEvent.getName());
+      Assert.assertEquals(keyValues[i], exiEvent.getName());
       Assert.assertEquals("http://www.w3.org/2015/EXI/json", exiEvent.getURI());
       eventType = exiEvent.getEventType();
-      Assert.assertEquals(EventType.ITEM_SE, eventType.itemType);
-      Assert.assertEquals("string", eventType.name);
+      Assert.assertEquals(EventType.ITEM_SCHEMA_WC_NS, eventType.itemType);
       Assert.assertEquals("http://www.w3.org/2015/EXI/json", eventType.uri);
   
       exiEvent = scanner.nextEvent();
-      Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
-      Assert.assertEquals("key", exiEvent.getName());
-      Assert.assertEquals("", exiEvent.getURI());
-      Assert.assertEquals(keyValues[i], exiEvent.getCharacters().makeString());
+      Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+      Assert.assertEquals("string", exiEvent.getName());
+      Assert.assertEquals("http://www.w3.org/2015/EXI/json", exiEvent.getURI());
       eventType = exiEvent.getEventType();
-      Assert.assertEquals(EventType.ITEM_SCHEMA_AT, eventType.itemType);
-      Assert.assertEquals("key", eventType.name);
-      Assert.assertEquals("", eventType.uri);
+      Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
   
       exiEvent = scanner.nextEvent();
       Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
@@ -105,6 +101,12 @@ public class ObjectTest extends TestCase {
       eventType = exiEvent.getEventType();
       Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
   
+      exiEvent = scanner.nextEvent();
+      Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+      eventType = exiEvent.getEventType();
+      Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+      Assert.assertEquals(1, eventType.getDepth());
+
       exiEvent = scanner.nextEvent();
       Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
       eventType = exiEvent.getEventType();
@@ -131,9 +133,11 @@ public class ObjectTest extends TestCase {
    * }
    * 
    * <map xmlns="http://www.w3.org/2015/EXI/json">
-   *   <array key="a">
-   *     <string>xyz</string>
-   *   </array>
+   *   <a>
+   *     <array>
+   *       <string>xyz</string>
+   *     </array>
+   *   </a>
    * </map>
    */
   public void testObject_02() throws Exception {
@@ -150,7 +154,7 @@ public class ObjectTest extends TestCase {
     final byte[] exi4json = baos.toByteArray();
     
     EXIDecoder decoder = new EXIDecoder();
-    decoder.setGrammarCache(JsonSchema.getGrammarCache());
+    decoder.setGrammarCache(EXI4JsonSchema.getGrammarCache());
     
     decoder.setInputStream(new ByteArrayInputStream(exi4json));
     Scanner scanner = decoder.processHeader();
@@ -174,22 +178,18 @@ public class ObjectTest extends TestCase {
 
     exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
-    Assert.assertEquals("array", exiEvent.getName());
+    Assert.assertEquals("a", exiEvent.getName());
     Assert.assertEquals("http://www.w3.org/2015/EXI/json", exiEvent.getURI());
     eventType = exiEvent.getEventType();
-    Assert.assertEquals(EventType.ITEM_SE, eventType.itemType);
-    Assert.assertEquals("array", eventType.name);
+    Assert.assertEquals(EventType.ITEM_SCHEMA_WC_NS, eventType.itemType);
     Assert.assertEquals("http://www.w3.org/2015/EXI/json", eventType.uri);
 
     exiEvent = scanner.nextEvent();
-    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
-    Assert.assertEquals("key", exiEvent.getName());
-    Assert.assertEquals("", exiEvent.getURI());
-    Assert.assertEquals("a", exiEvent.getCharacters().makeString());
+    Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+    Assert.assertEquals("array", exiEvent.getName());
+    Assert.assertEquals("http://www.w3.org/2015/EXI/json", exiEvent.getURI());
     eventType = exiEvent.getEventType();
-    Assert.assertEquals(EventType.ITEM_SCHEMA_AT, eventType.itemType);
-    Assert.assertEquals("key", eventType.name);
-    Assert.assertEquals("", eventType.uri);
+    Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
 
     exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
@@ -205,6 +205,12 @@ public class ObjectTest extends TestCase {
     Assert.assertEquals("xyz", exiEvent.getCharacters().makeString());
     eventType = exiEvent.getEventType();
     Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+    eventType = exiEvent.getEventType();
+    Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+    Assert.assertEquals(1, eventType.getDepth());
 
     exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
@@ -239,9 +245,13 @@ public class ObjectTest extends TestCase {
    * }
    * 
    * <map xmlns="http://www.w3.org/2015/EXI/json">
-   *   <map key="a">
-   *     <string key="b">xyz</string>
-   *   </map>
+   *   <a>
+   *     <map>
+   *       <b>
+   *         <string>xyz</string>
+   *       </b>
+   *     </map>
+   *   </a>
    * </map>
    */
   public void testObject_03() throws Exception {
@@ -258,7 +268,7 @@ public class ObjectTest extends TestCase {
     final byte[] exi4json = baos.toByteArray();
     
     EXIDecoder decoder = new EXIDecoder();
-    decoder.setGrammarCache(JsonSchema.getGrammarCache());
+    decoder.setGrammarCache(EXI4JsonSchema.getGrammarCache());
     
     decoder.setInputStream(new ByteArrayInputStream(exi4json));
     Scanner scanner = decoder.processHeader();
@@ -282,41 +292,33 @@ public class ObjectTest extends TestCase {
 
     exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
-    Assert.assertEquals("map", exiEvent.getName());
+    Assert.assertEquals("a", exiEvent.getName());
     Assert.assertEquals("http://www.w3.org/2015/EXI/json", exiEvent.getURI());
     eventType = exiEvent.getEventType();
-    Assert.assertEquals(EventType.ITEM_SE, eventType.itemType);
-    Assert.assertEquals("map", eventType.name);
+    Assert.assertEquals(EventType.ITEM_SCHEMA_WC_NS, eventType.itemType);
     Assert.assertEquals("http://www.w3.org/2015/EXI/json", eventType.uri);
 
     exiEvent = scanner.nextEvent();
-    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
-    Assert.assertEquals("key", exiEvent.getName());
-    Assert.assertEquals("", exiEvent.getURI());
-    Assert.assertEquals("a", exiEvent.getCharacters().makeString());
+    Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+    Assert.assertEquals("map", exiEvent.getName());
+    Assert.assertEquals("http://www.w3.org/2015/EXI/json", exiEvent.getURI());
     eventType = exiEvent.getEventType();
-    Assert.assertEquals(EventType.ITEM_SCHEMA_AT, eventType.itemType);
-    Assert.assertEquals("key", eventType.name);
-    Assert.assertEquals("", eventType.uri);
+    Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+    Assert.assertEquals("b", exiEvent.getName());
+    Assert.assertEquals("http://www.w3.org/2015/EXI/json", exiEvent.getURI());
+    eventType = exiEvent.getEventType();
+    Assert.assertEquals(EventType.ITEM_SCHEMA_WC_NS, eventType.itemType);
+    Assert.assertEquals("http://www.w3.org/2015/EXI/json", eventType.uri);
 
     exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
     Assert.assertEquals("string", exiEvent.getName());
     Assert.assertEquals("http://www.w3.org/2015/EXI/json", exiEvent.getURI());
     eventType = exiEvent.getEventType();
-    Assert.assertEquals(EventType.ITEM_SE, eventType.itemType);
-    Assert.assertEquals("string", eventType.name);
-    Assert.assertEquals("http://www.w3.org/2015/EXI/json", eventType.uri);
-
-    exiEvent = scanner.nextEvent();
-    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
-    Assert.assertEquals("key", exiEvent.getName());
-    Assert.assertEquals("", exiEvent.getURI());
-    Assert.assertEquals("b", exiEvent.getCharacters().makeString());
-    eventType = exiEvent.getEventType();
-    Assert.assertEquals(EventType.ITEM_SCHEMA_AT, eventType.itemType);
-    Assert.assertEquals("key", eventType.name);
-    Assert.assertEquals("", eventType.uri);
+    Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
 
     exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
@@ -343,6 +345,18 @@ public class ObjectTest extends TestCase {
     Assert.assertEquals(1, eventType.getDepth());
 
     exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+    eventType = exiEvent.getEventType();
+    Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+    Assert.assertEquals(1, eventType.getDepth());
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+    eventType = exiEvent.getEventType();
+    Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+    Assert.assertEquals(1, eventType.getDepth());
+    
+    exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
     eventType = exiEvent.getEventType();
     Assert.assertEquals(EventType.ITEM_ED, eventType.itemType);
@@ -355,9 +369,11 @@ public class ObjectTest extends TestCase {
    * }
    * 
    * <map xmlns="http://www.w3.org/2015/EXI/json">
-   *   <other key="a">
-   *   <integer key="a">123</integer>
-   *   </other>
+   *   <a>
+   *     <other>
+   *       <integer>123</integer>
+   *     </other>
+   *   </a>
    * </map>
    */
   public void testObject_04() throws Exception {
@@ -374,7 +390,7 @@ public class ObjectTest extends TestCase {
     final byte[] exi4json = baos.toByteArray();
     
     EXIDecoder decoder = new EXIDecoder();
-    decoder.setGrammarCache(JsonSchema.getGrammarCache());
+    decoder.setGrammarCache(EXI4JsonSchema.getGrammarCache());
     
     decoder.setInputStream(new ByteArrayInputStream(exi4json));
     Scanner scanner = decoder.processHeader();
@@ -398,23 +414,19 @@ public class ObjectTest extends TestCase {
 
     exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
-    Assert.assertEquals("other", exiEvent.getName());
+    Assert.assertEquals("a", exiEvent.getName());
     Assert.assertEquals("http://www.w3.org/2015/EXI/json", exiEvent.getURI());
     eventType = exiEvent.getEventType();
-    Assert.assertEquals(EventType.ITEM_SE, eventType.itemType);
-    Assert.assertEquals("other", eventType.name);
+    Assert.assertEquals(EventType.ITEM_SCHEMA_WC_NS, eventType.itemType);
     Assert.assertEquals("http://www.w3.org/2015/EXI/json", eventType.uri);
 
     exiEvent = scanner.nextEvent();
-    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
-    Assert.assertEquals("key", exiEvent.getName());
-    Assert.assertEquals("", exiEvent.getURI());
-    Assert.assertEquals("a", exiEvent.getCharacters().makeString());
+    Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+    Assert.assertEquals("other", exiEvent.getName());
+    Assert.assertEquals("http://www.w3.org/2015/EXI/json", exiEvent.getURI());
     eventType = exiEvent.getEventType();
-    Assert.assertEquals(EventType.ITEM_SCHEMA_AT, eventType.itemType);
-    Assert.assertEquals("key", eventType.name);
-    Assert.assertEquals("", eventType.uri);
-    
+    Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+
     exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
     Assert.assertEquals("integer", exiEvent.getName());
@@ -429,7 +441,13 @@ public class ObjectTest extends TestCase {
     Assert.assertEquals("123", exiEvent.getCharacters().makeString());
     eventType = exiEvent.getEventType();
     Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
-    Assert.assertEquals(EXISchemaConst.INTEGER_TYPE, getAncestryId(JsonSchema.getEXISchema(), scanner.getGrammarState().contentDatatype)); 
+    Assert.assertEquals(EXISchemaConst.INTEGER_TYPE, getAncestryId(EXI4JsonSchema.getEXISchema(), scanner.getGrammarState().contentDatatype)); 
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+    eventType = exiEvent.getEventType();
+    Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+    Assert.assertEquals(1, eventType.getDepth());
 
     exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
@@ -462,7 +480,9 @@ public class ObjectTest extends TestCase {
    * }
    * 
    * <map xmlns="http://www.w3.org/2015/EXI/json">
-   *   <number key="a">12345E-2</number>
+   *   <a>
+   *     <number>12345E-2</number>
+   *   </a>
    * </map>
    */
   public void testObject_05() throws Exception {
@@ -479,7 +499,7 @@ public class ObjectTest extends TestCase {
     final byte[] exi4json = baos.toByteArray();
     
     EXIDecoder decoder = new EXIDecoder();
-    decoder.setGrammarCache(JsonSchema.getGrammarCache());
+    decoder.setGrammarCache(EXI4JsonSchema.getGrammarCache());
     
     decoder.setInputStream(new ByteArrayInputStream(exi4json));
     Scanner scanner = decoder.processHeader();
@@ -503,29 +523,31 @@ public class ObjectTest extends TestCase {
 
     exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
-    Assert.assertEquals("number", exiEvent.getName());
+    Assert.assertEquals("a", exiEvent.getName());
     Assert.assertEquals("http://www.w3.org/2015/EXI/json", exiEvent.getURI());
     eventType = exiEvent.getEventType();
-    Assert.assertEquals(EventType.ITEM_SE, eventType.itemType);
-    Assert.assertEquals("number", eventType.name);
+    Assert.assertEquals(EventType.ITEM_SCHEMA_WC_NS, eventType.itemType);
     Assert.assertEquals("http://www.w3.org/2015/EXI/json", eventType.uri);
 
     exiEvent = scanner.nextEvent();
-    Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
-    Assert.assertEquals("key", exiEvent.getName());
-    Assert.assertEquals("", exiEvent.getURI());
-    Assert.assertEquals("a", exiEvent.getCharacters().makeString());
+    Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+    Assert.assertEquals("number", exiEvent.getName());
+    Assert.assertEquals("http://www.w3.org/2015/EXI/json", exiEvent.getURI());
     eventType = exiEvent.getEventType();
-    Assert.assertEquals(EventType.ITEM_SCHEMA_AT, eventType.itemType);
-    Assert.assertEquals("key", eventType.name);
-    Assert.assertEquals("", eventType.uri);
-    
+    Assert.assertEquals(EventType.ITEM_SE_WC, eventType.itemType);
+
     exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
     Assert.assertEquals("12345E-2", exiEvent.getCharacters().makeString());
     eventType = exiEvent.getEventType();
     Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
-    Assert.assertEquals(EXISchemaConst.FLOAT_TYPE, getAncestryId(JsonSchema.getEXISchema(), scanner.getGrammarState().contentDatatype)); 
+    Assert.assertEquals(EXISchemaConst.FLOAT_TYPE, getAncestryId(EXI4JsonSchema.getEXISchema(), scanner.getGrammarState().contentDatatype)); 
+
+    exiEvent = scanner.nextEvent();
+    Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+    eventType = exiEvent.getEventType();
+    Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+    Assert.assertEquals(1, eventType.getDepth());
 
     exiEvent = scanner.nextEvent();
     Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
