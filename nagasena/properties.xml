@@ -10,7 +10,7 @@
 <property name="xml-apis.jar" value="${apache_xml}/xerces/2.11.0/xml-apis.jar"/>
 
 <!-- Jackson JSON Parser -->
-<property name="jackson-core.jar" value="lib/fasterxml/jackson-core-2.4.2.jar"/>
+<property name="jackson-core.jar" value="lib/fasterxml/jackson-core-2.4.5.jar"/>
 
 <!-- Commons CLI -->
 <property name="commons-cli-1.2.jar" value="${apache_xml}/commons-cli/1.2/commons-cli-1.2.jar"/>
