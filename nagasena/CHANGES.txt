@@ -1,3 +1,48 @@
+2016-09-12 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0065.0
+
+- Implemented EXI4JSON object and array.
+
+M       build.xml
+M       src/org/openexi/json/Transmogrifier.java
+M       test/org/openexi/json/ArrayTest.java
+M       test/org/openexi/json/ObjectTest.java
+D       testdata/json/array_01.json
+        > moved to testdata/json/array_stringValue_01.json
+D       testdata/json/array_02.json
+        > moved to testdata/json/array_mapValue_01.json
+A       testdata/json/array_booleanValue_01.json
+A       testdata/json/array_integerValue_01.json
+A  +    testdata/json/array_mapValue_01.json
+        > moved from testdata/json/array_02.json
+A       testdata/json/array_nullValue_01.json
+A       testdata/json/array_numberValue_01.json
+A  +    testdata/json/array_stringValue_01.json
+        > moved from testdata/json/array_01.json
+D       testdata/json/object_01.json
+        > moved to testdata/json/object_stringValue_01.json
+D       testdata/json/object_02.json
+        > moved to testdata/json/object_arrayValue_01.json
+D       testdata/json/object_03.json
+        > moved to testdata/json/object_mapValue_01.json
+D       testdata/json/object_04.json
+        > moved to testdata/json/object_integerValue_01.json
+D       testdata/json/object_05.json
+        > moved to testdata/json/object_numberValue_01.json
+A  +    testdata/json/object_arrayValue_01.json
+        > moved from testdata/json/object_02.json
+A       testdata/json/object_booleanValue_01.json
+A  +    testdata/json/object_integerValue_01.json
+        > moved from testdata/json/object_04.json
+A  +    testdata/json/object_mapValue_01.json
+        > moved from testdata/json/object_03.json
+A       testdata/json/object_nullValue_01.json
+A  +    testdata/json/object_numberValue_01.json
+        > moved from testdata/json/object_05.json
+A  +    testdata/json/object_stringValue_01.json
+        > moved from testdata/json/object_01.json
+
 2016-09-08 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0064.0
