@@ -87,11 +87,15 @@ public final class Transmogrifier {
       else if (token == JsonToken.VALUE_NUMBER_FLOAT) {
         encodeValue(transmogrifier, "number", false, (String)null);
       }
+      else if (token == JsonToken.VALUE_TRUE || token == JsonToken.VALUE_FALSE) {
+        encodeValue(transmogrifier, "boolean", false, (String)null);
+      }
+      else if (token == JsonToken.VALUE_NULL) {
+        encodeNull(transmogrifier, (String)null);
+      }
       else {
-        // implement VALUE_NULL, VALUE_TRUE, VALUE_FALSE
         assert false;
       }
-      
     }
     transmogrifier.endDocument();
   }
@@ -187,7 +191,7 @@ public final class Transmogrifier {
   }
 
   private void encodeValue(SAXTransmogrifier transmogrifier, String typeName, boolean isOther, String propertyName) 
-    throws IOException, SAXException{
+    throws IOException, SAXException {
     if (propertyName != null) {
       transmogrifier.startElement(EXI4JsonSchema.URI, propertyName, (String)null, m_attributes);
     }

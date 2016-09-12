@@ -1,5 +1,13 @@
 2016-09-12 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
+0000.0002.0066.0
+
+- Implemented EXI4JSON single values.
+
+M       build.xml
+M       src/org/openexi/json/Transmogrifier.java
+M       test/org/openexi/json/SingleValueTest.java
+
 0000.0002.0065.0
 
 - Implemented EXI4JSON object and array.
