@@ -3,21 +3,13 @@ package org.openexi.json;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-//import java.io.StringWriter;
-//
-//import javax.xml.parsers.SAXParserFactory;
-//import javax.xml.transform.sax.SAXTransformerFactory;
-//import javax.xml.transform.sax.TransformerHandler;
-//import javax.xml.transform.stream.StreamResult;
 
 import org.openexi.proc.EXIDecoder;
 import org.openexi.proc.common.EventDescription;
 import org.openexi.proc.common.EventType;
 import org.openexi.proc.io.Scanner;
-//import org.openexi.sax.EXIReader;
 import org.openexi.schema.EXISchema;
 import org.openexi.schema.EXISchemaConst;
-//import org.xml.sax.InputSource;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -42,7 +34,8 @@ public class PersonnelTest extends TestCase {
   
     InputStream inputJsonStream = getClass().getResource("/json/personnel_one.json").openStream();
 
-    Transmogrifier encoder = new Transmogrifier(true);
+    Transmogrifier encoder = new Transmogrifier();
+    encoder.setUseBuiltinElementGrammar(true);
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
     encoder.setOutputStream(baos);
@@ -508,7 +501,8 @@ public class PersonnelTest extends TestCase {
   
     InputStream inputJsonStream = getClass().getResource("/json/personnel_one.json").openStream();
 
-    Transmogrifier encoder = new Transmogrifier(false);
+    Transmogrifier encoder = new Transmogrifier();
+    encoder.setUseBuiltinElementGrammar(false);
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
     encoder.setOutputStream(baos);
@@ -998,7 +992,8 @@ public class PersonnelTest extends TestCase {
   
     InputStream inputJsonStream = getClass().getResource("/json/personnel_two.json").openStream();
 
-    Transmogrifier encoder = new Transmogrifier(true);
+    Transmogrifier encoder = new Transmogrifier();
+    encoder.setUseBuiltinElementGrammar(true);
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
     encoder.setOutputStream(baos);
@@ -1869,7 +1864,8 @@ public class PersonnelTest extends TestCase {
   
     InputStream inputJsonStream = getClass().getResource("/json/personnel_two.json").openStream();
 
-    Transmogrifier encoder = new Transmogrifier(false);
+    Transmogrifier encoder = new Transmogrifier();
+    encoder.setUseBuiltinElementGrammar(false);
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
     encoder.setOutputStream(baos);
@@ -2766,7 +2762,8 @@ public class PersonnelTest extends TestCase {
   
     InputStream inputJsonStream = getClass().getResource("/json/personnel_three.json").openStream();
 
-    Transmogrifier encoder = new Transmogrifier(true);
+    Transmogrifier encoder = new Transmogrifier();
+    encoder.setUseBuiltinElementGrammar(true);
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
     encoder.setOutputStream(baos);
@@ -4044,7 +4041,8 @@ public class PersonnelTest extends TestCase {
   
     InputStream inputJsonStream = getClass().getResource("/json/personnel_three.json").openStream();
 
-    Transmogrifier encoder = new Transmogrifier(false);
+    Transmogrifier encoder = new Transmogrifier();
+    encoder.setUseBuiltinElementGrammar(false);
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
     encoder.setOutputStream(baos);

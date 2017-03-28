@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.openexi.proc.common.AlignmentType;
 import org.openexi.proc.common.EXIOptionsException;
 import org.openexi.proc.common.SchemaId;
+import org.openexi.proc.grammars.GrammarCache;
 import org.openexi.sax.SAXTransmogrifier;
+import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
@@ -25,20 +28,19 @@ public final class Transmogrifier {
   private final AttributesImpl m_attributes;
 
   public Transmogrifier() {
-    this(true);
+    this(EXI4JsonSchema.getGrammarCache(), new SchemaId("exi4json")); 
   }
 
-  public Transmogrifier(boolean useBuiltinElementGrammar) {
+  public Transmogrifier(GrammarCache grammarCache, SchemaId schemaId) {
     m_transmogrifier = new org.openexi.sax.Transmogrifier();
     try {
-      m_transmogrifier.setGrammarCache(EXI4JsonSchema.getGrammarCache(), new SchemaId("exi4json"));
+      m_transmogrifier.setGrammarCache(grammarCache, schemaId);
     } 
     catch (EXIOptionsException e) {
       // Never enters here.
       e.printStackTrace();
       assert false;
     }
-    m_transmogrifier.setUseBuiltinElementGrammar(useBuiltinElementGrammar);
     m_attributes = new AttributesImpl();
   }
 
@@ -47,8 +49,16 @@ public final class Transmogrifier {
     m_parser = null;
   }
   
+  public final void setUseBuiltinElementGrammar(boolean useBuiltinElementGrammar) {
+    m_transmogrifier.setUseBuiltinElementGrammar(useBuiltinElementGrammar);
+  }
+  
   public final void setOutputStream(OutputStream ostream) {
     m_outputStream = ostream;
+  }
+  
+  public void setAlignmentType(AlignmentType alignmentType) throws EXIOptionsException {
+    m_transmogrifier.setAlignmentType(alignmentType);
   }
   
   public void encode(String inputString) throws IOException, SAXException {
@@ -67,6 +77,21 @@ public final class Transmogrifier {
     m_transmogrifier.setOutputStream(m_outputStream);
     
     SAXTransmogrifier transmogrifier = m_transmogrifier.getSAXTransmogrifier();
+    
+    transmogrifier.setDocumentLocator(new Locator() {
+      public int getColumnNumber() {
+        return m_parser.getCurrentLocation().getColumnNr();
+      }
+      public int getLineNumber() {
+        return m_parser.getCurrentLocation().getLineNr();
+      }
+      public String getPublicId() {
+        return "";
+      }
+      public String getSystemId() {
+        return "";
+      }
+    });
     
     transmogrifier.startDocument();
     
