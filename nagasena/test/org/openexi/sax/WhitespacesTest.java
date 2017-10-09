@@ -483,5 +483,76 @@ public class WhitespacesTest extends TestBase {
       Assert.assertNull(scanner.nextEvent());
     }
   }
+
+  /**
+   * Whitespace facet is observed in C14N encoding. 
+   */
+  public void testCanonicalCollapse_01() throws Exception {
+    EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema(
+        "/whiteSpace.xsd", getClass(), m_compilerErrors);
+    
+    Assert.assertEquals(0, m_compilerErrors.getTotalCount());
+
+    GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
+
+    final String xmlString = "<C xmlns='urn:foo'> A&#009;B </C>";
+
+    Transmogrifier encoder = new Transmogrifier();
+    encoder.setGrammarCache(grammarCache);
+    
+    EXIDecoder decoder = new EXIDecoder();
+    decoder.setGrammarCache(grammarCache);
+
+    for (boolean observeC14N : new boolean[] { true, false }) {
+      for (boolean preserveWhitespaces : new boolean[] { true, false }) {
+        encoder.setObserveC14N(observeC14N);
+        encoder.setPreserveWhitespaces(preserveWhitespaces);
+        
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        encoder.setOutputStream(baos);
+        
+        byte[] bts;
+        
+        encoder.encode(new InputSource(new StringReader(xmlString)));
+        
+        bts = baos.toByteArray();
+        
+        decoder.setInputStream(new ByteArrayInputStream(bts));
+        Scanner scanner = decoder.processHeader();
+
+        EventType eventType;
+        EventDescription exiEvent;
+        
+        exiEvent = scanner.nextEvent();
+        Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertSame(exiEvent, eventType);
+        Assert.assertEquals(0, eventType.getIndex());
+
+        exiEvent = scanner.nextEvent();
+        Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SE, eventType.itemType);
+        Assert.assertEquals("C", eventType.name);
+        Assert.assertEquals("urn:foo", eventType.uri);
+        
+        exiEvent = scanner.nextEvent();
+        Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
+        Assert.assertEquals(observeC14N ? "A B" : " A\tB ", exiEvent.getCharacters().makeString());
+        eventType = exiEvent.getEventType();
+        Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
+        
+        exiEvent = scanner.nextEvent();
+        Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+
+        exiEvent = scanner.nextEvent();
+        Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
+        eventType = exiEvent.getEventType();
+        Assert.assertSame(exiEvent, eventType);
+
+        Assert.assertNull(scanner.nextEvent());
+      }
+    }
+  }
   
 }

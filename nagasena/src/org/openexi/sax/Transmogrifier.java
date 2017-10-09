@@ -1215,7 +1215,15 @@ public final class Transmogrifier {
           assert tp != EXISchema.NIL_NODE;
           ValueScriber valueScriber = m_scriber.getValueScriber(tp);
           // REVISIT: avoid converting to string.
-          final String stringValue = new String(m_charBuf, 0, m_charPos);
+          String stringValue = new String(m_charBuf, 0, m_charPos);
+          if (m_observeC14N) {
+            // normalize the value if it is typed as string.
+            if (m_schema.ancestryIds[m_schema.getSerialOfType(tp)] == EXISchemaConst.STRING_TYPE) {
+              final int whiteSpace = m_schema.getWhitespaceFacetValueOfStringSimpleType(tp);
+              if (whiteSpace != EXISchema.WHITESPACE_PRESERVE)
+                stringValue = ValueScriber.normalize(stringValue, whiteSpace);
+              }
+          }
           if (valueScriber.process(stringValue, tp, m_schema, m_scribble, m_scriber)) {
             m_scriber.writeEventType(eventType);
             m_scriber.characters(eventType);

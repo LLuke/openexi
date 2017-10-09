@@ -28,4 +28,6 @@
   </xsd:complexType>
 </xsd:element>
 
+<xsd:element name="C" type="foo:collapsedString" />
+
 </xsd:schema>

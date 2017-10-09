@@ -1,3 +1,16 @@
+2017-10-08 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0068.0
+
+- Normalize strings according to whitespace facet in C14N encoding.
+
+M       build.xml
+M       src/org/openexi/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/proc/io/ValueScriber.java
+M       src/org/openexi/sax/Transmogrifier.java
+M       test/org/openexi/sax/WhitespacesTest.java
+M       testdata/whiteSpace.xsd
+
 2017-03-27 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0067.0
