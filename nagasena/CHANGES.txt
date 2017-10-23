@@ -1,3 +1,15 @@
+2017-10-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0069.0
+
+- Supported utcTime for xsd:dateTime and xsd:date.
+
+M       build.xml
+M       src/org/openexi/proc/io/DateTimeValueScriber.java
+M       src/org/openexi/proc/io/DateValueScriber.java
+M       src/org/openexi/sax/Transmogrifier.java
+M       test/org/openexi/sax/DateTimeValueEncodingTest.java
+
 2017-10-08 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0068.0

@@ -181,7 +181,21 @@ public class DateTimeValueEncodingTest extends TestCase {
         "1997-07-16Z",
         "xyz",
     };
-
+    final String[] normalizedValues = {
+      "2003-04-25T02:41:30.45Z",
+      "2003-04-24T21:41:30.45Z", 
+      "1997-07-17T07:20:30.45Z", 
+      "1997-07-16T19:20:30.45Z", 
+      "2000-01-01T00:00:00",
+      "-0601-07-17T00:29:30.45Z",
+      "1972-07-01T00:00:00",
+      "2013-07-01T00:00:00",
+      "2009-04-01T12:34:56.0001234",
+      "----------",
+      "1997-07-16Z",
+      "xyz",
+    };
+    
     int i;
     xmlStrings = new String[originalValues.length];
     for (i = 0; i < originalValues.length; i++) {
@@ -190,90 +204,94 @@ public class DateTimeValueEncodingTest extends TestCase {
     
     for (AlignmentType alignment : Alignments) {
       for (boolean preserveLexicalValues : new boolean[] { false, true }) {
-        String[] values = preserveLexicalValues ? parsedOriginalValues : resultValues;
-        boolean isValidValue = true;
-        for (i = 0; i < xmlStrings.length; i++) {
-          final String originalValue = xmlStrings[i];
-          if (originalValue.contains("----------")) {
-            isValidValue = false;
-            continue;
-          }
-          
-          Transmogrifier encoder = new Transmogrifier();
-          EXIDecoder decoder = new EXIDecoder();
-          Scanner scanner;
-          
-          encoder.setAlignmentType(alignment);
-          decoder.setAlignmentType(alignment);
-    
-          encoder.setPreserveLexicalValues(preserveLexicalValues);
-          decoder.setPreserveLexicalValues(preserveLexicalValues);
-
-          encoder.setGrammarCache(grammarCache);
-          ByteArrayOutputStream baos = new ByteArrayOutputStream();
-          encoder.setOutputStream(baos);
-          
-          byte[] bts;
-          int n_events;
-          
-          try {
-            encoder.encode(new InputSource(new StringReader(xmlStrings[i])));
-          }
-          catch (TransmogrifierException te) {
-            Assert.assertTrue(!preserveLexicalValues && !isValidValue);
-            continue;
-          }
-          Assert.assertTrue(preserveLexicalValues || isValidValue);
-          
-          bts = baos.toByteArray();
-          
-          decoder.setGrammarCache(grammarCache);
-          decoder.setInputStream(new ByteArrayInputStream(bts));
-          scanner = decoder.processHeader();
-          
-          EventDescription exiEvent;
-          n_events = 0;
+        for (boolean useUTCTime : new boolean[] { true, false }) {
+          String[] values = preserveLexicalValues ? parsedOriginalValues : useUTCTime ? normalizedValues : resultValues;
+          boolean isValidValue = true;
+          for (i = 0; i < xmlStrings.length; i++) {
+            final String originalValue = xmlStrings[i];
+            if (originalValue.contains("----------")) {
+              isValidValue = false;
+              continue;
+            }
+            
+            Transmogrifier encoder = new Transmogrifier();
+            EXIDecoder decoder = new EXIDecoder();
+            Scanner scanner;
+            
+            encoder.setAlignmentType(alignment);
+            decoder.setAlignmentType(alignment);
       
-          EventType eventType;
-      
-          exiEvent = scanner.nextEvent();
-          Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
-          eventType = exiEvent.getEventType();
-          Assert.assertEquals(EventType.ITEM_SD, eventType.itemType);
-          ++n_events;
-          
-          exiEvent = scanner.nextEvent();
-          Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
-          eventType = exiEvent.getEventType();
-          Assert.assertEquals(EventType.ITEM_SE, eventType.itemType);
-          Assert.assertEquals("DateTime", eventType.name);
-          Assert.assertEquals("urn:foo", eventType.uri);
-          ++n_events;
-          
-          exiEvent = scanner.nextEvent();
-          Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
-          Assert.assertEquals(values[i], exiEvent.getCharacters().makeString());
-          eventType = exiEvent.getEventType();
-          Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
-          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
-            int tp = scanner.currentState.contentDatatype; 
-            Assert.assertEquals(EXISchemaConst.DATETIME_TYPE, corpus.getSerialOfType(tp));
+            encoder.setPreserveLexicalValues(preserveLexicalValues);
+            decoder.setPreserveLexicalValues(preserveLexicalValues);
+  
+            encoder.setUseUTCTime(useUTCTime);
+            
+            encoder.setGrammarCache(grammarCache);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            encoder.setOutputStream(baos);
+            
+            byte[] bts;
+            int n_events;
+            
+            try {
+              encoder.encode(new InputSource(new StringReader(xmlStrings[i])));
+            }
+            catch (TransmogrifierException te) {
+              Assert.assertTrue(!preserveLexicalValues && !isValidValue);
+              continue;
+            }
+            Assert.assertTrue(preserveLexicalValues || isValidValue);
+            
+            bts = baos.toByteArray();
+            
+            decoder.setGrammarCache(grammarCache);
+            decoder.setInputStream(new ByteArrayInputStream(bts));
+            scanner = decoder.processHeader();
+            
+            EventDescription exiEvent;
+            n_events = 0;
+        
+            EventType eventType;
+        
+            exiEvent = scanner.nextEvent();
+            Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
+            eventType = exiEvent.getEventType();
+            Assert.assertEquals(EventType.ITEM_SD, eventType.itemType);
+            ++n_events;
+            
+            exiEvent = scanner.nextEvent();
+            Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+            eventType = exiEvent.getEventType();
+            Assert.assertEquals(EventType.ITEM_SE, eventType.itemType);
+            Assert.assertEquals("DateTime", eventType.name);
+            Assert.assertEquals("urn:foo", eventType.uri);
+            ++n_events;
+            
+            exiEvent = scanner.nextEvent();
+            Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
+            Assert.assertEquals(values[i], exiEvent.getCharacters().makeString());
+            eventType = exiEvent.getEventType();
+            Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
+            if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+              int tp = scanner.currentState.contentDatatype; 
+              Assert.assertEquals(EXISchemaConst.DATETIME_TYPE, corpus.getSerialOfType(tp));
+            }
+            ++n_events;
+        
+            exiEvent = scanner.nextEvent();
+            Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+            eventType = exiEvent.getEventType();
+            Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+            ++n_events;
+  
+            exiEvent = scanner.nextEvent();
+            Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
+            eventType = exiEvent.getEventType();
+            Assert.assertEquals(EventType.ITEM_ED, eventType.itemType);
+            ++n_events;
+  
+            Assert.assertEquals(5, n_events);
           }
-          ++n_events;
-      
-          exiEvent = scanner.nextEvent();
-          Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
-          eventType = exiEvent.getEventType();
-          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
-          ++n_events;
-
-          exiEvent = scanner.nextEvent();
-          Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
-          eventType = exiEvent.getEventType();
-          Assert.assertEquals(EventType.ITEM_ED, eventType.itemType);
-          ++n_events;
-
-          Assert.assertEquals(5, n_events);
         }
       }
     }
@@ -325,6 +343,17 @@ public class DateTimeValueEncodingTest extends TestCase {
         "xyz",
         "2013-02-29",
     };
+    final String[] normalizedValues = {
+        "2003-04-24Z",
+        "-0601-07-16Z",
+        "1997-07-16",
+        "1997-07-16Z",
+        "2012-02-29",
+        "----------",
+        "1997-07Z",
+        "xyz",
+        "2013-02-29",
+    };
 
     int i;
     xmlStrings = new String[originalValues.length];
@@ -334,90 +363,94 @@ public class DateTimeValueEncodingTest extends TestCase {
     
     for (AlignmentType alignment : Alignments) {
       for (boolean preserveLexicalValues : new boolean[] { false, true }) {
-        String[] values = preserveLexicalValues ? parsedOriginalValues : resultValues;
-        boolean isValidValue = true;
-        for (i = 0; i < xmlStrings.length; i++) {
-          final String originalValue = xmlStrings[i];
-          if (originalValue.contains("----------")) {
-            isValidValue = false;
-            continue;
-          }
-          
-          Transmogrifier encoder = new Transmogrifier();
-          EXIDecoder decoder = new EXIDecoder();
-          Scanner scanner;
-          
-          encoder.setAlignmentType(alignment);
-          decoder.setAlignmentType(alignment);
-    
-          encoder.setPreserveLexicalValues(preserveLexicalValues);
-          decoder.setPreserveLexicalValues(preserveLexicalValues);
-          
-          encoder.setGrammarCache(grammarCache);
-          ByteArrayOutputStream baos = new ByteArrayOutputStream();
-          encoder.setOutputStream(baos);
-          
-          byte[] bts;
-          int n_events;
-          
-          try {
-            encoder.encode(new InputSource(new StringReader(originalValue)));
-          }
-          catch (TransmogrifierException te) {
-            Assert.assertTrue(!preserveLexicalValues && !isValidValue);
-            continue;
-          }
-          Assert.assertTrue(preserveLexicalValues || isValidValue);
-
-          bts = baos.toByteArray();
-          
-          decoder.setGrammarCache(grammarCache);
-          decoder.setInputStream(new ByteArrayInputStream(bts));
-          scanner = decoder.processHeader();
-          
-          EventDescription exiEvent;
-          n_events = 0;
+        for (boolean useUTCTime : new boolean[] { true, false }) {
+          String[] values = preserveLexicalValues ? parsedOriginalValues : useUTCTime ? normalizedValues : resultValues;
+          boolean isValidValue = true;
+          for (i = 0; i < xmlStrings.length; i++) {
+            final String originalValue = xmlStrings[i];
+            if (originalValue.contains("----------")) {
+              isValidValue = false;
+              continue;
+            }
+            
+            Transmogrifier encoder = new Transmogrifier();
+            EXIDecoder decoder = new EXIDecoder();
+            Scanner scanner;
+            
+            encoder.setAlignmentType(alignment);
+            decoder.setAlignmentType(alignment);
       
-          EventType eventType;
-      
-          exiEvent = scanner.nextEvent();
-          Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
-          eventType = exiEvent.getEventType();
-          Assert.assertEquals(EventType.ITEM_SD, eventType.itemType);
-          ++n_events;
-          
-          exiEvent = scanner.nextEvent();
-          Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
-          eventType = exiEvent.getEventType();
-          Assert.assertEquals(EventType.ITEM_SE, eventType.itemType);
-          Assert.assertEquals("Date", eventType.name);
-          Assert.assertEquals("urn:foo", eventType.uri);
-          ++n_events;
-          
-          exiEvent = scanner.nextEvent();
-          Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
-          Assert.assertEquals(values[i], exiEvent.getCharacters().makeString());
-          eventType = exiEvent.getEventType();
-          Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
-          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
-            int tp = scanner.currentState.contentDatatype; 
-            Assert.assertEquals(EXISchemaConst.DATE_TYPE, corpus.getSerialOfType(tp));
+            encoder.setPreserveLexicalValues(preserveLexicalValues);
+            decoder.setPreserveLexicalValues(preserveLexicalValues);
+            
+            encoder.setUseUTCTime(useUTCTime);
+            
+            encoder.setGrammarCache(grammarCache);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            encoder.setOutputStream(baos);
+            
+            byte[] bts;
+            int n_events;
+            
+            try {
+              encoder.encode(new InputSource(new StringReader(originalValue)));
+            }
+            catch (TransmogrifierException te) {
+              Assert.assertTrue(!preserveLexicalValues && !isValidValue);
+              continue;
+            }
+            Assert.assertTrue(preserveLexicalValues || isValidValue);
+  
+            bts = baos.toByteArray();
+            
+            decoder.setGrammarCache(grammarCache);
+            decoder.setInputStream(new ByteArrayInputStream(bts));
+            scanner = decoder.processHeader();
+            
+            EventDescription exiEvent;
+            n_events = 0;
+        
+            EventType eventType;
+        
+            exiEvent = scanner.nextEvent();
+            Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
+            eventType = exiEvent.getEventType();
+            Assert.assertEquals(EventType.ITEM_SD, eventType.itemType);
+            ++n_events;
+            
+            exiEvent = scanner.nextEvent();
+            Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+            eventType = exiEvent.getEventType();
+            Assert.assertEquals(EventType.ITEM_SE, eventType.itemType);
+            Assert.assertEquals("Date", eventType.name);
+            Assert.assertEquals("urn:foo", eventType.uri);
+            ++n_events;
+            
+            exiEvent = scanner.nextEvent();
+            Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
+            Assert.assertEquals(values[i], exiEvent.getCharacters().makeString());
+            eventType = exiEvent.getEventType();
+            Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
+            if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+              int tp = scanner.currentState.contentDatatype; 
+              Assert.assertEquals(EXISchemaConst.DATE_TYPE, corpus.getSerialOfType(tp));
+            }
+            ++n_events;
+        
+            exiEvent = scanner.nextEvent();
+            Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+            eventType = exiEvent.getEventType();
+            Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+            ++n_events;
+        
+            exiEvent = scanner.nextEvent();
+            Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
+            eventType = exiEvent.getEventType();
+            Assert.assertEquals(EventType.ITEM_ED, eventType.itemType);
+            ++n_events;
+  
+            Assert.assertEquals(5, n_events);
           }
-          ++n_events;
-      
-          exiEvent = scanner.nextEvent();
-          Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
-          eventType = exiEvent.getEventType();
-          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
-          ++n_events;
-      
-          exiEvent = scanner.nextEvent();
-          Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
-          eventType = exiEvent.getEventType();
-          Assert.assertEquals(EventType.ITEM_ED, eventType.itemType);
-          ++n_events;
-
-          Assert.assertEquals(5, n_events);
         }
       }
     }

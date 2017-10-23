@@ -353,10 +353,14 @@ public final class Transmogrifier {
    * @param observeC14N <i>true</i> to enable EXI Canonicalization encoding rules
    */
   public final void setObserveC14N(boolean observeC14N) throws EXIOptionsException {
-    if (m_saxHandler.m_observeC14N && m_exiOptions.getAlignmentType() == AlignmentType.compress) {
+    if (observeC14N && m_exiOptions.getAlignmentType() == AlignmentType.compress) {
       throw new EXIOptionsException("Canonical EXI cannot be used when alignment type is \"compression\"");
     }
     m_saxHandler.setObserveC14N(observeC14N);
+  }
+  
+  public final void setUseUTCTime(boolean useUTCTime) {
+    m_saxHandler.setUseUTCTime(useUTCTime);
   }
   
   public final void setUseBuiltinElementGrammar(boolean useBuiltinElementGrammar) {
@@ -492,6 +496,7 @@ public final class Transmogrifier {
     private boolean m_preserveWhitespaces;
     private boolean m_observeC14N;
     private boolean m_useBuiltinElementGrammar;
+    private boolean m_useUTCTime;
     
     SAXEventHandler() {
       m_schema = null;
@@ -518,6 +523,7 @@ public final class Transmogrifier {
       m_preserveWhitespaces = false;
       m_observeC14N = false;
       m_useBuiltinElementGrammar = true;
+      m_useUTCTime = false;
       m_comparableAttributes = new ComparableAttribute[32];
       for (int i = 0; i < m_comparableAttributes.length; i++) {
         m_comparableAttributes[i] = new ComparableAttribute();
@@ -600,6 +606,10 @@ public final class Transmogrifier {
 
     public final void setObserveC14N(boolean observeC14N) {
       m_observeC14N = observeC14N;
+    }
+    
+    public final void setUseUTCTime(boolean useUTCTime) {
+      m_useUTCTime = useUTCTime;
     }
     
     public final void setUseBuiltinElementGrammar(boolean useBuiltinElementGrammar) {
@@ -1224,6 +1234,7 @@ public final class Transmogrifier {
                 stringValue = ValueScriber.normalize(stringValue, whiteSpace);
               }
           }
+          m_scribble.booleanValue1 = m_useUTCTime;
           if (valueScriber.process(stringValue, tp, m_schema, m_scribble, m_scriber)) {
             m_scriber.writeEventType(eventType);
             m_scriber.characters(eventType);

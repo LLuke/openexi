@@ -37,6 +37,7 @@ public final class DateTimeValueScriber extends DateTimeValueScriberBase {
   public boolean process(String value, int tp, EXISchema schema, Scribble scribble, Scriber scriber) {
     if (!trimWhitespaces(value))
       return false;
+    final boolean useUTCTime = scribble.booleanValue1;
     final int year, month, day, hour, minute, second;
     BigInteger reverseFractionalSecond = null;
     int tz = XSDateTime.FIELD_UNDEFINED;
@@ -89,6 +90,8 @@ public final class DateTimeValueScriber extends DateTimeValueScriberBase {
       }
     }
     scribble.dateTime = new XSDateTime(year, month, day, hour, minute, second, reverseFractionalSecond, tz, EXISchemaConst.DATETIME_TYPE);
+    if (useUTCTime)
+      scribble.dateTime.normalize();
     return true;
   }
 

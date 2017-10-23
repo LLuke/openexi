@@ -35,6 +35,7 @@ public final class DateValueScriber extends DateTimeValueScriberBase {
   public boolean process(String value, int tp, EXISchema schema, Scribble scribble, Scriber scriber) {
     if (!trimWhitespaces(value))
       return false;
+    final boolean useUTCTime = scribble.booleanValue1;
     final int year, month, day;
     int tz = XSDateTime.FIELD_UNDEFINED;
     nextPosition = startPosition; // OK, Let's start parsing
@@ -60,6 +61,8 @@ public final class DateValueScriber extends DateTimeValueScriberBase {
         XSDateTime.FIELD_UNDEFINED, XSDateTime.FIELD_UNDEFINED, 
         XSDateTime.FIELD_UNDEFINED, null, 
         tz, EXISchemaConst.DATE_TYPE);
+    if (useUTCTime)
+      scribble.dateTime.normalize();
     return true;
   }
 
