@@ -1235,6 +1235,7 @@ public final class Transmogrifier {
               }
           }
           m_scribble.booleanValue1 = m_useUTCTime;
+          m_scribble.booleanValue2 = m_observeC14N;
           if (valueScriber.process(stringValue, tp, m_schema, m_scribble, m_scriber)) {
             m_scriber.writeEventType(eventType);
             m_scriber.characters(eventType);

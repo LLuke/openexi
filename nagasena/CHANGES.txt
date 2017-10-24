@@ -1,3 +1,14 @@
+2017-10-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+0000.0002.0070.0
+
+- Supported C14N encoding rule for Decimal codec.
+
+M       build.xml
+M       src/org/openexi/proc/io/DecimalValueScriber.java
+M       src/org/openexi/sax/Transmogrifier.java
+M       test/org/openexi/sax/DecimalValueEncodingTest.java
+
 2017-10-22 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0069.0

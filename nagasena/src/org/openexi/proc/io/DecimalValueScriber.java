@@ -103,6 +103,8 @@ public final class DecimalValueScriber extends ValueScriberBase {
     if (!trimWhitespaces(value))
       return false;
     
+    final boolean observeC14N = scribble.booleanValue2;
+
     int digits = 0; // for detecting zero-length decimal
     int totalDigits = 0, fractionDigits = 0;
     int trailingZeros = 0;
@@ -208,12 +210,20 @@ public final class DecimalValueScriber extends ValueScriberBase {
     if (syntaxInvalid || mode != DECIMAL_MODE_IS_INTEGRAL && mode != DECIMAL_MODE_IS_FRACTION || digits == 0)
       return false;
     
-    if (integralDigits.length() == 0)
+    final int n_integralDigits = integralDigits.length();
+    final int n_reverseFractionalDigits = reverseFractionalDigits.length();
+    if (n_integralDigits == 0)
       integralDigits.append('0');
-    if (reverseFractionalDigits.length() == 0)
+    if (n_reverseFractionalDigits == 0)
       reverseFractionalDigits.append('0');
     else
       reverseFractionalDigits.reverse();
+
+    if (observeC14N && !positive) {
+      // According to C14N encoding rule, the sign value MUST be zero (0) if both the integral portion 
+      // and the fractional portion of the Decimal value are 0 (zero).
+      positive = n_integralDigits == 0 && n_reverseFractionalDigits == 0;
+    }
     
     scribble.booleanValue1 = !positive;
     scribble.stringValue1 = integralDigits.toString();
