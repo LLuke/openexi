@@ -6,6 +6,12 @@
 
 <xsd:element name="Float" type="xsd:float"/>
 
+<xsd:element name="A">
+  <xsd:complexType>
+    <xsd:attribute name="float" type="xsd:float" />
+  </xsd:complexType>
+</xsd:element>
+
 <xsd:element name="ListOfFloats">
   <xsd:simpleType>
     <xsd:list>

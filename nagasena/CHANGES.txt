@@ -1,3 +1,18 @@
+2017-11-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
+
+- Supported C14N encoding rule for Float codec.
+
+0000.0002.0071.0
+
+- Supported C14N encoding rule for Float codec.
+
+M       build.xml
+M       src/org/openexi/proc/io/EnumerationValueScriber.java
+M       src/org/openexi/proc/io/FloatValueScriber.java
+M       src/org/openexi/sax/Transmogrifier.java
+M       test/org/openexi/sax/FloatValueEncodingTest.java
+M       testdata/float.xsd
+
 2017-10-23 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0070.0

@@ -1033,6 +1033,8 @@ public final class Transmogrifier {
                 }
               }
             }
+            m_scribble.booleanValue1 = m_useUTCTime;
+            m_scribble.booleanValue2 = m_observeC14N;
             for (i = 0; i < n_attrs; i++) {
               eventTypes = m_scriber.getNextEventTypes();
               final ComparableAttribute attr = m_comparableAttributes[i]; 

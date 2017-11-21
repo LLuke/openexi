@@ -233,7 +233,8 @@ final class EnumerationValueScriber extends ValueScriberBase {
       case EXISchemaConst.FLOAT_TYPE:
       case EXISchemaConst.DOUBLE_TYPE:
         if (m_floatValueScriber.doProcess(norm, scribble, scriber.stringBuilder1)) {
-          FloatValueScriber.canonicalizeValue(scribble);
+          if (!scribble.booleanValue2)
+            FloatValueScriber.canonicalizeValue(scribble);
           return scribble;
         }
         return null;

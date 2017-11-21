@@ -7,11 +7,13 @@ import java.util.ArrayList;
 
 import org.openexi.proc.EXIDecoder;
 import org.openexi.proc.common.AlignmentType;
+import org.openexi.proc.common.EXIOptionsException;
 import org.openexi.proc.common.EventDescription;
 import org.openexi.proc.common.EventType;
 import org.openexi.proc.common.GrammarOptions;
 import org.openexi.proc.common.XmlUriConst;
 import org.openexi.proc.events.EXIEventSchemaType;
+import org.openexi.proc.grammars.EventTypeSchema;
 import org.openexi.proc.grammars.GrammarCache;
 import org.openexi.proc.io.Scanner;
 import org.openexi.schema.EXISchema;
@@ -72,6 +74,7 @@ public class FloatValueEncodingTest extends TestBase {
         "  -1E4 ", 
         " \t 1267.43233E12 \r\n ", 
         "12.78e-2", 
+        "1200.00e+2", 
         "12", 
         "0", 
         "-0", 
@@ -86,6 +89,21 @@ public class FloatValueEncodingTest extends TestBase {
         "-1E4", 
         "126743233E7", 
         "1278E-4", 
+        "120000E0", 
+        "12E0", 
+        "0E0", 
+        "0E0", 
+        "INF", 
+        "-INF", 
+        "NaN",
+        "-9223372036854775808E0",
+        "9223372036854775807E0"
+    };
+    final String[] resultCanonicalValues = {
+        "-1E4", 
+        "126743233E7", 
+        "1278E-4", 
+        "12E4", 
         "12E0", 
         "0E0", 
         "0E0", 
@@ -104,75 +122,191 @@ public class FloatValueEncodingTest extends TestBase {
     
     for (AlignmentType alignment : Alignments) {
       for (i = 0; i < xmlStrings.length; i++) {
-        Transmogrifier encoder = new Transmogrifier();
-        EXIDecoder decoder = new EXIDecoder();
-        Scanner scanner;
-        
-        encoder.setAlignmentType(alignment);
-        decoder.setAlignmentType(alignment);
-  
-        encoder.setGrammarCache(grammarCache);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        encoder.setOutputStream(baos);
-        
-        byte[] bts;
-        int n_events;
-        
-        encoder.encode(new InputSource(new StringReader(xmlStrings[i])));
-        
-        bts = baos.toByteArray();
-        
-        decoder.setGrammarCache(grammarCache);
-        decoder.setInputStream(new ByteArrayInputStream(bts));
-        scanner = decoder.processHeader();
-        
-        EventDescription exiEvent;
-        n_events = 0;
+        for (boolean observeC14N : new boolean[] { true, false }) {
+          Transmogrifier encoder = new Transmogrifier();
+          EXIDecoder decoder = new EXIDecoder();
+          Scanner scanner;
+          
+          encoder.setAlignmentType(alignment);
+          decoder.setAlignmentType(alignment);
     
-        EventType eventType;
-    
-        exiEvent = scanner.nextEvent();
-        Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
-        eventType = exiEvent.getEventType();
-        Assert.assertEquals(EventType.ITEM_SD, eventType.itemType);
-        ++n_events;
-        
-        exiEvent = scanner.nextEvent();
-        Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
-        eventType = exiEvent.getEventType();
-        Assert.assertEquals(EventType.ITEM_SE, eventType.itemType);
-        Assert.assertEquals("Float", eventType.name);
-        Assert.assertEquals("urn:foo", eventType.uri);
-        ++n_events;
-        
-        exiEvent = scanner.nextEvent();
-        Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
-        Assert.assertEquals(resultValues[i], exiEvent.getCharacters().makeString());
-        eventType = exiEvent.getEventType();
-        Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
-        if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
-          int tp = scanner.currentState.contentDatatype;
-          Assert.assertEquals(EXISchemaConst.FLOAT_TYPE, corpus.getSerialOfType(tp));
+          encoder.setGrammarCache(grammarCache);
+          ByteArrayOutputStream baos = new ByteArrayOutputStream();
+          encoder.setOutputStream(baos);
+          
+          byte[] bts;
+          int n_events;
+          
+          try {
+            encoder.setObserveC14N(observeC14N);
+          }
+          catch (EXIOptionsException eoe) {
+            Assert.assertEquals(AlignmentType.compress, alignment);
+            observeC14N = false;
+          }
+          encoder.encode(new InputSource(new StringReader(xmlStrings[i])));
+          
+          bts = baos.toByteArray();
+          
+          decoder.setGrammarCache(grammarCache);
+          decoder.setInputStream(new ByteArrayInputStream(bts));
+          scanner = decoder.processHeader();
+          
+          EventDescription exiEvent;
+          n_events = 0;
+      
+          EventType eventType;
+      
+          exiEvent = scanner.nextEvent();
+          Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
+          eventType = exiEvent.getEventType();
+          Assert.assertEquals(EventType.ITEM_SD, eventType.itemType);
+          ++n_events;
+          
+          exiEvent = scanner.nextEvent();
+          Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+          eventType = exiEvent.getEventType();
+          Assert.assertEquals(EventType.ITEM_SE, eventType.itemType);
+          Assert.assertEquals("Float", eventType.name);
+          Assert.assertEquals("urn:foo", eventType.uri);
+          ++n_events;
+          
+          exiEvent = scanner.nextEvent();
+          Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
+          Assert.assertEquals(observeC14N ? resultCanonicalValues[i] : resultValues[i], exiEvent.getCharacters().makeString());
+          eventType = exiEvent.getEventType();
+          Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);
+          if (alignment == AlignmentType.bitPacked || alignment == AlignmentType.byteAligned) {
+            int tp = scanner.currentState.contentDatatype;
+            Assert.assertEquals(EXISchemaConst.FLOAT_TYPE, corpus.getSerialOfType(tp));
+          }
+          ++n_events;
+          
+          exiEvent = scanner.nextEvent();
+          Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+          eventType = exiEvent.getEventType();
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          ++n_events;
+      
+          exiEvent = scanner.nextEvent();
+          Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
+          eventType = exiEvent.getEventType();
+          Assert.assertEquals(EventType.ITEM_ED, eventType.itemType);
+          ++n_events;
+          
+          Assert.assertEquals(5, n_events);
         }
-        ++n_events;
-        
-        exiEvent = scanner.nextEvent();
-        Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
-        eventType = exiEvent.getEventType();
-        Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
-        ++n_events;
-    
-        exiEvent = scanner.nextEvent();
-        Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
-        eventType = exiEvent.getEventType();
-        Assert.assertEquals(EventType.ITEM_ED, eventType.itemType);
-        ++n_events;
-        
-        Assert.assertEquals(5, n_events);
       }
     }
   }
 
+  /**
+   * A valid float value matching ITEM_SCHEMA_AT where the associated
+   * datatype is xsd:float.
+   */
+  public void testCanonicalFloatAttribute() throws Exception {
+    EXISchema corpus = EXISchemaFactoryTestUtil.getEXISchema(
+        "/float.xsd", getClass(), m_compilerErrors);
+    
+    Assert.assertEquals(0, m_compilerErrors.getTotalCount());
+
+    GrammarCache grammarCache = new GrammarCache(corpus, GrammarOptions.STRICT_OPTIONS);
+    
+    final String[] xmlStrings;
+    final String[] values = {
+        "1200.00e+2" 
+    };
+    final String[] resultValues = {
+        "120000E0"
+    };
+    final String[] resultCanonicalValues = {
+        "12E4"
+    };
+
+    int i;
+    xmlStrings = new String[values.length];
+    for (i = 0; i < values.length; i++) {
+      xmlStrings[i] = "<foo:A xmlns:foo='urn:foo' float='" + values[i] + "'></foo:A>\n";
+    };
+    
+    for (AlignmentType alignment : Alignments) {
+      for (i = 0; i < xmlStrings.length; i++) {
+        for (boolean observeC14N : new boolean[] { true, false }) {
+          Transmogrifier encoder = new Transmogrifier();
+          EXIDecoder decoder = new EXIDecoder();
+          Scanner scanner;
+          
+          encoder.setAlignmentType(alignment);
+          decoder.setAlignmentType(alignment);
+    
+          encoder.setGrammarCache(grammarCache);
+          ByteArrayOutputStream baos = new ByteArrayOutputStream();
+          encoder.setOutputStream(baos);
+          
+          byte[] bts;
+          int n_events;
+          
+          try {
+            encoder.setObserveC14N(observeC14N);
+          }
+          catch (EXIOptionsException eoe) {
+            Assert.assertEquals(AlignmentType.compress, alignment);
+            observeC14N = false;
+          }
+          encoder.encode(new InputSource(new StringReader(xmlStrings[i])));
+          
+          bts = baos.toByteArray();
+          
+          decoder.setGrammarCache(grammarCache);
+          decoder.setInputStream(new ByteArrayInputStream(bts));
+          scanner = decoder.processHeader();
+          
+          EventDescription exiEvent;
+          n_events = 0;
+      
+          EventType eventType;
+      
+          exiEvent = scanner.nextEvent();
+          Assert.assertEquals(EventDescription.EVENT_SD, exiEvent.getEventKind());
+          eventType = exiEvent.getEventType();
+          Assert.assertEquals(EventType.ITEM_SD, eventType.itemType);
+          ++n_events;
+          
+          exiEvent = scanner.nextEvent();
+          Assert.assertEquals(EventDescription.EVENT_SE, exiEvent.getEventKind());
+          eventType = exiEvent.getEventType();
+          Assert.assertEquals(EventType.ITEM_SE, eventType.itemType);
+          Assert.assertEquals("A", eventType.name);
+          Assert.assertEquals("urn:foo", eventType.uri);
+          ++n_events;
+          
+          exiEvent = scanner.nextEvent();
+          Assert.assertEquals(EventDescription.EVENT_AT, exiEvent.getEventKind());
+          Assert.assertEquals(observeC14N ? resultCanonicalValues[i] : resultValues[i], exiEvent.getCharacters().makeString());
+          eventType = exiEvent.getEventType();
+          Assert.assertEquals(EventType.ITEM_SCHEMA_AT, eventType.itemType);
+          int tp = ((EventTypeSchema)eventType).nd;
+          Assert.assertEquals(EXISchemaConst.FLOAT_TYPE, corpus.getSerialOfType(tp));
+          ++n_events;
+          
+          exiEvent = scanner.nextEvent();
+          Assert.assertEquals(EventDescription.EVENT_EE, exiEvent.getEventKind());
+          eventType = exiEvent.getEventType();
+          Assert.assertEquals(EventType.ITEM_EE, eventType.itemType);
+          ++n_events;
+      
+          exiEvent = scanner.nextEvent();
+          Assert.assertEquals(EventDescription.EVENT_ED, exiEvent.getEventKind());
+          eventType = exiEvent.getEventType();
+          Assert.assertEquals(EventType.ITEM_ED, eventType.itemType);
+          ++n_events;
+          
+          Assert.assertEquals(5, n_events);
+        }
+      }
+    }
+  }
+  
   /**
    * A valid float value matching ITEM_SCHEMA_CH where the associated
    * datatype is xsd:double.

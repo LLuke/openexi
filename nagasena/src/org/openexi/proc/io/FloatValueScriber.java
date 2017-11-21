@@ -339,6 +339,9 @@ public final class FloatValueScriber extends ValueScriberBase {
     
     scribble.longValue = mantissa;
     scribble.intValue1 = exponent;
+  
+    if (scribble.booleanValue2)
+      canonicalizeValue(scribble);
     
     return true;
   }
