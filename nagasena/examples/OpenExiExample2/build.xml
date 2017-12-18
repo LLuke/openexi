@@ -1,0 +1,77 @@
+<!DOCTYPE project [
+  <!ENTITY properties.xml SYSTEM "./properties.xml" >
+]>
+<project name="OpenEXI_Example2" default="dist" basedir=".">
+
+<property name="debug" value="off"/>
+
+<property name="nagasena.jar"     value="lib/nagasena.jar"/>
+<property name="nagasena-rta.jar" value="lib/nagasena-rta.jar"/>
+<property name="xercesImpl.jar"   value="lib/xercesImpl.jar"/>
+<property name="xml-apis.jar"     value="lib/xml-apis.jar"/>
+
+<property environment="env"/>
+
+<property name="app.jar" value="${ant.project.name}.jar"/>
+
+<property name="build.dir"  value="build"/>
+<property name="build.dest" value="${build.dir}/classes"/>
+
+<property name="dist.dir" value="dist"/>
+<property name="lib.dir"  value="lib"/>
+
+<available property="libraryFound" file="lib/nagasena.jar"/>
+
+<path id="openexi.class.path">
+  <pathelement location="${nagasena.jar}"/>
+  <pathelement location="${nagasena-rta.jar}"/>
+  <pathelement location="${xercesImpl.jar}"/>
+  <pathelement location="${xml-apis.jar}"/>
+</path>
+
+<path id="compile.class.path">
+  <path refid="openexi.class.path"/>
+</path>
+
+<target name="prepare">
+  <mkdir dir="${build.dir}"/>
+  <mkdir dir="${build.dir}/classes"/>
+  <mkdir dir="${dist.dir}"/>
+  <mkdir dir="${lib.dir}"/>
+  <copy todir="${lib.dir}" verbose="true">
+	  <fileset dir="../../build" includes="nagasena.jar"/>
+	  <fileset dir="../../build" includes="nagasena-rta.jar"/>
+	  <fileset dir="../../lib/apache/xerces/2.11.0" includes="xercesImpl.jar"/>
+	  <fileset dir="../../lib/apache/xerces/2.11.0" includes="xml-apis.jar"/>
+  </copy>
+</target>
+
+<target name="clean">
+  <delete dir="${build.dir}"/>
+  <delete dir="${dist.dir}"/>
+  <delete dir="${lib.dir}"/>
+</target>
+
+<target name="all" depends="clean,dist"/>
+
+<target name="compile" depends="prepare" if="libraryFound">
+  <javac srcdir="src" destdir="${build.dir}/classes" debug="${debug}" optimize="on" includeantruntime="false">
+    <classpath refid="compile.class.path"/>
+  </javac>
+</target>
+
+<target name="dist" depends="compile">
+  <delete file="${dist.dir}/${app.jar}"/>
+  <jar jarfile="${dist.dir}/${app.jar}" basedir="${build.dir}/classes">
+    <manifest>
+      <attribute name="Main-Class" value="openexi.sample.OpenEXISampleApplication"/>
+      <attribute name="Class-Path" value="nagasena.jar nagasena-rta.jar xercesImpl.jar xml-apis.jar lib/nagasena.jar lib/nagasena-rta.jar lib/xercesImpl.jar lib/xml-apis.jar ../lib/nagasena.jar ../lib/nagasena-rta.jar ../lib/xercesImpl.jar ../lib/xml-apis.jar"/>
+    </manifest>
+  </jar>
+</target>
+
+<target name="run" depends="dist">
+	<java jar="${dist.dir}/${app.jar}"/>
+</target>
+
+</project>
