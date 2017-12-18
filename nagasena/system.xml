@@ -1,4 +1,6 @@
 <!-- System Property -->
 <property name="jdk1.5" value="c:/Program Files/java/jdk1.5.0_22/bin/javac.exe" />
 <property name="jdk1.6" value="c:/Program Files/java/jdk1.6.0_32/bin/javac.exe" />
+<property name="jdk1.8" value="c:/Program Files/java/jdk1.8.0_152/bin/javac.exe" />
 
+<!-- TODO: instead utilize java switches for -source 1.6 and -target 1.6 in parent build.xml -->
