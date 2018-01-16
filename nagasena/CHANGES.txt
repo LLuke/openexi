@@ -1,6 +1,15 @@
-2017-11-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
+2018-01-15 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
-- Supported C14N encoding rule for Float codec.
+0000.0002.0072.0
+
+- EXI dateTime normalization should not touch seconds part.
+
+M       build.xml
+M       src/org/openexi/schema/XSDateTime.java
+M       test/org/openexi/sax/DateTimeValueEncodingTest.java
+M       test/org/openexi/sax/EnumerationTest.java
+
+2017-11-19 tkamiya@us.fujitsu.com (Takuki Kamiya)
 
 0000.0002.0071.0
 

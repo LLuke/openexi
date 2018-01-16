@@ -74,8 +74,8 @@ public class EnumerationTest extends TestBase {
         "2003-03-21T18:20:00Z",
         "2013-06-04T05:00:00Z",
         "2013-06-03T24:00:00-06:00",
-        "2012-06-30T23:59:60Z",
         "----------",
+        "2012-06-30T23:59:60Z",
         "xyz",
     };
     final String[] parsedOriginalValues = {
@@ -84,8 +84,8 @@ public class EnumerationTest extends TestBase {
         "2003-03-21T18:20:00Z",
         "2013-06-04T05:00:00Z",
         "2013-06-03T24:00:00-06:00",
-        "2012-06-30T23:59:60Z",
         "----------",
+        "2012-06-30T23:59:60Z",
         "xyz",
     };
     final String[] resultValues = {
@@ -94,8 +94,8 @@ public class EnumerationTest extends TestBase {
         "2003-03-21T13:20:00-05:00",
         "2013-06-03T24:00:00-05:00",
         "2013-06-04T06:00:00Z",
-        "2012-07-01T00:00:00Z",
         "----------",
+        "2012-06-30T23:59:60Z",
         "xyz",
     };
 

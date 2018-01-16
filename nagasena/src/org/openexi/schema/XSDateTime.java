@@ -179,14 +179,9 @@ public final class XSDateTime {
     int carry, temp;
     long quotientModulo;
     /**
-     * Seconds (Note D[second] is zero in this context)
-     * temp := S[second] + D[second]
-     * E[second] := modulo(temp, 60)
-     * carry := fQuotient(temp, 60)
+     * EXI does not modify seconds part.
      */
-    temp = second;
-    second = temp % 60;
-    carry = temp / 60;
+    carry = 0;
     /**
      * Minutes
      * temp := S[minute] + D[minute] + carry
