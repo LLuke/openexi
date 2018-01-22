@@ -90,8 +90,7 @@ public final class DateTimeValueScriber extends DateTimeValueScriberBase {
       }
     }
     scribble.dateTime = new XSDateTime(year, month, day, hour, minute, second, reverseFractionalSecond, tz, EXISchemaConst.DATETIME_TYPE);
-    if (useUTCTime)
-      scribble.dateTime.normalize();
+    scribble.dateTime.normalize(useUTCTime);
     return true;
   }
 

@@ -705,7 +705,7 @@ public final class EXISchema {
     for (int i = 0; i < n_dateTimes; i++) {
       final XSDateTime dateTime;
       processedDatetimes[i] = dateTime = new XSDateTime(m_datetimes[i]);
-      dateTime.normalize();
+      dateTime.normalize(true);
     }
     m_computedDatetimes = processedDatetimes;
   }

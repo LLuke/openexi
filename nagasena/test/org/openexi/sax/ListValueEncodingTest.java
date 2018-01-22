@@ -825,7 +825,7 @@ public class ListValueEncodingTest extends TestCase {
 
       exiEvent = scanner.nextEvent();
       Assert.assertEquals(EventDescription.EVENT_CH, exiEvent.getEventKind());
-      Assert.assertEquals("1997-07-16T19:20:30.45Z 1999-12-31T24:00:00 -0601-07-16T19:20:30.45-05:09", 
+      Assert.assertEquals("1997-07-16T19:20:30.45Z 2000-01-01T00:00:00 -0601-07-16T19:20:30.45-05:09", 
           exiEvent.getCharacters().makeString());
       eventType = exiEvent.getEventType();
       Assert.assertEquals(EventType.ITEM_SCHEMA_CH, eventType.itemType);

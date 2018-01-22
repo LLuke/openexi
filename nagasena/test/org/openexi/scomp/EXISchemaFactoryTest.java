@@ -913,7 +913,7 @@ public class EXISchemaFactoryTest extends TestCase {
     Assert.assertEquals("2003-03-21T13:20:00-05:00", corpus.getDateTimeValueOfVariant(e).toString());
     e = corpus.getEnumerationFacetOfAtomicSimpleType(dateTimeDerived, 3);
     Assert.assertEquals(EXISchema.VARIANT_DATETIME, corpus.getTypeOfVariant(e));
-    Assert.assertEquals("2013-06-03T24:00:00-05:00", corpus.getDateTimeValueOfVariant(e).toString());
+    Assert.assertEquals("2013-06-04T00:00:00-05:00", corpus.getDateTimeValueOfVariant(e).toString());
     e = corpus.getEnumerationFacetOfAtomicSimpleType(dateTimeDerived, 4);
     Assert.assertEquals(EXISchema.VARIANT_DATETIME, corpus.getTypeOfVariant(e));
     Assert.assertEquals("2013-06-04T06:00:00Z", corpus.getDateTimeValueOfVariant(e).toString());

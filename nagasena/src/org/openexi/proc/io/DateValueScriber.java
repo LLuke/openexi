@@ -61,8 +61,7 @@ public final class DateValueScriber extends DateTimeValueScriberBase {
         XSDateTime.FIELD_UNDEFINED, XSDateTime.FIELD_UNDEFINED, 
         XSDateTime.FIELD_UNDEFINED, null, 
         tz, EXISchemaConst.DATE_TYPE);
-    if (useUTCTime)
-      scribble.dateTime.normalize();
+    scribble.dateTime.normalize(useUTCTime);
     return true;
   }
 

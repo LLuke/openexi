@@ -35,7 +35,7 @@ abstract class DateTimeValueScriberBase extends ValueScriberBase {
   ////////////////////////////////////////////////////////////
 
   public final static void canonicalizeValue(Scribble scribble) {
-    scribble.dateTime.normalize();
+    scribble.dateTime.normalize(true);
   }
 
   ////////////////////////////////////////////////////////////

@@ -149,6 +149,8 @@ public class DateTimeValueEncodingTest extends TestCase {
        "1972-06-30T23:59:60", // valid leap second (1972-06-30)
        "2013-06-30T23:59:60", // invalid
        "2009-04-01T12:34:56.0001234",
+       "2013-06-03T24:00:00-06:00",
+       "1999-12-31T24:00:00Z",
        "----------",
        "1997-07-16Z", // not a valid xsd:dateTime value
        "xyz", // an absurd value
@@ -163,6 +165,8 @@ public class DateTimeValueEncodingTest extends TestCase {
         "1972-06-30T23:59:60",
         "2013-06-30T23:59:60",
         "2009-04-01T12:34:56.0001234",
+        "2013-06-03T24:00:00-06:00",
+        "1999-12-31T24:00:00Z",
         "----------",
         "1997-07-16Z",
         "xyz",
@@ -172,16 +176,18 @@ public class DateTimeValueEncodingTest extends TestCase {
         "2003-04-25T11:41:30.45+14:00", 
         "1997-07-16T19:20:30.45-12:00", 
         "1997-07-16T19:20:30.45Z", 
-        "1999-12-31T24:00:00",
+        "2000-01-01T00:00:00",
         "-0601-07-16T19:20:30.45-05:09",
         "1972-06-30T23:59:60",
         "2013-06-30T23:59:60",
         "2009-04-01T12:34:56.0001234",
+        "2013-06-04T00:00:00-06:00",
+        "2000-01-01T00:00:00Z",
         "----------",
         "1997-07-16Z",
         "xyz",
     };
-    final String[] normalizedValues = {
+    final String[] utcNormalizedValues = {
       "2003-04-25T02:41:30.45Z",
       "2003-04-24T21:41:30.45Z", 
       "1997-07-17T07:20:30.45Z", 
@@ -191,6 +197,8 @@ public class DateTimeValueEncodingTest extends TestCase {
       "1972-06-30T23:59:60",
       "2013-06-30T23:59:60",
       "2009-04-01T12:34:56.0001234",
+      "2013-06-04T06:00:00Z",
+      "2000-01-01T00:00:00Z",
       "----------",
       "1997-07-16Z",
       "xyz",
@@ -205,7 +213,7 @@ public class DateTimeValueEncodingTest extends TestCase {
     for (AlignmentType alignment : Alignments) {
       for (boolean preserveLexicalValues : new boolean[] { false, true }) {
         for (boolean useUTCTime : new boolean[] { true, false }) {
-          String[] values = preserveLexicalValues ? parsedOriginalValues : useUTCTime ? normalizedValues : resultValues;
+          String[] values = preserveLexicalValues ? parsedOriginalValues : useUTCTime ? utcNormalizedValues : resultValues;
           boolean isValidValue = true;
           for (i = 0; i < xmlStrings.length; i++) {
             final String originalValue = xmlStrings[i];

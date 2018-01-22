@@ -112,7 +112,7 @@ public final class XSDateTime {
   // Normalization (See Appendix E in XML Schema 1.0 datatype spec)
   ///////////////////////////////////////////////////////////////////////////
 
-  public void normalize() {
+  public void normalize(boolean useUtcTime) {
     switch (primTypeId) {
       case EXISchemaConst.TIME_TYPE:
         year = DEFAULT_YEAR; 
@@ -172,9 +172,15 @@ public final class XSDateTime {
     
     final int durationMinute = timeZone != FIELD_UNDEFINED ? 0 - timeZone : 0; 
     assert -840 <= durationMinute && durationMinute <= 840; // 14 * 60 = 840
-    
-    final int dMinute = durationMinute % 60;
-    final int dHour = durationMinute / 60;
+
+    final int dMinute, dHour;
+    if (useUtcTime) {
+      dMinute = durationMinute % 60;
+      dHour = durationMinute / 60;
+      timeZone = timeZone != FIELD_UNDEFINED ? 0 : FIELD_UNDEFINED;
+    }
+    else
+      dMinute = dHour = 0;
     
     int carry, temp;
     long quotientModulo;
@@ -247,8 +253,6 @@ public final class XSDateTime {
       month = getModulo(quotientModulo);
       year = year + getQuotient(quotientModulo);
     }
-    
-    timeZone = timeZone != FIELD_UNDEFINED ? 0 : FIELD_UNDEFINED;
   }
 
   private static long calculateQuotientModulo(int value, int low, int high) {
